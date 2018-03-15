@@ -1,7 +1,14 @@
 package contract1;
 
 import java.util.ArrayList;
-
+/**
+ * This class is immutable
+ * Contains a list of Alternatives sorted by preferences 
+ * Two alternatives can't be equally ranked
+ * You can't store the same alternative several times in the list
+ * Every alternative is an integer and corresponds to a voting choice
+ *
+ */
 public class StrictPreference {
 	private ArrayList<Alternative> preferences;
 	
@@ -12,7 +19,7 @@ public class StrictPreference {
 	public StrictPreference(ArrayList<Alternative> preferences) {
 		for(int i=0;i<preferences.size();i++) {
 			if(preferences.lastIndexOf(preferences.get(i))!=i) {
-				throw new IllegalArgumentException("Une liste de préférences ne peut pas contenir plusieurs fois la même alternative");
+				throw new IllegalArgumentException("Une liste de prï¿½fï¿½rences ne peut pas contenir plusieurs fois la mï¿½me alternative");
 			}
 		}
 		this.preferences=preferences;

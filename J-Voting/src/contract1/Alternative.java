@@ -1,5 +1,9 @@
 package contract1;
-
+/**
+ * This class is immutable
+ * Contains an integer which corresponds to a voting possibility
+ * 
+ */
 public class Alternative {
 	private int id;
 	
