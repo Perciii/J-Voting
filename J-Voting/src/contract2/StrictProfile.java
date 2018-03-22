@@ -1,47 +1,23 @@
 package contract2;
 
-import contract1.StrictPreference;
-import contract1.Alternative;
+import java.util.HashMap;
+import java.util.Map;
 
-/**
- * 
- * @author quentinsauvage & vincentnavales
- *
- */
+import contract1.*;
+
 public class StrictProfile {
-	private StrictPreference personalPreferences;
-	private int voterId;
+	private Map<Voter,StrictPreference> association;
 	
 	/**
 	 * default constructor
 	 */
 	public StrictProfile(){
-		this.personalPreferences = new StrictPreference();
-		this.voterId = 0;
+		association=new HashMap<>();
 	}
 	
-	/**
-	 * @param voterId the id of the voter
-	 * @param strictPreference the strict preferences of this voter
-	 */
-	public StrictProfile(int voterId, StrictPreference strictPreference){
-		this.personalPreferences = strictPreference;
-		this.voterId = voterId;
-	}
+	//constructeur avec un voter et une strictpreference
+	//constructeur avec un voter et une liste de strictpreference
+	//rajouter une strictpreference a un strict profile
+
 	
-	/**
-	 * getters and setters
-	 */
-	public StrictPreference getPersonalPreferences() {
-		return personalPreferences;
-	}
-	public void setPersonalPreferences(StrictPreference personalPreferences) {
-		this.personalPreferences = personalPreferences;
-	}
-	public int getVoterId() {
-		return voterId;
-	}
-	public void setVoterId(int voterId) {
-		this.voterId = voterId;
-	}
 }
