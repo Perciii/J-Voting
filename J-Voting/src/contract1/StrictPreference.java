@@ -1,6 +1,6 @@
 package contract1;
 
-import java.util.ArrayList;
+import java.util.LinkedHashSet;
 /**
  * This class is immutable
  * Contains a list of Alternatives sorted by preferences 
@@ -10,26 +10,30 @@ import java.util.ArrayList;
  *
  */
 public class StrictPreference {
-	private ArrayList<Alternative> preferences;
+	
+	private LinkedHashSet<Alternative> preferences = new LinkedHashSet<>();
+	
 	
 	/**
-	 * Creates a list of strict preferences with the list given as a parameter
-	 * @param preferences
+	 * Default constructor, initiates an empty LinkedHashSet
 	 */
-	public StrictPreference(ArrayList<Alternative> preferences) {
-		for(int i=0;i<preferences.size();i++) {
-			if(preferences.lastIndexOf(preferences.get(i))!=i) {
-				throw new IllegalArgumentException("Une liste de pr�f�rences ne peut pas contenir plusieurs fois la m�me alternative");
-			}
-		}
-		this.preferences=preferences;
+	public StrictPreference() {
+		this.preferences = new LinkedHashSet<>();
 	}
 	
 	/**
-	 * 
+	 * Creates a set of strict preferences with the set given as a parameter
+	 * @param preferences a set of alternatives
+	 */
+	public StrictPreference(LinkedHashSet<Alternative> preferences) {
+		this.preferences = preferences;
+	}
+	
+	
+	/**
 	 * @return the list of strict preferences
 	 */
-	public ArrayList<Alternative> getPreferences(){
+	public LinkedHashSet<Alternative> getPreferences() {
 		return preferences;
 	}
 }

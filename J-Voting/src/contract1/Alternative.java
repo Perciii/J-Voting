@@ -1,18 +1,22 @@
 package contract1;
+
+import java.util.Objects;
+
 /**
  * This class is immutable
  * Contains an integer which corresponds to a voting possibility
  * 
  */
 public class Alternative {
+	
 	private int id;
 	
 	/**
 	 * Creates a new Alternative with the id given as a parameter
-	 * @param id
+	 * @param id int <code>not null</code>
 	 */
 	public Alternative(int id) {
-		this.id=id;
+		this.id = Objects.requireNonNull(id);
 	}
 	
 	/**
