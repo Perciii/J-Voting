@@ -5,7 +5,6 @@ import java.util.Objects;
 /**
  * This class is immutable
  * Contains an integer which corresponds to a voting possibility
- * 
  */
 public class Alternative {
 	
@@ -20,7 +19,6 @@ public class Alternative {
 	}
 	
 	/**
-	 * 
 	 * @return the id of the Alternative
 	 */
 	public int getId() {

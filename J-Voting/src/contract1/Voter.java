@@ -4,8 +4,7 @@ import java.util.Objects;
 
 /**
  * This class is immutable
- * Contains an integer
- *
+ * Contains an integer being the id of the voter
  */
 public class Voter {
 	
@@ -16,11 +15,10 @@ public class Voter {
 	 * @param id int <code>not null</code>
 	 */
 	public Voter(int id) {
-		this.id=Objects.requireNonNull(id);
+		this.id = Objects.requireNonNull(id);
 	}
 	
 	/**
-	 * 
 	 * @return the id of the object Voter
 	 */
 	public int getId() {
