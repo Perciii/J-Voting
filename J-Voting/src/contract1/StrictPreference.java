@@ -7,7 +7,6 @@ import java.util.LinkedHashSet;
  * Two alternatives can't be equally ranked
  * You can't store the same alternative several times in the list
  * Every alternative is an integer and corresponds to a voting choice
- *
  */
 public class StrictPreference {
 	
@@ -26,6 +25,7 @@ public class StrictPreference {
 	 * @param preferences a set of alternatives
 	 */
 	public StrictPreference(LinkedHashSet<Alternative> preferences) {
+		//TODO: check how to manage null value
 		this.preferences = preferences;
 	}
 	
