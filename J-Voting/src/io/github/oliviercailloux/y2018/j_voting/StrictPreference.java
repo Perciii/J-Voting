@@ -2,7 +2,7 @@ package io.github.oliviercailloux.y2018.j_voting;
 
 import java.util.LinkedHashSet;
 import java.util.Objects;
-import java.util.Collections;
+import java.util.Collection;
 /**
  * This class is immutable
  * Contains a list of Alternatives sorted by preferences 
