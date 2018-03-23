@@ -1,6 +1,8 @@
 package io.github.oliviercailloux.y2018.j_voting;
 
 import java.util.LinkedHashSet;
+import java.util.Objects;
+import java.util.Collections;
 /**
  * This class is immutable
  * Contains a list of Alternatives sorted by preferences 
@@ -10,7 +12,7 @@ import java.util.LinkedHashSet;
  */
 public class StrictPreference {
 	
-	private LinkedHashSet<Alternative> preferences = new LinkedHashSet<>();
+	private Collection<Alternative> preferences;
 	
 	
 	/**
@@ -24,16 +26,15 @@ public class StrictPreference {
 	 * Creates a set of strict preferences with the set given as a parameter
 	 * @param preferences a set of alternatives
 	 */
-	public StrictPreference(LinkedHashSet<Alternative> preferences) {
-		//TODO: check how to manage null value
-		this.preferences = preferences;
+	public StrictPreference(Collection<Alternative> preferences) {
+		this.preferences = Objects.requireNonNull(preferences);
 	}
 	
 	
 	/**
 	 * @return the list of strict preferences
 	 */
-	public LinkedHashSet<Alternative> getPreferences() {
+	public Collection<Alternative> getPreferences() {
 		return preferences;
 	}
 }
