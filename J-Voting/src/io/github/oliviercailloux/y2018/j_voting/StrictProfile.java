@@ -8,7 +8,7 @@ import java.util.*;
  *
  */
 public class StrictProfile {
-	private Map<Voter,List<StrictPreference>> association;
+	private Map<Voter,StrictPreference> association;
 	
 	public StrictProfile(){
 		association=new HashMap<>();
@@ -20,29 +20,19 @@ public class StrictProfile {
 	 * @param preference
 	 */
 	public void addProfile(Voter voter,StrictPreference preference) {
-		if(association.containsKey(voter)) {
-			List<StrictPreference> preferences=association.get(voter);
-			preferences.add(preference);
-		}
-		else {
-			List<StrictPreference> preferences=new ArrayList<>();
-			preferences.add(preference);
-			association.put(voter, preferences);
-		}
+		association.put(voter, preference);
 	}
 	
 	/**
-	 * Adds a list of StrictPreference to a voter. If the voter is already in the map, it adds the list of StrictPreference. If the voter isn't in the map, it adds a new voter and associates the list of StrictPreference.
+	 * Returns the StrictPreference associated to a Voter. If the voter is not found, returns null
 	 * @param voter
-	 * @param preferencesToAdd
-	 */
-	public void addProfile(Voter voter,List<StrictPreference> preferencesToAdd) {
+	*/
+	public StrictPreference getPreferences(Voter voter){
 		if(association.containsKey(voter)) {
-			List<StrictPreference> preferences=association.get(voter);
-			preferences.addAll(preferencesToAdd);
+			return association.get(voter);
 		}
 		else {
-			association.put(voter, preferencesToAdd);
+			return null;
 		}
 	}
 }
