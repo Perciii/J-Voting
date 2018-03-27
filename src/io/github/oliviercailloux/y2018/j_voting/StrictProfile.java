@@ -25,9 +25,6 @@ public class StrictProfile {
 		if(preference==null) {
 			throw new IllegalArgumentException("The preference cannot be null.");
 		}
-		if(association.containsKey(voter)) {
-			association.remove(voter);
-		}
 		association.put(voter, preference);
 	}
 	
