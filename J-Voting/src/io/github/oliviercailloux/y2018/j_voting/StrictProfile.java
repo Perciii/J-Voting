@@ -1,10 +1,9 @@
 package io.github.oliviercailloux.y2018.j_voting;
-
 import java.util.*;
 
 /**
  * 
- * This class maps the voters to all their strict preferences (StrictPreference). Each voter can have several preferences : for different sets of alternatives.
+ * This class maps the voters to their strict preference.
  *
  */
 public class StrictProfile {
@@ -15,24 +14,29 @@ public class StrictProfile {
 	}
 	
 	/**
-	 * Adds a StrictPreference to a voter. If the voter is already in the map, it adds the StrictPreference. If the voter isn't in the map, it adds a new voter and associates the StrictPreference.
+	 * Adds a StrictPreference to a voter. If the voter is already in the map, the StrictPreference in the map is replaced by the StrictPreference given as an argument. If the voter is not in the map, it adds the voter and his StrictPreference.
 	 * @param voter
 	 * @param preference
 	 */
 	public void addProfile(Voter voter,StrictPreference preference) {
+		if(voter==null) {
+			throw new IllegalArgumentException("The voter cannot be null.");
+		}
+		if(preference==null) {
+			throw new IllegalArgumentException("The preference cannot be null.");
+		}
 		association.put(voter, preference);
 	}
 	
 	/**
-	 * Returns the StrictPreference associated to a Voter. If the voter is not found, returns null
+	 * 
 	 * @param voter
-	*/
+	 * @return the StrictPreference associated to the voter given as an argument. If the voter is not in the map, it throws a NoSuchElementException.
+	 */
 	public StrictPreference getPreferences(Voter voter){
 		if(association.containsKey(voter)) {
 			return association.get(voter);
 		}
-		else {
-			return null;
-		}
+		throw new NoSuchElementException("This voter isn't in the map.");
 	}
 }
