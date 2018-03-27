@@ -34,6 +34,9 @@ public class StrictProfile {
 	 * @return the StrictPreference associated to the voter given as an argument. If the voter is not in the map, it throws a NoSuchElementException.
 	 */
 	public StrictPreference getPreferences(Voter voter){
+		if(voter==null) {
+			throw new IllegalArgumentException("The voter cannot be null.");
+		}
 		if(association.containsKey(voter)) {
 			return association.get(voter);
 		}
