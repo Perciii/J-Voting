@@ -1,45 +1,46 @@
 package io.github.oliviercailloux.y2018.j_voting;
+
 import java.util.*;
 
 /**
  * 
- * This class maps the voters to their strict preference.
+ * This class maps the voters to all their strict preferences (StrictPreference). Each voter can have several preferences : for different sets of alternatives.
  *
  */
 public class StrictProfile {
-	private Map<Voter,StrictPreference> association;
+	private Map<Voter,List<StrictPreference>> association;
+	private Voter VoterId;
+	private List<StrictPreference> pref;
 	
 	public StrictProfile(){
 		association=new HashMap<>();
 	}
 	
 	/**
-	 * Adds a StrictPreference to a voter. If the voter is already in the map, the StrictPreference in the map is replaced by the StrictPreference given as an argument. If the voter is not in the map, it adds the voter and his StrictPreference.
+	 * Adds a StrictPreference to a voter. If the voter is already in the map, it adds the StrictPreference. If the voter isn't in the map, it adds a new voter and associates the StrictPreference.
 	 * @param voter
 	 * @param preference
 	 */
 	public void addProfile(Voter voter,StrictPreference preference) {
-		if(voter==null) {
-			throw new IllegalArgumentException("The voter cannot be null.");
+		if(association.containsKey(voter)) {
+			List<StrictPreference> preferences=association.get(voter);
+			preferences.add(preference);
+			pref=preferences;
 		}
-		if(preference==null) {
-			throw new IllegalArgumentException("The preference cannot be null.");
+		else {
+			List<StrictPreference> preferences=new ArrayList<>();
+			preferences.add(preference);
+			association.put(voter, preferences);
+			pref=preferences;
 		}
-		association.put(voter, preference);
+		VoterId=voter;
 	}
 	
-	/**
-	 * 
-	 * @param voter
-	 * @return the StrictPreference associated to the voter given as an argument. If the voter is not in the map, it throws a NoSuchElementException.
-	 */
-	public StrictPreference getPreferences(Voter voter){
-		if(voter==null) {
-			throw new IllegalArgumentException("The voter cannot be null.");
-		}
-		if(association.containsKey(voter)) {
-			return association.get(voter);
-		}
-		throw new NoSuchElementException("This voter isn't in the map.");
+	public Voter getkey(){
+		return VoterId;
+	}
+	
+	public List<StrictPreference> getPreferences(){
+		return pref;
 	}
 }
