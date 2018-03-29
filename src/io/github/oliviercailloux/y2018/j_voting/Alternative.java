@@ -1,6 +1,6 @@
 package io.github.oliviercailloux.y2018.j_voting;
 
-import java.util.Objects;
+import java.util.*;
 
 /**
  * This class is immutable
@@ -23,5 +23,9 @@ public class Alternative {
 	 */
 	public int getId() {
 		return id;
+	}
+	
+	public String toString(){
+		return Integer.toString(id);
 	}
 }
