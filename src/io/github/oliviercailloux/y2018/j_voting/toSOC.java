@@ -29,7 +29,7 @@ public class toSOC {
 		nbProfile=nbVoters;
 		s=s+nbVoters+", "+sumVote+", "+nbProfile+"\n";
 		profil=s+strp;
-		BufferedWriter bw = new BufferedWriter(new FileWriter("profil.soc"));
+		BufferedWriter bw = new BufferedWriter(new FileWriter("profil.soc"));//le mettre au bon endroit
         PrintWriter pWriter = new PrintWriter(bw);
         pWriter.print(profil);
         pWriter.close() ;
