@@ -21,13 +21,21 @@ public class ReadProfile {
 	    }
 	}
 	
+	/**
+	 * @param fileRead a list of strings : data which was read in a SOC/SOI file
+	 * This function prints strings from the list passed as an argument
+	 * 
+	 */
 	public static void displayProfileFromReadFile(List<String> fileRead){
 		Iterator<String> it = fileRead.iterator();
 		while(it.hasNext()){
 			System.out.println(it.next());
 		}
 	}
-
+	/**
+	 * This function calls fromSOCorSOI function if there is a SOC or a SOI file in the FILES directory
+	 * 
+	 **/
 	public static void main(String[] args) throws IOException {
 		// read SOC file
 		List<String> socToRead = fromSOCorSOI("/Files/profil.soc"); 
