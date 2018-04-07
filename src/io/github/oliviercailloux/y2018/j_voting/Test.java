@@ -9,7 +9,6 @@ import java.util.*;
 public class Test {
 
 	public static void main (String[] args) throws IOException {
-		System.out.println("main");
 		Iterable<Alternative> preferences= new LinkedHashSet<Alternative>();
 		Alternative i = new Alternative(1);
 		Alternative j = new Alternative(2);
@@ -23,13 +22,10 @@ public class Test {
 		Voter v =new Voter(1);
 		Voter v2=new Voter(2);
 		StrictPreference SPreference = new StrictPreference(preferences);
-		//System.out.println("-1:"+SPreference.getPreferences());
 		StrictProfile SProfile = new StrictProfile();
-		//System.out.println("0:"+SProfile.getPreferences());
 		SProfile.addProfile(v,SPreference);
-		//System.out.println("1:"+SProfile.getPreferences());
 		SProfile.addProfile(v2,SPreference);
-		//System.out.println("2 :"+SProfile.getPreferences());
+		
 		String s=SProfile.toSOC();
 		System.out.println("SOC profile :\n"+s);
 		

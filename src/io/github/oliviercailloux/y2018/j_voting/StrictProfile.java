@@ -1,6 +1,5 @@
 package io.github.oliviercailloux.y2018.j_voting;
 
-import java.io.File;
 import java.util.*;
 
 /**
@@ -76,7 +75,6 @@ public class StrictProfile {
 			while(i2.hasNext()) {
 				if(pref.equals(i2.next())) {
 					alreadyInList=true;
-					break;
 				}
 			}
 			if(!alreadyInList) {
@@ -95,6 +93,7 @@ public class StrictProfile {
 		int size=0;
 		while(iterator.hasNext()) {
 			size++;
+			iterator.next();
 		}
 		return size;
 	}

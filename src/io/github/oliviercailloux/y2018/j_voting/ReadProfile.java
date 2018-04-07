@@ -38,12 +38,12 @@ public class ReadProfile {
 	 **/
 	public static void main(String[] args) throws IOException {
 		// read SOC file
-		List<String> socToRead = fromSOCorSOI("/Files/profil.soc"); 
+		List<String> socToRead = fromSOCorSOI("Files/profil.soc"); 
 		System.out.println("SOC file :");
 		displayProfileFromReadFile(socToRead);
 		
 		// read SOI file
-		List<String> soiToRead = fromSOCorSOI("/Files/profil.soi"); 
+		List<String> soiToRead = fromSOCorSOI("Files/profil.soi"); 
 		System.out.println("SOI file :");
 		displayProfileFromReadFile(soiToRead);
 	}
