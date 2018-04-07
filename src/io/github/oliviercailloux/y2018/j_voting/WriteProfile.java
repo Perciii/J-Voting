@@ -10,15 +10,9 @@ public class WriteProfile {
 	 * @throws IOException
 	 */
 	public static void writeSOC(StrictProfile profile) throws IOException {
-		BufferedWriter bw = new BufferedWriter(new FileWriter("profil.soc"));
-        PrintWriter pWriter = new PrintWriter(bw);
-        pWriter.print(profile);
-        pWriter.close() ;
-	}
-	
-	public static void main(String[] args) {
-		StrictProfile socprofile=StrictProfile.fromSOCorSOI(new File(WriteProfile.class.getResource("/Files/profil.soc").getFile());
-		System.out.println("SOC profile :");
-		System.out.println(socprofile.toSOC());
+		try(BufferedWriter bw = new BufferedWriter(new FileWriter("profil.soc"))){
+	        PrintWriter pWriter = new PrintWriter(bw);
+	        pWriter.print(profile);
+		}
 	}
 }

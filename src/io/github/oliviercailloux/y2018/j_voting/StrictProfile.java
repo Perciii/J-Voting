@@ -33,7 +33,7 @@ public class StrictProfile {
 	 */
 	public StrictPreference getPreference(Voter voter) {
 		if(!association.containsKey(voter)) {
-			throw new NoSuchElementException("This voter is not in the map?");
+			throw new NoSuchElementException("Voter " + voter + "is not in the map !");
 		}
 		return association.get(voter);
 	}
@@ -155,10 +155,6 @@ public class StrictProfile {
 	}
 	
 	
-	
-	
-	
-	
 	/**
 	 * 
 	 * @return a complete Strict Profile into a string in SOC format
@@ -177,9 +173,5 @@ public class StrictProfile {
 			soc+=getNbVoterByPreference(pref)+pref.toString()+"\n";
 		}
 		return soc;
-	}
-	
-	public static StrictProfile fromSOCorSOI(File file) {
-		
 	}
 }
