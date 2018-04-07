@@ -1,5 +1,6 @@
 package io.github.oliviercailloux.y2018.j_voting;
 
+import java.io.File;
 import java.util.*;
 
 /**
@@ -176,5 +177,9 @@ public class StrictProfile {
 			soc+=getNbVoterByPreference(pref)+pref.toString()+"\n";
 		}
 		return soc;
+	}
+	
+	public static StrictProfile fromSOCorSOI(File file) {
+		
 	}
 }

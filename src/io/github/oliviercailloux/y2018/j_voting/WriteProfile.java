@@ -15,4 +15,10 @@ public class WriteProfile {
         pWriter.print(profile);
         pWriter.close() ;
 	}
+	
+	public static void main(String[] args) {
+		StrictProfile socprofile=StrictProfile.fromSOCorSOI(new File(WriteProfile.class.getResource("/Files/profil.soc").getFile());
+		System.out.println("SOC profile :");
+		System.out.println(socprofile.toSOC());
+	}
 }
