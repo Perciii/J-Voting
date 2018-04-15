@@ -25,6 +25,24 @@ public class Alternative {
 		return id;
 	}
 	
+	/**
+	 * 
+	 * @param a
+	 * @return 1 if the id are the same 
+	 */
+	
+	/*@Override
+	public boolean equals(Alternative a){
+		if (a.getId()==this.getId()){
+			return true;
+		}
+		return false;
+	}*/
+	 
+	//hashcode
+	
+	
+	
 	public String toString(){
 		return Integer.toString(id);
 	}

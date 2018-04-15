@@ -19,9 +19,9 @@ public class StrictPreference {
 	 * @param preferences a set of alternatives
 	 */
 	public StrictPreference(Iterable<Alternative> preference) {
-		preferences = new LinkedHashSet<Alternative>(); 
+		preferences=new LinkedHashSet<Alternative>(); 
 		Objects.requireNonNull(preference); 		
-		boolean bool = false;
+		boolean bool=false;
 		Iterator<Alternative> iterator = preference.iterator();
 		Iterator<Alternative> iterator2 = preferences.iterator();
 		while (iterator.hasNext()) {
@@ -29,16 +29,16 @@ public class StrictPreference {
 		      iterator2 = preferences.iterator();
 		      while(iterator2.hasNext()){
 		    	  Alternative CurrentAlternative2 = iterator2.next();
-		    	  //System.out.println("current alternative : " + CurrentAlternative + "\n preference : " + preferences+"\n this.preference : " + this.preferences);
-		    	  //System.out.println("id :" + CurrentAlternative.getId() + " id2 :" + CurrentAlternative2.getId());
-		    	  if(CurrentAlternative.getId() == CurrentAlternative2.getId()){
-		    		  //System.out.println("id :" + CurrentAlternative.getId() + "id2 :" + CurrentAlternative2.getId());
-		    		  bool = true;
+		    	  //System.out.println("current alternative : "+CurrentAlternative+"\n preference : "+preferences+"\n this.preference : "+this.preferences);
+		    	  //System.out.println("id :"+ CurrentAlternative.getId()+" id2 :"+CurrentAlternative2.getId());
+		    	  if(CurrentAlternative.getId()==CurrentAlternative2.getId()){
+		    		  //System.out.println("id :"+ CurrentAlternative.getId()+"id2 :"+CurrentAlternative2.getId());
+		    		  bool=true;
 		    	  }
 		      }
 		     
 		      if(bool){
-		    	  bool = false;
+		    	  bool=false;
 		    	  //System.out.println("true");
 		      }
 		      else{
@@ -60,7 +60,7 @@ public class StrictPreference {
 		Alternative CurrentAlternative;
 		while(iterator.hasNext()){
 			CurrentAlternative = iterator.next();
-		      s = s + ", "+CurrentAlternative.toString();
+		      s=s+", "+CurrentAlternative.toString();
 		}
 		return s;
 	}
@@ -71,13 +71,13 @@ public class StrictPreference {
 	
 	public boolean equals(StrictPreference pref) {
 		Objects.requireNonNull(pref);
-		Iterator<Alternative> i1 = preferences.iterator();
-		Iterator<Alternative> i2 = pref.getPreferences().iterator();
+		Iterator<Alternative> i1=preferences.iterator();
+		Iterator<Alternative> i2=pref.getPreferences().iterator();
 		while(i1.hasNext()) {
 			if(!i2.hasNext()) {
 				return false;
 			}
-			if(i1.next().getId() != i2.next().getId()) {
+			if(i1.next().getId()!=i2.next().getId()) {
 				return false;
 			}
 		}
@@ -94,14 +94,14 @@ public class StrictPreference {
 	 */
 	public boolean isIncluded(StrictPreference pref) {
 		Objects.requireNonNull(pref);
-		Iterator<Alternative> i1 = this.getPreferences().iterator();
+		Iterator<Alternative> i1=this.getPreferences().iterator();
 		boolean found=false;
 		while(i1.hasNext()) {
-			Alternative alter = i1.next();
-			Iterator<Alternative> i2 = pref.getPreferences().iterator();
+			Alternative alter=i1.next();
+			Iterator<Alternative> i2=pref.getPreferences().iterator();
 			while(i2.hasNext()) {
-				if(alter.getId() == i2.next().getId()) {
-					found = true;
+				if(alter.getId()==i2.next().getId()) {
+					found=true;
 					break;
 				}
 			}
