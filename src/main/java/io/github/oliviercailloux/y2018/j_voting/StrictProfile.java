@@ -1,5 +1,9 @@
 package io.github.oliviercailloux.y2018.j_voting;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.*;
 
 /**
@@ -24,6 +28,18 @@ public class StrictProfile {
 		Objects.requireNonNull(voter);
 		Objects.requireNonNull(preference);
 		association.put(voter,preference);
+	}
+	
+	/**
+	 * Writes a StrictProfile into a SOC file.
+	 * @param profile a StrictProfile
+	 * @throws IOException
+	 */
+	public static void writeToSOC(StrictProfile profile) throws IOException {
+		try(BufferedWriter bw = new BufferedWriter(new FileWriter("profil.soc"))){ //TODO: determine how to automatically change file name
+	        PrintWriter pWriter = new PrintWriter(bw);
+	        pWriter.print(profile);
+		}
 	}
 	
 	/**
@@ -63,7 +79,6 @@ public class StrictProfile {
 	}
 	
 	/**
-	 * 
 	 * @return all the unique StrictPreference in the profile.
 	 */
 	public Iterable<StrictPreference> getUniquePreferences(){
