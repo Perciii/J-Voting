@@ -31,7 +31,7 @@ public class Alternative {
 	/**
 	 * 
 	 * @param a an alternative
-	 * @return whether both alternatives are equals, ie have the same id.
+	 * @return true if both alternatives are equals, ie have the same id, false if not
 	 */
 	public boolean equals(Alternative a){
 		Objects.requireNonNull(a);
