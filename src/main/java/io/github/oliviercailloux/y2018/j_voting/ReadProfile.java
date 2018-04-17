@@ -1,13 +1,13 @@
 package io.github.oliviercailloux.y2018.j_voting;
 
 import java.util.*;
-import java.util.logging.*;
 import java.io.*;
+import org.slf4j.*;
 
 
 public class ReadProfile {
 	
-	static Logger Log = Logger.getLogger(ReadProfile.class.getName());
+	static Logger Log = LoggerFactory.getLogger(ReadProfile.class.getName());
 	/**
 	 * @param path a string : the path of the file to read 
 	 * @return fileRead, a list of String where each element is a line of the SOC or SOI file read
@@ -15,13 +15,17 @@ public class ReadProfile {
 	 */
 	public static List<String> fromSOCorSOI(String path) throws IOException {
 		Log.info("fromSOCorSOI : \n") ;
+		Log.debug("parameter : path = {}\n",path);
 		InputStream f= ReadProfile.class.getClassLoader().getResourceAsStream(path);
 		try(BufferedReader in = new BufferedReader(new InputStreamReader(f))){
-		String line;
-		List<String> fileRead = new ArrayList<String>();
-		while ((line= in.readLine()) != null)
-			fileRead.add(line);
-	    return fileRead;}
+			String line;
+			List<String> fileRead = new ArrayList<String>();
+			while ((line= in.readLine()) != null) {
+				Log.debug("next line : {}\n",line);
+				fileRead.add(line);
+			}
+		    return fileRead;
+	    }
 	}
 	
 	/**
@@ -31,6 +35,7 @@ public class ReadProfile {
 	 */
 	public static void displayProfileFromReadFile(List<String> fileRead){
 		Log.info("displayProfileFromReadFile : \n") ;
+		Log.debug("parameter : fileRead = {}\n",fileRead);
 		Iterator<String> it = fileRead.iterator();
 		while(it.hasNext()){
 			System.out.println(it.next());
@@ -40,29 +45,34 @@ public class ReadProfile {
 	
 	public static StrictPreference GetAlternatives(int nbAlternatives,List<String> file){
 		Log.info("GetAlternatives :") ;
+		Log.debug("parameters : nbAlternatives = {}, file = {}\n",nbAlternatives,file); 
 		Iterator<String> it = file.iterator();
 		String s1; 
 		LinkedHashSet<Alternative> alternatives= new LinkedHashSet<Alternative>();
 		for(int k=1;k<=nbAlternatives;k++){//we add each alternative to a list
 			s1=it.next();
+			Log.debug("next Alternative : {}\n",s1);
 			if (s1.contains(",")){//line with alternative doesn't contain ,
 				throw new Error("Error: nbAlternative is not correct");
 			}
 			alternatives.add(new Alternative(Integer.parseInt(s1)));
 		}
-		StrictPreference listeAlternatives = new StrictPreference(alternatives);
-		return listeAlternatives;
+		StrictPreference listAlternatives = new StrictPreference(alternatives);
+		Log.debug("returns listAlternatives : {}\n",listAlternatives);
+		return listAlternatives;
 	}
 	
 	
 	
 	public static List<Integer> GetNbVoters(String s){
 		Log.info("GetNbVoters :") ;
+		Log.debug("parameter : s={}\n",s);
 		List<Integer> list=new ArrayList<Integer>();
 		String[] line=s.split(",");
 		list.add(Integer.parseInt(line[0].trim()));
 		list.add(Integer.parseInt(line[1].trim()));
 		list.add(Integer.parseInt(line[2].trim()));
+		Log.debug("returns list : {}\n",list);
 		return list;
 	}
 	
@@ -75,10 +85,8 @@ public class ReadProfile {
 			Alternative a=i1.next();
 			boolean alternative_ok=false;
 			while(i1.hasNext()&&!alternative_ok){
-				//System.out.println("alternative actuelle :"+a+" alternative :"+Integer.parseInt(s2[j].trim()));
 				if(a.getId()==(Integer.parseInt(s2[j].trim()))){
 					alternative_ok=true;
-					//System.out.println("True");
 				}
 				else{
 					a=i1.next();
@@ -166,21 +174,20 @@ public class ReadProfile {
 	 * 
 	 **/
 	public static void main(String[] args) throws IOException {
+		List<String> socToRead = fromSOCorSOI("io/github/oliviercailloux/y2018/j_voting/profil.soc"); 
+		@SuppressWarnings("unused")
+		StrictProfile SProfile = createProfileFromReadFile(socToRead);
 		
-				List<String> socToRead = fromSOCorSOI("io/github/oliviercailloux/y2018/j_voting/profil.soc"); 
-				@SuppressWarnings("unused")
-				StrictProfile SProfile = createProfileFromReadFile(socToRead);
-				
+	
+		/*// read SOC file
+		List<String> socToRead = fromSOCorSOI("io/github/oliviercailloux/y2018/j_voting/profil.soc"); 
+		System.out.println("SOC file :");
+		displayProfileFromReadFile(socToRead);
 		
-				/*// read SOC file
-				List<String> socToRead = fromSOCorSOI("io/github/oliviercailloux/y2018/j_voting/profil.soc"); 
-				System.out.println("SOC file :");
-				displayProfileFromReadFile(socToRead);
-				
-				// read SOI file
-				List<String> soiToRead = fromSOCorSOI("io/github/oliviercailloux/y2018/j_voting/profil.soi"); 
-				System.out.println("SOI file :");
-				displayProfileFromReadFile(soiToRead);*/
+		// read SOI file
+		List<String> soiToRead = fromSOCorSOI("io/github/oliviercailloux/y2018/j_voting/profil.soi"); 
+		System.out.println("SOI file :");
+		displayProfileFromReadFile(soiToRead);*/
 
 	}
 }

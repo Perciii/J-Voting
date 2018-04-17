@@ -2,12 +2,15 @@ package io.github.oliviercailloux.y2018.j_voting;
 
 import java.util.*;
 
+import org.slf4j.*;
+
+
 /**
  * This class is immutable
  * Contains an integer which corresponds to a voting possibility
  */
 public class Alternative {
-	
+	static Logger Log = LoggerFactory.getLogger(ReadProfile.class.getName());
 	private int id;
 	
 	/**
@@ -27,20 +30,20 @@ public class Alternative {
 	
 	/**
 	 * 
-	 * @param a
-	 * @return 1 if the id are the same 
+	 * @param a an alternative
+	 * @return whether both alternatives are equals, ie have the same id.
 	 */
-	
-	/*@Override
 	public boolean equals(Alternative a){
+		Objects.requireNonNull(a);
+		Log.info("equals\n");
+		Log.debug("id of calling alternative : {} , id of alternative parameter : {}\n",this.getId(),a.getId());
 		if (a.getId()==this.getId()){
+			Log.debug("returns true");
 			return true;
 		}
+		Log.debug("returns false");
 		return false;
-	}*/
-	 
-	//hashcode
-	
+	}
 	
 	
 	public String toString(){

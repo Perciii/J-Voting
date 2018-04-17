@@ -2,12 +2,13 @@ package io.github.oliviercailloux.y2018.j_voting;
 
 import java.util.Objects;
 
+
+
 /**
  * This class is immutable
  * Contains an integer being the id of the voter
  */
 public class Voter {
-	
 	private int id;
 	
 	/**
