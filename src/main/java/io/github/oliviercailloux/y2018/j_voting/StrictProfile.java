@@ -1,9 +1,11 @@
 package io.github.oliviercailloux.y2018.j_voting;
 
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import org.apache.commons.io.FileUtils;
 import java.util.*;
 import org.slf4j.*;
 
@@ -36,11 +38,14 @@ public class StrictProfile {
 	
 	/**
 	 * Writes a StrictProfile into a SOC file.
-	 * @param profile a StrictProfile
+	 * @param profile a StrictProfile, fileName a String : name of the file that will be written in resources folder
 	 * @throws IOException
 	 */
-	public static void writeToSOC(StrictProfile profile) throws IOException {
-		try(BufferedWriter bw = new BufferedWriter(new FileWriter("profil.soc"))){ //TODO: determine how to automatically change file name
+	public static void writeToSOC(StrictProfile profile, String fileName) throws IOException {
+		Objects.requireNonNull(profile);
+		Objects.requireNonNull(fileName);
+		File file = FileUtils.toFile(StrictProfile.class.getResource(fileName));
+		try(BufferedWriter bw = new BufferedWriter(new FileWriter(file))){
 	        PrintWriter pWriter = new PrintWriter(bw);
 	        pWriter.print(profile);
 		}
