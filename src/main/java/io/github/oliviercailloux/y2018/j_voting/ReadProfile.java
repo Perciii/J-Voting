@@ -7,21 +7,21 @@ import org.slf4j.*;
 
 public class ReadProfile {
 	
-	static Logger Log = LoggerFactory.getLogger(ReadProfile.class.getName());
+	static Logger log = LoggerFactory.getLogger(ReadProfile.class.getName());
 	/**
 	 * @param path a string : the path of the file to read 
 	 * @return fileRead, a list of String where each element is a line of the SOC or SOI file read
 	 *
 	 */
 	public static List<String> fromSOCorSOI(String path) throws IOException {
-		Log.info("fromSOCorSOI : \n") ;
-		Log.debug("parameter : path = {}\n",path);
+		log.debug("fromSOCorSOI : \n") ;
+		log.debug("parameter : path = {}\n",path);
 		InputStream f= ReadProfile.class.getClassLoader().getResourceAsStream(path);
 		try(BufferedReader in = new BufferedReader(new InputStreamReader(f))){
 			String line;
 			List<String> fileRead = new ArrayList<String>();
 			while ((line= in.readLine()) != null) {
-				Log.debug("next line : {}\n",line);
+				log.debug("next line : {}\n",line);
 				fileRead.add(line);
 			}
 		    return fileRead;
@@ -34,8 +34,8 @@ public class ReadProfile {
 	 * 
 	 */
 	public static void displayProfileFromReadFile(List<String> fileRead){
-		Log.info("displayProfileFromReadFile : \n") ;
-		Log.debug("parameter : fileRead = {}\n",fileRead);
+		log.debug("displayProfileFromReadFile : \n") ;
+		log.debug("parameter : fileRead = {}\n",fileRead);
 		Iterator<String> it = fileRead.iterator();
 		while(it.hasNext()){
 			System.out.println(it.next());
@@ -44,35 +44,35 @@ public class ReadProfile {
 	
 	
 	public static StrictPreference GetAlternatives(int nbAlternatives,List<String> file){
-		Log.info("GetAlternatives :") ;
-		Log.debug("parameters : nbAlternatives = {}, file = {}\n",nbAlternatives,file); 
+		log.debug("GetAlternatives :") ;
+		log.debug("parameters : nbAlternatives = {}, file = {}\n",nbAlternatives,file); 
 		Iterator<String> it = file.iterator();
 		String s1; 
 		LinkedHashSet<Alternative> alternatives= new LinkedHashSet<Alternative>();
 		for(int k=1;k<=nbAlternatives;k++){//we add each alternative to a list
 			s1=it.next();
-			Log.debug("next Alternative : {}\n",s1);
+			log.debug("next Alternative : {}\n",s1);
 			if (s1.contains(",")){//line with alternative doesn't contain ,
 				throw new Error("Error: nbAlternative is not correct");
 			}
 			alternatives.add(new Alternative(Integer.parseInt(s1)));
 		}
 		StrictPreference listAlternatives = new StrictPreference(alternatives);
-		Log.debug("returns listAlternatives : {}\n",listAlternatives);
+		log.debug("returns listAlternatives : {}\n",listAlternatives);
 		return listAlternatives;
 	}
 	
 	
 	
 	public static List<Integer> GetNbVoters(String s){
-		Log.info("GetNbVoters :") ;
-		Log.debug("parameter : s={}\n",s);
+		log.debug("GetNbVoters :") ;
+		log.debug("parameter : s={}\n",s);
 		List<Integer> list=new ArrayList<Integer>();
 		String[] line=s.split(",");
 		list.add(Integer.parseInt(line[0].trim()));
 		list.add(Integer.parseInt(line[1].trim()));
 		list.add(Integer.parseInt(line[2].trim()));
-		Log.debug("returns list : {}\n",list);
+		log.debug("returns list : {}\n",list);
 		return list;
 	}
 	
@@ -119,7 +119,7 @@ public class ReadProfile {
 
 	
 	public static StrictProfile GetProfiles(List<String> file, StrictPreference listeAlternatives, int nbVoters){
-		Log.info("GetProfiles :") ;
+		log.debug("GetProfiles :") ;
 		Iterator<String> it = file.iterator();
 		StrictProfile SProfile = new StrictProfile();
 		String s1; //where we store the current line
@@ -146,7 +146,7 @@ public class ReadProfile {
 	 */
 
 	public static StrictProfile createProfileFromReadFile(List<String> fileRead){
-		Log.info("createProfileFromReadFile : \n") ;
+		log.debug("createProfileFromReadFile : \n") ;
 		Iterator<String> it = fileRead.iterator();
 		StrictProfile SProfile= new StrictProfile();
 		String line_nb_voters;
@@ -179,8 +179,8 @@ public class ReadProfile {
 		StrictProfile SProfile = createProfileFromReadFile(socToRead);
 		
 	
-		/*// read SOC file
-		List<String> socToRead = fromSOCorSOI("io/github/oliviercailloux/y2018/j_voting/profil.soc"); 
+		// read SOC file
+		/*List<String> socToRead = fromSOCorSOI("io/github/oliviercailloux/y2018/j_voting/profil.soc"); 
 		System.out.println("SOC file :");
 		displayProfileFromReadFile(socToRead);
 		

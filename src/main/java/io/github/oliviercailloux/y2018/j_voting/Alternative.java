@@ -10,7 +10,7 @@ import org.slf4j.*;
  * Contains an integer which corresponds to a voting possibility
  */
 public class Alternative {
-	static Logger Log = LoggerFactory.getLogger(ReadProfile.class.getName());
+	static Logger log = LoggerFactory.getLogger(ReadProfile.class.getName());
 	private int id;
 	
 	/**
@@ -35,13 +35,13 @@ public class Alternative {
 	 */
 	public boolean equals(Alternative a){
 		Objects.requireNonNull(a);
-		Log.info("equals\n");
-		Log.debug("id of calling alternative : {} , id of alternative parameter : {}\n",this.getId(),a.getId());
+		log.debug("equals\n");
+		log.debug("id of calling alternative : {} , id of alternative parameter : {}\n",this.getId(),a.getId());
 		if (a.getId()==this.getId()){
-			Log.debug("returns true");
+			log.debug("returns true");
 			return true;
 		}
-		Log.debug("returns false");
+		log.debug("returns false");
 		return false;
 	}
 	

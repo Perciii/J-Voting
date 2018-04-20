@@ -8,6 +8,10 @@ import org.junit.Test;
 
 public class StrictProfileTest {
 
+	/**
+	 * creates a StrictProfile to run the tests on.
+	 * @return the new StrictProfile
+	 */
 	public static StrictProfile createProfileToTest() {
 		StrictProfile profile = new StrictProfile();
 		Alternative a1 = new Alternative(1);
@@ -51,7 +55,7 @@ public class StrictProfileTest {
 		StrictPreference pref3 = new StrictPreference(list3);
 		StrictProfile profile = createProfileToTest();
 		profile.addProfile(v7, pref3);
-		assertEquals(profile.getPreference(v7),pref3);
+		assertTrue(profile.getPreference(v7).equals(pref3));
 	}
 
 /*	@Test
@@ -70,9 +74,15 @@ public class StrictProfileTest {
 		list1.add(a2);
 		list1.add(a3);
 		StrictPreference pref1 = new StrictPreference(list1);
-		assertEquals(createProfileToTest().getPreference(v1),pref1);
+		assertTrue(createProfileToTest().getPreference(v1).equals(pref1));
 	}
 
+	@Test
+	public void testContains() {
+		Voter voter = new Voter(1);
+		assertTrue(createProfileToTest().contains(voter));
+	}
+	
 	@Test
 	public void testGetAllVoters() {
 		Voter v1 = new Voter(1);
@@ -81,14 +91,7 @@ public class StrictProfileTest {
 		Voter v4 = new Voter(4);
 		Voter v5 = new Voter(5);
 		Voter v6 = new Voter(6);
-		Set<Voter> voters = new HashSet<Voter>();
-		voters.add(v1);
-		voters.add(v2);
-		voters.add(v3);
-		voters.add(v4);
-		voters.add(v5);
-		voters.add(v6);
-		assertEquals(createProfileToTest().getAllVoters(),voters);
+		assertTrue(createProfileToTest().getNbVoters() ==6 && createProfileToTest().contains(v1) && createProfileToTest().contains(v2) && createProfileToTest().contains(v3) && createProfileToTest().contains(v4) && createProfileToTest().contains(v5) && createProfileToTest().contains(v6));
 	}
 
 	@Test
@@ -116,10 +119,11 @@ public class StrictProfileTest {
 		list2.add(a1);
 		StrictPreference pref1 = new StrictPreference(list1);
 		StrictPreference pref2 = new StrictPreference(list2);
-		Iterable<StrictPreference> uniquePref = new LinkedHashSet<StrictPreference>();
-		((LinkedHashSet<StrictPreference>) uniquePref).add(pref1);
-		((LinkedHashSet<StrictPreference>) uniquePref).add(pref2);
-		assertEquals(uniquePref,createProfileToTest().getUniquePreferences());
+		List<StrictPreference> preferencelist = new ArrayList<StrictPreference>();
+		for(StrictPreference p : createProfileToTest().getUniquePreferences()) {
+			preferencelist.add(p);
+		}
+		assertTrue(preferencelist.get(0).equals(pref1) && preferencelist.get(1).equals(pref2));
 }
 
 	@Test
@@ -137,12 +141,8 @@ public class StrictProfileTest {
 		Alternative a1 = new Alternative(1);
 		Alternative a2 = new Alternative(2);
 		Alternative a3 = new Alternative(3);
-		ArrayList<Alternative> list1 = new ArrayList<Alternative>();
-		list1.add(a1);
-		list1.add(a2);
-		list1.add(a3);
-		StrictPreference pref = new StrictPreference(list1);
-		assertEquals(pref,createProfileToTest().getAlternativesComplete());
+		StrictPreference prefscomplete = new StrictPreference(createProfileToTest().getAlternativesComplete());
+		assertTrue(prefscomplete.contains(a1) && prefscomplete.contains(a2) && prefscomplete.contains(a3));
 	}
 
 	@Test
@@ -165,7 +165,7 @@ public class StrictProfileTest {
 
 	@Test
 	public void testToSOC() {
-		String soc = "3\n" + "1\n2\n3\n" + "6,6,2\n" + "4,1,2,3\n" + "2,3,2,1";
+		String soc = "3\n" + "1\n2\n3\n" + "6,6,2\n"  + "4,1,2,3\n"+ "2,3,2,1\n";
 		assertEquals(createProfileToTest().toSOC(),soc);
 	}
 

@@ -15,7 +15,7 @@ import org.slf4j.*;
  *
  */
 public class StrictProfile {
-	static Logger Log = LoggerFactory.getLogger(ReadProfile.class.getName());
+	static Logger log = LoggerFactory.getLogger(ReadProfile.class.getName());
 	private Map<Voter,StrictPreference> association;
 	
 	public StrictProfile(){
@@ -29,11 +29,32 @@ public class StrictProfile {
 	 * @param preference
 	 */
 	public void addProfile(Voter voter,StrictPreference preference) {
-		Log.info("addProfile\n");
+		log.debug("addProfile\n");
 		Objects.requireNonNull(voter);
 		Objects.requireNonNull(preference);
-		Log.debug("parameters : voterId = {}, preferences = {}",voter.getId(),preference);
+		log.debug("parameters : voterId = {}, preferences = {}",voter.getId(),preference);
 		association.put(voter,preference);
+	}
+	
+	/**
+	 * 
+	 * @param voter
+	 * @return true if the profile contains a preference for the voter given.
+	 */
+	public boolean contains(Voter voter) {
+		log.debug("contains:\n");
+		log.debug("parameter : voter = {}\n",voter.getId());
+		Objects.requireNonNull(voter);
+		Iterable<Voter> voters = getAllVoters();
+		Iterator<Voter> iterator = voters.iterator();
+		while(iterator.hasNext()) {
+			if(iterator.next().equals(voter)) {
+				log.debug("return true\n");
+				return true;
+			}
+		}
+		log.debug("return false\n");
+		return false;
 	}
 	
 	/**
@@ -42,8 +63,10 @@ public class StrictProfile {
 	 * @throws IOException
 	 */
 	public static void writeToSOC(StrictProfile profile, String fileName) throws IOException {
+		log.debug("writeToSOC:\n");
 		Objects.requireNonNull(profile);
 		Objects.requireNonNull(fileName);
+		log.debug("parameter filename : {}\n",fileName);
 		File file = FileUtils.toFile(StrictProfile.class.getResource(fileName));
 		try(BufferedWriter bw = new BufferedWriter(new FileWriter(file))){
 	        PrintWriter pWriter = new PrintWriter(bw);
@@ -57,14 +80,19 @@ public class StrictProfile {
 	 * @return the strict preference of the voter. If the voter is not in the map, it throws an exception.
 	 */
 	public StrictPreference getPreference(Voter voter) {
-		Log.info("getPreference\n");
+		log.debug("getPreference\n");
 		Objects.requireNonNull(voter);
-		Log.debug("parameter : voterId = {}\n",voter.getId());
-		if(!association.containsKey(voter)) {
-			throw new NoSuchElementException("Voter " + voter + "is not in the map !");
+		log.debug("parameter : voterId = {}\n",voter.getId());
+		Set<Map.Entry<Voter,StrictPreference>> mapping = association.entrySet();
+		Iterator<Map.Entry<Voter,StrictPreference>> iterator = mapping.iterator();
+		while(iterator.hasNext()) {
+			Map.Entry<Voter, StrictPreference> vote = iterator.next(); 
+			if(vote.getKey().equals(voter)) {
+				log.debug("return {}\n",vote.getValue());
+				return vote.getValue();
+			}
 		}
-		Log.debug("returns voter's preference = {}\n",association.get(voter));
-		return association.get(voter);
+		throw new NoSuchElementException("Voter " + voter + "is not in the map !");
 	}
 	
 	/**
@@ -94,24 +122,22 @@ public class StrictProfile {
 	/**
 	 * @return all the unique StrictPreference in the profile.
 	 */
-	public Iterable<StrictPreference> getUniquePreferences(){
-		Log.info("getUniquePreferences\n");
-		Iterable<StrictPreference> unique = new LinkedHashSet<StrictPreference>();
-		Iterator<StrictPreference> i1 = association.values().iterator();
+	public Set<StrictPreference> getUniquePreferences(){
+		log.debug("getUniquePreferences\n");
+		Set<StrictPreference> unique = new LinkedHashSet<StrictPreference>();
 		boolean alreadyInList = false;
-		while(i1.hasNext()) {
-			StrictPreference pref = i1.next();
-			Log.debug("next preference : {}\n",pref);
-			Iterator<StrictPreference> i2 = unique.iterator();
-			while(i2.hasNext()) {
-				if(pref.equals(i2.next())) {
-					Log.debug("{} already in the list\n",pref);
+		for(StrictPreference pref : association.values()) {
+			log.debug("next preference : {}\n",pref);
+			for(StrictPreference uniquePref : unique) {
+				if(pref.equals(uniquePref)) {
+					log.debug("{} already in the list\n",pref);
 					alreadyInList = true;
 				}
 			}
 			if(!alreadyInList) {
-				((LinkedHashSet<StrictPreference>) unique).add(pref);
+				unique.add(pref);
 			}
+			alreadyInList=false;
 		}
 		return unique;
 	}
@@ -121,14 +147,8 @@ public class StrictProfile {
 	 * @return the number of different StrictPreference in the map.
 	 */
 	public int getNbUniquePreferences() {
-		Log.info("getnbUniquePreference\n");
-		Iterator<StrictPreference> iterator = getUniquePreferences().iterator();
-		int size = 0;
-		while(iterator.hasNext()) {
-			size++;
-			iterator.next();
-		}
-		return size;
+		log.debug("getnbUniquePreference\n");
+		return getUniquePreferences().size();
 	}
 	
 	/**
@@ -136,7 +156,7 @@ public class StrictProfile {
 	 * @return the number of different alternatives in a complete profile. A profile is complete when all votes are about the same alternatives exactly.
 	 */
 	public int getNbAlternativesComplete() {
-		Log.info("getNbAlternativesComplete\n");
+		log.debug("getNbAlternativesComplete\n");
 		if(!isComplete()) {
 			throw new IllegalArgumentException("The profile is not complete.");
 		}
@@ -149,7 +169,7 @@ public class StrictProfile {
 	 * @return all the different alternatives in a complete profile. A profile is complete when all votes are about the same alternatives exactly.
 	 */
 	public Iterable<Alternative> getAlternativesComplete(){
-		Log.info("getAlternativesComplete\n");
+		log.debug("getAlternativesComplete\n");
 		if(!isComplete()) {
 			throw new IllegalArgumentException("The profile is not complete.");
 		}
@@ -161,19 +181,19 @@ public class StrictProfile {
 	 * @return whether the profile is complete : all votes in the profile are about the same alternatives
 	 */
 	public boolean isComplete() {
-		Log.info("isComplete\n");
+		log.debug("isComplete\n");
 		Iterator<StrictPreference> iterator = association.values().iterator();
 		StrictPreference pref = iterator.next();
-		Log.debug("first preferences :{}\n",pref);
+		log.debug("first preferences :{}\n",pref);
 		while(iterator.hasNext()) {
 			StrictPreference pref2=iterator.next();
-			Log.debug("next preferences : {}\n",pref2);
+			log.debug("next preferences : {}\n",pref2);
 			if(!pref.hasSameAlternatives(pref2)) {
-				Log.debug("Not the same alternatives\n");
+				log.debug("Not the same alternatives\n");
 				return false;
 			}
 		}
-		Log.debug("Profile is complete.\n");
+		log.debug("Profile is complete.\n");
 		return true;
 	}
 
@@ -183,19 +203,19 @@ public class StrictProfile {
 	 * @return how many voters voted for the StrictPreference.
 	 */
 	public int getNbVoterByPreference(StrictPreference preferences) {
-		Log.info("getNbVoterByPreference\n");
+		log.debug("getNbVoterByPreference\n");
 		Objects.requireNonNull(preferences);
-		Log.debug("parameter preferences : {}\n",preferences);
+		log.debug("parameter preferences : {}\n",preferences);
 		int nbVotes = 0;
 		Iterator<Voter> votersIterator = getAllVoters().iterator();
 		while(votersIterator.hasNext()) {
 			Voter v=votersIterator.next();
-			Log.debug("Voter with id = {} voted for : {}\n",v.getId(),association.get(v));
+			log.debug("Voter with id = {} voted for : {}\n",v.getId(),association.get(v));
 			if(association.get(v).equals(preferences)) {
 				nbVotes++;
 			}
 		}
-		Log.debug("number of votes for {} is {}\n",preferences,nbVotes);
+		log.debug("number of votes for {} is {}\n",preferences,nbVotes);
 		return nbVotes;
 	}
 	
@@ -205,18 +225,19 @@ public class StrictProfile {
 	 * @return a complete Strict Profile into a string in SOC format
 	 */
 	public String toSOC() {
-		Log.info("toSOC\n");
+		log.debug("toSOC\n");
 		String soc="";
 		soc += getNbAlternativesComplete() + "\n";
-		Iterator<Alternative> i1=getAlternativesComplete().iterator();
-		while(i1.hasNext()) {
-			soc += i1.next().getId() + "\n";
+		for(Alternative alter : getAlternativesComplete()) {
+			soc += alter.getId() + "\n";
 		}
-		soc += getNbVoters() + ", "+getSumVoteCount() + ", " + getNbUniquePreferences()+"\n";
-		Iterator<StrictPreference> i2 = getUniquePreferences().iterator();
-		while(i2.hasNext()) {
-			StrictPreference pref = i2.next();
-			soc += getNbVoterByPreference(pref) + pref.toString() + "\n";
+		soc += getNbVoters() + ","+getSumVoteCount() + "," + getNbUniquePreferences()+"\n";
+		for(StrictPreference pref : this.getUniquePreferences()) {
+			soc += getNbVoterByPreference(pref);
+			for(Alternative a : pref.getPreferences()) {
+				soc = soc + "," + a;
+			}
+			soc = soc + "\n";
 		}
 		return soc;
 	}

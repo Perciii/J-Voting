@@ -3,11 +3,16 @@ package io.github.oliviercailloux.y2018.j_voting;
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.Test;
 
 public class StrictPreferenceTest {
 
+	/**
+	 * creates a StrictPreference to test the class methods
+	 * @return the new StrictPreference
+	 */
 	public static StrictPreference createPrefToTest() {
 		Alternative a1 = new Alternative(1);
 		Alternative a2 = new Alternative(2);
@@ -30,29 +35,13 @@ public class StrictPreferenceTest {
 		Alternative a3 = new Alternative(3);
 		Alternative a4 = new Alternative(4);
 		Alternative a5 = new Alternative(5);
-		ArrayList<Alternative> prefs = new ArrayList<Alternative>();
-		prefs.add(a1);
-		prefs.add(a2);
-		prefs.add(a3);
-		prefs.add(a4);
-		prefs.add(a5);
-		assertEquals(createPrefToTest().getPreferences(),prefs);
+		List<Alternative> preferences = createPrefToTest().getPreferences();
+		assertTrue(preferences.get(0).equals(a1) && preferences.get(1).equals(a2) && preferences.get(2).equals(a3) && preferences.get(3).equals(a4) && preferences.get(4).equals(a5));
 	}
 
 	@Test
 	public void testToString() {
-		Alternative a1 = new Alternative(1);
-		Alternative a2 = new Alternative(2);
-		Alternative a3 = new Alternative(3);
-		Alternative a4 = new Alternative(4);
-		Alternative a5 = new Alternative(5);
-		ArrayList<Alternative> prefs = new ArrayList<Alternative>();
-		prefs.add(a1);
-		prefs.add(a2);
-		prefs.add(a3);
-		prefs.add(a4);
-		prefs.add(a5);
-		assertEquals(createPrefToTest().toString(),prefs.toString());
+		assertEquals(createPrefToTest().toString(),"[1, 2, 3, 4, 5]");
 	}
 
 	@Test
@@ -107,4 +96,8 @@ public class StrictPreferenceTest {
 		assertTrue(pref.hasSameAlternatives(createPrefToTest()));
 	}
 
+	@Test
+	public void testContains() {
+		assertTrue(createPrefToTest().contains(new Alternative(1)));
+	}
 }
