@@ -165,7 +165,7 @@ public class StrictProfileTest {
 
 	@Test
 	public void testToSOC() {
-		String soc = "3\n" + "1\n2\n3\n" + "6,6,2\n"  + "4,1,2,3\n"+ "2,3,2,1\n";
+		String soc = "3\n" + "3\n2\n1\n" + "6,6,2\n"  + "2,3,2,1\n"+ "4,1,2,3\n";
 		assertEquals(createProfileToTest().toSOC(),soc);
 	}
 

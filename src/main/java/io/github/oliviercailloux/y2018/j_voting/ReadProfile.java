@@ -8,7 +8,6 @@ import org.slf4j.*;
 public class ReadProfile {
 	
 	static Logger log = LoggerFactory.getLogger(ReadProfile.class.getName());	
-	private static int id =1;// id is the id of the next voter that will be created in the profile
 	/**
 	 * @param path a string : the path of the file to read 
 	 * @return fileRead, a list of String where each element is a line of the SOC or SOI file read
@@ -103,10 +102,10 @@ public class ReadProfile {
 		Objects.requireNonNull(s1);
 		log.debug("parameters : listeAlternatives {} , s1 {}\n",listeAlternatives,s1);
 		String [] s2=s1.split(",");
-		LinkedHashSet<Alternative> pref= new LinkedHashSet<Alternative>();
-		for(String strAlter : s2){//we collect all the alternatives
-			Alternative alter = new Alternative(Integer.parseInt(strAlter.trim()));
-			log.debug("next alternative {}\n",alter);
+		List<Alternative> pref= new ArrayList<Alternative>();
+		for(int i=1;i<s2.length;i++){//we collect all the alternatives, skipping the first element which is the nb of votes
+			Alternative alter = new Alternative(Integer.parseInt(s2[i].trim()));
+			log.debug("next alternative {}\n",alter.getId());
 			if(listeAlternatives.contains(alter)) {
 				log.debug("correct alternative");
 				pref.add(alter);
@@ -132,9 +131,9 @@ public class ReadProfile {
 		Objects.requireNonNull(profile);
 		log.debug("parameters : nbVoters {} for the preference {}\n",nbVoters,pref); 
 		for(int m=0 ; m<nbVoters ; m++){//we create as many profiles as voters 
-			Voter v =new Voter(id);
-			log.debug("adds th voter {} and the pref as parameter to the profile\n",id);
-			id++;
+			Voter v =new Voter(profile.nextVoterId);
+			log.debug("adds the voter {} and the pref as parameter to the profile\n",profile.nextVoterId);
+			profile.nextVoterId++;
 			profile.addProfile(v,pref);
 		}
 	}
@@ -147,7 +146,7 @@ public class ReadProfile {
 	 * @return the created StrictProfile
 	 */
 	public static StrictProfile buildProfile(List<String> file, StrictPreference listAlternatives, int nbVoters){
-		log.debug("GetProfiles :") ;
+		log.debug("buildProfiles :\n") ;
 		Objects.requireNonNull(file);
 		Objects.requireNonNull(listAlternatives);
 		Objects.requireNonNull(nbVoters);
@@ -160,8 +159,9 @@ public class ReadProfile {
 				throw new IllegalArgumentException("the first string of file is an alternative line.");
 			}
 			else{
+				String[] line = s1.split(",");
 				StrictPreference pref=getPreferences(listAlternatives,s1);
-				addVotes(pref, nbVoters,profile);
+				addVotes(pref, Integer.parseInt(line[0].trim()),profile);
 			}
 
 		}

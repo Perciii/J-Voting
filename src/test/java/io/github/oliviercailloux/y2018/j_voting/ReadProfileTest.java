@@ -22,24 +22,22 @@ public class ReadProfileTest {
 		expectedResultSOC.add("2, 2, 2");
 		expectedResultSOC.add("1, 1, 5, 9, 1, 8");
 		expectedResultSOC.add("1, 1, 5, 9, 1, 8");
+		List<String> actualResultSOC = ReadProfile.fromSOCorSOI("profil.soc");
 		
 		expectedResultSOI.add("4");
 		expectedResultSOI.add("1");
+		expectedResultSOI.add("2");
 		expectedResultSOI.add("3");
 		expectedResultSOI.add("42");
 		expectedResultSOI.add("100,100,5");
-		expectedResultSOI.add("42,42,3,2");
+		expectedResultSOI.add("43,42,3,2");
 		expectedResultSOI.add("12,3,42,1,2");
 		expectedResultSOI.add("8,2,3,1");
 		expectedResultSOI.add("22,3,42,2");
 		expectedResultSOI.add("15,1,2");
-		assertTrue(expectedResultSOC.equals(ReadProfile.fromSOCorSOI("~/src/main/resources/io/github/oliviercailloux/y2018/j_voting/profil.soc")) && expectedResultSOI.equals(ReadProfile.fromSOCorSOI("~/src/main/resources/io/github/oliviercailloux/y2018/j_voting/profil.soi")));
+		List<String> actualResultSOI = ReadProfile.fromSOCorSOI("profil.soi");
+		assertTrue(expectedResultSOC.equals(actualResultSOC) && expectedResultSOI.equals(actualResultSOI));
 	}
-
-/*	@Test
-	public void testDisplayProfileFromReadFile() {
-		fail("Not yet implemented");
-	}*/
 
 	@Test
 	public void testGetAlternatives() {
@@ -84,7 +82,7 @@ public class ReadProfileTest {
 
 	@Test
 	public void testAddVotes() {
-		StrictProfile profile = new StrictProfile();
+		StrictProfile p = new StrictProfile();
 		Alternative a1 = new Alternative(1);
 		Alternative a2 = new Alternative(2);
 		Alternative a3 = new Alternative(3);
@@ -95,8 +93,8 @@ public class ReadProfileTest {
 		alternatives.add(a2);
 		alternatives.add(a3);
 		StrictPreference pref = new StrictPreference(alternatives);
-		ReadProfile.addVotes(pref,2,profile);
-		assertTrue(profile.contains(v1) && profile.contains(v2) && profile.getPreference(v1).equals(pref) && profile.getPreference(v2).equals(pref));
+		ReadProfile.addVotes(pref,2,p);
+		assertTrue(p.contains(v1) && p.contains(v2) && p.getPreference(v1).equals(pref) && p.getPreference(v2).equals(pref));
 	}
 
 	@Test

@@ -17,6 +17,7 @@ import org.slf4j.*;
 public class StrictProfile {
 	static Logger log = LoggerFactory.getLogger(ReadProfile.class.getName());
 	private Map<Voter,StrictPreference> association;
+	public int nextVoterId =1;// id is the id of the next voter that will be created in the profile if the profile is created from a file.
 	
 	public StrictProfile(){
 		association = new HashMap<>();
@@ -122,9 +123,9 @@ public class StrictProfile {
 	/**
 	 * @return all the unique StrictPreference in the profile.
 	 */
-	public Set<StrictPreference> getUniquePreferences(){
+	public List<StrictPreference> getUniquePreferences(){
 		log.debug("getUniquePreferences\n");
-		Set<StrictPreference> unique = new LinkedHashSet<StrictPreference>();
+		List<StrictPreference> unique = new ArrayList<StrictPreference>();
 		boolean alreadyInList = false;
 		for(StrictPreference pref : association.values()) {
 			log.debug("next preference : {}\n",pref);
