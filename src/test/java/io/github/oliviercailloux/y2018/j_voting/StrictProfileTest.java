@@ -33,15 +33,18 @@ public class StrictProfileTest {
 		list2.add(a1);
 		StrictPreference pref1 = new StrictPreference(list1);
 		StrictPreference pref2 = new StrictPreference(list2);
-		profile.addProfile(v1,pref1);
-		profile.addProfile(v2,pref1);
-		profile.addProfile(v3,pref1);
-		profile.addProfile(v4,pref1);
-		profile.addProfile(v5,pref2);
-		profile.addProfile(v6,pref2);
+		profile.addProfile(v1, pref1);
+		profile.addProfile(v2, pref1);
+		profile.addProfile(v3, pref1);
+		profile.addProfile(v4, pref1);
+		profile.addProfile(v5, pref2);
+		profile.addProfile(v6, pref2);
 		return profile;
 	}
 	
+	/**
+	 * Tests whether the addProfile() method make the profile contain the StrictPreference given at initialization (through method getPreference())
+	 */
 	@Test
 	public void testAddProfile() {
 		Alternative a1 = new Alternative(1);
@@ -63,6 +66,9 @@ public class StrictProfileTest {
 
 	}*/
 
+	/**
+	 * Tests whether method getPreference() gives a set of Alternatives equal to the initial set
+	 */
 	@Test
 	public void testGetPreference() {
 		Alternative a1 = new Alternative(1);
@@ -77,12 +83,18 @@ public class StrictProfileTest {
 		assertTrue(createProfileToTest().getPreference(v1).equals(pref1));
 	}
 
+	/**
+	 * Tests whether method contains() return true if the Voter called in the method is present in the calling StrictProfile
+	 */
 	@Test
 	public void testContains() {
 		Voter voter = new Voter(1);
 		assertTrue(createProfileToTest().contains(voter));
 	}
 	
+	/**
+	 * Tests whether method getAllVoters() returns all the Voters present in the calling StrictProfile
+	 */
 	@Test
 	public void testGetAllVoters() {
 		Voter v1 = new Voter(1);
@@ -91,19 +103,28 @@ public class StrictProfileTest {
 		Voter v4 = new Voter(4);
 		Voter v5 = new Voter(5);
 		Voter v6 = new Voter(6);
-		assertTrue(createProfileToTest().getNbVoters() ==6 && createProfileToTest().contains(v1) && createProfileToTest().contains(v2) && createProfileToTest().contains(v3) && createProfileToTest().contains(v4) && createProfileToTest().contains(v5) && createProfileToTest().contains(v6));
+		assertTrue(createProfileToTest().getNbVoters() == 6 && createProfileToTest().contains(v1) && createProfileToTest().contains(v2) && createProfileToTest().contains(v3) && createProfileToTest().contains(v4) && createProfileToTest().contains(v5) && createProfileToTest().contains(v6));
 	}
 
+	/**
+	 * Tests whether method getNbVoters() returns the number of Voters present in the calling StrictProfile
+	 */
 	@Test
 	public void testGetNbVoters() {
-		assertEquals(createProfileToTest().getNbVoters(),6);
+		assertEquals(createProfileToTest().getNbVoters(), 6);
 	}
 
+	/**
+	 * Tests whether method getSumVoteCount() returns the number of votes present in the calling StrictProfile (the nb of voters)
+	 */
 	@Test
 	public void testGetSumVoteCount() {
-		assertEquals(createProfileToTest().getSumVoteCount(),6);
+		assertEquals(createProfileToTest().getSumVoteCount(), 6);
 	}
 
+	/**
+	 * Tests whether method getUniquePreferences returns only every StrictPreference present once in the calling StrictProfile
+	 */
 	@Test
 	public void testGetUniquePreferences() {
 		Alternative a1 = new Alternative(1);
@@ -124,18 +145,27 @@ public class StrictProfileTest {
 			preferencelist.add(p);
 		}
 		assertTrue(preferencelist.get(0).equals(pref1) && preferencelist.get(1).equals(pref2));
-}
+	}
 
+	/**
+	 * Tests whether method getNbUniquePreferences returns the number of unique preferences in the calling StrictProfile
+	 */
 	@Test
 	public void testGetNbUniquePreferences() {
 		assertEquals(createProfileToTest().getNbUniquePreferences(),2);
 	}
 
+	/**
+	 * Tests whether method getNbAlternativesComplete returns the number of alternatives of the calling complete StrictProfile
+	 */
 	@Test
 	public void testGetNbAlternativesComplete() {
 		assertEquals(createProfileToTest().getNbAlternativesComplete(),3);
 	}
 
+	/**
+	 * Tests whether method getAlternativesComplete returns the alternatives of the calling complete StrictProfile
+	 */
 	@Test
 	public void testGetAlternativesComplete() {
 		Alternative a1 = new Alternative(1);
@@ -160,13 +190,13 @@ public class StrictProfileTest {
 		list2.add(a2);
 		list2.add(a1);
 		StrictPreference pref2 = new StrictPreference(list2);
-		assertEquals(createProfileToTest().getNbVoterByPreference(pref2),2);
+		assertEquals(createProfileToTest().getNbVoterByPreference(pref2), 2);
 	}
 
 	@Test
 	public void testToSOC() {
 		String soc = "3\n" + "3\n2\n1\n" + "6,6,2\n"  + "2,3,2,1\n"+ "4,1,2,3\n";
-		assertEquals(createProfileToTest().toSOC(),soc);
+		assertEquals(createProfileToTest().toSOC(), soc);
 	}
 
 }

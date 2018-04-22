@@ -38,7 +38,7 @@ public class Voter {
 	public boolean equals(Voter voter) {
 		Objects.requireNonNull(voter);
 		log.debug("equals : \n");
-		log.debug("voter calling : {}, parameter voter :{}\n",id,voter.getId());
+		log.debug("voter calling : {}, parameter voter :{}\n", id, voter.getId());
 		return(voter.getId() == id);
 	}
 }

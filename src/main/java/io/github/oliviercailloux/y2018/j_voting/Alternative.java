@@ -29,15 +29,14 @@ public class Alternative {
 	}
 	
 	/**
-	 * 
 	 * @param a an alternative
 	 * @return true if both alternatives are equals, ie have the same id, false if not
 	 */
 	public boolean equals(Alternative a){
 		Objects.requireNonNull(a);
 		log.debug("equals\n");
-		log.debug("id of calling alternative : {} , id of alternative parameter : {}\n",this.getId(),a.getId());
-		if (a.getId()==this.getId()){
+		log.debug("id of calling alternative : {}, id of alternative parameter : {}\n", this.getId(), a.getId());
+		if (a.getId() == this.getId()){
 			log.debug("returns true");
 			return true;
 		}
