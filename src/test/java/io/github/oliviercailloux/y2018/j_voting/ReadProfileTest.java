@@ -13,29 +13,33 @@ public class ReadProfileTest {
 	public void testFromSOCorSOI() throws IOException {
 		List<String> expectedResultSOC = new ArrayList<String>();
 		List<String> expectedResultSOI = new ArrayList<String>();
-		expectedResultSOC.add("5");
-		expectedResultSOC.add("1");
-		expectedResultSOC.add("5");
-		expectedResultSOC.add("9");
-		expectedResultSOC.add("1");
-		expectedResultSOC.add("8");
-		expectedResultSOC.add("2, 2, 2");
-		expectedResultSOC.add("1, 1, 5, 9, 1, 8");
-		expectedResultSOC.add("1, 1, 5, 9, 1, 8");
-		List<String> actualResultSOC = ReadProfile.fromSOCorSOI("profil.soc");
+		expectedResultSOC.add("3");
+		expectedResultSOC.add("1,Shrek (Full-screen) ");
+		expectedResultSOC.add("2,The X-Files: Season 2 ");
+		expectedResultSOC.add("3,The Punisher ");
+		expectedResultSOC.add("664,664,6");
+		expectedResultSOC.add("263,2,1,3");
+		expectedResultSOC.add("249,1,2,3");
+		expectedResultSOC.add("78,1,3,2");
+		expectedResultSOC.add("46,2,3,1");
+		expectedResultSOC.add("17,3,1,2");
+		expectedResultSOC.add("11,3,2,1");
+		List<String> actualResultSOC = ReadProfile.fromSOCorSOI("io/github/oliviercailloux/y2018/j_voting/profil.soc");
 		
-		expectedResultSOI.add("4");
-		expectedResultSOI.add("1");
-		expectedResultSOI.add("2");
 		expectedResultSOI.add("3");
-		expectedResultSOI.add("42");
-		expectedResultSOI.add("100,100,5");
-		expectedResultSOI.add("43,42,3,2");
-		expectedResultSOI.add("12,3,42,1,2");
-		expectedResultSOI.add("8,2,3,1");
-		expectedResultSOI.add("22,3,42,2");
-		expectedResultSOI.add("15,1,2");
-		List<String> actualResultSOI = ReadProfile.fromSOCorSOI("profil.soi");
+		expectedResultSOI.add("1,Candidate 1 ");
+		expectedResultSOI.add("2,Candidate 2 ");
+		expectedResultSOI.add("3,Candidate 3 ");
+		expectedResultSOI.add("129,129,8");
+		expectedResultSOI.add("52,1,3,2");
+		expectedResultSOI.add("48,1");
+		expectedResultSOI.add("11,1,2,3");
+		expectedResultSOI.add("5,3,2,1");
+		expectedResultSOI.add("4,2");
+		expectedResultSOI.add("4,3,1,2");
+		expectedResultSOI.add("3,2,3,1");
+		expectedResultSOI.add("2,3");
+		List<String> actualResultSOI = ReadProfile.fromSOCorSOI("io/github/oliviercailloux/y2018/j_voting/profil.soi");
 		assertTrue(expectedResultSOC.equals(actualResultSOC) && expectedResultSOI.equals(actualResultSOI));
 	}
 

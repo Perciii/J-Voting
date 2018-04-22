@@ -195,8 +195,18 @@ public class StrictProfileTest {
 
 	@Test
 	public void testToSOC() {
-		String soc = "3\n" + "3\n2\n1\n" + "6,6,2\n"  + "2,3,2,1\n"+ "4,1,2,3\n";
-		assertEquals(createProfileToTest().toSOC(), soc);
+		//all these strings are correct (the list of possible strings is not complete but these are the ones that
+		//could be given by the functions)
+		String soc = "3\n" + "1\n2\n3\n" + "6,6,2\n"  + "2,3,2,1\n" + "4,1,2,3\n";
+		String soc2 = "3\n" + "3\n2\n1\n" + "6,6,2\n" + "4,1,2,3\n" + "2,3,2,1\n";
+		String soc3 = "3\n" + "1\n2\n3\n" + "6,6,2\n"+ "4,1,2,3\n"  + "2,3,2,1\n" ;
+		String soc4 = "3\n" + "3\n2\n1\n" + "6,6,2\n" + "2,3,2,1\n" + "4,1,2,3\n";
+		StrictProfile prof = createProfileToTest();
+		boolean isSoc = prof.toSOC().equals(soc);
+		boolean isSoc2 = prof.toSOC().equals(soc2);
+		boolean isSoc3 = prof.toSOC().equals(soc3);
+		boolean isSoc4 = prof.toSOC().equals(soc4);
+		assertTrue(isSoc || isSoc2 || isSoc3 || isSoc4);
 	}
 
 }
