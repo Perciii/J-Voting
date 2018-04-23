@@ -13,7 +13,7 @@ public class ReadProfile {
 	 * @return fileRead, a list of String where each element is a line of the SOC or SOI file read
 	 */
 	public static List<String> fromSOCorSOI(String path) throws IOException {
-		log.debug("fromSOCorSOI : \n") ;
+		log.debug("StrictPreference : fromSOCorSOI : \n") ;
 		Objects.requireNonNull(path);
 		log.debug("parameter : path = {}\n", path);
 		InputStream f = ReadProfile.class.getClassLoader().getResourceAsStream(path);
@@ -33,7 +33,7 @@ public class ReadProfile {
 	 * This function prints strings from the list passed as an argument
 	 */
 	public static void displayProfileFromReadFile(List<String> fileRead){
-		log.debug("displayProfileFromReadFile : \n") ;
+		log.debug("StrictPreference : displayProfileFromReadFile : \n") ;
 		Objects.requireNonNull(fileRead);
 		log.debug("parameter : fileRead = {}\n", fileRead);
 		Iterator<String> it = fileRead.iterator();
@@ -48,7 +48,7 @@ public class ReadProfile {
 	 * @return the alternatives in the profile given in a list of string.
 	 */
 	public static StrictPreference getAlternatives(int nbAlternatives,List<String> file){
-		log.debug("GetAlternatives :");
+		log.debug("StrictPreference : GetAlternatives :");
 		Objects.requireNonNull(nbAlternatives);
 		Objects.requireNonNull(file);
 		log.debug("parameters : nbAlternatives = {}, file = {}\n", nbAlternatives, file); 
@@ -74,7 +74,7 @@ public class ReadProfile {
 	 * @return a list with the three computed statistics
 	 */
 	public static List<Integer> getStatsVoters(String s){
-		log.debug("getNbVoters :");
+		log.debug("StrictPreference : getNbVoters :");
 		Objects.requireNonNull(s);
 		log.debug("parameter : s = {}\n", s);
 		List<Integer> list=new ArrayList<Integer>();
@@ -92,7 +92,7 @@ public class ReadProfile {
 	 * @return the StrictPreference given in the line s1
 	 */
 	public static StrictPreference getPreferences(StrictPreference listeAlternatives, String s1){
-		log.debug("getPreferences\n");
+		log.debug("StrictPreference : getPreferences\n");
 		Objects.requireNonNull(listeAlternatives);
 		Objects.requireNonNull(s1);
 		log.debug("parameters : listeAlternatives {}, s1 {}\n", listeAlternatives, s1);
@@ -119,7 +119,7 @@ public class ReadProfile {
 	 * @param profile the StrictProfile to which the votes will be added
 	 */
 	public static void addVotes(StrictPreference pref, int nbVoters, StrictProfile profile){
-		log.debug("addVotes\n");
+		log.debug("StrictPreference : addVotes\n");
 		Objects.requireNonNull(pref);
 		Objects.requireNonNull(nbVoters);
 		Objects.requireNonNull(profile);
@@ -139,7 +139,7 @@ public class ReadProfile {
 	 * @return the created StrictProfile
 	 */
 	public static StrictProfile buildProfile(List<String> file, StrictPreference listAlternatives, int nbVoters){
-		log.debug("buildProfiles :\n");
+		log.debug("StrictPreference : buildProfiles :\n");
 		Objects.requireNonNull(file);
 		Objects.requireNonNull(listAlternatives);
 		Objects.requireNonNull(nbVoters);
@@ -166,7 +166,7 @@ public class ReadProfile {
 	 */
 
 	public static StrictProfile createProfileFromReadFile(List<String> fileRead){
-		log.debug("createProfileFromReadFile : \n");
+		log.debug("StrictPreference : createProfileFromReadFile : \n");
 		Objects.requireNonNull(fileRead);
 		Iterator<String> it = fileRead.iterator();
 		StrictProfile sProfile = new StrictProfile();

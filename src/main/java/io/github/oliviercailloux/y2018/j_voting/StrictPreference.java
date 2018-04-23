@@ -52,7 +52,7 @@ public class StrictPreference {
 	 * @return whether both Strict preferences are about the same alternatives exactly in the same order.
 	 */
 	public boolean equals(StrictPreference pref) {
-		log.debug("equals\n");
+		log.debug("StrictPreference : equals\n");
 		Objects.requireNonNull(pref);
 		log.debug("calling preferences : {}, parameter preferences : {}\n", listOfPreferences, pref.getPreferences());
 		List<Alternative> list2= pref.getPreferences();
@@ -73,7 +73,7 @@ public class StrictPreference {
 	 * @return true if all the alternatives in the calling Strict Preference are in the Strict Preference given as a parameter.
 	 */
 	public boolean isIncludedIn(StrictPreference pref) {
-		log.debug("isIncludedIn\n");
+		log.debug("StrictPreference : isIncludedIn\n");
 		Objects.requireNonNull(pref);
 		log.debug("calling preferences : {}, parameter preferences : {}\n", listOfPreferences, pref.getPreferences());
 		for(Alternative a : listOfPreferences) {
@@ -91,7 +91,7 @@ public class StrictPreference {
 	 * @return whether both Strict preferences are about the same alternatives exactly (in the same order or not).
 	 */
 	public boolean hasSameAlternatives(StrictPreference pref) {
-		log.debug("hasSameAlternatives\n");
+		log.debug("StrictPreference : hasSameAlternatives\n");
 		Objects.requireNonNull(pref);
 		log.debug("calling preferences : {}, parameter preferences : {}\n", listOfPreferences, pref.getPreferences());
 		return (this.isIncludedIn(pref) && pref.isIncludedIn(this));
@@ -102,7 +102,7 @@ public class StrictPreference {
 	 * @return true if the Strict preference contains the alternative alter.
 	 */
 	public boolean contains(Alternative alter) {
-		log.debug("contains :\n");
+		log.debug("StrictPreference : contains :\n");
 		Objects.requireNonNull(alter);
 		log.debug("parameter : alter = {}\n", alter.getId());
 		for(Alternative a : listOfPreferences) {
