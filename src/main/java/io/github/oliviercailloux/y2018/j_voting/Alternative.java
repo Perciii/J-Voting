@@ -33,7 +33,7 @@ public class Alternative {
 	 * @return true if both alternatives are equals, ie have the same id, false if not
 	 */
 	public boolean equals(Alternative a){
-		log.debug("StrictPreference : equals\n");
+		log.debug("Alternative : equals\n");
 		Objects.requireNonNull(a);
 		log.debug("id of calling alternative : {}, id of alternative parameter : {}\n", this.getId(), a.getId());
 		if (a.getId() == this.getId()){
