@@ -13,7 +13,7 @@ public class ReadProfile {
 	 * @return fileRead, a list of String where each element is a line of the SOC or SOI file read
 	 */
 	public static List<String> fromSOCorSOI(String path) throws IOException {
-		log.debug("StrictPreference : fromSOCorSOI : \n") ;
+		log.debug("ReadProfile : fromSOCorSOI : \n") ;
 		Objects.requireNonNull(path);
 		log.debug("parameter : path = {}\n", path);
 		InputStream f = ReadProfile.class.getClassLoader().getResourceAsStream(path);
@@ -33,7 +33,7 @@ public class ReadProfile {
 	 * This function prints strings from the list passed as an argument
 	 */
 	public static void displayProfileFromReadFile(List<String> fileRead){
-		log.debug("StrictPreference : displayProfileFromReadFile : \n") ;
+		log.debug("ReadProfile : displayProfileFromReadFile : \n") ;
 		Objects.requireNonNull(fileRead);
 		log.debug("parameter : fileRead = {}\n", fileRead);
 		Iterator<String> it = fileRead.iterator();
@@ -48,7 +48,7 @@ public class ReadProfile {
 	 * @return the alternatives in the profile given in a list of string.
 	 */
 	public static StrictPreference getAlternatives(int nbAlternatives,List<String> file){
-		log.debug("StrictPreference : GetAlternatives :");
+		log.debug("ReadProfile : GetAlternatives :");
 		Objects.requireNonNull(nbAlternatives);
 		Objects.requireNonNull(file);
 		log.debug("parameters : nbAlternatives = {}, file = {}\n", nbAlternatives, file); 
@@ -74,7 +74,7 @@ public class ReadProfile {
 	 * @return a list with the three computed statistics
 	 */
 	public static List<Integer> getStatsVoters(String s){
-		log.debug("StrictPreference : getNbVoters :");
+		log.debug("ReadProfile : getNbVoters :");
 		Objects.requireNonNull(s);
 		log.debug("parameter : s = {}\n", s);
 		List<Integer> list=new ArrayList<Integer>();
@@ -92,7 +92,7 @@ public class ReadProfile {
 	 * @return the StrictPreference given in the line s1
 	 */
 	public static StrictPreference getPreferences(StrictPreference listeAlternatives, String s1){
-		log.debug("StrictPreference : getPreferences\n");
+		log.debug("ReadProfile : getPreferences\n");
 		Objects.requireNonNull(listeAlternatives);
 		Objects.requireNonNull(s1);
 		log.debug("parameters : listeAlternatives {}, s1 {}\n", listeAlternatives, s1);
@@ -119,7 +119,7 @@ public class ReadProfile {
 	 * @param profile the StrictProfile to which the votes will be added
 	 */
 	public static void addVotes(StrictPreference pref, int nbVoters, StrictProfile profile){
-		log.debug("StrictPreference : addVotes\n");
+		log.debug("ReadProfile : addVotes\n");
 		Objects.requireNonNull(pref);
 		Objects.requireNonNull(nbVoters);
 		Objects.requireNonNull(profile);
@@ -139,7 +139,7 @@ public class ReadProfile {
 	 * @return the created StrictProfile
 	 */
 	public static StrictProfile buildProfile(List<String> file, StrictPreference listAlternatives, int nbVoters){
-		log.debug("StrictPreference : buildProfiles :\n");
+		log.debug("ReadProfile : buildProfiles :\n");
 		Objects.requireNonNull(file);
 		Objects.requireNonNull(listAlternatives);
 		Objects.requireNonNull(nbVoters);
@@ -148,11 +148,13 @@ public class ReadProfile {
 		String s1; //where we store the current line
 		while(it.hasNext()){
 			s1 = it.next();
+			log.debug("next line : {}\n",s1);
 			if (!s1.contains(",")){// if the line doesn't contain , it's the line of an alternative
 				throw new IllegalArgumentException("the first string of file is an alternative line.");
 			}
 			String[] line = s1.split(",");
 			StrictPreference pref = getPreferences(listAlternatives,s1);
+			log.debug("to add : {} votes for the StrictPreference {}\n",line[0].trim(),pref);
 			addVotes(pref, Integer.parseInt(line[0].trim()), profile);
 		}
 		return profile;
@@ -166,21 +168,25 @@ public class ReadProfile {
 	 */
 
 	public static StrictProfile createProfileFromReadFile(List<String> fileRead){
-		log.debug("StrictPreference : createProfileFromReadFile : \n");
+		log.debug("ReadProfile : createProfileFromReadFile : \n");
 		Objects.requireNonNull(fileRead);
 		Iterator<String> it = fileRead.iterator();
 		StrictProfile sProfile = new StrictProfile();
 		String lineNbVoters;
 		int nbAlternatives = Integer.parseInt(it.next());	//first number of the file is the number of alternative
+		log.debug("number of alternatives : {}\n",nbAlternatives);
 		List<String> alternatives = new ArrayList<String>();
 		List<String> profiles = new ArrayList<String>();
 		for(int i = 1 ; i <= nbAlternatives ; i++){//get the lines with the alternatives
 			alternatives.add(it.next());
 		}
+		log.debug("alternatives : {}\n",alternatives);
 		lineNbVoters = it.next();//get the line with the nb of voters
+		log.debug("line with stats about the votes ); {}\n",lineNbVoters);
 		while(it.hasNext()){//get the rest of the file
 			profiles.add(it.next());
 		}
+		log.debug("lines with the number of votes for each StrictPreference : {}\n",profiles);
 		StrictPreference listeAlternatives =getAlternatives(nbAlternatives, alternatives);
 		List<Integer> listInt = getStatsVoters(lineNbVoters);
 		sProfile = buildProfile(profiles, listeAlternatives, listInt.get(0));
