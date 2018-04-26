@@ -12,7 +12,7 @@ import java.lang.Iterable;
  * Every alternative is an integer and corresponds to a voting choice
  */
 public class StrictPreference {
-	static Logger log = LoggerFactory.getLogger(ReadProfile.class.getName());
+	static Logger log = LoggerFactory.getLogger(StrictPreference.class.getName());
 	private List<Alternative> listOfPreferences = new ArrayList<>();
 	
 	/**

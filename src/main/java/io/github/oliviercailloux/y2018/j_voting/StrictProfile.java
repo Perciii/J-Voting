@@ -15,7 +15,7 @@ import org.slf4j.*;
  *
  */
 public class StrictProfile {
-	static Logger log = LoggerFactory.getLogger(ReadProfile.class.getName());
+	static Logger log = LoggerFactory.getLogger(StrictProfile.class.getName());
 	private Map<Voter, StrictPreference> association;
 	public int nextVoterId = 1;// id is the id of the next voter that will be created in the profile if the profile is created from a file.
 	
