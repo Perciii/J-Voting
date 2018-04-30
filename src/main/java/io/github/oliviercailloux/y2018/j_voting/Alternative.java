@@ -10,7 +10,7 @@ import org.slf4j.*;
  * Contains an integer which corresponds to a voting possibility
  */
 public class Alternative {
-	static Logger log = LoggerFactory.getLogger(ReadProfile.class.getName());
+	static Logger log = LoggerFactory.getLogger(Alternative.class.getName());
 	private int id;
 	
 	/**

@@ -13,7 +13,7 @@ import org.slf4j.LoggerFactory;
  */
 public class Voter {
 	private int id;
-	static Logger log = LoggerFactory.getLogger(ReadProfile.class.getName());
+	static Logger log = LoggerFactory.getLogger(Voter.class.getName());
 	
 	/**
 	 * Creates a new object Voter with the id given as a parameter
