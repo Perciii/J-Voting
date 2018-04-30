@@ -17,6 +17,7 @@ public abstract class Borda implements SocialWelfareFunction{
 	/***
 	 * returns a StrictPreference with the alternatives sorted
 	 */
+	@Override
 	public StrictPreference getSocietyStrictPreference(StrictProfile sProfile){
 		log.debug("getSocietyStrictPreference\n");
 		Objects.requireNonNull(sProfile);
