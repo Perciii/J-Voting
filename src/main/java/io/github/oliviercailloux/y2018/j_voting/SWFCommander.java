@@ -16,30 +16,51 @@ public class SWFCommander{
     public static StrictPreference askPreference(){
     	log.debug("askPreference\n");
         System.out.println("Enter a StrictPreference complete");
-        Scanner scan=new Scanner(System.in);
-        String vote = scan.nextLine();
-        scan.close();
-        String[] preference = vote.split(",");
-        List<Alternative> list = new ArrayList<Alternative>();
-        for(int i=0;i<preference.length;i++){
-            list.add(new Alternative(Integer.parseInt(preference[i].trim())));
-            log.debug("added alternative : {}\n",Integer.parseInt(preference[i].trim()));
+        
+        List<Alternative> list = new ArrayList<>();
+        
+        try(Scanner scan = new Scanner(System.in)){
+        	log.debug("Scanner OK");
+        	
+        	String vote = scan.nextLine();
+        	String[] preference = vote.split(",");
+        	for(int i = 0 ; i < preference.length ; i++){
+                list.add(new Alternative(Integer.parseInt(preference[i].trim())));
+                log.debug("added alternative : {}\n", Integer.parseInt(preference[i].trim()));
+            }
         }
-        log.debug("list of alternatives : {}\n",list);
+        
+        log.debug("list of alternatives : {}\n", list);
         return new StrictPreference(list);
     }   
     
-    public static void main(String[] args){
-    	log.debug("main");
-        StrictProfile prof = new StrictProfile();
+    public static void createProfileIncrementally(){
+    	StrictProfile prof = new StrictProfile();
         boolean keepGoing = true;
         int voterId = 1;
         //gerer les alternatives ? complete ?
         while(keepGoing){
-        	log.debug("new voter id  : {}\n",voterId);
+        	log.debug("new voter id  : {}\n", voterId);
+        	
             Voter v = new Voter(voterId);
-            prof.addProfile(v,askPreference());
+            StrictPreference strictPreference = askPreference();
+            log.debug("StrictPreference(s) : ");
+            
+            if(strictPreference.size() >= 1){
+            	log.debug(strictPreference.getPreferences().toString());//not sure of this
+            	
+            	prof.addProfile(v, strictPreference);
+            }
+            else{
+            	keepGoing = false;
+            }
+            voterId++;
             System.out.println(result.getSocietyStrictPreference(prof));
         }
+    }
+    
+    public static void main(String[] args){
+    	log.debug("main");
+    	createProfileIncrementally();
     }
 }
