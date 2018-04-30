@@ -20,11 +20,11 @@ public abstract class Bordas implements SocialWelfareFunction{
 	public StrictPreference getSocietyStrictPreference(StrictProfile SProfile){
 		log.debug("getSocietyStrictPreference\n");
 		Objects.requireNonNull(SProfile);
-		og.debug("parameter SProfile : {}\n", SProfile.toSOC());
+		log.debug("parameter SProfile : {}\n", SProfile.toSOC());
 		List<AlternativeScore> AScores = getScore(SProfile);
 		AScores = descendingOrder(AScores);
 		log.debug("return AScores : {}\n", AScores.toString());
-		List<Alternative> alternatives = new ArrayList<Alternative>();
+		List<Alternative> alternatives = new ArrayList<>();
 		for(int i=0; i<AScores.size();i++){
 			alternatives.add((AScores.get(0)).getA());
 		}
@@ -140,7 +140,7 @@ public abstract class Bordas implements SocialWelfareFunction{
 	public List<AlternativeScore> getSortedScores(StrictProfile SProfile){
 		log.debug("getSortedScores\n");
 		Objects.requireNonNull(SProfile);
-		og.debug("parameter SProfile : {}\n", SProfile.toSOC());
+		log.debug("parameter SProfile : {}\n", SProfile.toSOC());
 		List<AlternativeScore> AScores = getScore(SProfile);
 		AScores = descendingOrder(AScores);
 		log.debug("return AScores : {}\n", AScores.toString());
