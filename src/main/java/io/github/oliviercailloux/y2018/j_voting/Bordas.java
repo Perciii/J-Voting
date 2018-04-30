@@ -4,14 +4,40 @@ package io.github.oliviercailloux.y2018.j_voting;
 
 import java.util.*;
 
+import org.slf4j.*;
+
+
 
 public abstract class Bordas implements SocialWelfareFunction{
+
+	static Logger log = LoggerFactory.getLogger(Bordas.class.getName());	
+
+
 	
-	
+	/***
+	 * returns a StrictPreference with the alternatives sorted
+	 */
+	public StrictPreference getSocietyStrictPreference(StrictProfile SProfile){
+		log.debug("getSocietyStrictPreference\n");
+		Objects.requireNonNull(SProfile);
+		og.debug("parameter SProfile : {}\n", SProfile.toSOC());
+		List<AlternativeScore> AScores = getScore(SProfile);
+		AScores = descendingOrder(AScores);
+		log.debug("return AScores : {}\n", AScores.toString());
+		List<Alternative> alternatives = new ArrayList<Alternative>();
+		for(int i=0; i<AScores.size();i++){
+			alternatives.add((AScores.get(0)).getA());
+		}
+		StrictPreference SPref = new StrictPreference(alternatives);
+		return SPref;
+	}
+
+
 	/***
 	 * assigns a score to each alternative of a StrictPreference
 	 * @param SPref
 	 */
+
 	public List<AlternativeScore> getScore(StrictPreference SPref){
 		log.debug("getScorePref\n");
 		Objects.requireNonNull(SPref);
@@ -59,7 +85,7 @@ public abstract class Bordas implements SocialWelfareFunction{
 				}
 				FinalScores = TempScores;
 			}
-			
+
 			else{
 				FinalScores = PrefScores;
 			}
@@ -67,7 +93,7 @@ public abstract class Bordas implements SocialWelfareFunction{
 		log.debug("return FinalScores : {}\n", FinalScores.toString());
 		return FinalScores;
 	}
-	
+
 	/***
 	 * Sorts by descending order
 	 */
@@ -85,7 +111,7 @@ public abstract class Bordas implements SocialWelfareFunction{
 		log.debug("return sortedScores : {}\n", sortedScores.toString());
 		return sortedScores;
 	}
-	
+
 	/***
 	 * get the index of the score max
 	 * @param AScore
@@ -105,7 +131,7 @@ public abstract class Bordas implements SocialWelfareFunction{
 		log.debug("return index : {}\n", index);
 		return index;
 	}
-	
+
 	/***
 	 * create a list of AlternativeScore sorted by descending order
 	 * @param SProfile
@@ -120,6 +146,6 @@ public abstract class Bordas implements SocialWelfareFunction{
 		log.debug("return AScores : {}\n", AScores.toString());
 		return AScores;
 	}
-	
-	
+
+
 }
