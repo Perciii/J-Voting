@@ -34,11 +34,15 @@ public class SWFCommander{
         return new StrictPreference(list);
     }   
     
+    /**
+     * Asks the user to enter StrictPreferences while it doesn't enter an empty one.
+     * Each time the user enters a StrictPreference, it displays the current state of the StrictProfile.
+     */
     public static void createProfileIncrementally(){
     	StrictProfile prof = new StrictProfile();
         boolean keepGoing = true;
         int voterId = 1;
-        //gerer les alternatives ? complete ?
+
         while(keepGoing){
         	log.debug("new voter id  : {}\n", voterId);
         	

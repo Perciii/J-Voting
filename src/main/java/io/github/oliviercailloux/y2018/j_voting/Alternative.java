@@ -44,7 +44,7 @@ public class Alternative {
 		return false;
 	}
 	
-	
+	@Override
 	public String toString(){
 		return Integer.toString(id);
 	}

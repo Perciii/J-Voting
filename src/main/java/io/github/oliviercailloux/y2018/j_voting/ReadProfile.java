@@ -19,7 +19,7 @@ public class ReadProfile {
 		InputStream f = ReadProfile.class.getClassLoader().getResourceAsStream(path);
 		try(BufferedReader in = new BufferedReader(new InputStreamReader(f))){
 			String line;
-			List<String> fileRead = new ArrayList<String>();
+			List<String> fileRead = new ArrayList<>();
 			while ((line= in.readLine()) != null) {
 				log.debug("next line : {}\n", line);
 				fileRead.add(line);
@@ -54,7 +54,7 @@ public class ReadProfile {
 		log.debug("parameters : nbAlternatives = {}, file = {}\n", nbAlternatives, file); 
 		Iterator<String> it = file.iterator();
 		String s1; 
-		LinkedHashSet<Alternative> alternatives= new LinkedHashSet<Alternative>();
+		LinkedHashSet<Alternative> alternatives= new LinkedHashSet<>();
 		for(int k = 1 ; k <= nbAlternatives ; k++){//we add each alternative to a list
 			s1 = it.next();
 			log.debug("next Alternative : {}\n", s1);
@@ -77,7 +77,7 @@ public class ReadProfile {
 		log.debug("ReadProfile : getNbVoters :");
 		Objects.requireNonNull(s);
 		log.debug("parameter : s = {}\n", s);
-		List<Integer> list=new ArrayList<Integer>();
+		List<Integer> list=new ArrayList<>();
 		String[] line = s.split(",");
 		list.add(Integer.parseInt(line[0].trim()));
 		list.add(Integer.parseInt(line[1].trim()));
@@ -97,7 +97,7 @@ public class ReadProfile {
 		Objects.requireNonNull(s1);
 		log.debug("parameters : listeAlternatives {}, s1 {}\n", listeAlternatives, s1);
 		String[] s2 = s1.split(",");
-		List<Alternative> pref = new ArrayList<Alternative>();
+		List<Alternative> pref = new ArrayList<>();
 		for(int i = 1 ; i < s2.length ; i++){//we collect all the alternatives, skipping the first element which is the nb of votes
 			Alternative alter = new Alternative(Integer.parseInt(s2[i].trim()));
 			log.debug("next alternative {}\n", alter.getId());
@@ -175,8 +175,8 @@ public class ReadProfile {
 		String lineNbVoters;
 		int nbAlternatives = Integer.parseInt(it.next());	//first number of the file is the number of alternative
 		log.debug("number of alternatives : {}\n",nbAlternatives);
-		List<String> alternatives = new ArrayList<String>();
-		List<String> profiles = new ArrayList<String>();
+		List<String> alternatives = new ArrayList<>();
+		List<String> profiles = new ArrayList<>();
 		for(int i = 1 ; i <= nbAlternatives ; i++){//get the lines with the alternatives
 			alternatives.add(it.next());
 		}
