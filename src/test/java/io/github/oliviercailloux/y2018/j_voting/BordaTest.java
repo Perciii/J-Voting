@@ -5,14 +5,14 @@ import java.util.List;
 
 import org.junit.Test;
 
-public class BordasTest {
+public class BordaTest {
 
 	
 	@Test
-	public StrictPreference testgetSocietyStrictPreference(StrictProfile SProfile){
-		System.out.println("profile : "+SProfile);	
-		StrictPreference SPref = getSocietyStrictPreference(SProfile);
-		System.out.println("preference : "+SPref);	
+	public StrictPreference testgetSocietyStrictPreference(StrictProfile sProfile){
+		System.out.println("profile : "+sProfile);	
+		StrictPreference sPref = getSocietyStrictPreference(sProfile);
+		System.out.println("preference : "+sPref);	
 		
 	}
 	
@@ -29,8 +29,8 @@ public class BordasTest {
 		alternatives.add(a2);
 		alternatives.add(a3);
 		StrictPreference SPref = new StrictPreference(alternatives);
-		List<AlternativeScore> scores = getScore(SPref);
-		System.out.println("preferences : "+SPref+'\n'+'\n'+"Scores : " + scores);	
+		List<AlternativeScore> scores = getScore(sPref);
+		System.out.println("preferences : "+sPref+'\n'+'\n'+"Scores : " + scores);	
 	}
 	
 	@Test
