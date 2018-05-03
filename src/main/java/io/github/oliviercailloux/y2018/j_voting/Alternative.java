@@ -1,16 +1,16 @@
 package io.github.oliviercailloux.y2018.j_voting;
 
-import java.util.*;
+//import java.util.*;
 
 import org.slf4j.*;
-
+import com.google.common.base.Preconditions;
 
 /**
  * This class is immutable
  * Contains an integer which corresponds to a voting possibility
  */
 public class Alternative {
-	static Logger log = LoggerFactory.getLogger(Alternative.class.getName());
+	private static Logger LOGGER = LoggerFactory.getLogger(Alternative.class.getName());
 	private int id;
 	
 	/**
@@ -18,7 +18,7 @@ public class Alternative {
 	 * @param id int <code>not null</code>
 	 */
 	public Alternative(int id) {
-		this.id = Objects.requireNonNull(id);
+		this.id = Preconditions.checkNotNull(id);
 	}
 	
 	/**
@@ -33,14 +33,14 @@ public class Alternative {
 	 * @return true if both alternatives are equals, ie have the same id, false if not
 	 */
 	public boolean equals(Alternative a){
-		log.debug("Alternative : equals\n");
-		Objects.requireNonNull(a);
-		log.debug("id of calling alternative : {}, id of alternative parameter : {}\n", this.getId(), a.getId());
+		LOGGER.debug("Alternative : equals\n");
+		Preconditions.checkNotNull(a);
+		LOGGER.debug("id of calling alternative : {}, id of alternative parameter : {}\n", this.getId(), a.getId());
 		if (a.getId() == this.getId()){
-			log.debug("returns true");
+			LOGGER.debug("returns true");
 			return true;
 		}
-		log.debug("returns false");
+		LOGGER.debug("returns false");
 		return false;
 	}
 	

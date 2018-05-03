@@ -1,9 +1,10 @@
 package io.github.oliviercailloux.y2018.j_voting;
 
-import java.util.Objects;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.google.common.base.Preconditions;
 
 
 
@@ -13,14 +14,14 @@ import org.slf4j.LoggerFactory;
  */
 public class Voter {
 	private int id;
-	static Logger log = LoggerFactory.getLogger(Voter.class.getName());
+	static Logger LOGGER = LoggerFactory.getLogger(Voter.class.getName());
 	
 	/**
 	 * Creates a new object Voter with the id given as a parameter
 	 * @param id int <code>not null</code>
 	 */
 	public Voter(int id) {
-		this.id = Objects.requireNonNull(id);
+		this.id = Preconditions.checkNotNull(id);
 	}
 	
 	/**
@@ -36,9 +37,9 @@ public class Voter {
 	 * @return whether two voters are equal, ie have the same id.
 	 */
 	public boolean equals(Voter voter) {
-		Objects.requireNonNull(voter);
-		log.debug("Voter - equals : \n");
-		log.debug("voter calling : {}, parameter voter :{}\n", id, voter.getId());
+		Preconditions.checkNotNull(voter);
+		LOGGER.debug("Voter - equals : \n");
+		LOGGER.debug("voter calling : {}, parameter voter :{}\n", id, voter.getId());
 		return(voter.getId() == id);
 	}
 }
