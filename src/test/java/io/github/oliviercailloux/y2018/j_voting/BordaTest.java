@@ -11,7 +11,7 @@ public class BordaTest {
 	@Test
 	public StrictPreference testgetSocietyStrictPreference(StrictProfile sProfile){
 		System.out.println("profile : "+sProfile);	
-		StrictPreference sPref = getSocietyStrictPreference(sProfile);
+		StrictPreference sPref = new Borda().getSocietyStrictPreference(sProfile);
 		System.out.println("preference : "+sPref);	
 		
 	}
