@@ -8,7 +8,7 @@ import org.slf4j.*;
 
 
 
-public abstract class Borda implements SocialWelfareFunction{
+public class Borda implements SocialWelfareFunction{
 
 	static Logger log = LoggerFactory.getLogger(Borda.class.getName());	
 
@@ -39,14 +39,14 @@ public abstract class Borda implements SocialWelfareFunction{
 	 * @param SPref
 	 */
 
-	public List<AlternativeScore> getScore(StrictPreference sPref){
+	public static List<AlternativeScore> getScore(StrictPreference sPref){
 		log.debug("getScorePref\n");
 		Objects.requireNonNull(sPref);
 		log.debug("parameter SPref : {}\n", sPref.toString());
 		int i;
 		List<AlternativeScore> scores = new ArrayList<>();
 		List<Alternative> Alternatives = sPref.getPreferences();
-		for(i=1;i<=Alternatives.size();i++){
+		for(i=0;i<Alternatives.size();i++){
 			scores.add(new AlternativeScore(Alternatives.get(i),Integer.valueOf(Alternatives.size()-i)));
 		}
 		log.debug("return score : {}\n", scores.toString());
@@ -59,7 +59,7 @@ public abstract class Borda implements SocialWelfareFunction{
 	 * @param SProfile
 	 * @return
 	 */
-	public List<AlternativeScore> getScore(StrictProfile sProfile){
+	public static List<AlternativeScore> getScore(StrictProfile sProfile){
 		log.debug("getScoreProf\n");
 		Objects.requireNonNull(sProfile);
 		log.debug("parameter SProfile : {}\n", sProfile.toSOC());
@@ -77,8 +77,8 @@ public abstract class Borda implements SocialWelfareFunction{
 
 			if (notfirst){
 				tempScores = new ArrayList<>();
-				for(i=1;i<=finalScores.size();i++){
-					for(j=1;j<=prefScores.size();j++){
+				for(i=0;i<finalScores.size();i++){
+					for(j=0;j<prefScores.size();j++){
 						if(prefScores.get(i).getA()==finalScores.get(i).getA()){
 							tempScores.add(new AlternativeScore(prefScores.get(i).getA(),prefScores.get(i).getS()+finalScores.get(i).getS()));
 						}
@@ -98,7 +98,7 @@ public abstract class Borda implements SocialWelfareFunction{
 	/***
 	 * Sorts by descending order
 	 */
-	public List<AlternativeScore> descendingOrder(List<AlternativeScore> aScores){
+	public static List<AlternativeScore> descendingOrder(List<AlternativeScore> aScores){
 		log.debug("descendingOrder\n");
 		Objects.requireNonNull(aScores);
 		log.debug("parameter aScores : {}\n", aScores.toString());
@@ -118,12 +118,12 @@ public abstract class Borda implements SocialWelfareFunction{
 	 * @param AScore
 	 * @return
 	 */
-	public int getMax(List<AlternativeScore> aScores){
+	public static int getMax(List<AlternativeScore> aScores){
 		log.debug("getMax\n");
 		Objects.requireNonNull(aScores);
 		log.debug("parameter AScores : {}\n", aScores.toString());
 		int index = 0, i = 1, scoreMax = 0;
-		for(i=1;i<=aScores.size();i++){
+		for(i=0;i<aScores.size();i++){
 			if(aScores.get(i).getS()>scoreMax){
 				index = i;
 				scoreMax  = aScores.get(i).getS();
@@ -138,7 +138,7 @@ public abstract class Borda implements SocialWelfareFunction{
 	 * @param SProfile
 	 * @return
 	 */
-	public List<AlternativeScore> getSortedScores(StrictProfile sProfile){
+	public static List<AlternativeScore> getSortedScores(StrictProfile sProfile){
 		log.debug("getSortedScores\n");
 		Objects.requireNonNull(sProfile);
 		log.debug("parameter sProfile : {}\n", sProfile.toSOC());
