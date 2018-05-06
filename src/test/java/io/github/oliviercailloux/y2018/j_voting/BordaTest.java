@@ -35,8 +35,6 @@ public class BordaTest {
 		Alternative a1 = new Alternative(1);
 		Alternative a2 = new Alternative(2);
 		Alternative a3 = new Alternative(3);
-		Voter v1 = new Voter(1);
-		Voter v2 = new Voter(2);
 		List<Alternative> alternatives = new ArrayList<Alternative>();
 		alternatives.add(a1);
 		alternatives.add(a2);
