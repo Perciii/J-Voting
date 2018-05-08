@@ -52,7 +52,7 @@ public class BordaTest {
 		alternatives.add(a2);
 		alternatives.add(a3);
 		StrictPreference sPref = new StrictPreference(alternatives);
-		List<AlternativeScore> scores = Borda.getScore(sPref);
+		Map<Alternative,Integer> scores = new Borda().getScores(sPref);
 		System.out.println("preferences : "+sPref+'\n'+'\n'+"Scores : " + scores);	
 	}
 	
@@ -84,36 +84,36 @@ public class BordaTest {
 		profile.addProfile(v4, pref1);
 		profile.addProfile(v5, pref2);
 		profile.addProfile(v6, pref2);
-		List<AlternativeScore> scores = Borda.getScore(profile);
+		Map<Alternative,Integer> scores = new Borda().getScores(profile);
 		System.out.println("profile : "+profile+'\n'+'\n'+"Scores : " + scores);	
 	}
 	
 	
 	@Test
 	public void testdescendingOrder(){
-		List<AlternativeScore> listScores = new ArrayList<>();
+		Map<Alternative,Integer> listScores = new HashMap<>();
 		Alternative a1 = new Alternative(1);
 		Alternative a2 = new Alternative(2);
 		Alternative a3 = new Alternative(3);
-		listScores.add(new AlternativeScore(a1,2));
-		listScores.add(new AlternativeScore(a2,0));
-		listScores.add(new AlternativeScore(a3,6));
+		listScores.put(a1,2);
+		listScores.put(a2,0);
+		listScores.put(a3,6);
 		System.out.println("before : "+listScores);	
-		List<AlternativeScore> listScoresSorted = Borda.descendingOrder(listScores);
+		Map<Alternative,Integer> listScoresSorted = new Borda().descendingOrder(listScores);
 		System.out.println("after : "+listScoresSorted);	
 	}
 	
 	
 	@Test
 	public void testgetMax(){
-		List<AlternativeScore> listScores = new ArrayList<>();
+		Map<Alternative,Integer> listScores = new HashMap<>();
 		Alternative a1 = new Alternative(1);
 		Alternative a2 = new Alternative(2);
 		Alternative a3 = new Alternative(3);
-		listScores.add(new AlternativeScore(a1,2));
-		listScores.add(new AlternativeScore(a2,0));
-		listScores.add(new AlternativeScore(a3,6));
-		System.out.println("list : "+listScores + '\n'+'\n'+"Max : "+Borda.getMax(listScores));	
+		listScores.put(a1,2);
+		listScores.put(a2,0);
+		listScores.put(a3,6);
+		System.out.println("list : "+listScores + '\n'+'\n'+"Max : "+new Borda().getMax(listScores));	
 	}
 	
 	
@@ -148,7 +148,7 @@ public class BordaTest {
 		profile.addProfile(v5, pref2);
 		profile.addProfile(v6, pref2);
 		System.out.println("before : "+profile);	
-		List<AlternativeScore> listScoresSorted = Borda.getSortedScores(profile);
+		Map<Alternative,Integer> listScoresSorted = new Borda().getSortedScores(profile);
 		System.out.println("after : "+listScoresSorted);	
 	}
 	
