@@ -61,10 +61,6 @@ public class StrictProfileTest {
 		assertTrue(profile.getPreference(v7).equals(pref3));
 	}
 
-/*	@Test
-	public void testWriteToSOC() {
-
-	}*/
 
 	/**
 	 * Tests whether method getPreference() gives a set of Alternatives equal to the initial set
@@ -144,7 +140,9 @@ public class StrictProfileTest {
 		for(StrictPreference p : createProfileToTest().getUniquePreferences()) {
 			preferencelist.add(p);
 		}
-		assertTrue(preferencelist.get(0).equals(pref1) && preferencelist.get(1).equals(pref2));
+		boolean case1 = preferencelist.get(0).equals(pref1) && preferencelist.get(1).equals(pref2);
+		boolean case2 = preferencelist.get(1).equals(pref1) && preferencelist.get(0).equals(pref2);
+		assertTrue(case1 || case2);
 	}
 
 	/**
