@@ -1,11 +1,7 @@
 package io.github.oliviercailloux.y2018.j_voting;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
-import org.apache.commons.io.FileUtils;
+import java.io.*;
+//import org.apache.commons.io.FileUtils;
 import java.util.*;
 import org.slf4j.*;
 
@@ -64,15 +60,13 @@ public class StrictProfile {
 	 * @param profile a StrictProfile, fileName a String : name of the file that will be written in resources folder
 	 * @throws IOException
 	 */
-	public static void writeToSOC(StrictProfile profile, String fileName) throws IOException {
+	public void writeToSOC(String fileName) throws IOException {
 		LOGGER.debug("writeToSOC:\n");
-		Preconditions.checkNotNull(profile);
 		Preconditions.checkNotNull(fileName);
 		LOGGER.debug("parameter filename : {}\n", fileName);
-		File file = FileUtils.toFile(StrictProfile.class.getResource(fileName));
-		try(BufferedWriter bw = new BufferedWriter(new FileWriter(file))){
-	        PrintWriter pWriter = new PrintWriter(bw);
-	        pWriter.print(profile);
+		try(OutputStream output = new FileOutputStream(fileName)){
+			output.write(this.toSOC().getBytes());
+			output.close();
 		}
 	}
 	
@@ -124,9 +118,9 @@ public class StrictProfile {
 	/**
 	 * @return all the unique StrictPreference in the profile.
 	 */
-	public List<StrictPreference> getUniquePreferences(){
+	public Set<StrictPreference> getUniquePreferences(){
 		LOGGER.debug("getUniquePreferences\n");
-		List<StrictPreference> unique = new ArrayList<>();
+		Set<StrictPreference> unique = new HashSet<>();
 		boolean alreadyInList = false;
 		for(StrictPreference pref : association.values()) {
 			LOGGER.debug("next preference : {}\n", pref);
