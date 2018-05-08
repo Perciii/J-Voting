@@ -10,9 +10,7 @@ import org.slf4j.*;
 
 public class Borda implements SocialWelfareFunction{
 
-	static Logger log = LoggerFactory.getLogger(Borda.class.getName());	
-
-
+	Logger log = LoggerFactory.getLogger(Borda.class.getName());	
 	
 	/***
 	 * returns a StrictPreference with the alternatives sorted
@@ -22,15 +20,17 @@ public class Borda implements SocialWelfareFunction{
 		log.debug("getSocietyStrictPreference\n");
 		Objects.requireNonNull(sProfile);
 		log.debug("parameter SProfile : {}\n", sProfile.toSOC());
-		List<AlternativeScore> aScores = getScore(sProfile);
-		aScores = descendingOrder(aScores);
-		log.debug("return AScores : {}\n", aScores.toString());
-		List<Alternative> alternatives = new ArrayList<>();
-		for(int i=0; i<aScores.size();i++){
-			alternatives.add((aScores.get(0)).getA());
-		}
-		StrictPreference sPref = new StrictPreference(alternatives);
-		return sPref;
+		
+		Map<Alternative,Integer> finalScores = getScores(sProfile);
+		finalScores = descendingOrder(finalScores);
+		
+		log.debug("return AScores : {}\n", finalScores.toString());
+		
+		Iterable<Alternative> alternatives = finalScores.keySet();
+		StrictPreference pref = new StrictPreference(alternatives);
+		
+		log.debug("return AScores : {}\n", pref.toString());
+		return pref;
 	}
 
 
@@ -39,18 +39,18 @@ public class Borda implements SocialWelfareFunction{
 	 * @param SPref
 	 */
 
-	public static List<AlternativeScore> getScore(StrictPreference sPref){
+	public Map<Alternative, Integer> getScores(StrictPreference sPref){
 		log.debug("getScorePref\n");
 		Objects.requireNonNull(sPref);
 		log.debug("parameter SPref : {}\n", sPref.toString());
+		Map<Alternative,Integer> unsortedScores = new HashMap<>();
 		int i;
-		List<AlternativeScore> scores = new ArrayList<>();
 		List<Alternative> Alternatives = sPref.getPreferences();
 		for(i=0;i<Alternatives.size();i++){
-			scores.add(new AlternativeScore(Alternatives.get(i),Integer.valueOf(Alternatives.size()-i)));
+			unsortedScores.put(Alternatives.get(i),Integer.valueOf(Alternatives.size()-i));
 		}
-		log.debug("return score : {}\n", scores.toString());
-		return scores ;
+		log.debug("return score : {}\n", unsortedScores.toString());
+		return unsortedScores;
 	}
 
 
@@ -59,93 +59,118 @@ public class Borda implements SocialWelfareFunction{
 	 * @param SProfile
 	 * @return
 	 */
-	public static List<AlternativeScore> getScore(StrictProfile sProfile){
+	public Map<Alternative, Integer> getScores(StrictProfile sProfile){
 		log.debug("getScoreProf\n");
 		Objects.requireNonNull(sProfile);
 		log.debug("parameter SProfile : {}\n", sProfile.toSOC());
 		int i,j;
 		boolean notfirst = false;
+		
 		Iterable<Voter> allVoters  = sProfile.getAllVoters();
-		Iterator<Voter> iterator = allVoters.iterator();
+		Iterator<Voter> iteratorV = allVoters.iterator();
 		Voter currentVoter;
-		List<AlternativeScore> finalScores = new ArrayList<>();
-		List<AlternativeScore> tempScores ;
-		List<AlternativeScore> prefScores ;
-		while(iterator.hasNext()){
-			currentVoter = iterator.next();
-			prefScores = getScore((sProfile.getPreference(currentVoter)));
-
+		
+		Map<Alternative,Integer> tempScores = new HashMap<>();
+		Map<Alternative,Integer> unsortedScores = new HashMap<>();
+		
+		Iterable<Alternative> alternativesList = sProfile.getAlternativesComplete();
+		Iterator<Alternative> iteratorA = alternativesList.iterator();
+		Alternative currentAlternative;
+		
+		Integer score = 0;
+		
+		while(iteratorV.hasNext()){
+			currentVoter = iteratorV.next();
+			tempScores = getScores((sProfile.getPreference(currentVoter)));
+			
 			if (notfirst){
-				tempScores = new ArrayList<>();
-				for(i=0;i<finalScores.size();i++){
-					for(j=0;j<prefScores.size();j++){
-						if(prefScores.get(i).getA()==finalScores.get(i).getA()){
-							tempScores.add(new AlternativeScore(prefScores.get(i).getA(),prefScores.get(i).getS()+finalScores.get(i).getS()));
-						}
-					}
+				while(iteratorA.hasNext()){
+					currentAlternative = iteratorA.next();
+					score = unsortedScores.get(currentAlternative) + tempScores.get(currentAlternative);
+					unsortedScores.remove(currentAlternative);
+					unsortedScores.put(currentAlternative, score);
+					
 				}
-				finalScores = tempScores;
 			}
 
 			else{
-				finalScores = prefScores;
+				unsortedScores = tempScores;
 			}
 		}
-		log.debug("return FinalScores : {}\n", finalScores.toString());
-		return finalScores;
+		log.debug("return unsortedScores : {}\n", unsortedScores.toString());
+		return unsortedScores;
 	}
 
 	/***
 	 * Sorts by descending order
 	 */
-	public static List<AlternativeScore> descendingOrder(List<AlternativeScore> aScores){
+	public Map<Alternative, Integer> descendingOrder(Map<Alternative, Integer> unsortedScores){
 		log.debug("descendingOrder\n");
-		Objects.requireNonNull(aScores);
-		log.debug("parameter aScores : {}\n", aScores.toString());
-		int i, index = 0;
-		List<AlternativeScore> sortedScores = new ArrayList<>();
-		for(i=1;i<=aScores.size();i++){
-			index = getMax(aScores);
-			sortedScores.add(aScores.get(index));
-			aScores.remove(index);
+		
+		Map<Alternative,Integer> tempScores = unsortedScores;
+		Alternative alternativeMax;
+		
+		Map<Alternative,Integer> finalScores = new HashMap<>();
+		
+		for(int i=0 ; i<unsortedScores.size();i++){
+			alternativeMax = getMax(tempScores);
+			finalScores.put(alternativeMax,tempScores.get(alternativeMax));
+			tempScores.remove(alternativeMax);
 		}
-		log.debug("return sortedScores : {}\n", sortedScores.toString());
-		return sortedScores;
+		
+		
+		log.debug("return sortedScores : {}\n", finalScores.toString());
+		return finalScores;
 	}
 
 	/***
-	 * get the index of the score max
+	 * get the alternative of the score max
 	 * @param AScore
 	 * @return
 	 */
-	public static int getMax(List<AlternativeScore> aScores){
+	public Alternative getMax(Map<Alternative, Integer> scores){
 		log.debug("getMax\n");
-		Objects.requireNonNull(aScores);
-		log.debug("parameter AScores : {}\n", aScores.toString());
-		int index = 0, i = 1, scoreMax = 0;
-		for(i=0;i<aScores.size();i++){
-			if(aScores.get(i).getS()>scoreMax){
-				index = i;
-				scoreMax  = aScores.get(i).getS();
+		
+		Iterable<Alternative> alternativesList = scores.keySet();
+		Iterator<Alternative> iteratorA = alternativesList.iterator();
+		Alternative currentAlternative;
+		
+		Alternative alternativeMax = new Alternative(0); 
+		boolean first = true;
+		
+		while(iteratorA.hasNext()){
+			currentAlternative = iteratorA.next();
+			if (first){
+				alternativeMax = currentAlternative;
+				first = false;
+			}
+			else{
+				if (scores.get(currentAlternative)>scores.get(alternativeMax)){
+					alternativeMax = currentAlternative ;
+				}
 			}
 		}
-		log.debug("return index : {}\n", index);
-		return index;
+		
+		log.debug("Max : {} \n", alternativeMax);
+		return alternativeMax;
+		
 	}
 
+
 	/***
-	 * create a list of AlternativeScore sorted by descending order
+	 * create a HashMap of Alternatives sorted by descending order of score
 	 * @param SProfile
 	 * @return
 	 */
-	public static List<AlternativeScore> getSortedScores(StrictProfile sProfile){
+	public Map<Alternative,Integer> getSortedScores(StrictProfile sProfile){
 		log.debug("getSortedScores\n");
 		Objects.requireNonNull(sProfile);
 		log.debug("parameter sProfile : {}\n", sProfile.toSOC());
-		List<AlternativeScore> aScores = getScore(sProfile);
-		aScores = descendingOrder(aScores);
-		log.debug("return AScores : {}\n", aScores.toString());
-		return aScores;
+		
+		Map<Alternative,Integer> finalScores = getScores(sProfile);
+		finalScores = descendingOrder(finalScores);
+		log.debug("return AScores : {}\n", finalScores.toString());
+		return finalScores;
 	}
 
 
