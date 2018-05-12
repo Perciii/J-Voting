@@ -43,7 +43,7 @@ public class PreferenceTest {
 		set3.add(a4);
 		set3.add(a5);
 		List<Set<Alternative>> pref = createPreferenceToTest().getPreferences();
-		assertTrue(pref.get(0).equals(set1) && pref.get(1).equals(set2) && pref.get(2).equals(set3));
+		assertTrue(Preference.alternativeSetEqual(pref.get(0),set1) && Preference.alternativeSetEqual(pref.get(1),set2) && Preference.alternativeSetEqual(pref.get(2),set3));
 	}
 
 	@Test

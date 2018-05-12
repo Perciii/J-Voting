@@ -73,8 +73,8 @@ public class Preference {
 		LOGGER.debug("equals:\n");
 		Preconditions.checkNotNull(p);
 		LOGGER.debug("parameter preference : {}\n",p);
-		if(preferences.size() == p.size()) {
-			for(int i=0;i<preferences.size();i++) {
+		if(this.size() == p.size() && preferences.size() == p.getPreferences().size()) { //same number of alternatives and same number of sets
+			for(int i=0;i<this.preferences.size();i++) {
 				if(!alternativeSetEqual(preferences.get(i),p.getPreferences().get(i))) {
 					LOGGER.debug("return false\n");
 					return false;
