@@ -28,7 +28,11 @@ public class Borda implements SocialWelfareFunction{
 		log.debug("return AScores : {}\n", finalScores.toString());
 		
 		Iterable<Alternative> alternatives = finalScores.keySet();
-		StrictPreference pref = new StrictPreference(alternatives);
+		List<Alternative> al = new ArrayList<>();
+		for(Alternative a : alternatives) {
+			al.add(a);
+		}
+		StrictPreference pref = new StrictPreference(al);
 		
 		log.debug("return AScores : {}\n", pref.toString());
 		return pref;

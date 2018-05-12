@@ -161,7 +161,7 @@ public class StrictProfile {
 	/**
 	 * @return all the different alternatives in a complete profile. A profile is complete when all votes are about the same alternatives exactly.
 	 */
-	public Iterable<Alternative> getAlternativesComplete(){
+	public List<Alternative> getAlternativesComplete(){
 		LOGGER.debug("getAlternativesComplete\n");
 		if(!isComplete()) {
 			throw new IllegalArgumentException("The profile is not complete.");

@@ -56,7 +56,7 @@ public class ReadProfile {
 		LOGGER.debug("parameters : nbAlternatives = {}, file = {}\n", nbAlternatives, file); 
 		Iterator<String> it = file.iterator();
 		String s1; 
-		LinkedHashSet<Alternative> alternatives= new LinkedHashSet<>();
+		List<Alternative> alternatives= new ArrayList<>();
 		for(int k = 1 ; k <= nbAlternatives ; k++){//we add each alternative to a list
 			s1 = it.next();
 			LOGGER.debug("next Alternative : {}\n", s1);

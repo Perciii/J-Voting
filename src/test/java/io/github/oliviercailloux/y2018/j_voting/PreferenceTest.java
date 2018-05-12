@@ -28,7 +28,7 @@ public class PreferenceTest {
 	}
 	
 	@Test
-	public void testGetPreferences() {
+	public void testGetPreferencesNonStrict() {
 		Alternative a1 = new Alternative(1);
 		Alternative a2 = new Alternative(2);
 		Alternative a3 = new Alternative(3);
@@ -42,7 +42,7 @@ public class PreferenceTest {
 		set2.add(a3);
 		set3.add(a4);
 		set3.add(a5);
-		List<Set<Alternative>> pref = createPreferenceToTest().getPreferences();
+		List<Set<Alternative>> pref = createPreferenceToTest().getPreferencesNonStrict();
 		assertTrue(Preference.alternativeSetEqual(pref.get(0),set1) && Preference.alternativeSetEqual(pref.get(1),set2) && Preference.alternativeSetEqual(pref.get(2),set3));
 	}
 

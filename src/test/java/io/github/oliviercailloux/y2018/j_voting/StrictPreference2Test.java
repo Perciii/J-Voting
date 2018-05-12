@@ -3,28 +3,11 @@ package io.github.oliviercailloux.y2018.j_voting;
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
+import java.util.*;
 import org.junit.Test;
 
-public class StrictPreferenceTest {
+public class StrictPreference2Test {
 
-
-	@Test
-	public void testGetPreferences() {
-		Alternative a1 = new Alternative(1);
-		Alternative a2 = new Alternative(2);
-		Alternative a3 = new Alternative(3);
-		List<Alternative> prefs = new ArrayList<Alternative>();
-		prefs.add(a1);
-		prefs.add(a2);
-		prefs.add(a3);
-		StrictPreference p = new StrictPreference(prefs);
-		assertEquals(p.getPreferences(),prefs);
-	}
-	
 	@Test
 	public void testListAlternativeToListSetAlternative() {
 		Alternative a1 = new Alternative(1);

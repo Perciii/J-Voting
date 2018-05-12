@@ -27,8 +27,8 @@ public class Preference {
 	 * 
 	 * @return the preference of alternatives
 	 */
-	public List<Set<Alternative>> getPreferences(){
-		LOGGER.debug("getPreferences:\n");
+	public List<Set<Alternative>> getPreferencesNonStrict(){
+		LOGGER.debug("getPreferencesNonStrict:\n");
 		return preferences;
 	}
 	
@@ -73,9 +73,9 @@ public class Preference {
 		LOGGER.debug("equals:\n");
 		Preconditions.checkNotNull(p);
 		LOGGER.debug("parameter preference : {}\n",p);
-		if(this.size() == p.size() && preferences.size() == p.getPreferences().size()) { //same number of alternatives and same number of sets
+		if(this.size() == p.size() && preferences.size() == p.getPreferencesNonStrict().size()) { //same number of alternatives and same number of sets
 			for(int i=0;i<this.preferences.size();i++) {
-				if(!alternativeSetEqual(preferences.get(i),p.getPreferences().get(i))) {
+				if(!alternativeSetEqual(preferences.get(i),p.getPreferencesNonStrict().get(i))) {
 					LOGGER.debug("return false\n");
 					return false;
 				}
@@ -170,6 +170,12 @@ public class Preference {
 		return false;
 	}
 	
+	/**
+	 * 
+	 * @param set
+	 * @param alter
+	 * @return whether the set contains the alternative
+	 */
 	public static boolean alternativeSetContains(Set<Alternative> set,Alternative alter) {
 		LOGGER.debug("alternativeSetContains:\n");
 		Preconditions.checkNotNull(set);
@@ -184,4 +190,7 @@ public class Preference {
 		LOGGER.debug("return false\n");
 		return false;
 	}
+	
+
+
 }
