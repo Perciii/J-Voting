@@ -4,11 +4,6 @@ import java.util.*;
 
 import org.junit.Test;
 
-import static org.junit.Assert.*;
-
-import java.io.IOException;
-
-
 public class BordaTest {
 
 	
@@ -40,9 +35,9 @@ public class BordaTest {
 		profile.addProfile(v4, pref1);
 		profile.addProfile(v5, pref2);
 		profile.addProfile(v6, pref2);
+		System.out.println("profile : "+profile);	
 		StrictPreference sPref = new Borda().getSocietyStrictPreference(profile);
-		
-		assertTrue(sPref.equals(pref1));
+		System.out.println("preference : "+sPref);	
 		
 	}
 	
@@ -58,13 +53,7 @@ public class BordaTest {
 		alternatives.add(a3);
 		StrictPreference sPref = new StrictPreference(alternatives);
 		Map<Alternative,Integer> scores = new Borda().getScores(sPref);
-		
-		Map<Alternative,Integer> scoresTest = new HashMap<>();
-		scoresTest.put(a1, 2);
-		scoresTest.put(a2, 1);
-		scoresTest.put(a3, 0);
-		
-		assertTrue(scores.equals(scoresTest));
+		System.out.println("preferences : "+sPref+'\n'+'\n'+"Scores : " + scores);	
 	}
 	
 	@Test
@@ -96,14 +85,7 @@ public class BordaTest {
 		profile.addProfile(v5, pref2);
 		profile.addProfile(v6, pref2);
 		Map<Alternative,Integer> scores = new Borda().getScores(profile);
-		
-		Map<Alternative,Integer> scoresTest = new HashMap<>();
-		scoresTest.put(a1, 8);
-		scoresTest.put(a2, 6);
-		scoresTest.put(a3, 4);
-		
-		assertTrue(scores.equals(scoresTest));
-
+		System.out.println("profile : "+profile+'\n'+'\n'+"Scores : " + scores);	
 	}
 	
 	
@@ -116,15 +98,9 @@ public class BordaTest {
 		listScores.put(a1,2);
 		listScores.put(a2,0);
 		listScores.put(a3,6);
+		System.out.println("before : "+listScores);	
 		Map<Alternative,Integer> listScoresSorted = new Borda().descendingOrder(listScores);
-		
-		Map<Alternative,Integer> scores = new HashMap<>();
-		scores.put(a3,6);
-		scores.put(a1,2);
-		scores.put(a2,0);
-		
-		assertTrue(scores.equals(listScoresSorted));
-		
+		System.out.println("after : "+listScoresSorted);	
 	}
 	
 	
@@ -137,8 +113,7 @@ public class BordaTest {
 		listScores.put(a1,2);
 		listScores.put(a2,0);
 		listScores.put(a3,6);
-		
-		assertTrue(new Borda().getMax(listScores).equals(a3));
+		System.out.println("list : "+listScores + '\n'+'\n'+"Max : "+new Borda().getMax(listScores));	
 	}
 	
 	
@@ -172,19 +147,12 @@ public class BordaTest {
 		profile.addProfile(v4, pref1);
 		profile.addProfile(v5, pref2);
 		profile.addProfile(v6, pref2);
-		
-		Map<Alternative,Integer> scoresTest = new HashMap<>();
-		scoresTest.put(a1, 8);
-		scoresTest.put(a2, 6);
-		scoresTest.put(a3, 4);
-		
+		System.out.println("before : "+profile);	
 		Map<Alternative,Integer> listScoresSorted = new Borda().getSortedScores(profile);
-		assertTrue(scoresTest.equals(listScoresSorted));
-		
+		System.out.println("after : "+listScoresSorted);	
 	}
 	
 	
 	
 	
 }
-

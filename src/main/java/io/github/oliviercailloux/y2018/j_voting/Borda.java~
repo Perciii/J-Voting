@@ -10,27 +10,26 @@ import org.slf4j.*;
 
 public class Borda implements SocialWelfareFunction{
 
-	private static Logger log = LoggerFactory.getLogger(Borda.class.getName());	
-	public Map<Alternative,Integer> finalScores;
+	Logger LOGGER = LoggerFactory.getLogger(Borda.class.getName());	
 	
 	/***
 	 * returns a StrictPreference with the alternatives sorted
 	 */
 	@Override
 	public StrictPreference getSocietyStrictPreference(StrictProfile sProfile){
-		log.debug("getSocietyStrictPreference\n");
+		LOGGER.debug("getSocietyStrictPreference\n");
 		Objects.requireNonNull(sProfile);
-		log.debug("parameter SProfile : {}\n", sProfile.toSOC());
+		LOGGER.debug("parameter SProfile : {}\n", sProfile.toSOC());
 		
-		finalScores = getScores(sProfile);
+		Map<Alternative,Integer> finalScores = getScores(sProfile);
 		finalScores = descendingOrder(finalScores);
 		
-		log.debug("return AScores : {}\n", finalScores.toString());
+		LOGGER.debug("return AScores : {}\n", finalScores.toString());
 		
 		Iterable<Alternative> alternatives = finalScores.keySet();
 		StrictPreference pref = new StrictPreference(alternatives);
 		
-		log.debug("return AScores : {}\n", pref.toString());
+		LOGGER.debug("return AScores : {}\n", pref.toString());
 		return pref;
 	}
 
@@ -41,16 +40,16 @@ public class Borda implements SocialWelfareFunction{
 	 */
 
 	public Map<Alternative, Integer> getScores(StrictPreference sPref){
-		log.debug("getScorePref\n");
+		LOGGER.debug("getScorePref\n");
 		Objects.requireNonNull(sPref);
-		log.debug("parameter SPref : {}\n", sPref.toString());
+		LOGGER.debug("parameter SPref : {}\n", sPref.toString());
 		Map<Alternative,Integer> unsortedScores = new HashMap<>();
 		int i;
 		List<Alternative> Alternatives = sPref.getPreferences();
 		for(i=0;i<Alternatives.size();i++){
 			unsortedScores.put(Alternatives.get(i),Integer.valueOf(Alternatives.size()-i));
 		}
-		log.debug("return score : {}\n", unsortedScores.toString());
+		LOGGER.debug("return score : {}\n", unsortedScores.toString());
 		return unsortedScores;
 	}
 
@@ -61,10 +60,10 @@ public class Borda implements SocialWelfareFunction{
 	 * @return
 	 */
 	public Map<Alternative, Integer> getScores(StrictProfile sProfile){
-		log.debug("getScoreProf\n");
+		LOGGER.debug("getScoreProf\n");
 		Objects.requireNonNull(sProfile);
-		log.debug("parameter SProfile : {}\n", sProfile.toSOC());
-		int i,j;
+		LOGGER.debug("parameter SProfile : {}\n", sProfile.toSOC());
+		//int i,j;
 		boolean notfirst = false;
 		
 		Iterable<Voter> allVoters  = sProfile.getAllVoters();
@@ -98,7 +97,7 @@ public class Borda implements SocialWelfareFunction{
 				unsortedScores = tempScores;
 			}
 		}
-		log.debug("return unsortedScores : {}\n", unsortedScores.toString());
+		LOGGER.debug("return unsortedScores : {}\n", unsortedScores.toString());
 		return unsortedScores;
 	}
 
@@ -106,7 +105,7 @@ public class Borda implements SocialWelfareFunction{
 	 * Sorts by descending order
 	 */
 	public Map<Alternative, Integer> descendingOrder(Map<Alternative, Integer> unsortedScores){
-		log.debug("descendingOrder\n");
+		LOGGER.debug("descendingOrder\n");
 		
 		Map<Alternative,Integer> tempScores = unsortedScores;
 		Alternative alternativeMax;
@@ -120,7 +119,7 @@ public class Borda implements SocialWelfareFunction{
 		}
 		
 		
-		log.debug("return sortedScores : {}\n", finalScores.toString());
+		LOGGER.debug("return sortedScores : {}\n", finalScores.toString());
 		return finalScores;
 	}
 
@@ -130,7 +129,7 @@ public class Borda implements SocialWelfareFunction{
 	 * @return
 	 */
 	public Alternative getMax(Map<Alternative, Integer> scores){
-		log.debug("getMax\n");
+		LOGGER.debug("getMax\n");
 		
 		Iterable<Alternative> alternativesList = scores.keySet();
 		Iterator<Alternative> iteratorA = alternativesList.iterator();
@@ -152,7 +151,7 @@ public class Borda implements SocialWelfareFunction{
 			}
 		}
 		
-		log.debug("Max : {} \n", alternativeMax);
+		LOGGER.debug("Max : {} \n", alternativeMax);
 		return alternativeMax;
 		
 	}
@@ -163,56 +162,16 @@ public class Borda implements SocialWelfareFunction{
 	 * @param SProfile
 	 * @return
 	 */
-	public void getSortedScores(StrictProfile sProfile){
-		log.debug("getSortedScores\n");
+	public Map<Alternative,Integer> getSortedScores(StrictProfile sProfile){
+		LOGGER.debug("getSortedScores\n");
 		Objects.requireNonNull(sProfile);
-		log.debug("parameter sProfile : {}\n", sProfile.toSOC());
+		LOGGER.debug("parameter sProfile : {}\n", sProfile.toSOC());
 		
-		finalScores = getScores(sProfile);
+		Map<Alternative,Integer> finalScores = getScores(sProfile);
 		finalScores = descendingOrder(finalScores);
-		log.debug("return AScores : {}\n", finalScores.toString());
+		LOGGER.debug("return AScores : {}\n", finalScores.toString());
+		return finalScores;
 	}
 
-	
-	/***
-	 * returns true if the maps have the same alternatives with the same scores
-	 * @param map1
-	 * @param map2
-	 * @return
-	 */
-	
-	public boolean equals(Map<Alternative,Integer> map1, Map<Alternative,Integer> map2){
-		log.debug("equalsMaps\n");
-		Iterable<Alternative> alternativesList = map1.keySet();
-		Iterator<Alternative> iteratorA = alternativesList.iterator();
-		Alternative currentAlternative;
-		
-		while(iteratorA.hasNext()){
-			currentAlternative=iteratorA.next();
-			if(!map2.containsKey(currentAlternative)){
-				log.debug("not same alternatives -> false\n");
-				return false;
-			}
-			
-			if(!map2.get(currentAlternative).equals(map1.get(currentAlternative))){
-				log.debug("not same scores -> false\n");
-				return false;		
-			}
-			map2.remove(currentAlternative);		
-	
-		}
-		if(map2.size()!=0){
-			log.debug("not same alternatives -> false\n");
-			return false;
-		}
-		log.debug("returns true\n");
-		return true;
-		
-	}
-	
-	
-	
-	
 
 }
-
