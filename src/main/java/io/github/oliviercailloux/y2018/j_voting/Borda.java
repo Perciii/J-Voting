@@ -163,7 +163,7 @@ public class Borda implements SocialWelfareFunction{
 	 * @param SProfile
 	 * @return
 	 */
-	public void getSortedScores(StrictProfile sProfile){
+	public Map<Alternative, Integer> getSortedScores(StrictProfile sProfile){
 		log.debug("getSortedScores\n");
 		Objects.requireNonNull(sProfile);
 		log.debug("parameter sProfile : {}\n", sProfile.toSOC());
@@ -171,7 +171,10 @@ public class Borda implements SocialWelfareFunction{
 		finalScores = getScores(sProfile);
 		finalScores = descendingOrder(finalScores);
 		log.debug("return AScores : {}\n", finalScores.toString());
+		return finalScores;
 	}
+
+	
 
 	
 	/***

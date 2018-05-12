@@ -179,6 +179,8 @@ public class BordaTest {
 		scoresTest.put(a3, 4);
 		
 		Map<Alternative,Integer> listScoresSorted = new Borda().getSortedScores(profile);
+				
+		
 		assertTrue(scoresTest.equals(listScoresSorted));
 		
 	}
