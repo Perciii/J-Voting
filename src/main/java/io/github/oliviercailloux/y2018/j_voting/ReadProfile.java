@@ -2,9 +2,14 @@ package io.github.oliviercailloux.y2018.j_voting;
 
 import java.util.*;
 import java.io.*;
+import java.net.URL;
+
 import org.slf4j.*;
 
+import com.google.common.base.Charsets;
 import com.google.common.base.Preconditions;
+import com.google.common.io.Files;
+import com.google.common.io.Resources;
 
 
 public class ReadProfile {
@@ -14,20 +19,14 @@ public class ReadProfile {
 	 * @param path a string : the path of the file to read 
 	 * @return fileRead, a list of String where each element is a line of the SOC or SOI file read
 	 */
-	public static List<String> fromSOCorSOI(String path) throws IOException {
+	public List<String> readFile(String path) throws IOException {
 		LOGGER.debug("ReadProfile : fromSOCorSOI : \n") ;
 		Preconditions.checkNotNull(path);
 		LOGGER.debug("parameter : path = {}\n", path);
-		InputStream f = ReadProfile.class.getClassLoader().getResourceAsStream(path);
-		try(BufferedReader in = new BufferedReader(new InputStreamReader(f))){
-			String line;
-			List<String> fileRead = new ArrayList<>();
-			while ((line= in.readLine()) != null) {
-				LOGGER.debug("next line : {}\n", line);
-				fileRead.add(line);
-			}
-		    return fileRead;
-	    }
+
+		File fileToRead = new File(path);
+		List<String> fileRead = Files.readLines(fileToRead, Charsets.UTF_8);	
+		return fileRead;
 	}
 	
 	/**
@@ -164,14 +163,18 @@ public class ReadProfile {
 	
 
 	/**
-	 * Creates a StrictProfile with the information of the fileRead List<String> extracted from a file.
-	 * @param fileRead
-	 * @return 
+	 * Creates a StrictProfile with the information extracted from a file.
+	 * @param path <code>not null</code> the path to the file to read
+	 * @return sProfile a StrictProfile
+	 * @throws IOException 
 	 */
 
-	public static StrictProfile createProfileFromReadFile(List<String> fileRead){
+	public StrictProfile createProfileFromFile(String path) throws IOException{
 		LOGGER.debug("ReadProfile : createProfileFromReadFile : \n");
-		Preconditions.checkNotNull(fileRead);
+		Preconditions.checkNotNull(path);
+		
+		List<String> fileRead = readFile(path);
+		
 		Iterator<String> it = fileRead.iterator();
 		StrictProfile sProfile = new StrictProfile();
 		String lineNbVoters;
@@ -199,12 +202,12 @@ public class ReadProfile {
 	
 	
 	/**
-	 * This function calls fromSOCorSOI function if there is a SOC or a SOI file in the FILES directory
+	 * This function calls readFile function if there is a SOC or a SOI file in the FILES directory
 	 **/
-	public static void main(String[] args) throws IOException {
-		List<String> socToRead = fromSOCorSOI("io/github/oliviercailloux/y2018/j_voting/profil.soc"); 
+	public void main(String[] args) throws IOException {
+		//List<String> socToRead = readFile("io/github/oliviercailloux/y2018/j_voting/profil.soc"); 
 		@SuppressWarnings("unused")
-		StrictProfile SProfile = createProfileFromReadFile(socToRead);
+		StrictProfile SProfile = createProfileFromFile("io/github/oliviercailloux/y2018/j_voting/profil.soc");
 		
 	
 		// read SOC file
