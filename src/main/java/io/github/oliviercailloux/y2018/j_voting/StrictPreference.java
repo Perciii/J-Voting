@@ -15,7 +15,7 @@ import com.google.common.base.Preconditions;
  */
 public class StrictPreference extends Preference {
 
-	static Logger LOGGER = LoggerFactory.getLogger(StrictPreference2.class.getName());
+	static Logger LOGGER = LoggerFactory.getLogger(StrictPreference.class.getName());
 	
 	/**
 	 * 

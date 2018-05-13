@@ -40,7 +40,7 @@ public class StrictPreferenceTest {
 		set1.add(a1);
 		set2.add(a2);
 		set3.add(a3);
-		List<Set<Alternative>> list = StrictPreference2.listAlternativeToListSetAlternative(prefs);
+		List<Set<Alternative>> list = StrictPreference.listAlternativeToListSetAlternative(prefs);
 		assertTrue(Preference.alternativeSetEqual(set1, list.get(0)) && Preference.alternativeSetEqual(set2, list.get(1)) && Preference.alternativeSetEqual(set3, list.get(2)));
 	}
 
@@ -53,7 +53,7 @@ public class StrictPreferenceTest {
 		prefs.add(a1);
 		prefs.add(a2);
 		prefs.add(a3);
-		StrictPreference2 strict = new StrictPreference2(prefs);
+		StrictPreference strict = new StrictPreference(prefs);
 		assertEquals(strict.toString(),"1,2,3");
 	}
 }
