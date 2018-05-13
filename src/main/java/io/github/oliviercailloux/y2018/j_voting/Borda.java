@@ -68,7 +68,7 @@ public class Borda implements SocialWelfareFunction{
 		log.debug("getScoreProf\n");
 		Objects.requireNonNull(sProfile);
 		log.debug("parameter SProfile : {}\n", sProfile.toSOC());
-		int i,j;
+		
 		boolean notfirst = false;
 		
 		Iterable<Voter> allVoters  = sProfile.getAllVoters();

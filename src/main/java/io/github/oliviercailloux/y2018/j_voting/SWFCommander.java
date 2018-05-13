@@ -7,7 +7,7 @@ import org.slf4j.LoggerFactory;
 
 public class SWFCommander{
     private static SocialWelfareFunction result ; 
-	static Logger LOGGER = LoggerFactory.getLogger(SWFCommander.class.getName());
+	private static Logger LOGGER = LoggerFactory.getLogger(SWFCommander.class.getName());
     
     /**
      * Asks the user to enter a StrictPreference 

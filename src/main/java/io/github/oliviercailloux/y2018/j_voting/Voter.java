@@ -14,7 +14,7 @@ import com.google.common.base.Preconditions;
  */
 public class Voter {
 	private int id;
-	static Logger LOGGER = LoggerFactory.getLogger(Voter.class.getName());
+	private static Logger LOGGER = LoggerFactory.getLogger(Voter.class.getName());
 	
 	/**
 	 * Creates a new object Voter with the id given as a parameter

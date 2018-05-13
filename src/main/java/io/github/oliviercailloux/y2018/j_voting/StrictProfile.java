@@ -13,7 +13,7 @@ import com.google.common.base.Preconditions;
  *
  */
 public class StrictProfile {
-	static Logger LOGGER = LoggerFactory.getLogger(StrictProfile.class.getName());
+	private static Logger LOGGER = LoggerFactory.getLogger(StrictProfile.class.getName());
 	private Map<Voter, StrictPreference> association;
 	public int nextVoterId = 1;// id is the id of the next voter that will be created in the profile if the profile is created from a file.
 	

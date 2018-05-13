@@ -14,7 +14,7 @@ import com.google.common.io.Resources;
 
 public class ReadProfile {
 	
-	static Logger LOGGER = LoggerFactory.getLogger(ReadProfile.class.getName());	
+	private static Logger LOGGER = LoggerFactory.getLogger(ReadProfile.class.getName());	
 	/**
 	 * @param path a string : the path of the file to read 
 	 * @return fileRead, a list of String where each element is a line of the SOC or SOI file read
