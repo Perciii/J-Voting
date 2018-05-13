@@ -23,10 +23,11 @@ public class StrictPreference extends Preference {
 	 */
 	public StrictPreference(List<Alternative> preferences) {
 		super(listAlternativeToListSetAlternative(preferences));
-		LOGGER.debug("StrictPreference2 constructor\n");
+		LOGGER.debug("StrictPreference constructor\n");
 	}
 	
 
+	@Override
 	public String toString() {
 		LOGGER.debug("toString : \n");
 		String s = "";
@@ -53,7 +54,7 @@ public class StrictPreference extends Preference {
 		LOGGER.debug("parameter list : {}\n",list);
 		List<Set<Alternative>> set = new ArrayList<>();
 		for(int i=0;i<list.size();i++) {
-			Set<Alternative> alterset = new HashSet<Alternative>();
+			Set<Alternative> alterset = new HashSet<>();
 			alterset.add(list.get(i));
 			set.add(alterset);
 		}

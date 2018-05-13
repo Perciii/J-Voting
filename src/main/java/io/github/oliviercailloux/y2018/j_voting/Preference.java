@@ -16,6 +16,9 @@ public class Preference {
 	private static Logger LOGGER = LoggerFactory.getLogger(Preference.class.getName());
 	protected List<Set<Alternative>> preferences;
 	
+	/**
+	 * @param preferences <code>not null</code>
+	 */
 	public Preference(List<Set<Alternative>> preferences) {
 		LOGGER.debug("Preference constructor\n");
 		Preconditions.checkNotNull(preferences);
@@ -24,7 +27,6 @@ public class Preference {
 	}
 	
 	/**
-	 * 
 	 * @return the preference of alternatives
 	 */
 	public List<Set<Alternative>> getPreferencesNonStrict(){
@@ -33,8 +35,9 @@ public class Preference {
 	}
 	
 	/**
-	 * returns the string representing a preference.
+	 * @return the string representing a preference.
 	 */
+	@Override
 	public String toString() {
 		LOGGER.debug("toString:\n");
 		String s = "";
@@ -51,8 +54,7 @@ public class Preference {
 	}
 	
 	/**
-	 * 
-	 * @return the size of the Preference, ie the number of alternatives in the Preference
+	 * @return the size of the Preference, i.e. the number of alternatives in the Preference
 	 */
 	public int size() {
 		LOGGER.debug("size:\n");
@@ -65,8 +67,7 @@ public class Preference {
 	}
 	
 	/**
-	 * 
-	 * @param p
+	 * @param p <code>not null</code>
 	 * @return whether the calling preference is equal to the preference as a parameter.
 	 */
 	public boolean equals(Preference p) {
@@ -89,8 +90,7 @@ public class Preference {
 	}
 	
 	/**
-	 * 
-	 * @param alter
+	 * @param alter <code>not null</code>
 	 * @return whether the preference contains the alternative given as parameter
 	 */
 	public boolean contains(Alternative alter) {
@@ -101,8 +101,7 @@ public class Preference {
 	}
 	
 	/**
-	 * 
-	 * @param p
+	 * @param p <code>not null</code>
 	 * @return whether the preferences are about the same alternatives exactly (not necessarily in the same order).
 	 */
 	public boolean hasSameAlternatives(Preference p) {
@@ -113,8 +112,7 @@ public class Preference {
 	}
 	
 	/**
-	 * 
-	 * @param p
+	 * @param p <code>not null</code>
 	 * @return whether the parameter preference contains all the alternatives in the calling preference
 	 */
 	public boolean isIncludedIn(Preference p) {
@@ -132,7 +130,6 @@ public class Preference {
 	}
 	
 	/**
-	 * 
 	 * @return a set of alternatives containing all the alternatives of the preference
 	 */
 	public Set<Alternative> toAlternativeSet(){
@@ -147,8 +144,8 @@ public class Preference {
 	
 	/**
 	 * 
-	 * @param set1
-	 * @param set2
+	 * @param set1 <code>not null</code>
+	 * @param set2 <code>not null</code>
 	 * @return true if the two sets contain the same alternatives
 	 */
 	public static boolean alternativeSetEqual(Set<Alternative> set1, Set<Alternative> set2) {
@@ -171,9 +168,8 @@ public class Preference {
 	}
 	
 	/**
-	 * 
-	 * @param set
-	 * @param alter
+	 * @param set <code>not null</code>
+	 * @param alter <code>not null</code>
 	 * @return whether the set contains the alternative
 	 */
 	public static boolean alternativeSetContains(Set<Alternative> set,Alternative alter) {
