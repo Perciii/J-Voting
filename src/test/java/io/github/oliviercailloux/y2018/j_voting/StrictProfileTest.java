@@ -23,8 +23,8 @@ public class StrictProfileTest {
 		Voter v4 = new Voter(4);
 		Voter v5 = new Voter(5);
 		Voter v6 = new Voter(6);
-		ArrayList<Alternative> list1 = new ArrayList<Alternative>();
-		ArrayList<Alternative> list2 = new ArrayList<Alternative>();
+		ArrayList<Alternative> list1 = new ArrayList<>();
+		ArrayList<Alternative> list2 = new ArrayList<>();
 		list1.add(a1);
 		list1.add(a2);
 		list1.add(a3);
@@ -51,7 +51,7 @@ public class StrictProfileTest {
 		Alternative a2 = new Alternative(2);
 		Alternative a3 = new Alternative(3);
 		Voter v7 = new Voter(7);
-		ArrayList<Alternative> list3 = new ArrayList<Alternative>();
+		ArrayList<Alternative> list3 = new ArrayList<>();
 		list3.add(a3);
 		list3.add(a1);
 		list3.add(a2);
@@ -71,7 +71,7 @@ public class StrictProfileTest {
 		Alternative a2 = new Alternative(2);
 		Alternative a3 = new Alternative(3);
 		Voter v1 = new Voter(1);
-		ArrayList<Alternative> list1 = new ArrayList<Alternative>();
+		ArrayList<Alternative> list1 = new ArrayList<>();
 		list1.add(a1);
 		list1.add(a2);
 		list1.add(a3);
@@ -126,8 +126,8 @@ public class StrictProfileTest {
 		Alternative a1 = new Alternative(1);
 		Alternative a2 = new Alternative(2);
 		Alternative a3 = new Alternative(3);
-		ArrayList<Alternative> list1 = new ArrayList<Alternative>();
-		ArrayList<Alternative> list2 = new ArrayList<Alternative>();
+		ArrayList<Alternative> list1 = new ArrayList<>();
+		ArrayList<Alternative> list2 = new ArrayList<>();
 		list1.add(a1);
 		list1.add(a2);
 		list1.add(a3);
@@ -136,7 +136,7 @@ public class StrictProfileTest {
 		list2.add(a1);
 		StrictPreference pref1 = new StrictPreference(list1);
 		StrictPreference pref2 = new StrictPreference(list2);
-		List<StrictPreference> preferencelist = new ArrayList<StrictPreference>();
+		List<StrictPreference> preferencelist = new ArrayList<>();
 		for(StrictPreference p : createProfileToTest().getUniquePreferences()) {
 			preferencelist.add(p);
 		}
@@ -183,7 +183,7 @@ public class StrictProfileTest {
 		Alternative a1 = new Alternative(1);
 		Alternative a2 = new Alternative(2);
 		Alternative a3 = new Alternative(3);
-		ArrayList<Alternative> list2 = new ArrayList<Alternative>();
+		ArrayList<Alternative> list2 = new ArrayList<>();
 		list2.add(a3);
 		list2.add(a2);
 		list2.add(a1);

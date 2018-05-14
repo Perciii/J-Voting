@@ -1,7 +1,6 @@
 package io.github.oliviercailloux.y2018.j_voting;
 
 import java.io.*;
-//import org.apache.commons.io.FileUtils;
 import java.util.*;
 import org.slf4j.*;
 

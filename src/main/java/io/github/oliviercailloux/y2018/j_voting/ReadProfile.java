@@ -16,11 +16,11 @@ public class ReadProfile {
 	
 	private static Logger LOGGER = LoggerFactory.getLogger(ReadProfile.class.getName());	
 	/**
-	 * @param path a string : the path of the file to read 
+	 * @param path a string <code>not null</code> : the path of the file to read (encoded in UTF-8)
 	 * @return fileRead, a list of String where each element is a line of the SOC or SOI file read
 	 */
 	public List<String> readFile(String path) throws IOException {
-		LOGGER.debug("ReadProfile : fromSOCorSOI : \n") ;
+		LOGGER.debug("ReadProfile : readFile : \n") ;
 		Preconditions.checkNotNull(path);
 		LOGGER.debug("parameter : path = {}\n", path);
 
@@ -30,13 +30,17 @@ public class ReadProfile {
 	}
 	
 	/**
-	 * @param fileRead a list of strings : data which was read in a SOC/SOI file
-	 * This function prints strings from the list passed as an argument
+	 * @param path a String <code>not null</code> of the path to the file to read : data which was read in a SOC/SOI file
+	 * This function prints strings from the read file which path is passed as an argument
+	 * @throws IOException 
 	 */
-	public static void displayProfileFromReadFile(List<String> fileRead){
-		LOGGER.debug("ReadProfile : displayProfileFromReadFile : \n") ;
-		Preconditions.checkNotNull(fileRead);
-		LOGGER.debug("parameter : fileRead = {}\n", fileRead);
+	public void displayProfileFromFile(String path) throws IOException{
+		LOGGER.debug("ReadProfile : displayProfileFromFile : \n") ;
+		Preconditions.checkNotNull(path);
+		LOGGER.debug("parameter : path = {}\n", path);
+		
+		List<String> fileRead = readFile(path);
+		
 		Iterator<String> it = fileRead.iterator();
 		while(it.hasNext()){
 			System.out.println(it.next());
@@ -48,7 +52,7 @@ public class ReadProfile {
 	 * @param file a list of strings each containing an alternative
 	 * @return the alternatives in the profile given in a list of string.
 	 */
-	public static StrictPreference getAlternatives(int nbAlternatives,List<String> file){
+	public StrictPreference getAlternatives(int nbAlternatives,List<String> file){
 		LOGGER.debug("ReadProfile : GetAlternatives :");
 		Preconditions.checkNotNull(nbAlternatives);
 		Preconditions.checkNotNull(file);
@@ -74,7 +78,7 @@ public class ReadProfile {
 	 * @param s the line with the voters statistics (number, sum of count, number of unique alternatives)
 	 * @return a list with the three computed statistics
 	 */
-	public static List<Integer> getStatsVoters(String s){
+	public List<Integer> getStatsVoters(String s){
 		LOGGER.debug("ReadProfile : getNbVoters :");
 		Preconditions.checkNotNull(s);
 		LOGGER.debug("parameter : s = {}\n", s);
@@ -92,7 +96,7 @@ public class ReadProfile {
 	 * @param s1 a line of the profile containing the number of voters for a preference followed by the preference (list of alternatives)
 	 * @return the StrictPreference given in the line s1
 	 */
-	public static StrictPreference getPreferences(StrictPreference listeAlternatives, String s1){
+	public StrictPreference getPreferences(StrictPreference listeAlternatives, String s1){
 		LOGGER.debug("ReadProfile : getPreferences\n");
 		Preconditions.checkNotNull(listeAlternatives);
 		Preconditions.checkNotNull(s1);
@@ -119,7 +123,7 @@ public class ReadProfile {
 	 * @param nbVoters the number of voters that voted for the preference as parameter
 	 * @param profile the StrictProfile to which the votes will be added
 	 */
-	public static void addVotes(StrictPreference pref, int nbVoters, StrictProfile profile){
+	public void addVotes(StrictPreference pref, int nbVoters, StrictProfile profile){
 		LOGGER.debug("ReadProfile : addVotes\n");
 		Preconditions.checkNotNull(pref);
 		Preconditions.checkNotNull(nbVoters);
@@ -139,7 +143,7 @@ public class ReadProfile {
 	 * @param nbVoters the number of voters
 	 * @return the created StrictProfile
 	 */
-	public static StrictProfile buildProfile(List<String> file, StrictPreference listAlternatives, int nbVoters){
+	public StrictProfile buildProfile(List<String> file, StrictPreference listAlternatives, int nbVoters){
 		LOGGER.debug("ReadProfile : buildProfiles :\n");
 		Preconditions.checkNotNull(file);
 		Preconditions.checkNotNull(listAlternatives);
@@ -178,21 +182,21 @@ public class ReadProfile {
 		Iterator<String> it = fileRead.iterator();
 		StrictProfile sProfile = new StrictProfile();
 		String lineNbVoters;
-		int nbAlternatives = Integer.parseInt(it.next());	//first number of the file is the number of alternative
-		LOGGER.debug("number of alternatives : {}\n",nbAlternatives);
+		int nbAlternatives = Integer.parseInt(it.next());	//first number of the file is the number of alternatives
+		LOGGER.debug("number of alternatives : {}\n", nbAlternatives);
 		List<String> alternatives = new ArrayList<>();
 		List<String> profiles = new ArrayList<>();
 		for(int i = 1 ; i <= nbAlternatives ; i++){//get the lines with the alternatives
 			alternatives.add(it.next());
 		}
-		LOGGER.debug("alternatives : {}\n",alternatives);
+		LOGGER.debug("alternatives : {}\n", alternatives);
 		lineNbVoters = it.next();//get the line with the nb of voters
-		LOGGER.debug("line with stats about the votes ); {}\n",lineNbVoters);
+		LOGGER.debug("line with stats about the votes ); {}\n", lineNbVoters);
 		while(it.hasNext()){//get the rest of the file
 			profiles.add(it.next());
 		}
-		LOGGER.debug("lines with the number of votes for each StrictPreference : {}\n",profiles);
-		StrictPreference listeAlternatives =getAlternatives(nbAlternatives, alternatives);
+		LOGGER.debug("lines with the number of votes for each StrictPreference : {}\n", profiles);
+		StrictPreference listeAlternatives = getAlternatives(nbAlternatives, alternatives);
 		List<Integer> listInt = getStatsVoters(lineNbVoters);
 		sProfile = buildProfile(profiles, listeAlternatives, listInt.get(0));
 		return sProfile;
@@ -202,23 +206,19 @@ public class ReadProfile {
 	
 	
 	/**
-	 * This function calls readFile function if there is a SOC or a SOI file in the FILES directory
+	 * This function displays the contents of the profiles in the resources, if they exist 
 	 **/
 	public void main(String[] args) throws IOException {
-		//List<String> socToRead = readFile("io/github/oliviercailloux/y2018/j_voting/profil.soc"); 
-		@SuppressWarnings("unused")
-		StrictProfile SProfile = createProfileFromFile("io/github/oliviercailloux/y2018/j_voting/profil.soc");
+		//read SOC file
+		String socPath = getClass().getResource("profil.soc").getPath();
+		LOGGER.debug("SOC Profile path : {}\n", socPath);
+		//StrictProfile socProfile = createProfileFromFile(socPath);
+		displayProfileFromFile(socPath);
 		
-	
-		// read SOC file
-		/*List<String> socToRead = fromSOCorSOI("io/github/oliviercailloux/y2018/j_voting/profil.soc"); 
-		System.out.println("SOC file :");
-		displayProfileFromReadFile(socToRead);
-		
-		// read SOI file
-		List<String> soiToRead = fromSOCorSOI("io/github/oliviercailloux/y2018/j_voting/profil.soi"); 
-		System.out.println("SOI file :");
-		displayProfileFromReadFile(soiToRead);*/
-
+		//read SOI file
+		String soiPath = getClass().getResource("profil.soi").getPath();
+		LOGGER.debug("SOI Profile path : {}\n", soiPath);
+		//StrictProfile socProfile = createProfileFromFile(socPath);
+		displayProfileFromFile(soiPath);
 	}
 }
