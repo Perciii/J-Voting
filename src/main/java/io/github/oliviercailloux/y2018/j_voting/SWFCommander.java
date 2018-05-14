@@ -7,8 +7,13 @@ import org.slf4j.LoggerFactory;
 
 public class SWFCommander{
     private static SocialWelfareFunction result ; 
-	static Logger LOGGER = LoggerFactory.getLogger(SWFCommander.class.getName());
+	private static Logger LOGGER = LoggerFactory.getLogger(SWFCommander.class.getName());
     
+	
+	public SWFCommander(SocialWelfareFunction res) {
+		result = res;
+	}
+	
     /**
      * Asks the user to enter a StrictPreference 
      * @return the entered StrictPreference
@@ -38,7 +43,7 @@ public class SWFCommander{
      * Asks the user to enter StrictPreferences while it doesn't enter an empty one.
      * Each time the user enters a StrictPreference, it displays the current state of the StrictProfile.
      */
-    public static void createProfileIncrementally(){
+    public void createProfileIncrementally(){
     	StrictProfile prof = new StrictProfile();
         boolean keepGoing = true;
         int voterId = 1;
@@ -63,8 +68,4 @@ public class SWFCommander{
         }
     }
     
-    public static void main(String[] args){
-    	LOGGER.debug("main");
-    	createProfileIncrementally();
-    }
 }
