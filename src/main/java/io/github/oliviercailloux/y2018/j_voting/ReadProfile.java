@@ -2,14 +2,12 @@ package io.github.oliviercailloux.y2018.j_voting;
 
 import java.util.*;
 import java.io.*;
-import java.net.URL;
 
 import org.slf4j.*;
 
 import com.google.common.base.Charsets;
 import com.google.common.base.Preconditions;
 import com.google.common.io.Files;
-import com.google.common.io.Resources;
 
 
 public class ReadProfile {
