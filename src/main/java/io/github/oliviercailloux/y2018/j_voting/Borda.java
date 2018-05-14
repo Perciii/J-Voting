@@ -6,6 +6,8 @@ import java.util.*;
 
 import org.slf4j.*;
 
+import com.google.common.base.Preconditions;
+
 
 
 public class Borda implements SocialWelfareFunction{
@@ -13,13 +15,14 @@ public class Borda implements SocialWelfareFunction{
 	private static Logger LOGGER = LoggerFactory.getLogger(Borda.class.getName());	
 	public Map<Alternative,Integer> finalScores;
 	
-	/***
-	 * returns a StrictPreference with the alternatives sorted
+	/**
+	 * @param sProfile a StrictProfile <code>not null</code>
+	 * @return a StrictPreference with the alternatives sorted
 	 */
 	@Override
 	public StrictPreference getSocietyStrictPreference(StrictProfile sProfile){
 		LOGGER.debug("getSocietyStrictPreference\n");
-		Objects.requireNonNull(sProfile);
+		Preconditions.checkNotNull(sProfile);
 		LOGGER.debug("parameter SProfile : {}\n", sProfile.toSOC());
 		
 		finalScores = getScores(sProfile);
@@ -39,14 +42,14 @@ public class Borda implements SocialWelfareFunction{
 	}
 
 
-	/***
+	/**
 	 * assigns a score to each alternative of a StrictPreference
-	 * @param SPref
+	 * @param sPref a StrictPreference <code>not null</code>
+	 * @return a mapping of each alternative to its score in this StrictPreference
 	 */
-
 	public Map<Alternative, Integer> getScores(StrictPreference sPref){
 		LOGGER.debug("getScorePref\n");
-		Objects.requireNonNull(sPref);
+		Preconditions.checkNotNull(sPref);
 		LOGGER.debug("parameter SPref : {}\n", sPref.toString());
 		Map<Alternative,Integer> unsortedScores = new HashMap<>();
 		int i;
@@ -59,14 +62,14 @@ public class Borda implements SocialWelfareFunction{
 	}
 
 
-	/***
+	/**
 	 * 	assigns a score to each alternative of a StrictProfile
-	 * @param SProfile
-	 * @return
+	 * @param sProfile a StrictProfile <code>not null</code>
+	 * @return unsortedScores a Map giving a score to each alternative of the profile given in parameter
 	 */
 	public Map<Alternative, Integer> getScores(StrictProfile sProfile){
 		LOGGER.debug("getScoreProf\n");
-		Objects.requireNonNull(sProfile);
+		Preconditions.checkNotNull(sProfile);
 		LOGGER.debug("parameter SProfile : {}\n", sProfile.toSOC());
 		
 		boolean notfirst = false;
@@ -108,11 +111,13 @@ public class Borda implements SocialWelfareFunction{
 		return unsortedScores;
 	}
 
-	/***
-	 * Sorts by descending order
+	/**
+	 * @param unsortedScores a map <code>not null</code> of scores
+	 * @return map of scores sorted by descending order
 	 */
 	public Map<Alternative, Integer> descendingOrder(Map<Alternative, Integer> unsortedScores){
 		LOGGER.debug("descendingOrder\n");
+		Preconditions.checkNotNull(unsortedScores);
 		
 		Map<Alternative,Integer> tempScores = unsortedScores;
 		Alternative alternativeMax;
@@ -131,13 +136,13 @@ public class Borda implements SocialWelfareFunction{
 		return finalScoresToSort;
 	}
 
-	/***
-	 * get the alternative of the score max
-	 * @param AScore
-	 * @return
+	/**
+	 * @param scores a map <code>not null</code>
+	 * @return the alternative with the maximum score in the map
 	 */
 	public Alternative getMax(Map<Alternative, Integer> scores){
 		LOGGER.debug("getMax\n");
+		Preconditions.checkNotNull(scores);
 		
 		Iterable<Alternative> alternativesList = scores.keySet();
 		Iterator<Alternative> iteratorA = alternativesList.iterator();
@@ -165,14 +170,14 @@ public class Borda implements SocialWelfareFunction{
 	}
 
 
-	/***
+	/**
 	 * create a HashMap of Alternatives sorted by descending order of score
-	 * @param SProfile
-	 * @return
+	 * @param sProfile a StrictProfile<code>not null</code>
+	 * @return sortedScores a sorted map by descending order of the scores of the profile given in parameter
 	 */
 	public Map<Alternative, Integer> getSortedScores(StrictProfile sProfile){
 		LOGGER.debug("getSortedScores\n");
-		Objects.requireNonNull(sProfile);
+		Preconditions.checkNotNull(sProfile);
 		LOGGER.debug("parameter sProfile : {}\n", sProfile.toSOC());
 		
 		finalScores = getScores(sProfile);
@@ -184,15 +189,17 @@ public class Borda implements SocialWelfareFunction{
 	
 
 	
-	/***
-	 * returns true if the maps have the same alternatives with the same scores
-	 * @param map1
-	 * @param map2
-	 * @return
+	/**
+	 * @param map1 <code>not null</code> 
+	 * @param map2<code>not null</code>
+	 * @return true if the maps have the same alternatives with the same scores
 	 */
 	
 	public boolean equals(Map<Alternative,Integer> map1, Map<Alternative,Integer> map2){
 		LOGGER.debug("equalsMaps\n");
+		Preconditions.checkNotNull(map1);
+		Preconditions.checkNotNull(map2);
+		
 		Iterable<Alternative> alternativesList = map1.keySet();
 		Iterator<Alternative> iteratorA = alternativesList.iterator();
 		Alternative currentAlternative;
