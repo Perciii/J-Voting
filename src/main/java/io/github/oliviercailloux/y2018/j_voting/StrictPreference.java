@@ -18,7 +18,6 @@ public class StrictPreference extends Preference {
 	private static Logger LOGGER = LoggerFactory.getLogger(StrictPreference.class.getName());
 	
 	/**
-	 * 
 	 * @param preferences a list of alternatives.
 	 */
 	public StrictPreference(List<Alternative> preferences) {
@@ -43,8 +42,8 @@ public class StrictPreference extends Preference {
 		LOGGER.debug("getPreferences:\n");
 		return listSetAlternativeToList(preferences);
 	}
+	
 	/**
-	 * 
 	 * @param list a list of alternatives
 	 * @return a list of set of alternatives. each set is composed of one alternative
 	 */
@@ -64,7 +63,6 @@ public class StrictPreference extends Preference {
 	
 
 	/**
-	 * 
 	 * @param sets
 	 * @return a list of alternatives from a list of sets of alternatives.
 	 */

@@ -118,17 +118,17 @@ public class Borda implements SocialWelfareFunction{
 		Alternative alternativeMax;
 		int size = unsortedScores.size();
 		
-		Map<Alternative,Integer> finalScores = new HashMap<>();
+		Map<Alternative,Integer> finalScoresToSort = new HashMap<>();
 		
 		for(int i=0 ; i<size;i++){
 			alternativeMax = getMax(tempScores);
-			finalScores.put(alternativeMax,tempScores.get(alternativeMax));
+			finalScoresToSort.put(alternativeMax, tempScores.get(alternativeMax));
 			tempScores.remove(alternativeMax);
 		}
 		
 		
-		LOGGER.debug("return sortedScores : {}\n", finalScores.toString());
-		return finalScores;
+		LOGGER.debug("return sortedScores : {}\n", finalScoresToSort.toString());
+		return finalScoresToSort;
 	}
 
 	/***

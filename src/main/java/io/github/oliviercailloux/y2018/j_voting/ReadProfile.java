@@ -82,7 +82,7 @@ public class ReadProfile {
 		LOGGER.debug("ReadProfile : getNbVoters :");
 		Preconditions.checkNotNull(s);
 		LOGGER.debug("parameter : s = {}\n", s);
-		List<Integer> list=new ArrayList<>();
+		List<Integer> list = new ArrayList<>();
 		String[] line = s.split(",");
 		list.add(Integer.parseInt(line[0].trim()));
 		list.add(Integer.parseInt(line[1].trim()));

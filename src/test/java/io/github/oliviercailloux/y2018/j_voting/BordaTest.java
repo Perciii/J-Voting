@@ -24,8 +24,8 @@ public class BordaTest {
 		Voter v4 = new Voter(4);
 		Voter v5 = new Voter(5);
 		Voter v6 = new Voter(6);
-		ArrayList<Alternative> list1 = new ArrayList<Alternative>();
-		ArrayList<Alternative> list2 = new ArrayList<Alternative>();
+		ArrayList<Alternative> list1 = new ArrayList<>();
+		ArrayList<Alternative> list2 = new ArrayList<>();
 		list1.add(a1);
 		list1.add(a2);
 		list1.add(a3);
@@ -52,7 +52,7 @@ public class BordaTest {
 		Alternative a1 = new Alternative(1);
 		Alternative a2 = new Alternative(2);
 		Alternative a3 = new Alternative(3);
-		List<Alternative> alternatives = new ArrayList<Alternative>();
+		List<Alternative> alternatives = new ArrayList<>();
 		alternatives.add(a1);
 		alternatives.add(a2);
 		alternatives.add(a3);
@@ -79,8 +79,8 @@ public class BordaTest {
 		Voter v4 = new Voter(4);
 		Voter v5 = new Voter(5);
 		Voter v6 = new Voter(6);
-		ArrayList<Alternative> list1 = new ArrayList<Alternative>();
-		ArrayList<Alternative> list2 = new ArrayList<Alternative>();
+		ArrayList<Alternative> list1 = new ArrayList<>();
+		ArrayList<Alternative> list2 = new ArrayList<>();
 		list1.add(a1);
 		list1.add(a2);
 		list1.add(a3);
@@ -156,8 +156,8 @@ public class BordaTest {
 		Voter v4 = new Voter(4);
 		Voter v5 = new Voter(5);
 		Voter v6 = new Voter(6);
-		ArrayList<Alternative> list1 = new ArrayList<Alternative>();
-		ArrayList<Alternative> list2 = new ArrayList<Alternative>();
+		ArrayList<Alternative> list1 = new ArrayList<>();
+		ArrayList<Alternative> list2 = new ArrayList<>();
 		list1.add(a1);
 		list1.add(a2);
 		list1.add(a3);

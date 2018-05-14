@@ -17,7 +17,7 @@ public class StrictPreferenceTest {
 		Alternative a1 = new Alternative(1);
 		Alternative a2 = new Alternative(2);
 		Alternative a3 = new Alternative(3);
-		List<Alternative> prefs = new ArrayList<Alternative>();
+		List<Alternative> prefs = new ArrayList<>();
 		prefs.add(a1);
 		prefs.add(a2);
 		prefs.add(a3);
@@ -30,7 +30,7 @@ public class StrictPreferenceTest {
 		Alternative a1 = new Alternative(1);
 		Alternative a2 = new Alternative(2);
 		Alternative a3 = new Alternative(3);
-		List<Alternative> prefs = new ArrayList<Alternative>();
+		List<Alternative> prefs = new ArrayList<>();
 		prefs.add(a1);
 		prefs.add(a2);
 		prefs.add(a3);
@@ -49,7 +49,7 @@ public class StrictPreferenceTest {
 		Alternative a1 = new Alternative(1);
 		Alternative a2 = new Alternative(2);
 		Alternative a3 = new Alternative(3);
-		List<Alternative> prefs = new ArrayList<Alternative>();
+		List<Alternative> prefs = new ArrayList<>();
 		prefs.add(a1);
 		prefs.add(a2);
 		prefs.add(a3);
