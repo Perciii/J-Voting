@@ -13,7 +13,7 @@ import com.google.common.base.Preconditions;
 public class Borda implements SocialWelfareFunction{
 
 	private static Logger LOGGER = LoggerFactory.getLogger(Borda.class.getName());	
-	public Map<Alternative,Integer> scores;
+	public Map<Alternative,Integer> finalScores;
 	
 	/**
 	 * @param sProfile a StrictProfile <code>not null</code>
@@ -27,9 +27,9 @@ public class Borda implements SocialWelfareFunction{
 		
 		getSortedScores(sProfile);
 		
-		LOGGER.debug("return AScores : {}\n", scores.toString());
+		LOGGER.debug("return AScores : {}\n", finalScores.toString());
 		
-		Iterable<Alternative> alternatives = scores.keySet();
+		Iterable<Alternative> alternatives = finalScores.keySet();
 		List<Alternative> al = new ArrayList<>();
 		for(Alternative a : alternatives) {
 			al.add(a);
@@ -124,11 +124,11 @@ public class Borda implements SocialWelfareFunction{
 		
 		for(int i=0 ; i<size ; i++){
 			alternativeMax = getMax(tempScores);
-			scores.put(alternativeMax, tempScores.get(alternativeMax));
+			finalScores.put(alternativeMax, tempScores.get(alternativeMax));
 			tempScores.remove(alternativeMax);
 		}
 		
-		LOGGER.debug("return sortedScores : {}\n", scores.toString());
+		LOGGER.debug("return sortedScores : {}\n", finalScores.toString());
 	}
 
 	/**
@@ -175,29 +175,13 @@ public class Borda implements SocialWelfareFunction{
 		Preconditions.checkNotNull(sProfile);
 		LOGGER.debug("parameter sProfile : {}\n", sProfile.toSOC());
 		
-		scores = getScores(sProfile);
-		descendingOrder(scores);
-		LOGGER.debug("return AScores : {}\n", scores.toString());
+		finalScores = getScores(sProfile);
+		descendingOrder(finalScores);
+		LOGGER.debug("return AScores : {}\n", finalScores.toString());
 	}
 
 	
-	
-	/**
-	 *
-	 * @param scores
-	 */
-	public Borda(Map<Alternative, Integer> scores) {
-		this.scores = scores;
-	}
 
-	public Borda() {
-		this.scores = new HashMap<>();
-	}
-	
-	@Override
-		public int hashCode() {
-			return Objects.hash(scores);
-		}
 	
 	/**
 	 * @param map1 <code>not null</code> 
@@ -208,7 +192,7 @@ public class Borda implements SocialWelfareFunction{
 	
 	@Override
 	public boolean equals(Object o1){
-		LOGGER.debug("equals\n");
+		LOGGER.debug("equalsMaps\n");
 		Preconditions.checkNotNull(o1);
 		
 		if (!(o1 instanceof Borda)){
@@ -217,8 +201,8 @@ public class Borda implements SocialWelfareFunction{
 		}
 		
 		Borda borda = (Borda) o1;
-		Map<Alternative,Integer> map1 = borda.scores;
-		Map<Alternative,Integer> map2 = this.scores;
+		Map<Alternative,Integer> map1 = borda.finalScores;
+		Map<Alternative,Integer> map2 = this.finalScores;
 		
 		Iterable<Alternative> alternativesList = map1.keySet();
 		Iterator<Alternative> iteratorA = alternativesList.iterator();
@@ -246,6 +230,8 @@ public class Borda implements SocialWelfareFunction{
 		return true;
 		
 	}
+	
+	
 	
 	
 
