@@ -25,8 +25,7 @@ public class Borda implements SocialWelfareFunction{
 		Preconditions.checkNotNull(sProfile);
 		LOGGER.debug("parameter SProfile : {}\n", sProfile.toSOC());
 		
-		finalScores = getScores(sProfile);
-		finalScores = descendingOrder(finalScores);
+		getSortedScores(sProfile);
 		
 		LOGGER.debug("return AScores : {}\n", finalScores.toString());
 		
@@ -115,7 +114,7 @@ public class Borda implements SocialWelfareFunction{
 	 * @param unsortedScores a map <code>not null</code> of scores
 	 * @return map of scores sorted by descending order
 	 */
-	public Map<Alternative, Integer> descendingOrder(Map<Alternative, Integer> unsortedScores){
+	public void descendingOrder(Map<Alternative, Integer> unsortedScores){
 		LOGGER.debug("descendingOrder\n");
 		Preconditions.checkNotNull(unsortedScores);
 		
@@ -123,17 +122,13 @@ public class Borda implements SocialWelfareFunction{
 		Alternative alternativeMax;
 		int size = unsortedScores.size();
 		
-		Map<Alternative,Integer> finalScoresToSort = new HashMap<>();
-		
-		for(int i=0 ; i<size;i++){
+		for(int i=0 ; i<size ; i++){
 			alternativeMax = getMax(tempScores);
-			finalScoresToSort.put(alternativeMax, tempScores.get(alternativeMax));
+			finalScores.put(alternativeMax, tempScores.get(alternativeMax));
 			tempScores.remove(alternativeMax);
 		}
 		
-		
 		LOGGER.debug("return sortedScores : {}\n", finalScoresToSort.toString());
-		return finalScoresToSort;
 	}
 
 	/**
@@ -175,15 +170,14 @@ public class Borda implements SocialWelfareFunction{
 	 * @param sProfile a StrictProfile<code>not null</code>
 	 * @return sortedScores a sorted map by descending order of the scores of the profile given in parameter
 	 */
-	public Map<Alternative, Integer> getSortedScores(StrictProfile sProfile){
+	public void getSortedScores(StrictProfile sProfile){
 		LOGGER.debug("getSortedScores\n");
 		Preconditions.checkNotNull(sProfile);
 		LOGGER.debug("parameter sProfile : {}\n", sProfile.toSOC());
 		
 		finalScores = getScores(sProfile);
-		finalScores = descendingOrder(finalScores);
+		descendingOrder(finalScores);
 		LOGGER.debug("return AScores : {}\n", finalScores.toString());
-		return finalScores;
 	}
 
 	
@@ -195,6 +189,8 @@ public class Borda implements SocialWelfareFunction{
 	 * @return true if the maps have the same alternatives with the same scores
 	 */
 	
+	
+	@Override
 	public boolean equals(Object o1){
 		LOGGER.debug("equalsMaps\n");
 		Preconditions.checkNotNull(o1);
