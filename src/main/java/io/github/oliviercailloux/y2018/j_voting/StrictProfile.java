@@ -1,7 +1,6 @@
 package io.github.oliviercailloux.y2018.j_voting;
 
 import java.io.*;
-//import org.apache.commons.io.FileUtils;
 import java.util.*;
 import org.slf4j.*;
 
@@ -71,20 +70,20 @@ public class StrictProfile {
 	}
 	
 	/**
-	 * 
 	 * @param voter
 	 * @return the strict preference of the voter. If the voter is not in the map, it throws an exception.
 	 */
 	public StrictPreference getPreference(Voter voter) {
 		LOGGER.debug("getPreference\n");
 		Preconditions.checkNotNull(voter);
-		LOGGER.debug("parameter : voterId = {}\n",voter.getId());
-		Set<Map.Entry<Voter,StrictPreference>> mapping = association.entrySet();
-		Iterator<Map.Entry<Voter,StrictPreference>> iterator = mapping.iterator();
+		LOGGER.debug("parameter : voterId = {}\n", voter.getId());
+		
+		Set<Map.Entry<Voter, StrictPreference>> mapping = association.entrySet();
+		Iterator<Map.Entry<Voter, StrictPreference>> iterator = mapping.iterator();
 		while(iterator.hasNext()) {
 			Map.Entry<Voter, StrictPreference> vote = iterator.next(); 
 			if(vote.getKey().equals(voter)) {
-				LOGGER.debug("return {}\n",vote.getValue());
+				LOGGER.debug("return {}\n", vote.getValue());
 				return vote.getValue();
 			}
 		}
@@ -92,7 +91,6 @@ public class StrictProfile {
 	}
 	
 	/**
-	 * 
 	 * @return all the voters in the map.
 	 */
 	public Iterable<Voter> getAllVoters(){
@@ -100,7 +98,6 @@ public class StrictProfile {
 	}
 	
 	/**
-	 * 
 	 * @return the number of voters in the profile
 	 */
 	public int getNbVoters() {
@@ -108,7 +105,6 @@ public class StrictProfile {
 	}
 	
 	/**
-	 * 
 	 * @return the sum of the vote count 
 	 */
 	public int getSumVoteCount() {
@@ -121,6 +117,7 @@ public class StrictProfile {
 	public Set<StrictPreference> getUniquePreferences(){
 		LOGGER.debug("getUniquePreferences\n");
 		Set<StrictPreference> unique = new HashSet<>();
+		
 		boolean alreadyInList = false;
 		for(StrictPreference pref : association.values()) {
 			LOGGER.debug("next preference : {}\n", pref);
@@ -178,6 +175,7 @@ public class StrictProfile {
 		Iterator<StrictPreference> iterator = association.values().iterator();
 		StrictPreference pref = iterator.next();
 		LOGGER.debug("first preferences :{}\n", pref);
+		
 		while(iterator.hasNext()) {
 			StrictPreference pref2=iterator.next();
 			LOGGER.debug("next preferences : {}\n", pref2);
@@ -191,7 +189,6 @@ public class StrictProfile {
 	}
 
 	/**
-	 * 
 	 * @param preferences
 	 * @return how many voters voted for the StrictPreference.
 	 */
@@ -214,7 +211,6 @@ public class StrictProfile {
 	
 	
 	/**
-	 * 
 	 * @return a complete Strict Profile into a string in SOC format
 	 */
 	public String toSOC() {

@@ -32,8 +32,7 @@ public class Voter {
 	}
 	
 	/**
-	 * 
-	 * @param voter
+	 * @param voter <code> not null</code>
 	 * @return whether two voters are equal, ie have the same id.
 	 */
 	public boolean equals(Voter voter) {
