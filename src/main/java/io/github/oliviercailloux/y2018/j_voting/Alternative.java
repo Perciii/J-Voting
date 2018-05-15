@@ -34,7 +34,7 @@ public class Alternative {
 	 */
 	public boolean equals(Object o){
 		LOGGER.debug("Alternative : equals\n");
-		Preconditions.checkNotNull(a);
+		Preconditions.checkNotNull(o);
 		if (!(o instanceof Alternative)){
 			LOGGER.debug("returns false");
 			return false;
@@ -45,6 +45,7 @@ public class Alternative {
 			LOGGER.debug("returns true");
 			return true;
 		}
+		return false;
 	}
 	
 	@Override
