@@ -128,7 +128,7 @@ public class Borda implements SocialWelfareFunction{
 			tempScores.remove(alternativeMax);
 		}
 		
-		LOGGER.debug("return sortedScores : {}\n", finalScoresToSort.toString());
+		LOGGER.debug("return sortedScores : {}\n", finalScores.toString());
 	}
 
 	/**
