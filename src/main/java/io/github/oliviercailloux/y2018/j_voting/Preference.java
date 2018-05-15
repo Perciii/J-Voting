@@ -70,9 +70,14 @@ public class Preference {
 	 * @param p <code>not null</code>
 	 * @return whether the calling preference is equal to the preference as a parameter.
 	 */
-	public boolean equals(Preference p) {
+	public boolean equals(Object pref) {
 		LOGGER.debug("equals:\n");
-		Preconditions.checkNotNull(p);
+		Preconditions.checkNotNull(pref);
+		if(! (pref instanceof Preference)) {
+			LOGGER.debug("not a preference\n");
+			return false;
+		}
+		Preference p = (Preference) pref;
 		LOGGER.debug("parameter preference : {}\n",p);
 		if(this.size() == p.size() && preferences.size() == p.getPreferencesNonStrict().size()) { //same number of alternatives and same number of sets
 			for(int i=0;i<this.preferences.size();i++) {
