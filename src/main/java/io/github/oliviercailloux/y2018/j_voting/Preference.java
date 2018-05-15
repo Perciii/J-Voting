@@ -70,6 +70,7 @@ public class Preference {
 	 * @param p <code>not null</code>
 	 * @return whether the calling preference is equal to the preference as a parameter.
 	 */
+	@Override
 	public boolean equals(Object pref) {
 		LOGGER.debug("equals:\n");
 		Preconditions.checkNotNull(pref);

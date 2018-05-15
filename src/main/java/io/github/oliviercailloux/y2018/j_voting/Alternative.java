@@ -32,6 +32,7 @@ public class Alternative {
 	 * @param a an alternative
 	 * @return true if both alternatives are equals, ie have the same id, false if not
 	 */
+	@Override
 	public boolean equals(Object o){
 		LOGGER.debug("Alternative : equals\n");
 		Preconditions.checkNotNull(o);

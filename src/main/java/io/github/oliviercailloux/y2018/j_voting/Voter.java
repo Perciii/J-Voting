@@ -35,6 +35,7 @@ public class Voter {
 	 * @param voter <code> not null</code>
 	 * @return whether two voters are equal, ie have the same id.
 	 */
+	@Override
 	public boolean equals(Object voter) {
 		LOGGER.debug("Voter - equals : \n");
 		Preconditions.checkNotNull(voter);
