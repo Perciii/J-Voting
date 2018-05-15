@@ -53,4 +53,9 @@ public class Alternative {
 	public String toString(){
 		return Integer.toString(id);
 	}
+
+	@Override
+	public int hashCode() {
+		return id;
+	}
 }
