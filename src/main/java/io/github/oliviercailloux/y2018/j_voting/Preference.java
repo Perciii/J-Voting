@@ -95,6 +95,11 @@ public class Preference {
 		
 	}
 	
+	@Override
+	public int hashCode() {
+		return Objects.hash(preferences);
+	}
+	
 	/**
 	 * @param alter <code>not null</code>
 	 * @return whether the preference contains the alternative given as parameter

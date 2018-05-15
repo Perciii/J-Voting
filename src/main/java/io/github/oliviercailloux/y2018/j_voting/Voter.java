@@ -45,4 +45,9 @@ public class Voter {
 		Voter v = (Voter) voter;
 		return(v.getId() == id);
 	}
+	
+	@Override
+	public int hashCode() {
+		return id;
+	}
 }
