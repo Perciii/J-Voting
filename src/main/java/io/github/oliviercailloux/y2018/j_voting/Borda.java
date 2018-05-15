@@ -195,10 +195,18 @@ public class Borda implements SocialWelfareFunction{
 	 * @return true if the maps have the same alternatives with the same scores
 	 */
 	
-	public boolean equals(Map<Alternative,Integer> map1, Map<Alternative,Integer> map2){
+	public boolean equals(Object o1){
 		LOGGER.debug("equalsMaps\n");
-		Preconditions.checkNotNull(map1);
-		Preconditions.checkNotNull(map2);
+		Preconditions.checkNotNull(o1);
+		
+		if (!(o1 instanceof Borda)){
+			LOGGER.debug("returns false");
+			return false;
+		}
+		
+		Borda borda = (Borda) o1;
+		Map<Alternative,Integer> map1 = borda.finalScores;
+		Map<Alternative,Integer> map2 = this.finalScores;
 		
 		Iterable<Alternative> alternativesList = map1.keySet();
 		Iterator<Alternative> iteratorA = alternativesList.iterator();
