@@ -30,7 +30,7 @@ public class ReadProfileTest {
 		expectedResultSOC.add("17,3,1,2");
 		expectedResultSOC.add("11,3,2,1");
 		
-		List<String> actualResultSOC = rp.readFile(getClass().getResource("profil.soc").getPath());
+		List<String> actualResultSOC = rp.readStream(getClass().getResourceAsStream("profil.soc"));
 		
 		expectedResultSOI.add("3");
 		expectedResultSOI.add("1,Candidate 1 ");
@@ -46,7 +46,7 @@ public class ReadProfileTest {
 		expectedResultSOI.add("3,2,3,1");
 		expectedResultSOI.add("2,3");
 		
-		List<String> actualResultSOI = rp2.readFile(getClass().getResource("profil.soi").getPath());
+		List<String> actualResultSOI = rp2.readStream(getClass().getResourceAsStream("profil.soi"));
 		
 		assertTrue(expectedResultSOC.equals(actualResultSOC) && expectedResultSOI.equals(actualResultSOI));
 	}
@@ -166,7 +166,7 @@ public class ReadProfileTest {
 	public void testCreateProfileFromFile() throws IOException {
 		ReadProfile rp = new ReadProfile();
 		
-		StrictProfile profile = rp.createProfileFromFile(getClass().getResource("profileToRead.soc").getPath());
+		StrictProfile profile = rp.createProfileFromStream(getClass().getResourceAsStream("profileToRead.soc"));
 		
 		Alternative a1 = new Alternative(1);
 		Alternative a2 = new Alternative(2);
