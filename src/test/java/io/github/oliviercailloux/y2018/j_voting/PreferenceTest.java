@@ -148,7 +148,7 @@ public class PreferenceTest {
 		set.add(a3);
 		set.add(a4);
 		set.add(a5);
-		assertTrue(Preference.alternativeSetEqual(createPreferenceToTest().toAlternativeSet(),set));
+		assertTrue(Preference.alternativeSetEqual(Preference.toAlternativeSet(createPreferenceToTest().getPreferencesNonStrict()),set));
 	}
 
 	@Test
@@ -189,4 +189,8 @@ public class PreferenceTest {
 		assertTrue(Preference.alternativeSetContains(set, a3));
 	}
 
+	@Test
+	public void testSizeListSetAlternative() {
+		assertEquals(Preference.size(createPreferenceToTest().getPreferencesNonStrict()), 5);
+	}
 }

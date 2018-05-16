@@ -8,7 +8,7 @@ import org.slf4j.*;
 import com.google.common.base.Charsets;
 import com.google.common.base.Preconditions;
 import com.google.common.io.CharStreams;
-import com.google.common.io.Files;
+
 
 
 public class ReadProfile {
