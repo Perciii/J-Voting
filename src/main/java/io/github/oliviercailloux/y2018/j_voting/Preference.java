@@ -141,6 +141,28 @@ public class Preference {
 	}
 	
 	/**
+	 * 
+	 * @param alter not <code>null</code> 
+	 * @return the rank of the alternative given in the Preference. If the alternative is not in the preference, it throws an IllegalArgumentException.
+	 */
+	public int getAlternativeRank(Alternative alter) {
+		LOGGER.debug("getAlternativeRank:");
+		Preconditions.checkNotNull(alter);
+		if(!this.contains(alter)) {
+			throw new IllegalArgumentException("Alternative not in the set");
+		}
+		int rank = 1;
+		for(Set<Alternative> set : preferences) {
+			if(alternativeSetContains(set,alter)) {
+				LOGGER.debug("alternative rank : {}",rank);
+				break;
+			}
+			rank ++;
+		}
+		return rank;
+	}
+	
+	/**
 	 * @return a set of alternatives containing all the alternatives of the list of set of alternative given. If an alternative appears several times in the list of sets, it appears only once in the new set.
 	 */
 	public static Set<Alternative> toAlternativeSet(List<Set<Alternative>> preferences){

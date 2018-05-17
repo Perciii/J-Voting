@@ -56,7 +56,7 @@ public class SWFCommander{
             LOGGER.debug("StrictPreference(s) : ");
             
             if(strictPreference.size() >= 1){
-            	LOGGER.debug(strictPreference.getPreferences().toString());//not sure of this
+            	LOGGER.debug("strictPreference :{}",strictPreference.getPreferences());
             	
             	prof.addProfile(v, strictPreference);
             }
