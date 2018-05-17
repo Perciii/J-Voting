@@ -52,9 +52,9 @@ public class StrictPreference extends Preference {
 		Preconditions.checkNotNull(list);
 		LOGGER.debug("parameter list : {}",list);
 		List<Set<Alternative>> set = new ArrayList<>();
-		for(int i=0;i<list.size();i++) {
+		for(Alternative a : list) {
 			Set<Alternative> alterset = new HashSet<>();
-			alterset.add(list.get(i));
+			alterset.add(a);
 			set.add(alterset);
 		}
 		LOGGER.debug("new list of set : {}",set);

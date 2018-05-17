@@ -17,7 +17,8 @@ public class Preference {
 	protected List<Set<Alternative>> preferences;
 	
 	/**
-	 * @param preferences <code>not null</code>
+	 * @param preferences <code>not null</code> a list of sets of alternatives. In a set, the alternatives are equally ranked. The sets are sorted by preference in the list.
+	 * If an alternative is present several times, an IllegalArgumentException is thrown.
 	 */
 	public Preference(List<Set<Alternative>> preferences) {
 		LOGGER.debug("Preference constructor");
@@ -62,12 +63,7 @@ public class Preference {
 	 */
 	public int size() {
 		LOGGER.debug("size:");
-		int size = 0;
-		for(Set<Alternative> set : preferences) {
-			size += set.size();
-		}
-		LOGGER.debug("size = {}",size);
-		return size;
+		return size(preferences);
 	}
 	
 	/**
