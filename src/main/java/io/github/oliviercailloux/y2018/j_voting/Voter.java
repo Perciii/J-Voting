@@ -35,10 +35,19 @@ public class Voter {
 	 * @param voter <code> not null</code>
 	 * @return whether two voters are equal, ie have the same id.
 	 */
-	public boolean equals(Voter voter) {
-		Preconditions.checkNotNull(voter);
+	@Override
+	public boolean equals(Object voter) {
 		LOGGER.debug("Voter - equals : \n");
-		LOGGER.debug("voter calling : {}, parameter voter :{}\n", id, voter.getId());
-		return(voter.getId() == id);
+		Preconditions.checkNotNull(voter);
+		if(!(voter instanceof Voter)) {
+			return false;
+		}
+		Voter v = (Voter) voter;
+		return(v.getId() == id);
+	}
+	
+	@Override
+	public int hashCode() {
+		return id;
 	}
 }

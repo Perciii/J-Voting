@@ -63,7 +63,9 @@ public class BordaTest {
 		scoresTest.put(a2, 1);
 		scoresTest.put(a3, 0);
 		
-		assertTrue(scores.equals(scoresTest));
+		Borda borda1 = new Borda(scores);
+		Borda borda2 = new Borda(scoresTest);
+		assertTrue(borda2.equals(borda1));
 	}
 	
 	@Test
@@ -101,7 +103,9 @@ public class BordaTest {
 		scoresTest.put(a2, 6);
 		scoresTest.put(a3, 4);
 		
-		assertTrue(scores.equals(scoresTest));
+		Borda borda1 = new Borda(scores);
+		Borda borda2 = new Borda(scoresTest);
+		assertTrue(borda2.equals(borda1));
 
 	}
 	
@@ -115,14 +119,16 @@ public class BordaTest {
 		listScores.put(a1,2);
 		listScores.put(a2,0);
 		listScores.put(a3,6);
-		Map<Alternative,Integer> listScoresSorted = new Borda().descendingOrder(listScores);
+		Borda borda = new Borda();
+		borda.descendingOrder(listScores);
 		
 		Map<Alternative,Integer> scores = new HashMap<>();
 		scores.put(a3,6);
 		scores.put(a1,2);
 		scores.put(a2,0);
 		
-		assertTrue(scores.equals(listScoresSorted));
+		Borda borda2 = new Borda(scores);
+		assertTrue(borda2.equals(borda));
 		
 	}
 	
@@ -177,10 +183,11 @@ public class BordaTest {
 		scoresTest.put(a2, 6);
 		scoresTest.put(a3, 4);
 		
-		Map<Alternative,Integer> listScoresSorted = new Borda().getSortedScores(profile);
-				
-		
-		assertTrue(scoresTest.equals(listScoresSorted));
+		Borda borda1 = new Borda();
+		borda1.getSortedScores(profile);
+
+		Borda borda2 = new Borda(scoresTest);
+		assertTrue(borda2.equals(borda1));
 		
 	}
 	
@@ -188,4 +195,5 @@ public class BordaTest {
 	
 	
 }
+
 

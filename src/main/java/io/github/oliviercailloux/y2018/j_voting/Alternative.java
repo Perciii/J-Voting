@@ -32,20 +32,30 @@ public class Alternative {
 	 * @param a an alternative
 	 * @return true if both alternatives are equals, ie have the same id, false if not
 	 */
-	public boolean equals(Alternative a){
+	@Override
+	public boolean equals(Object o){
 		LOGGER.debug("Alternative : equals\n");
-		Preconditions.checkNotNull(a);
+		Preconditions.checkNotNull(o);
+		if (!(o instanceof Alternative)){
+			LOGGER.debug("returns false");
+			return false;
+		}
+		Alternative a = (Alternative) o;
 		LOGGER.debug("id of calling alternative : {}, id of alternative parameter : {}\n", this.getId(), a.getId());
 		if (a.getId() == this.getId()){
 			LOGGER.debug("returns true");
 			return true;
 		}
-		LOGGER.debug("returns false");
 		return false;
 	}
 	
 	@Override
 	public String toString(){
 		return Integer.toString(id);
+	}
+
+	@Override
+	public int hashCode() {
+		return id;
 	}
 }

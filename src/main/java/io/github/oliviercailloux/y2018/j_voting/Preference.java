@@ -23,6 +23,10 @@ public class Preference {
 		LOGGER.debug("Preference constructor\n");
 		Preconditions.checkNotNull(preferences);
 		LOGGER.debug("parameter : {}\n",preferences);
+		if(toAlternativeSet(preferences).size() != size(preferences)) {
+			LOGGER.debug("alternative several times in the preference\n");
+			throw new IllegalArgumentException("A preference cannot contain several times the same alternative.");
+		}
 		this.preferences = preferences; 
 	}
 	
@@ -70,9 +74,15 @@ public class Preference {
 	 * @param p <code>not null</code>
 	 * @return whether the calling preference is equal to the preference as a parameter.
 	 */
-	public boolean equals(Preference p) {
+	@Override
+	public boolean equals(Object pref) {
 		LOGGER.debug("equals:\n");
-		Preconditions.checkNotNull(p);
+		Preconditions.checkNotNull(pref);
+		if(! (pref instanceof Preference)) {
+			LOGGER.debug("not a preference\n");
+			return false;
+		}
+		Preference p = (Preference) pref;
 		LOGGER.debug("parameter preference : {}\n",p);
 		if(this.size() == p.size() && preferences.size() == p.getPreferencesNonStrict().size()) { //same number of alternatives and same number of sets
 			for(int i=0;i<this.preferences.size();i++) {
@@ -89,6 +99,11 @@ public class Preference {
 		
 	}
 	
+	@Override
+	public int hashCode() {
+		return Objects.hash(preferences);
+	}
+	
 	/**
 	 * @param alter <code>not null</code>
 	 * @return whether the preference contains the alternative given as parameter
@@ -97,7 +112,7 @@ public class Preference {
 		LOGGER.debug("contains:\n");
 		Preconditions.checkNotNull(alter);
 		LOGGER.debug("parameter alternative : {}\n",alter);
-		return(alternativeSetContains(this.toAlternativeSet(),alter));
+		return(alternativeSetContains(toAlternativeSet(preferences),alter));
 	}
 	
 	/**
@@ -119,7 +134,7 @@ public class Preference {
 		LOGGER.debug("isIncludedIn:\n");
 		Preconditions.checkNotNull(p);
 		LOGGER.debug("parameter preference : {}\n",p);
-		for(Alternative alter : this.toAlternativeSet()) {
+		for(Alternative alter : toAlternativeSet(preferences)) {
 			if(!p.contains(alter)) {
 				LOGGER.debug("return false\n");
 				return false;
@@ -130,13 +145,18 @@ public class Preference {
 	}
 	
 	/**
-	 * @return a set of alternatives containing all the alternatives of the preference
+	 * @return a set of alternatives containing all the alternatives of the list of set of alternative given. If an alternative appears several times in the list of sets, it appears only once in the new set.
 	 */
-	public Set<Alternative> toAlternativeSet(){
+	public static Set<Alternative> toAlternativeSet(List<Set<Alternative>> preferences){
 		LOGGER.debug("toAlternativeSet:\n");
+		Preconditions.checkNotNull(preferences);
 		Set<Alternative> set = new HashSet<>();
 		for(Set<Alternative> sets : preferences) {
-			set.addAll(sets);
+			for(Alternative alter : sets) {
+				if(!alternativeSetContains(set,alter)) {
+					set.add(alter);
+				}
+			}
 		}
 		LOGGER.debug("set : {}\n",set);
 		return set;
@@ -187,6 +207,20 @@ public class Preference {
 		return false;
 	}
 	
-
+	/**
+	 * 
+	 * @param list not <code> null </code>
+	 * @return the size of a list of alternative sets
+	 */
+	public static int size(List<Set<Alternative>> list) {
+		LOGGER.debug("list set alternative size:\n");
+		Preconditions.checkNotNull(list);
+		int size = 0;
+		for(Set<Alternative> set : list) {
+			size += set.size();
+		}
+		LOGGER.debug("size = {}\n",size);
+		return size;
+	}
 
 }

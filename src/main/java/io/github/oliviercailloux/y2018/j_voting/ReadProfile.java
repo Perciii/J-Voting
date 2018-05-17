@@ -7,7 +7,8 @@ import org.slf4j.*;
 
 import com.google.common.base.Charsets;
 import com.google.common.base.Preconditions;
-import com.google.common.io.Files;
+import com.google.common.io.CharStreams;
+
 
 
 public class ReadProfile {
@@ -17,14 +18,15 @@ public class ReadProfile {
 	 * @param path a string <code>not null</code> : the path of the file to read (encoded in UTF-8)
 	 * @return fileRead, a list of String where each element is a line of the SOC or SOI file read
 	 */
-	public List<String> readFile(String path) throws IOException {
+	public List<String> readStream(InputStream is) throws IOException {
 		LOGGER.debug("ReadProfile : readFile : \n") ;
-		Preconditions.checkNotNull(path);
-		LOGGER.debug("parameter : path = {}\n", path);
-
-		File fileToRead = new File(path);
-		List<String> fileRead = Files.readLines(fileToRead, Charsets.UTF_8);	
-		return fileRead;
+		Preconditions.checkNotNull(is);
+		LOGGER.debug("parameter : path = {}\n", is);
+		
+		try(InputStreamReader isr = new InputStreamReader(is, Charsets.UTF_8)){
+			List<String> fileRead =  CharStreams.readLines(isr);
+			return fileRead;
+		}
 	}
 	
 	/**
@@ -32,12 +34,12 @@ public class ReadProfile {
 	 * This function prints strings from the read file which path is passed as an argument
 	 * @throws IOException 
 	 */
-	public void displayProfileFromFile(String path) throws IOException{
+	public void displayProfileFromStream(InputStream is) throws IOException{
 		LOGGER.debug("ReadProfile : displayProfileFromFile : \n") ;
-		Preconditions.checkNotNull(path);
-		LOGGER.debug("parameter : path = {}\n", path);
+		Preconditions.checkNotNull(is);
+		LOGGER.debug("parameter : InputStream = {}\n", is);
 		
-		List<String> fileRead = readFile(path);
+		List<String> fileRead = readStream(is);
 		
 		Iterator<String> it = fileRead.iterator();
 		while(it.hasNext()){
@@ -171,11 +173,11 @@ public class ReadProfile {
 	 * @throws IOException 
 	 */
 
-	public StrictProfile createProfileFromFile(String path) throws IOException{
+	public StrictProfile createProfileFromStream(InputStream is) throws IOException{
 		LOGGER.debug("ReadProfile : createProfileFromReadFile : \n");
-		Preconditions.checkNotNull(path);
+		Preconditions.checkNotNull(is);
 		
-		List<String> fileRead = readFile(path);
+		List<String> fileRead = readStream(is);
 		
 		Iterator<String> it = fileRead.iterator();
 		StrictProfile sProfile = new StrictProfile();
@@ -208,15 +210,17 @@ public class ReadProfile {
 	 **/
 	public void main(String[] args) throws IOException {
 		//read SOC file
-		String socPath = getClass().getResource("profil.soc").getPath();
-		LOGGER.debug("SOC Profile path : {}\n", socPath);
-		//StrictProfile socProfile = createProfileFromFile(socPath);
-		displayProfileFromFile(socPath);
+		try(InputStream socStream = getClass().getResourceAsStream("profil.soc")){
+			LOGGER.debug("SOC Profile stream : {}\n", socStream);
+			//StrictProfile socProfile = createProfileFromFile(socPath);
+			displayProfileFromStream(socStream);
+		}
 		
 		//read SOI file
-		String soiPath = getClass().getResource("profil.soi").getPath();
-		LOGGER.debug("SOI Profile path : {}\n", soiPath);
-		//StrictProfile socProfile = createProfileFromFile(socPath);
-		displayProfileFromFile(soiPath);
+		try(InputStream soiStream = getClass().getResourceAsStream("profil.soi")){
+			LOGGER.debug("SOI Profile stream : {}\n", soiStream);
+			//StrictProfile socProfile = createProfileFromFile(socPath);
+			displayProfileFromStream(soiStream);
+		}
 	}
 }
