@@ -13,7 +13,7 @@ import com.google.common.base.Preconditions;
 public class Borda implements SocialWelfareFunction{
 
 	private static Logger LOGGER = LoggerFactory.getLogger(Borda.class.getName());	
-	public Map<Alternative,Integer> scores;
+	private Map<Alternative,Integer> scores;
 	
 	/**
 	 * @param sProfile a StrictProfile <code>not null</code>
@@ -51,10 +51,11 @@ public class Borda implements SocialWelfareFunction{
 		Preconditions.checkNotNull(sPref);
 		LOGGER.debug("parameter SPref : {}", sPref.toString());
 		Map<Alternative,Integer> unsortedScores = new HashMap<>();
-		int i;
-		List<Alternative> Alternatives = sPref.getPreferences();
-		for(i=0;i<Alternatives.size();i++){
-			unsortedScores.put(Alternatives.get(i),Integer.valueOf(Alternatives.size()-(i+1)));
+		int i=1;
+		List<Alternative> alternatives = sPref.getPreferences();
+		for(Alternative a : alternatives){
+			i++;
+			unsortedScores.put(a,Integer.valueOf(alternatives.size()-i));
 		}
 		LOGGER.debug("return score : {}", unsortedScores);
 		return unsortedScores;
@@ -135,11 +136,11 @@ public class Borda implements SocialWelfareFunction{
 	 * @param scores a map <code>not null</code>
 	 * @return the alternative with the maximum score in the map
 	 */
-	public Alternative getMax(Map<Alternative, Integer> scores){
+	public Alternative getMax(Map<Alternative, Integer> tempscores){
 		LOGGER.debug("getMax");
-		Preconditions.checkNotNull(scores);
+		Preconditions.checkNotNull(tempscores);
 		
-		Iterable<Alternative> alternativesList = scores.keySet();
+		Iterable<Alternative> alternativesList = tempscores.keySet();
 		Iterator<Alternative> iteratorA = alternativesList.iterator();
 		Alternative currentAlternative;
 		
@@ -153,7 +154,7 @@ public class Borda implements SocialWelfareFunction{
 				first = false;
 			}
 			else{
-				if (scores.get(currentAlternative)>scores.get(alternativeMax)){
+				if (tempscores.get(currentAlternative)>tempscores.get(alternativeMax)){
 					alternativeMax = currentAlternative ;
 				}
 			}
@@ -186,16 +187,19 @@ public class Borda implements SocialWelfareFunction{
 	 *
 	 * @param scores
 	 */
-	public Borda(Map<Alternative, Integer> scores) {
-		this.scores = scores;
+	public Borda(Map<Alternative, Integer> tempscores) {
+		LOGGER.debug("Borda");
+		this.scores = tempscores;
 	}
 
 	public Borda() {
+		LOGGER.debug("emptyBorda");
 		this.scores = new HashMap<>();
 	}
 	
 	@Override
 		public int hashCode() {
+		LOGGER.debug("hashCode");
 			return Objects.hash(scores);
 		}
 	
