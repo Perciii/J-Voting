@@ -5,7 +5,7 @@ import java.util.*;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
-
+import com.google.common.collect.*;
 
 
 public class BordaTest {
@@ -56,16 +56,18 @@ public class BordaTest {
 		alternatives.add(a2);
 		alternatives.add(a3);
 		StrictPreference sPref = new StrictPreference(alternatives);
-		Map<Alternative,Integer> scores = new Borda().getScores(sPref);
 		
-		Map<Alternative,Integer> scoresTest = new HashMap<>();
-		scoresTest.put(a1, 2);
-		scoresTest.put(a2, 1);
-		scoresTest.put(a3, 0);
+		Borda b1 = new Borda();
+		b1.getScores(sPref);
 		
-		Borda borda1 = new Borda(scores);
-		Borda borda2 = new Borda(scoresTest);
-		assertTrue(borda2.equals(borda1));
+		HashMultiset<Alternative> scoresTest = HashMultiset.create();
+		scoresTest.add(a1, 3);
+		scoresTest.add(a2, 2);
+		scoresTest.add(a3, 1);
+
+		Borda b2 = new Borda(scoresTest);
+		
+		assertTrue(b2.equals(b1));
 	}
 	
 	@Test
@@ -96,20 +98,23 @@ public class BordaTest {
 		profile.addProfile(v4, pref1);
 		profile.addProfile(v5, pref2);
 		profile.addProfile(v6, pref2);
-		Map<Alternative,Integer> scores = new Borda().getScores(profile);
+	
+		Borda b1 = new Borda();
+		b1.getScores(profile);
 		
-		Map<Alternative,Integer> scoresTest = new HashMap<>();
-		scoresTest.put(a1, 8);
-		scoresTest.put(a2, 6);
-		scoresTest.put(a3, 4);
+		HashMultiset<Alternative> scoresTest = HashMultiset.create();
+
+		scoresTest.add(a1, 9);
+		scoresTest.add(a2, 7);
+		scoresTest.add(a3, 5);
 		
-		Borda borda1 = new Borda(scores);
-		Borda borda2 = new Borda(scoresTest);
-		assertTrue(borda2.equals(borda1));
+		Borda b2 = new Borda(scoresTest);
+
+		assertTrue(b2.equals(b1));
 
 	}
 	
-	
+	/*
 	@Test
 	public void testdescendingOrder(){
 		Map<Alternative,Integer> listScores = new HashMap<>();
@@ -131,24 +136,24 @@ public class BordaTest {
 		assertTrue(borda2.equals(borda));
 		
 	}
-	
+	*/
 	
 	@Test
 	public void testgetMax(){
-		Map<Alternative,Integer> listScores = new HashMap<>();
+		HashMultiset<Alternative> listScores = HashMultiset.create();
 		Alternative a1 = new Alternative(1);
 		Alternative a2 = new Alternative(2);
 		Alternative a3 = new Alternative(3);
-		listScores.put(a1,2);
-		listScores.put(a2,0);
-		listScores.put(a3,6);
+		listScores.add(a1,3);
+		listScores.add(a2,1);
+		listScores.add(a3,7);
 		
 		assertTrue(new Borda().getMax(listScores).equals(a3));
 	}
 	
 	
 	
-	
+	/*
 	@Test
 	public void testgetSortedScores(){
 		StrictProfile profile = new StrictProfile();
@@ -190,7 +195,7 @@ public class BordaTest {
 		assertTrue(borda2.equals(borda1));
 		
 	}
-	
+	*/
 	
 	
 	
