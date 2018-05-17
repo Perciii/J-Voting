@@ -37,7 +37,7 @@ public class Voter {
 	 */
 	@Override
 	public boolean equals(Object voter) {
-		LOGGER.debug("Voter - equals : \n");
+		LOGGER.debug("Voter - equals : ");
 		Preconditions.checkNotNull(voter);
 		if(!(voter instanceof Voter)) {
 			return false;

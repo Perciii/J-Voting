@@ -34,14 +34,14 @@ public class Alternative {
 	 */
 	@Override
 	public boolean equals(Object o){
-		LOGGER.debug("Alternative : equals\n");
+		LOGGER.debug("Alternative : equals");
 		Preconditions.checkNotNull(o);
 		if (!(o instanceof Alternative)){
 			LOGGER.debug("returns false");
 			return false;
 		}
 		Alternative a = (Alternative) o;
-		LOGGER.debug("id of calling alternative : {}, id of alternative parameter : {}\n", this.getId(), a.getId());
+		LOGGER.debug("id of calling alternative : {}, id of alternative parameter : {}", this.getId(), a.getId());
 		if (a.getId() == this.getId()){
 			LOGGER.debug("returns true");
 			return true;

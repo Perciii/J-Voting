@@ -19,7 +19,7 @@ public class SWFCommander{
      * @return the entered StrictPreference
      */
     public static StrictPreference askPreference(){
-    	LOGGER.debug("askPreference\n");
+    	LOGGER.debug("askPreference");
         System.out.println("Enter a StrictPreference complete");
         
         List<Alternative> list = new ArrayList<>();
@@ -31,11 +31,11 @@ public class SWFCommander{
         	String[] preference = vote.split(",");
         	for(int i = 0 ; i < preference.length ; i++){
                 list.add(new Alternative(Integer.parseInt(preference[i].trim())));
-                LOGGER.debug("added alternative : {}\n", Integer.parseInt(preference[i].trim()));
+                LOGGER.debug("added alternative : {}", Integer.parseInt(preference[i].trim()));
             }
         }
         
-        LOGGER.debug("list of alternatives : {}\n", list);
+        LOGGER.debug("list of alternatives : {}", list);
         return new StrictPreference(list);
     }   
     
@@ -49,7 +49,7 @@ public class SWFCommander{
         int voterId = 1;
 
         while(keepGoing){
-        	LOGGER.debug("new voter id  : {}\n", voterId);
+        	LOGGER.debug("new voter id  : {}", voterId);
         	
             Voter v = new Voter(voterId);
             StrictPreference strictPreference = askPreference();

@@ -27,7 +27,7 @@ public class StrictProfile {
 	 * @param preference
 	 */
 	public void addProfile(Voter voter, StrictPreference preference) {
-		LOGGER.debug("addProfile\n");
+		LOGGER.debug("addProfile");
 		Preconditions.checkNotNull(voter);
 		Preconditions.checkNotNull(preference);
 		LOGGER.debug("parameters : voterId = {}, preferences = {}", voter.getId(), preference);
@@ -39,18 +39,18 @@ public class StrictProfile {
 	 * @return true if the profile contains a preference for the voter given.
 	 */
 	public boolean contains(Voter voter) {
-		LOGGER.debug("contains:\n");
-		LOGGER.debug("parameter : voter = {}\n", voter.getId());
+		LOGGER.debug("contains:");
+		LOGGER.debug("parameter : voter = {}", voter.getId());
 		Preconditions.checkNotNull(voter);
 		Iterable<Voter> voters = getAllVoters();
 		Iterator<Voter> iterator = voters.iterator();
 		while(iterator.hasNext()) {
 			if(iterator.next().equals(voter)) {
-				LOGGER.debug("return true\n");
+				LOGGER.debug("return true");
 				return true;
 			}
 		}
-		LOGGER.debug("return false\n");
+		LOGGER.debug("return false");
 		return false;
 	}
 	
@@ -60,9 +60,9 @@ public class StrictProfile {
 	 * @throws IOException
 	 */
 	public void writeToSOC(String fileName) throws IOException {
-		LOGGER.debug("writeToSOC:\n");
+		LOGGER.debug("writeToSOC:");
 		Preconditions.checkNotNull(fileName);
-		LOGGER.debug("parameter filename : {}\n", fileName);
+		LOGGER.debug("parameter filename : {}", fileName);
 		try(OutputStream output = new FileOutputStream(fileName)){
 			output.write(this.toSOC().getBytes());
 			output.close();
@@ -74,16 +74,16 @@ public class StrictProfile {
 	 * @return the strict preference of the voter. If the voter is not in the map, it throws an exception.
 	 */
 	public StrictPreference getPreference(Voter voter) {
-		LOGGER.debug("getPreference\n");
+		LOGGER.debug("getPreference");
 		Preconditions.checkNotNull(voter);
-		LOGGER.debug("parameter : voterId = {}\n", voter.getId());
+		LOGGER.debug("parameter : voterId = {}", voter.getId());
 		
 		Set<Map.Entry<Voter, StrictPreference>> mapping = association.entrySet();
 		Iterator<Map.Entry<Voter, StrictPreference>> iterator = mapping.iterator();
 		while(iterator.hasNext()) {
 			Map.Entry<Voter, StrictPreference> vote = iterator.next(); 
 			if(vote.getKey().equals(voter)) {
-				LOGGER.debug("return {}\n", vote.getValue());
+				LOGGER.debug("return {}", vote.getValue());
 				return vote.getValue();
 			}
 		}
@@ -115,15 +115,15 @@ public class StrictProfile {
 	 * @return all the unique StrictPreference in the profile.
 	 */
 	public Set<StrictPreference> getUniquePreferences(){
-		LOGGER.debug("getUniquePreferences\n");
+		LOGGER.debug("getUniquePreferences");
 		Set<StrictPreference> unique = new HashSet<>();
 		
 		boolean alreadyInList = false;
 		for(StrictPreference pref : association.values()) {
-			LOGGER.debug("next preference : {}\n", pref);
+			LOGGER.debug("next preference : {}", pref);
 			for(StrictPreference uniquePref : unique) {
 				if(pref.equals(uniquePref)) {
-					LOGGER.debug("{} already in the list\n", pref);
+					LOGGER.debug("{} already in the list", pref);
 					alreadyInList = true;
 				}
 			}
@@ -139,7 +139,7 @@ public class StrictProfile {
 	 * @return the number of different StrictPreference in the map.
 	 */
 	public int getNbUniquePreferences() {
-		LOGGER.debug("getnbUniquePreference\n");
+		LOGGER.debug("getnbUniquePreference");
 		return getUniquePreferences().size();
 	}
 	
@@ -147,7 +147,7 @@ public class StrictProfile {
 	 * @return the number of different alternatives in a complete profile. A profile is complete when all votes are about the same alternatives exactly.
 	 */
 	public int getNbAlternativesComplete() {
-		LOGGER.debug("getNbAlternativesComplete\n");
+		LOGGER.debug("getNbAlternativesComplete");
 		if(!isComplete()) {
 			throw new IllegalArgumentException("The profile is not complete.");
 		}
@@ -159,7 +159,7 @@ public class StrictProfile {
 	 * @return all the different alternatives in a complete profile. A profile is complete when all votes are about the same alternatives exactly.
 	 */
 	public List<Alternative> getAlternativesComplete(){
-		LOGGER.debug("getAlternativesComplete\n");
+		LOGGER.debug("getAlternativesComplete");
 		if(!isComplete()) {
 			throw new IllegalArgumentException("The profile is not complete.");
 		}
@@ -171,20 +171,20 @@ public class StrictProfile {
 	 * @return whether the profile is complete : all votes in the profile are about the same alternatives
 	 */
 	public boolean isComplete() {
-		LOGGER.debug("isComplete\n");
+		LOGGER.debug("isComplete");
 		Iterator<StrictPreference> iterator = association.values().iterator();
 		StrictPreference pref = iterator.next();
-		LOGGER.debug("first preferences :{}\n", pref);
+		LOGGER.debug("first preferences :{}", pref);
 		
 		while(iterator.hasNext()) {
 			StrictPreference pref2=iterator.next();
-			LOGGER.debug("next preferences : {}\n", pref2);
+			LOGGER.debug("next preferences : {}", pref2);
 			if(!pref.hasSameAlternatives(pref2)) {
-				LOGGER.debug("Not the same alternatives\n");
+				LOGGER.debug("Not the same alternatives");
 				return false;
 			}
 		}
-		LOGGER.debug("Profile is complete.\n");
+		LOGGER.debug("Profile is complete.");
 		return true;
 	}
 
@@ -193,19 +193,19 @@ public class StrictProfile {
 	 * @return how many voters voted for the StrictPreference.
 	 */
 	public int getNbVoterByPreference(StrictPreference preferences) {
-		LOGGER.debug("getNbVoterByPreference\n");
+		LOGGER.debug("getNbVoterByPreference");
 		Preconditions.checkNotNull(preferences);
-		LOGGER.debug("parameter preferences : {}\n", preferences);
+		LOGGER.debug("parameter preferences : {}", preferences);
 		int nbVotes = 0;
 		Iterator<Voter> votersIterator = getAllVoters().iterator();
 		while(votersIterator.hasNext()) {
 			Voter v = votersIterator.next();
-			LOGGER.debug("Voter with id = {} voted for : {}\n", v.getId(), association.get(v));
+			LOGGER.debug("Voter with id = {} voted for : {}", v.getId(), association.get(v));
 			if(association.get(v).equals(preferences)) {
 				nbVotes++;
 			}
 		}
-		LOGGER.debug("number of votes for {} is {}\n", preferences, nbVotes);
+		LOGGER.debug("number of votes for {} is {}", preferences, nbVotes);
 		return nbVotes;
 	}
 	
@@ -214,7 +214,7 @@ public class StrictProfile {
 	 * @return a complete Strict Profile into a string in SOC format
 	 */
 	public String toSOC() {
-		LOGGER.debug("toSOC\n");
+		LOGGER.debug("toSOC");
 		String soc = "";
 		soc += getNbAlternativesComplete() + "\n";
 		for(Alternative alter : getAlternativesComplete()) {

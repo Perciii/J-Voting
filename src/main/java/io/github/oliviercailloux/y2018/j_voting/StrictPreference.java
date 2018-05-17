@@ -22,13 +22,13 @@ public class StrictPreference extends Preference {
 	 */
 	public StrictPreference(List<Alternative> preferences) {
 		super(listAlternativeToListSetAlternative(preferences));
-		LOGGER.debug("StrictPreference constructor\n");
+		LOGGER.debug("StrictPreference constructor");
 	}
 	
 
 	@Override
 	public String toString() {
-		LOGGER.debug("toString : \n");
+		LOGGER.debug("toString : ");
 		String s = "";
 		for(Set<Alternative> set : preferences) {
 			for(Alternative a : set) {
@@ -39,7 +39,7 @@ public class StrictPreference extends Preference {
 	}
 	
 	public List<Alternative> getPreferences(){
-		LOGGER.debug("getPreferences:\n");
+		LOGGER.debug("getPreferences:");
 		return listSetAlternativeToList(preferences);
 	}
 	
@@ -48,16 +48,16 @@ public class StrictPreference extends Preference {
 	 * @return a list of set of alternatives. each set is composed of one alternative
 	 */
 	public static List<Set<Alternative>>listAlternativeToListSetAlternative(List<Alternative> list) {
-		LOGGER.debug("listAlternativeToListSetAlternative\n");
+		LOGGER.debug("listAlternativeToListSetAlternative");
 		Preconditions.checkNotNull(list);
-		LOGGER.debug("parameter list : {}\n",list);
+		LOGGER.debug("parameter list : {}",list);
 		List<Set<Alternative>> set = new ArrayList<>();
 		for(int i=0;i<list.size();i++) {
 			Set<Alternative> alterset = new HashSet<>();
 			alterset.add(list.get(i));
 			set.add(alterset);
 		}
-		LOGGER.debug("new list of set : {}\n",set);
+		LOGGER.debug("new list of set : {}",set);
 		return set;
 	}
 	
@@ -67,16 +67,16 @@ public class StrictPreference extends Preference {
 	 * @return a list of alternatives from a list of sets of alternatives.
 	 */
 	public static List<Alternative> listSetAlternativeToList(List<Set<Alternative>> sets){
-		LOGGER.debug("listSetAlternativeToList:\n");
+		LOGGER.debug("listSetAlternativeToList:");
 		Preconditions.checkNotNull(sets);
-		LOGGER.debug("parameter sets :{}\n",sets);
+		LOGGER.debug("parameter sets :{}",sets);
 		List<Alternative> alts = new ArrayList<>();
 		for(Set<Alternative> s : sets) {
 			for(Alternative a : s) {
 				alts.add(a);
 			}
 		}
-		LOGGER.debug("list : {}\n",alts);
+		LOGGER.debug("list : {}",alts);
 		return alts;
 	}
 }
