@@ -163,7 +163,9 @@ public class Preference {
 	}
 	
 	/**
-	 * @return a set of alternatives containing all the alternatives of the list of set of alternative given. If an alternative appears several times in the list of sets, it appears only once in the new set.
+	 * 
+	 * @param preferences not <code> null </code> a list of sets of alternatives
+	 * @return  a set of alternatives containing all the alternatives of the list of set of alternative given. If an alternative appears several times in the list of sets, it appears only once in the new set.
 	 */
 	public static Set<Alternative> toAlternativeSet(List<Set<Alternative>> preferences){
 		LOGGER.debug("toAlternativeSet:");

@@ -117,20 +117,9 @@ public class StrictProfile {
 	public Set<StrictPreference> getUniquePreferences(){
 		LOGGER.debug("getUniquePreferences");
 		Set<StrictPreference> unique = new HashSet<>();
-		
-		boolean alreadyInList = false;
 		for(StrictPreference pref : association.values()) {
 			LOGGER.debug("next preference : {}", pref);
-			for(StrictPreference uniquePref : unique) {
-				if(pref.equals(uniquePref)) {
-					LOGGER.debug("{} already in the list", pref);
-					alreadyInList = true;
-				}
-			}
-			if(!alreadyInList) {
-				unique.add(pref);
-			}
-			alreadyInList=false;
+			unique.add(pref);
 		}
 		return unique;
 	}
