@@ -56,9 +56,8 @@ public class Borda implements SocialWelfareFunction{
 		Preconditions.checkNotNull(sPref);
 		LOGGER.debug("parameter SPref : {}", sPref.toString());
 		int size = sPref.getPreferences().size();
-		//List<Alternative> alternatives = sPref.getPreferences();
 		for(Alternative a : sPref.getPreferences()){
-			scores.add(a,size - sPref.getAlternativeRank(a) + 1);
+			scores.add(a,size - sPref.getAlternativeRank(a));
 		}
 		LOGGER.debug("return score : {}", scores);
 	}
@@ -77,15 +76,15 @@ public class Borda implements SocialWelfareFunction{
 		boolean notfirst = false;
 		
 		Iterable<Voter> allVoters  = sProfile.getAllVoters();
-
-		Iterable<Alternative> alternativesList = sProfile.getAlternativesComplete();
-		Iterator<Alternative> iteratorA = alternativesList.iterator();
-		Alternative currentAlternative;
+		List<Alternative> alternatives;
+		int size = 0;
 		
 		for(Voter v : allVoters){
+			alternatives = sProfile.getPreference(v).getPreferences();
 			
-			for(Alternative a : (sProfile.getPreference(v)).getPreferences()){
-				scores.add(a,(sProfile.getPreference(v)).getAlternativeRank(a));
+			for(Alternative a : alternatives){
+				size = alternatives.size();
+				scores.add(a,size - (sProfile.getPreference(v)).getAlternativeRank(a));
 			}
 			
 		}
@@ -93,28 +92,6 @@ public class Borda implements SocialWelfareFunction{
 		LOGGER.debug("return scores : {}", scores);
 	}
 
-	/**
-	 * sorts the alternatives by descending order
-	 * @param unsortedScores a multiset <code>not null</code> of alternatives
-	 */
-	
-	/*
-	public void descendingOrder(HashMultiset<Alternative> unsortedScores){
-		LOGGER.debug("descendingOrder");
-		Preconditions.checkNotNull(unsortedScores);
-		
-		HashMultiset<Alternative> tempScores = unsortedScores;
-		Alternative alternativeMax;
-		int size = unsortedScores.size();
-		
-		for(int i=0 ; i<size ; i++){
-			alternativeMax = getMax(tempScores);
-			scores.put(alternativeMax, tempScores.get(alternativeMax));
-			tempScores.remove(alternativeMax);
-		}
-		
-		LOGGER.debug("return sortedScores : {}\n", scores);
-	}*/
 
 	/**
 	 * @param scores a multiset <code>not null</code>
@@ -126,6 +103,7 @@ public class Borda implements SocialWelfareFunction{
 		
 		Iterable<Alternative> alternativesList = tempscores.elementSet();
 		Alternative alternativeMax = new Alternative(0); 
+		
 		boolean first = true;
 		
 		for(Alternative a : alternativesList){
@@ -134,7 +112,7 @@ public class Borda implements SocialWelfareFunction{
 				first = false;
 			}
 			else{
-				if (scores.count(a)>scores.count(alternativeMax)){
+				if (tempscores.count(a)>tempscores.count(alternativeMax)){
 					alternativeMax = a ;
 				}
 			}
@@ -145,31 +123,8 @@ public class Borda implements SocialWelfareFunction{
 		return alternativeMax;
 		
 	}
-
-
-	/**
-	 * 
-	 * @param sProfile a StrictProfile<code>not null</code>
-	 * @return sortedScores a multiset of the alternatives
-	 */
-	
-	/*
-	public void getSortedScores(StrictProfile sProfile){
-		LOGGER.debug("getSortedScores");
-		Preconditions.checkNotNull(sProfile);
-		LOGGER.debug("parameter sProfile : {}", sProfile.toSOC());
-		
-		scores = getScores(sProfile);
-		//descendingOrder(scores);
-		LOGGER.debug("return AScores : {}", scores);
-	}
-	*/
 	
 	
-	/**
-	 *
-	 * @param scores
-	 */
 	public Borda(HashMultiset<Alternative> tempscores) {
 		LOGGER.debug("Borda");
 		scores = tempscores;
@@ -181,15 +136,15 @@ public class Borda implements SocialWelfareFunction{
 	}
 	
 	@Override
-		public int hashCode() {
+	public int hashCode() {
 		LOGGER.debug("hashCode");
-			return Objects.hash(scores);
+		return Objects.hash(scores);
 		}
 	
 	/**
-	 * @param map1 <code>not null</code> 
-	 * @param map2<code>not null</code>
-	 * @return true if the multiset have the same alternatives with the same scores
+	 * @param mset1 <code>not null</code> 
+	 * @param mset2<code>not null</code>
+	 * @return true if the multisets have the same alternatives with the same scores
 	 */
 	
 	
