@@ -3,17 +3,19 @@ package io.github.oliviercailloux.y2018.j_voting;
 import static org.junit.Assert.*;
 
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.*;
 
 import org.junit.Test;
+
+import com.google.common.base.Charsets;
+import com.google.common.io.CharStreams;
 
 
 public class ReadProfileTest {
 
 	@Test
 	public void testReadFile() throws IOException {
-		ReadProfile rp = new ReadProfile();
-		ReadProfile rp2 = new ReadProfile();
 		
 		List<String> expectedResultSOC = new ArrayList<>();
 		List<String> expectedResultSOI = new ArrayList<>();
@@ -30,8 +32,6 @@ public class ReadProfileTest {
 		expectedResultSOC.add("17,3,1,2");
 		expectedResultSOC.add("11,3,2,1");
 		
-		List<String> actualResultSOC = rp.readStream(getClass().getResourceAsStream("profil.soc"));
-		
 		expectedResultSOI.add("3");
 		expectedResultSOI.add("1,Candidate 1 ");
 		expectedResultSOI.add("2,Candidate 2 ");
@@ -46,9 +46,15 @@ public class ReadProfileTest {
 		expectedResultSOI.add("3,2,3,1");
 		expectedResultSOI.add("2,3");
 		
-		List<String> actualResultSOI = rp2.readStream(getClass().getResourceAsStream("profil.soi"));
+		try(InputStreamReader isrSOC = new InputStreamReader(getClass().getResourceAsStream("profil.soc"), Charsets.UTF_8)){
+			List<String> actualResultSOC = CharStreams.readLines(isrSOC);
+			
+			try(InputStreamReader isrSOI = new InputStreamReader(getClass().getResourceAsStream("profil.soi"), Charsets.UTF_8)){
+				List<String> actualResultSOI = CharStreams.readLines(isrSOI);
+				assertTrue(expectedResultSOC.equals(actualResultSOC) && expectedResultSOI.equals(actualResultSOI));
+			}
+		}
 		
-		assertTrue(expectedResultSOC.equals(actualResultSOC) && expectedResultSOI.equals(actualResultSOI));
 	}
 
 	@Test
