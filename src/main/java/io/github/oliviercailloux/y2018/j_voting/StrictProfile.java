@@ -2,6 +2,7 @@ package io.github.oliviercailloux.y2018.j_voting;
 
 import java.io.*;
 import java.util.*;
+
 import org.slf4j.*;
 
 import com.google.common.base.Preconditions;
@@ -94,7 +95,33 @@ public class StrictProfile {
 	 * @return all the voters in the map.
 	 */
 	public Iterable<Voter> getAllVoters(){
-		return association.keySet();
+		
+		Set<Voter> keys = association.keySet();
+		Set<Voter> finalKeys = new HashSet<>();
+		boolean first = true;
+		int size = keys.size();
+		Voter minV = new Voter(0);
+
+		while(finalKeys.size() != size){
+			
+			for (Voter v : keys){
+				if (first){
+					minV = v;
+					first = false;
+				}
+				else{
+					if (v.getId()<minV.getId()){
+						minV = v ;
+					}
+				}
+			}
+			
+			finalKeys.add(minV);
+			keys.remove(minV);
+			first = true;
+		}
+		
+		return finalKeys;
 	}
 	
 	/**
