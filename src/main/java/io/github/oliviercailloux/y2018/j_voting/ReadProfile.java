@@ -13,25 +13,49 @@ import com.google.common.io.CharStreams;
 
 public class ReadProfile {
 	
-	private static Logger LOGGER = LoggerFactory.getLogger(ReadProfile.class.getName());	
+	private static Logger LOGGER = LoggerFactory.getLogger(ReadProfile.class.getName());
+	
 	/**
-	 * @param path a string <code>not null</code> : the path of the file to read (encoded in UTF-8)
-	 * @return fileRead, a list of String where each element is a line of the SOC or SOI file read
+	 * Creates a StrictProfile with the information extracted from a file.
+	 * @param is <code>not null</code> the InputStream from which the data has to be extracted. InputStream is closed in this method.
+	 * @return sProfile a StrictProfile
+	 * @throws IOException 
 	 */
-	public List<String> readStream(InputStream is) throws IOException {
-		LOGGER.debug("ReadProfile : readFile : ") ;
+
+	public StrictProfile createProfileFromStream(InputStream is) throws IOException{
+		LOGGER.debug("ReadProfile : createProfileFromReadFile : ");
 		Preconditions.checkNotNull(is);
-		LOGGER.debug("parameter : path = {}", is);
 		
 		try(InputStreamReader isr = new InputStreamReader(is, Charsets.UTF_8)){
 			List<String> fileRead =  CharStreams.readLines(isr);
-			return fileRead;
+
+			Iterator<String> it = fileRead.iterator();
+			StrictProfile sProfile = new StrictProfile();
+			String lineNbVoters;
+			int nbAlternatives = Integer.parseInt(it.next());	//first number of the file is the number of alternatives
+			LOGGER.debug("number of alternatives : {}", nbAlternatives);
+			List<String> alternatives = new ArrayList<>();
+			List<String> profiles = new ArrayList<>();
+			for(int i = 1 ; i <= nbAlternatives ; i++){//get the lines with the alternatives
+				alternatives.add(it.next());
+			}
+			LOGGER.debug("alternatives : {}", alternatives);
+			lineNbVoters = it.next();//get the line with the nb of voters
+			LOGGER.debug("line with stats about the votes ); {}", lineNbVoters);
+			while(it.hasNext()){//get the rest of the file
+				profiles.add(it.next());
+			}
+			LOGGER.debug("lines with the number of votes for each StrictPreference : {}", profiles);
+			StrictPreference listeAlternatives = getAlternatives(nbAlternatives, alternatives);
+			List<Integer> listInt = getStatsVoters(lineNbVoters);
+			sProfile = buildProfile(profiles, listeAlternatives, listInt.get(0));
+			return sProfile;
 		}
 	}
 	
 	/**
-	 * @param path a String <code>not null</code> of the path to the file to read : data which was read in a SOC/SOI file
-	 * This function prints strings from the read file which path is passed as an argument
+	 * @param is an InputStream <code>not null</code> to read from the desired file, InputStream is closed in this method
+	 * This function prints strings from the read file which InputStream is passed as an argument
 	 * @throws IOException 
 	 */
 	public void displayProfileFromStream(InputStream is) throws IOException{
@@ -39,12 +63,15 @@ public class ReadProfile {
 		Preconditions.checkNotNull(is);
 		LOGGER.debug("parameter : InputStream = {}", is);
 		
-		List<String> fileRead = readStream(is);
 		
-		Iterator<String> it = fileRead.iterator();
-		while(it.hasNext()){
-			System.out.println(it.next());
+		try(InputStreamReader isr = new InputStreamReader(is, Charsets.UTF_8)){
+			List<String> fileRead =  CharStreams.readLines(isr);
+			Iterator<String> it = fileRead.iterator();
+			while(it.hasNext()){
+				System.out.println(it.next());
+			}
 		}
+		
 	}
 	
 	/**
@@ -164,45 +191,6 @@ public class ReadProfile {
 		}
 		return profile;
 	}
-	
-
-	/**
-	 * Creates a StrictProfile with the information extracted from a file.
-	 * @param path <code>not null</code> the path to the file to read
-	 * @return sProfile a StrictProfile
-	 * @throws IOException 
-	 */
-
-	public StrictProfile createProfileFromStream(InputStream is) throws IOException{
-		LOGGER.debug("ReadProfile : createProfileFromReadFile : ");
-		Preconditions.checkNotNull(is);
-		
-		List<String> fileRead = readStream(is);
-		
-		Iterator<String> it = fileRead.iterator();
-		StrictProfile sProfile = new StrictProfile();
-		String lineNbVoters;
-		int nbAlternatives = Integer.parseInt(it.next());	//first number of the file is the number of alternatives
-		LOGGER.debug("number of alternatives : {}", nbAlternatives);
-		List<String> alternatives = new ArrayList<>();
-		List<String> profiles = new ArrayList<>();
-		for(int i = 1 ; i <= nbAlternatives ; i++){//get the lines with the alternatives
-			alternatives.add(it.next());
-		}
-		LOGGER.debug("alternatives : {}", alternatives);
-		lineNbVoters = it.next();//get the line with the nb of voters
-		LOGGER.debug("line with stats about the votes ); {}", lineNbVoters);
-		while(it.hasNext()){//get the rest of the file
-			profiles.add(it.next());
-		}
-		LOGGER.debug("lines with the number of votes for each StrictPreference : {}", profiles);
-		StrictPreference listeAlternatives = getAlternatives(nbAlternatives, alternatives);
-		List<Integer> listInt = getStatsVoters(lineNbVoters);
-		sProfile = buildProfile(profiles, listeAlternatives, listInt.get(0));
-		return sProfile;
-	}
-	
-	
 	
 	
 	/**
