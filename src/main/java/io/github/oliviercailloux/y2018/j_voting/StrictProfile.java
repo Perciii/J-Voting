@@ -67,6 +67,7 @@ public class StrictProfile {
 			output.write(this.toSOC().getBytes());
 			output.close();
 		}
+		
 	}
 	
 	/**
@@ -219,4 +220,6 @@ public class StrictProfile {
 		}
 		return soc;
 	}
+	
+
 }
