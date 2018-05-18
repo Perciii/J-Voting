@@ -60,15 +60,32 @@ public class StrictProfile {
 	 * @param profile a StrictProfile, fileName a String : name of the file that will be written in resources folder
 	 * @throws IOException
 	 */
-	public void writeToSOC(String fileName) throws IOException {
+	/**
+	 * 
+	 * @param output
+	 * @throws IOException
+	 * writes the strict profile in the given output in the SOC format.
+	 */
+	public void writeToSOC(OutputStream output) throws IOException {
 		LOGGER.debug("writeToSOC:");
-		Preconditions.checkNotNull(fileName);
-		LOGGER.debug("parameter filename : {}", fileName);
-		try(OutputStream output = new FileOutputStream(fileName)){
-			output.write(this.toSOC().getBytes());
-			output.close();
+		Preconditions.checkNotNull(output);
+		try(Writer writer = new BufferedWriter(new OutputStreamWriter(output))){
+			String soc = "";
+			soc += getNbAlternativesComplete() + "\n";
+			for(Alternative alter : getAlternativesComplete()) {
+				soc += alter.getId() + "\n";
+			}
+			soc += getNbVoters() + ","+getSumVoteCount() + "," + getNbUniquePreferences() + "\n";
+			for(StrictPreference pref : this.getUniquePreferences()) {
+				soc += getNbVoterByPreference(pref);
+				for(Alternative a : pref.getPreferences()) {
+					soc = soc + "," + a;
+				}
+				soc = soc + "\n";
+			}
+			writer.append(soc);
+			writer.close();
 		}
-		
 	}
 	
 	/**
