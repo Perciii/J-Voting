@@ -15,49 +15,6 @@ import com.google.common.io.CharStreams;
 public class ReadProfileTest {
 
 	@Test
-	public void testReadFile() throws IOException {
-		
-		List<String> expectedResultSOC = new ArrayList<>();
-		List<String> expectedResultSOI = new ArrayList<>();
-		
-		expectedResultSOC.add("3");
-		expectedResultSOC.add("1,Shrek (Full-screen) ");
-		expectedResultSOC.add("2,The X-Files: Season 2 ");
-		expectedResultSOC.add("3,The Punisher ");
-		expectedResultSOC.add("664,664,6");
-		expectedResultSOC.add("263,2,1,3");
-		expectedResultSOC.add("249,1,2,3");
-		expectedResultSOC.add("78,1,3,2");
-		expectedResultSOC.add("46,2,3,1");
-		expectedResultSOC.add("17,3,1,2");
-		expectedResultSOC.add("11,3,2,1");
-		
-		expectedResultSOI.add("3");
-		expectedResultSOI.add("1,Candidate 1 ");
-		expectedResultSOI.add("2,Candidate 2 ");
-		expectedResultSOI.add("3,Candidate 3 ");
-		expectedResultSOI.add("129,129,8");
-		expectedResultSOI.add("52,1,3,2");
-		expectedResultSOI.add("48,1");
-		expectedResultSOI.add("11,1,2,3");
-		expectedResultSOI.add("5,3,2,1");
-		expectedResultSOI.add("4,2");
-		expectedResultSOI.add("4,3,1,2");
-		expectedResultSOI.add("3,2,3,1");
-		expectedResultSOI.add("2,3");
-		
-		try(InputStreamReader isrSOC = new InputStreamReader(getClass().getResourceAsStream("profil.soc"), Charsets.UTF_8)){
-			List<String> actualResultSOC = CharStreams.readLines(isrSOC);
-			
-			try(InputStreamReader isrSOI = new InputStreamReader(getClass().getResourceAsStream("profil.soi"), Charsets.UTF_8)){
-				List<String> actualResultSOI = CharStreams.readLines(isrSOI);
-				assertTrue(expectedResultSOC.equals(actualResultSOC) && expectedResultSOI.equals(actualResultSOI));
-			}
-		}
-		
-	}
-
-	@Test
 	public void testGetAlternatives() {
 		ReadProfile rp = new ReadProfile();
 		
@@ -169,7 +126,7 @@ public class ReadProfileTest {
 	}
 
 	@Test
-	public void testCreateProfileFromFile() throws IOException {
+	public void testCreateProfileFromStream() throws IOException {
 		ReadProfile rp = new ReadProfile();
 		
 		StrictProfile profile = rp.createProfileFromStream(getClass().getResourceAsStream("profileToRead.soc"));
