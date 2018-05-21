@@ -23,7 +23,7 @@ public class ReadProfile {
 	 */
 
 	public StrictProfile createProfileFromStream(InputStream is) throws IOException{
-		LOGGER.debug("ReadProfile : createProfileFromReadFile : ");
+		LOGGER.debug("CreateProfileFromReadFile : ");
 		Preconditions.checkNotNull(is);
 		
 		try(InputStreamReader isr = new InputStreamReader(is, Charsets.UTF_8)){
@@ -60,7 +60,7 @@ public class ReadProfile {
 	 * @throws IOException 
 	 */
 	public void displayProfileFromStream(InputStream is) throws IOException{
-		LOGGER.debug("ReadProfile : displayProfileFromFile : ") ;
+		LOGGER.debug("DisplayProfileFromFile : ") ;
 		Preconditions.checkNotNull(is);
 		LOGGER.debug("parameter : InputStream = {}", is);
 		
@@ -81,7 +81,7 @@ public class ReadProfile {
 	 * @return the Alternatives in the profile given as a StrictPreference.
 	 */
 	public StrictPreference getAlternatives(int nbAlternatives, List<String> file){
-		LOGGER.debug("ReadProfile : GetAlternatives :");
+		LOGGER.debug("GetAlternatives :");
 		Preconditions.checkNotNull(nbAlternatives);
 		Preconditions.checkNotNull(file);
 		LOGGER.debug("parameters : nbAlternatives = {}, file = {}", nbAlternatives, file); 
@@ -107,7 +107,7 @@ public class ReadProfile {
 	 * @return a List with the three computed statistics
 	 */
 	public List<Integer> getStatsVoters(String s){
-		LOGGER.debug("ReadProfile : getNbVoters :");
+		LOGGER.debug("GetNbVoters :");
 		Preconditions.checkNotNull(s);
 		LOGGER.debug("parameter : s = {}", s);
 		List<Integer> list = new ArrayList<>();
@@ -125,7 +125,7 @@ public class ReadProfile {
 	 * @return the StrictPreference given in the line s1
 	 */
 	public StrictPreference getPreferences(StrictPreference listeAlternatives, String s1){
-		LOGGER.debug("ReadProfile : getPreferences");
+		LOGGER.debug("GetPreferences");
 		Preconditions.checkNotNull(listeAlternatives);
 		Preconditions.checkNotNull(s1);
 		LOGGER.debug("parameters : listeAlternatives {}, s1 {}", listeAlternatives, s1);
@@ -174,7 +174,7 @@ public class ReadProfile {
 	 * @param profile <code>not null</code> the StrictProfile to which the votes will be added
 	 */
 	public void addVotes(StrictPreference pref, int nbVoters, StrictProfile profile){
-		LOGGER.debug("ReadProfile : addVotes");
+		LOGGER.debug("AddVotes");
 		Preconditions.checkNotNull(pref);
 		Preconditions.checkNotNull(nbVoters);
 		Preconditions.checkNotNull(profile);
@@ -194,7 +194,7 @@ public class ReadProfile {
 	 * @return the created StrictProfile
 	 */
 	public StrictProfile buildProfile(List<String> file, StrictPreference listAlternatives, int nbVoters){
-		LOGGER.debug("ReadProfile : buildProfiles :");
+		LOGGER.debug("BuildProfiles :");
 		Preconditions.checkNotNull(file);
 		Preconditions.checkNotNull(listAlternatives);
 		Preconditions.checkNotNull(nbVoters);
