@@ -6,14 +6,14 @@ import java.util.*;
 
 import org.junit.Test;
 
-public class StrictProfileTest {
+public class StrictProfileBuilderTest {
 
 	/**
 	 * creates a StrictProfile to run the tests on.
 	 * @return the new StrictProfile
 	 */
-	public static StrictProfile createProfileToTest() {
-		StrictProfile profile = new StrictProfile();
+	public static StrictProfileBuilder createProfileToTest() {
+		StrictProfileBuilder profile = new StrictProfileBuilder();
 		
 		Alternative a1 = new Alternative(1);
 		Alternative a2 = new Alternative(2);
@@ -66,7 +66,7 @@ public class StrictProfileTest {
 		list3.add(a2);
 		StrictPreference pref3 = new StrictPreference(list3);
 		
-		StrictProfile profile = createProfileToTest();
+		StrictProfileBuilder profile = createProfileToTest();
 		profile.addProfile(v7, pref3);
 		
 		assertTrue(profile.getPreference(v7).equals(pref3));

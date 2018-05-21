@@ -37,7 +37,7 @@ public class SWFCommander{
      */
     public void createProfileIncrementally() throws IOException{
     	LOGGER.debug("createProfileIncrementally:");
-    	StrictProfile prof = new StrictProfile();
+    	StrictProfileBuilder prof = new StrictProfileBuilder();
         boolean keepGoing = true;
         int voterId = 1;
 

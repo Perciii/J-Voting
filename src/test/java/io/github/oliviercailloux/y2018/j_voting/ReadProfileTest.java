@@ -1,15 +1,9 @@
 package io.github.oliviercailloux.y2018.j_voting;
 
 import static org.junit.Assert.*;
-
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.*;
-
 import org.junit.Test;
-
-import com.google.common.base.Charsets;
-import com.google.common.io.CharStreams;
 
 
 public class ReadProfileTest {
@@ -71,7 +65,7 @@ public class ReadProfileTest {
 	public void testAddVotes() {
 		ReadProfile rp = new ReadProfile();
 		
-		StrictProfile p = new StrictProfile();
+		StrictProfileBuilder p = new StrictProfileBuilder();
 		
 		Alternative a1 = new Alternative(1);
 		Alternative a2 = new Alternative(2);
@@ -120,7 +114,7 @@ public class ReadProfileTest {
 		alternatives2.add(a1);
 		StrictPreference pref2 = new StrictPreference(alternatives2);
 		
-		StrictProfile profile = rp.buildProfile(file, pref, 3);
+		StrictProfileBuilder profile = rp.buildProfile(file, pref, 3);
 		
 		assertTrue(profile.contains(v1) && profile.contains(v2) && profile.contains(v3) && profile.getPreference(v1).equals(pref) && profile.getPreference(v2).equals(pref) && profile.getPreference(v3).equals(pref2));
 	}
@@ -129,7 +123,7 @@ public class ReadProfileTest {
 	public void testCreateProfileFromStream() throws IOException {
 		ReadProfile rp = new ReadProfile();
 		
-		StrictProfile profile = rp.createProfileFromStream(getClass().getResourceAsStream("profileToRead.soc"));
+		StrictProfileBuilder profile = rp.createProfileFromStream(getClass().getResourceAsStream("profileToRead.soc"));
 		
 		Alternative a1 = new Alternative(1);
 		Alternative a2 = new Alternative(2);

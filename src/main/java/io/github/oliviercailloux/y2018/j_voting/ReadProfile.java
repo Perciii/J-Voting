@@ -22,7 +22,7 @@ public class ReadProfile {
 	 * @throws IOException 
 	 */
 
-	public StrictProfile createProfileFromStream(InputStream is) throws IOException{
+	public StrictProfileBuilder createProfileFromStream(InputStream is) throws IOException{
 		LOGGER.debug("CreateProfileFromReadFile : ");
 		Preconditions.checkNotNull(is);
 		
@@ -30,7 +30,7 @@ public class ReadProfile {
 			List<String> fileRead =  CharStreams.readLines(isr);
 
 			Iterator<String> it = fileRead.iterator();
-			StrictProfile sProfile = new StrictProfile();
+			StrictProfileBuilder sProfile = new StrictProfileBuilder();
 			String lineNbVoters;
 			int nbAlternatives = Integer.parseInt(it.next());	//first number of the file is the number of alternatives
 			LOGGER.debug("number of alternatives : {}", nbAlternatives);
@@ -173,7 +173,7 @@ public class ReadProfile {
 	 * @param nbVoters <code>not null</code> the number of voters that voted for the preference as parameter
 	 * @param profile <code>not null</code> the StrictProfile to which the votes will be added
 	 */
-	public void addVotes(StrictPreference pref, int nbVoters, StrictProfile profile){
+	public void addVotes(StrictPreference pref, int nbVoters, StrictProfileBuilder profile){
 		LOGGER.debug("AddVotes");
 		Preconditions.checkNotNull(pref);
 		Preconditions.checkNotNull(nbVoters);
@@ -193,13 +193,13 @@ public class ReadProfile {
 	 * @param nbVoters <code>not null</code> the number of voters
 	 * @return the created StrictProfile
 	 */
-	public StrictProfile buildProfile(List<String> file, StrictPreference listAlternatives, int nbVoters){
+	public StrictProfileBuilder buildProfile(List<String> file, StrictPreference listAlternatives, int nbVoters){
 		LOGGER.debug("BuildProfiles :");
 		Preconditions.checkNotNull(file);
 		Preconditions.checkNotNull(listAlternatives);
 		Preconditions.checkNotNull(nbVoters);
 		Iterator<String> it = file.iterator();
-		StrictProfile profile = new StrictProfile();
+		StrictProfileBuilder profile = new StrictProfileBuilder();
 		String s1; //where we store the current line
 		while(it.hasNext()){
 			s1 = it.next();

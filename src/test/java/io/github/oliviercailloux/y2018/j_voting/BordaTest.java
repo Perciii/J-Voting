@@ -13,7 +13,7 @@ public class BordaTest {
 	
 	@Test
 	public void testgetSocietyStrictPreference(){
-		StrictProfile profile = new StrictProfile();
+		StrictProfileBuilder profile = new StrictProfileBuilder();
 		Alternative a1 = new Alternative(1);
 		Alternative a2 = new Alternative(2);
 		Alternative a3 = new Alternative(3);
@@ -72,7 +72,7 @@ public class BordaTest {
 	
 	@Test
 	public void testgetScoresProfile() {
-		StrictProfile profile = new StrictProfile();
+		StrictProfileBuilder profile = new StrictProfileBuilder();
 		Alternative a1 = new Alternative(1);
 		Alternative a2 = new Alternative(2);
 		Alternative a3 = new Alternative(3);

@@ -1,10 +1,10 @@
 package io.github.oliviercailloux.y2018.j_voting;
 
 /**
- *A StrictProfile represents a complete StrictProfile. The preferences are strict. The preferences are about the same alternatives exactly.
+ *A StrictProfileI represents an incomplete StrictProfile. The preferences are strict. The preferences are not necessarily about the same alternatives.
  *
  */
-public interface StrictProfile extends StrictProfileI,Profile{
+public interface StrictProfileI extends ProfileI{
 
 	/**
 	 * 

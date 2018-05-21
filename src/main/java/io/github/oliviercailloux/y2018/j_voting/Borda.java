@@ -1,11 +1,8 @@
-
 package io.github.oliviercailloux.y2018.j_voting;
 
 
 import java.util.*;
-
 import org.slf4j.*;
-
 import com.google.common.base.Preconditions;
 import com.google.common.collect.*;
 
@@ -19,7 +16,7 @@ public class Borda implements SocialWelfareFunction{
 	 * @return a StrictPreference with the alternatives sorted
 	 */
 	@Override
-	public StrictPreference getSocietyStrictPreference(StrictProfile sProfile){
+	public StrictPreference getSocietyStrictPreference(StrictProfileBuilder sProfile){
 		LOGGER.debug("getSocietyStrictPreference");
 		Preconditions.checkNotNull(sProfile);
 		LOGGER.debug("parameter SProfile : {}", sProfile);
@@ -68,13 +65,10 @@ public class Borda implements SocialWelfareFunction{
 	 * @param sProfile a StrictProfile <code>not null</code>
 	 * @return unsortedScores a HashMultiset for the alternatives of the profile
 	 */
-	public void getScores(StrictProfile sProfile){
+	public void getScores(StrictProfileBuilder sProfile){
 		LOGGER.debug("getScoreProf");
 		Preconditions.checkNotNull(sProfile);
 		LOGGER.debug("parameter SProfile : {}", sProfile);
-		
-		boolean notfirst = false;
-		
 		Iterable<Voter> allVoters  = sProfile.getAllVoters();
 		List<Alternative> alternatives;
 		int size = 0;
