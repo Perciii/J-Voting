@@ -78,9 +78,9 @@ public class ReadProfile {
 	/**
 	 * @param nbAlternatives <code>not null</code> the number of alternatives in the profile
 	 * @param file <code>not null</code> a list of strings each containing an alternative
-	 * @return the Alternatives in the profile given in a list of string.
+	 * @return the Alternatives in the profile given as a StrictPreference.
 	 */
-	public StrictPreference getAlternatives(int nbAlternatives,List<String> file){
+	public StrictPreference getAlternatives(int nbAlternatives, List<String> file){
 		LOGGER.debug("ReadProfile : GetAlternatives :");
 		Preconditions.checkNotNull(nbAlternatives);
 		Preconditions.checkNotNull(file);
