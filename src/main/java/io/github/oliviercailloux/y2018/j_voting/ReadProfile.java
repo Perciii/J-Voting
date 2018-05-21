@@ -16,7 +16,7 @@ public class ReadProfile {
 	private static Logger LOGGER = LoggerFactory.getLogger(ReadProfile.class.getName());
 	
 	/**
-	 * Creates a StrictProfile with the information extracted from a file.
+	 * Creates a StrictProfile with the information extracted from the InputStream given as parameter.
 	 * @param is <code>not null</code> the InputStream from which the data has to be extracted. InputStream is closed in this method.
 	 * @return sProfile a StrictProfile
 	 * @throws IOException 
@@ -54,8 +54,9 @@ public class ReadProfile {
 	}
 	
 	/**
-	 * @param is an InputStream <code>not null</code> to read from the desired file, InputStream is closed in this method
-	 * This function prints strings from the read file which InputStream is passed as an argument
+	 * This method prints strings from the read file which InputStream is passed as an argument. It uses an InputStreamReader using UTF-8 to read the Stream
+	 * @param is an InputStream <code>not null</code> to read from the desired file<br>
+	 * InputStream is closed in this method
 	 * @throws IOException 
 	 */
 	public void displayProfileFromStream(InputStream is) throws IOException{
@@ -75,9 +76,9 @@ public class ReadProfile {
 	}
 	
 	/**
-	 * @param nbAlternatives the number of alternatives in the profile
-	 * @param file a list of strings each containing an alternative
-	 * @return the alternatives in the profile given in a list of string.
+	 * @param nbAlternatives <code>not null</code> the number of alternatives in the profile
+	 * @param file <code>not null</code> a list of strings each containing an alternative
+	 * @return the Alternatives in the profile given in a list of string.
 	 */
 	public StrictPreference getAlternatives(int nbAlternatives,List<String> file){
 		LOGGER.debug("ReadProfile : GetAlternatives :");
@@ -102,8 +103,8 @@ public class ReadProfile {
 	
 	
 	/**
-	 * @param s the line with the voters statistics (number, sum of count, number of unique alternatives)
-	 * @return a list with the three computed statistics
+	 * @param s <code>not null</code> the line with the voters statistics (number, sum of count, number of unique alternatives)
+	 * @return a List with the three computed statistics
 	 */
 	public List<Integer> getStatsVoters(String s){
 		LOGGER.debug("ReadProfile : getNbVoters :");
@@ -119,8 +120,8 @@ public class ReadProfile {
 	}
 	
 	/**
-	 * @param listeAlternatives the alternatives of the profile
-	 * @param s1 a line of the profile containing the number of voters for a preference followed by the preference (list of alternatives)
+	 * @param listeAlternatives <code>not null</code> the alternatives of the profile
+	 * @param s1 <code>not null</code> a line of the profile containing the number of voters for a preference followed by the preference (list of alternatives)
 	 * @return the StrictPreference given in the line s1
 	 */
 	public StrictPreference getPreferences(StrictPreference listeAlternatives, String s1){
@@ -146,9 +147,9 @@ public class ReadProfile {
 	}
 	
 	/**
-	 * @param pref a StrictPreference
-	 * @param nbVoters the number of voters that voted for the preference as parameter
-	 * @param profile the StrictProfile to which the votes will be added
+	 * @param pref <code>not null</code> a StrictPreference
+	 * @param nbVoters <code>not null</code> the number of voters that voted for the preference as parameter
+	 * @param profile <code>not null</code> the StrictProfile to which the votes will be added
 	 */
 	public void addVotes(StrictPreference pref, int nbVoters, StrictProfile profile){
 		LOGGER.debug("ReadProfile : addVotes");
@@ -165,9 +166,9 @@ public class ReadProfile {
 	}
 
 	/**
-	 * @param file the lines with the number of votes for each preference
-	 * @param listAlternatives the alternatives of the profile
-	 * @param nbVoters the number of voters
+	 * @param file <code>not null</code> the lines with the number of votes for each preference
+	 * @param listAlternatives <code>not null</code> the alternatives of the profile
+	 * @param nbVoters <code>not null</code> the number of voters
 	 * @return the created StrictProfile
 	 */
 	public StrictProfile buildProfile(List<String> file, StrictPreference listAlternatives, int nbVoters){
@@ -181,7 +182,7 @@ public class ReadProfile {
 		while(it.hasNext()){
 			s1 = it.next();
 			LOGGER.debug("next line : {}",s1);
-			if (!s1.contains(",")){// if the line doesn't contain , it's the line of an alternative
+			if (!s1.contains(",")){// if the line doesn't contain "," it's the line of an alternative
 				throw new IllegalArgumentException("the first string of file is an alternative line.");
 			}
 			String[] line = s1.split(",");
@@ -194,7 +195,7 @@ public class ReadProfile {
 	
 	
 	/**
-	 * This function displays the contents of the profiles in the resources, if they exist 
+	 * This method displays the contents of the profiles in the resources, if they exist 
 	 **/
 	public void main(String[] args) throws IOException {
 		//read SOC file
