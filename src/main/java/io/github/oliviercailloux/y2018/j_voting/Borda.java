@@ -22,7 +22,7 @@ public class Borda implements SocialWelfareFunction{
 	public StrictPreference getSocietyStrictPreference(StrictProfile sProfile){
 		LOGGER.debug("getSocietyStrictPreference");
 		Preconditions.checkNotNull(sProfile);
-		LOGGER.debug("parameter SProfile : {}", sProfile.toSOC());
+		LOGGER.debug("parameter SProfile : {}", sProfile);
 		
 		getScores(sProfile);
 		
@@ -71,7 +71,7 @@ public class Borda implements SocialWelfareFunction{
 	public void getScores(StrictProfile sProfile){
 		LOGGER.debug("getScoreProf");
 		Preconditions.checkNotNull(sProfile);
-		LOGGER.debug("parameter SProfile : {}", sProfile.toSOC());
+		LOGGER.debug("parameter SProfile : {}", sProfile);
 		
 		boolean notfirst = false;
 		

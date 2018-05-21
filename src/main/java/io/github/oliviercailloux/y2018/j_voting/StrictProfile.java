@@ -110,36 +110,14 @@ public class StrictProfile {
 	}
 	
 	/**
-	 * @return all the voters in the map.
+	 * @return all the voters in the map in a sorted set.
 	 */
-	public Iterable<Voter> getAllVoters(){
-		
-		Set<Voter> keys = association.keySet();
-		Set<Voter> finalKeys = new HashSet<>();
-		boolean first = true;
-		int size = keys.size();
-		Voter minV = new Voter(0);
-
-		while(finalKeys.size() != size){
-			
-			for (Voter v : keys){
-				if (first){
-					minV = v;
-					first = false;
-				}
-				else{
-					if (v.getId()<minV.getId()){
-						minV = v ;
-					}
-				}
-			}
-			
-			finalKeys.add(minV);
-			keys.remove(minV);
-			first = true;
+	public SortedSet<Voter> getAllVoters(){
+		SortedSet<Voter> keys = new TreeSet<Voter>();
+		for(Voter v : association.keySet()) {
+			keys.add(v);
 		}
-		
-		return finalKeys;
+		return keys;
 	}
 	
 	/**
@@ -247,7 +225,7 @@ public class StrictProfile {
 	/**
 	 * @return a complete Strict Profile into a string in SOC format
 	 */
-	public String toSOC() {
+/*	public String toSOC() {
 		LOGGER.debug("toSOC");
 		String soc = "";
 		soc += getNbAlternativesComplete() + "\n";
@@ -263,6 +241,22 @@ public class StrictProfile {
 			soc = soc + "\n";
 		}
 		return soc;
+	}*/
+	
+	/**
+	 * returns a string representing the profile : each line contains the id of the voter and the preference he voted for.
+	 */
+	@Override
+	public String toString() {
+		LOGGER.debug("toString:");
+		String s = "";
+		for(Voter v : getAllVoters()) {
+			s += v.getId();
+			s += " : ";
+			s += getPreference(v).toString();
+			s += "\n";
+		}
+		return s;
 	}
 	
 

@@ -1,9 +1,7 @@
 package io.github.oliviercailloux.y2018.j_voting;
 
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+import org.slf4j.*;
 import com.google.common.base.Preconditions;
 
 
@@ -12,7 +10,7 @@ import com.google.common.base.Preconditions;
  * This class is immutable
  * Contains an integer being the id of the voter
  */
-public class Voter {
+public class Voter implements Comparable<Voter>{
 	private int id;
 	private static Logger LOGGER = LoggerFactory.getLogger(Voter.class.getName());
 	
@@ -50,4 +48,19 @@ public class Voter {
 	public int hashCode() {
 		return id;
 	}
+	
+	/**
+	 * 
+	 * 
+	 * @param v2 not <code> null </code>
+	 * @return an integer : 0 if the voters have the same id, <0 if the calling voter is smaller than the parameter, else >0.
+	 */
+	@Override
+	public int compareTo(Voter v2) {
+		LOGGER.debug("compare:");
+		Preconditions.checkNotNull(v2);
+		LOGGER.debug("calling voter :v1 {},parameter v2 {}",this.getId(),v2.getId());
+		return this.getId()-v2.getId();
+	}
+
 }

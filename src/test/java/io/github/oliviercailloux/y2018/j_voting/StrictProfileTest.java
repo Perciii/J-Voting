@@ -113,7 +113,14 @@ public class StrictProfileTest {
 		Voter v4 = new Voter(4);
 		Voter v5 = new Voter(5);
 		Voter v6 = new Voter(6);
-		assertTrue(createProfileToTest().getNbVoters() == 6 && createProfileToTest().contains(v1) && createProfileToTest().contains(v2) && createProfileToTest().contains(v3) && createProfileToTest().contains(v4) && createProfileToTest().contains(v5) && createProfileToTest().contains(v6));
+		SortedSet<Voter> set = new TreeSet<Voter>();
+		set.add(v1);
+		set.add(v2);
+		set.add(v3);
+		set.add(v4);
+		set.add(v5);
+		set.add(v6);
+		assertEquals(createProfileToTest().getAllVoters(),set);
 	}
 
 	/**
@@ -216,21 +223,13 @@ public class StrictProfileTest {
 	}
 
 	@Test
-	public void testToSOC() {
-		//all these strings are correct (the list of possible strings is not complete but these are the ones that
-		//could be given by the functions)
-		String soc = "3\n" + "1\n2\n3\n" + "6,6,2\n"  + "2,3,2,1\n" + "4,1,2,3\n";
-		String soc2 = "3\n" + "3\n2\n1\n" + "6,6,2\n" + "4,1,2,3\n" + "2,3,2,1\n";
-		String soc3 = "3\n" + "1\n2\n3\n" + "6,6,2\n"+ "4,1,2,3\n"  + "2,3,2,1\n" ;
-		String soc4 = "3\n" + "3\n2\n1\n" + "6,6,2\n" + "2,3,2,1\n" + "4,1,2,3\n";
-		
-		StrictProfile prof = createProfileToTest();
-		boolean isSoc = prof.toSOC().equals(soc);
-		boolean isSoc2 = prof.toSOC().equals(soc2);
-		boolean isSoc3 = prof.toSOC().equals(soc3);
-		boolean isSoc4 = prof.toSOC().equals(soc4);
-		
-		assertTrue(isSoc || isSoc2 || isSoc3 || isSoc4);
+	public void testToStringStrictProfile() {
+		String s = "1 : 1,2,3\n";
+		s += "2 : 1,2,3\n";
+		s += "3 : 1,2,3\n";
+		s += "4 : 1,2,3\n";
+		s += "5 : 3,2,1\n";
+		s += "6 : 3,2,1\n";
+		assertEquals(s,createProfileToTest().toString());
 	}
-
 }
