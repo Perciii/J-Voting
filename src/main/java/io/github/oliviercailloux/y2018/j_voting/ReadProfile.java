@@ -147,6 +147,28 @@ public class ReadProfile {
 	}
 	
 	/**
+	 * 
+	 * @param s1 not <code>null</null>
+	 * @return the strictpreference in the string. The string only contains the alternatives.
+	 */
+	public StrictPreference getPreferences(String s1){
+		LOGGER.debug("GetPreferences");
+		Preconditions.checkNotNull(s1);
+		LOGGER.debug("parameters : s1 {}",s1);
+		String[] s2 = s1.split(",");
+		List<Alternative> pref = new ArrayList<>();
+		for(String stralt : s2){
+			Alternative alter = new Alternative(Integer.parseInt(stralt.trim()));
+			LOGGER.debug("next alternative {}", alter.getId());
+			pref.add(alter);
+		}
+		if(pref.size() == 0) {
+			throw new IllegalArgumentException("The preference is empty.");
+		}
+		return new StrictPreference(pref);
+	}
+	
+	/**
 	 * @param pref <code>not null</code> a StrictPreference
 	 * @param nbVoters <code>not null</code> the number of voters that voted for the preference as parameter
 	 * @param profile <code>not null</code> the StrictProfile to which the votes will be added
