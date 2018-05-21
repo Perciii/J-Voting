@@ -113,7 +113,7 @@ public class StrictProfile {
 	 * @return all the voters in the map in a sorted set.
 	 */
 	public SortedSet<Voter> getAllVoters(){
-		SortedSet<Voter> keys = new TreeSet<Voter>();
+		SortedSet<Voter> keys = new TreeSet<>();
 		for(Voter v : association.keySet()) {
 			keys.add(v);
 		}
