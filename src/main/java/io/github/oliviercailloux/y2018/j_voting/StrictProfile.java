@@ -13,4 +13,9 @@ public interface StrictProfile extends StrictProfileI,Profile{
 	 */
 	@Override
 	public StrictPreference getPreference(Voter v);
+	
+	/**
+	 * writes the strict and complete profile into a new file with the SOC format.
+	 */
+	public void writeToSOC();
 }

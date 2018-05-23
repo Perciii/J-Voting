@@ -4,8 +4,8 @@ public interface SocialWelfareFunction {
 	
 	/**
 	 * 
-	 * @param profile not null
-	 * @return a StrictPreference with the society's preference from the profile. This StrictPreference cannot be empty.
+	 * @param profile not <code>null</code>
+	 * @return a Preference with the society's preference from the profile. This Preference cannot be empty.
 	 */
-	 public StrictPreference getSocietyStrictPreference(StrictProfileBuilder profile);
+	 public Preference getSocietyStrictPreference(ProfileI profile);
 }

@@ -13,4 +13,9 @@ public interface StrictProfileI extends ProfileI{
 	 */
 	@Override
 	public StrictPreference getPreference(Voter v);
+	
+	@Override
+	public default boolean isStrict() {
+		return true;
+	}
 }

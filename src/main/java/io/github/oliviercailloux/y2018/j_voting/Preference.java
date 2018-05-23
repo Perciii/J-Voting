@@ -242,5 +242,17 @@ public class Preference {
 		LOGGER.debug("size = {}",size);
 		return size;
 	}
+	
+	/**
+	 * 
+	 * @return true if the Preference is Strict (without several alternatives having the same rank)
+	 */
+	public boolean isStrict() {
+		LOGGER.debug("isStrict:");
+		if(preferences.size() == size(preferences)) {
+			return true;
+		}
+		return false;
+	}
 
 }

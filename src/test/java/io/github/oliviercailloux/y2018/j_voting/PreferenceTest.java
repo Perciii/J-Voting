@@ -193,4 +193,28 @@ public class PreferenceTest {
 	public void testSizeListSetAlternative() {
 		assertEquals(Preference.size(createPreferenceToTest().getPreferencesNonStrict()), 5);
 	}
+	
+	@Test
+	public void testIsStrictFalse() {
+		assertTrue(!createPreferenceToTest().isStrict());
+	}
+	
+	@Test
+	public void testIsStrictTrue() {
+		Alternative a1 = new Alternative(1);
+		Alternative a2 = new Alternative(2);
+		Alternative a3 = new Alternative(3);
+		Set<Alternative> s1 = new HashSet<>();
+		Set<Alternative> s2 = new HashSet<>();
+		Set<Alternative> s3 = new HashSet<>();
+		s1.add(a1);
+		s2.add(a2);
+		s3.add(a3);
+		List<Set<Alternative>> list = new ArrayList<>();
+		list.add(s1);
+		list.add(s2);
+		list.add(s3);
+		Preference p = new Preference(list);
+		assertTrue(p.isStrict());
+	}
 }
