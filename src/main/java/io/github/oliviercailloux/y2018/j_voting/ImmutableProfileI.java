@@ -50,20 +50,24 @@ public class ImmutableProfileI implements ProfileI{
 
 	@Override
 	public SortedSet<Voter> getAllVoters() {
+		LOGGER.debug("getAllVoters:");
 		SortedSet<Voter> keys = new TreeSet<>();
 		for(Voter v : votes.keySet()) {
 			keys.add(v);
 		}
+		LOGGER.debug("all voter : {}",keys);
 		return keys;
 	}
 
 	@Override
 	public int getNbVoters() {
+		LOGGER.debug("getNbVoters:");
 		return getAllVoters().size();
 	}
 
 	@Override
 	public int getSumVoteCount() {
+		LOGGER.debug("getSumCount:");
 		return getAllVoters().size();
 	}
 
@@ -80,6 +84,7 @@ public class ImmutableProfileI implements ProfileI{
 
 	@Override
 	public int getNbUniquePreferences() {
+		LOGGER.debug("getNbUniquePreferences:");
 		return getUniquePreferences().size();
 	}
 
