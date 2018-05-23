@@ -57,7 +57,7 @@ public class SWFCommander{
             	}
             }
             voterId++;
-            System.out.println(swf.getSocietyStrictPreference(prof));
+            System.out.println(swf.getSocietyStrictPreference(prof.createProfileI()));
         }
     }
     

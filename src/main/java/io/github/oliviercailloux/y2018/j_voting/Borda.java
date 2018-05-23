@@ -12,16 +12,16 @@ public class Borda implements SocialWelfareFunction{
 	private HashMultiset<Alternative> scores;
 	
 	/**
-	 * @param sProfile a StrictProfile <code>not null</code>
-	 * @return a StrictPreference with the alternatives sorted
+	 * @param profile a ProfileI <code>not null</code>
+	 * @return a Preference with the alternatives sorted
 	 */
 	@Override
-	public StrictPreference getSocietyStrictPreference(StrictProfileBuilder sProfile){
+	public Preference getSocietyStrictPreference(ProfileI profile){
 		LOGGER.debug("getSocietyStrictPreference");
-		Preconditions.checkNotNull(sProfile);
-		LOGGER.debug("parameter SProfile : {}", sProfile);
+		Preconditions.checkNotNull(profile);
+		LOGGER.debug("parameter SProfile : {}", profile);
 		
-		getScores(sProfile);
+		getScores(profile);
 		
 		LOGGER.debug("return AScores : {}", scores);
 		
@@ -36,7 +36,7 @@ public class Borda implements SocialWelfareFunction{
 			tempscores.remove(alMax,tempscores.count(alMax));
 		}
 		
-		StrictPreference pref = new StrictPreference(al);
+		Preference pref = new StrictPreference(al);
 		
 		LOGGER.debug("return AScores : {}", pref);
 		return pref;
@@ -48,13 +48,13 @@ public class Borda implements SocialWelfareFunction{
 	 * @param sPref a StrictPreference <code>not null</code>
 	 * @return a multiset for the alternaitves in this StrictPreference
 	 */
-	public void getScores(StrictPreference sPref){
+	public void getScores(Preference pref){
 		LOGGER.debug("getScorePref");
-		Preconditions.checkNotNull(sPref);
-		LOGGER.debug("parameter SPref : {}", sPref.toString());
-		int size = sPref.getPreferences().size();
-		for(Alternative a : sPref.getPreferences()){
-			scores.add(a,size - sPref.getAlternativeRank(a));
+		Preconditions.checkNotNull(pref);
+		LOGGER.debug("parameter SPref : {}", pref);
+		int size = pref.size();
+		for(Alternative a : Preference.toAlternativeSet(pref.getPreferencesNonStrict())){
+			scores.add(a,size - pref.getAlternativeRank(a));
 		}
 		LOGGER.debug("return score : {}", scores);
 	}
@@ -62,23 +62,23 @@ public class Borda implements SocialWelfareFunction{
 
 	/**
 	 * 
-	 * @param sProfile a StrictProfile <code>not null</code>
+	 * @param profile a ProfileI <code>not null</code>
 	 * @return unsortedScores a HashMultiset for the alternatives of the profile
 	 */
-	public void getScores(StrictProfileBuilder sProfile){
+	public void getScores(ProfileI profile){
 		LOGGER.debug("getScoreProf");
-		Preconditions.checkNotNull(sProfile);
-		LOGGER.debug("parameter SProfile : {}", sProfile);
-		Iterable<Voter> allVoters  = sProfile.getAllVoters();
-		List<Alternative> alternatives;
+		Preconditions.checkNotNull(profile);
+		LOGGER.debug("parameter SProfile : {}", profile);
+		Iterable<Voter> allVoters  = profile.getAllVoters();
+		Set<Alternative> alternatives;
 		int size = 0;
 		
 		for(Voter v : allVoters){
-			alternatives = sProfile.getPreference(v).getPreferences();
+			alternatives = Preference.toAlternativeSet(profile.getPreference(v).getPreferencesNonStrict());
 			
 			for(Alternative a : alternatives){
 				size = alternatives.size();
-				scores.add(a,size - (sProfile.getPreference(v)).getAlternativeRank(a));
+				scores.add(a,size - (profile.getPreference(v)).getAlternativeRank(a));
 			}
 			
 		}
