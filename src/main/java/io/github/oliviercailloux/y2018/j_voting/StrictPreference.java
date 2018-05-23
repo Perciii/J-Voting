@@ -79,4 +79,5 @@ public class StrictPreference extends Preference {
 		LOGGER.debug("list : {}",alts);
 		return alts;
 	}
+
 }

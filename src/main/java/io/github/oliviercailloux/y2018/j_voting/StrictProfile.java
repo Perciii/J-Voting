@@ -1,5 +1,6 @@
 package io.github.oliviercailloux.y2018.j_voting;
 
+import java.io.*;
 /**
  *A StrictProfile represents a complete StrictProfile. The preferences are strict. The preferences are about the same alternatives exactly.
  *
@@ -17,5 +18,5 @@ public interface StrictProfile extends StrictProfileI,Profile{
 	/**
 	 * writes the strict and complete profile into a new file with the SOC format.
 	 */
-	public void writeToSOC();
+	public void writeToSOC(OutputStream output) throws IOException;
 }
