@@ -29,6 +29,25 @@ public class ImmutableStrictProfileI extends ImmutableProfileI implements Strict
 		return newmap;
 	}
 	
+	/**
+	 * 
+	 * @param map not <code> null</code>
+	 * @return a mapping of the voters and their Preference as a StrictPreference if possible.
+	 */
+	public static Map<Voter,StrictPreference> mapNonStrictToStrict(Map<Voter,Preference> map){
+		LOGGER.debug("mapNonStrictToStrict:");
+		Preconditions.checkNotNull(map);
+		Map<Voter,StrictPreference> newmap = new HashMap<>();
+		Set<Map.Entry<Voter,Preference>> mapping = map.entrySet();
+		for(Map.Entry<Voter,Preference> vote : mapping) {
+			if(!vote.getValue().isStrict()) {
+				throw new IllegalArgumentException("The preferences are not all strict.");
+			}
+			newmap.put(vote.getKey(),new StrictPreference(StrictPreference.listSetAlternativeToList(vote.getValue().getPreferencesNonStrict())));
+		}
+		return newmap;
+	}
+	
 	public StrictPreference getPreference(Voter v) {
 		LOGGER.debug("getPreference:");
 		Preconditions.checkNotNull(v);
