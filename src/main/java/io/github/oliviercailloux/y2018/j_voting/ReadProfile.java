@@ -22,7 +22,7 @@ public class ReadProfile {
 	 * @throws IOException 
 	 */
 
-	public StrictProfileBuilder createProfileFromStream(InputStream is) throws IOException{
+	public StrictProfileI createProfileFromStream(InputStream is) throws IOException{
 		LOGGER.debug("CreateProfileFromReadFile : ");
 		Preconditions.checkNotNull(is);
 		
@@ -30,7 +30,7 @@ public class ReadProfile {
 			List<String> fileRead =  CharStreams.readLines(isr);
 
 			Iterator<String> it = fileRead.iterator();
-			StrictProfileBuilder sProfile = new StrictProfileBuilder();
+			//StrictProfileBuilder sProfile = new StrictProfileBuilder();
 			String lineNbVoters;
 			int nbAlternatives = Integer.parseInt(it.next());	//first number of the file is the number of alternatives
 			LOGGER.debug("number of alternatives : {}", nbAlternatives);
@@ -48,8 +48,7 @@ public class ReadProfile {
 			LOGGER.debug("lines with the number of votes for each StrictPreference : {}", profiles);
 			StrictPreference listeAlternatives = getAlternatives(nbAlternatives, alternatives);
 			List<Integer> listInt = getStatsVoters(lineNbVoters);
-			sProfile = buildProfile(profiles, listeAlternatives, listInt.get(0));
-			return sProfile;
+			return buildProfile(profiles, listeAlternatives, listInt.get(0));
 		}
 	}
 	
@@ -193,7 +192,7 @@ public class ReadProfile {
 	 * @param nbVoters <code>not null</code> the number of voters
 	 * @return the created StrictProfile
 	 */
-	public StrictProfileBuilder buildProfile(List<String> file, StrictPreference listAlternatives, int nbVoters){
+	public StrictProfileI buildProfile(List<String> file, StrictPreference listAlternatives, int nbVoters){
 		LOGGER.debug("BuildProfiles :");
 		Preconditions.checkNotNull(file);
 		Preconditions.checkNotNull(listAlternatives);
@@ -212,7 +211,7 @@ public class ReadProfile {
 			LOGGER.debug("to add : {} votes for the StrictPreference {}",line[0].trim(),pref);
 			addVotes(pref, Integer.parseInt(line[0].trim()), profile);
 		}
-		return profile;
+		return profile.createStrictProfileI();
 	}
 	
 	

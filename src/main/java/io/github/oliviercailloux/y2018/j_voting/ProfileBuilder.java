@@ -13,6 +13,7 @@ public class ProfileBuilder {
 
 	private static Logger LOGGER = LoggerFactory.getLogger(ProfileBuilder.class.getName());
 	protected Map<Voter,Preference> votes;
+	protected int nextVoterId = 1;
 	
 	public ProfileBuilder() {
 		LOGGER.debug("constructor empty:");
