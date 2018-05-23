@@ -25,18 +25,26 @@ public class Borda implements SocialWelfareFunction{
 		
 		LOGGER.debug("return AScores : {}", scores);
 		
-		Alternative alMax;
-		int size = scores.elementSet().size();
-		List<Alternative> al = new ArrayList<>();
+		//int size = scores.elementSet().size();
+		List<Set<Alternative>> al = new ArrayList<>();
+		Set<Alternative> s = new HashSet<>();
 		HashMultiset<Alternative> tempscores = scores;
-		
+		while(!tempscores.isEmpty()) {
+			s = getMax(tempscores);
+			al.add(s);
+			for(Alternative a : s) {
+				tempscores.remove(a,tempscores.count(a));
+			}
+		}
+		/*
+		Alternative alMax;
 		for(int i=0 ; i<size ; i++){
 			alMax = getMax(tempscores);
 			al.add(alMax);
 			tempscores.remove(alMax,tempscores.count(alMax));
-		}
+		}*/
 		
-		Preference pref = new StrictPreference(al);
+		Preference pref = new Preference(al);
 		
 		LOGGER.debug("return AScores : {}", pref);
 		return pref;
@@ -91,10 +99,10 @@ public class Borda implements SocialWelfareFunction{
 	 * @param scores a multiset <code>not null</code>
 	 * @return the alternative with the maximum score in the multiset
 	 */
-	public Alternative getMax(HashMultiset<Alternative> tempscores){
+	public Set<Alternative> getMax(HashMultiset<Alternative> tempscores){
 		LOGGER.debug("getMax");
 		Preconditions.checkNotNull(tempscores);
-		
+		Set<Alternative> set = new HashSet<>();
 		Iterable<Alternative> alternativesList = tempscores.elementSet();
 		Alternative alternativeMax = new Alternative(0); 
 		
@@ -103,18 +111,24 @@ public class Borda implements SocialWelfareFunction{
 		for(Alternative a : alternativesList){
 			if (first){
 				alternativeMax = a;
+				set.add(a);
 				first = false;
 			}
 			else{
 				if (tempscores.count(a)>tempscores.count(alternativeMax)){
 					alternativeMax = a ;
+					set = new HashSet<>();
+					set.add(a);					
+				}
+				if (tempscores.count(a) == tempscores.count(alternativeMax)){
+					set.add(a);					
 				}
 			}
 		}
 		
 		
-		LOGGER.debug("Max : {} ", alternativeMax);
-		return alternativeMax;
+		LOGGER.debug("Max : {} ", set);
+		return set;
 		
 	}
 	
