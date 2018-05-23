@@ -131,5 +131,39 @@ public class ImmutableProfileI implements ProfileI{
 		LOGGER.debug("result: {}",nb);
 		return nb;
 	}
+	
+	@Override
+	public boolean equals(Object o) {
+		LOGGER.debug("equals:");
+		Preconditions.checkNotNull(o);
+		if(!(o instanceof ImmutableProfileI)) {
+			return false;
+		}
+		ProfileI prof = (ImmutableProfileI) o;
+		SortedSet<Voter> set1 = prof.getAllVoters();
+		SortedSet<Voter> set2 = getAllVoters();
+		if(set1.size() != set2.size()) {
+			LOGGER.debug("false : not as many voters.");
+			return false;
+		}
+		for(Voter v : set1) {
+			if(!contains(v)) {
+				LOGGER.debug("false : at least a voter not in both profiles.");
+				return false;
+			}
+			if(!prof.getPreference(v).equals(getPreference(v))) {
+				LOGGER.debug("false : voter did not vote for the same preference.");
+				return false;
+			}
+		}
+		LOGGER.debug("true");
+		return true;
+	}
+	
+	@Override
+	public int hashCode() {
+		LOGGER.debug("hasCode:");
+		return Objects.hash(votes);
+	}
 
 }
