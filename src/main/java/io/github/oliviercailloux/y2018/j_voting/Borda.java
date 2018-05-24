@@ -16,7 +16,7 @@ public class Borda implements SocialWelfareFunction{
 	 * @return a Preference with the alternatives sorted
 	 */
 	@Override
-	public Preference getSocietyStrictPreference(ProfileI profile){
+	public Preference getSocietyPreference(ProfileI profile){
 		LOGGER.debug("getSocietyStrictPreference");
 		Preconditions.checkNotNull(profile);
 		LOGGER.debug("parameter SProfile : {}", profile);

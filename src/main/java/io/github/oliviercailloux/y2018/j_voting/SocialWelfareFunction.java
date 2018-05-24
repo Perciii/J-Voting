@@ -7,5 +7,5 @@ public interface SocialWelfareFunction {
 	 * @param profile not <code>null</code>
 	 * @return a Preference with the society's preference from the profile. This Preference cannot be empty.
 	 */
-	 public Preference getSocietyStrictPreference(ProfileI profile);
+	 public Preference getSocietyPreference(ProfileI profile);
 }

@@ -53,7 +53,7 @@ public class BordaTest {
 		return new ImmutableProfileI(profile);
 	}
 	@Test
-	public void testgetSocietyStrictPreference(){
+	public void testgetSocietyPreference(){
 		ProfileI prof = createIPIToTest();
 		
 		Alternative a1 = new Alternative(1);
@@ -71,7 +71,7 @@ public class BordaTest {
 		list1.add(s1);
 		list1.add(s2);		
 		Preference pref1 = new Preference(list1);
-		assertEquals(new Borda().getSocietyStrictPreference(prof),pref1);
+		assertEquals(new Borda().getSocietyPreference(prof),pref1);
 	}
 	
 	//test setscores ? => add a getMultiSet to Borda
