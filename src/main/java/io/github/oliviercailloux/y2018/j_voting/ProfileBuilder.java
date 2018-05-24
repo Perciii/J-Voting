@@ -17,7 +17,7 @@ public class ProfileBuilder {
 	
 	public ProfileBuilder() {
 		LOGGER.debug("constructor empty:");
-		votes = new HashMap<Voter,Preference>();
+		votes = new HashMap<>();
 	}
 	
 	/**
@@ -78,12 +78,12 @@ public class ProfileBuilder {
 		if(!createProfileI().isStrict()) {
 			throw new IllegalArgumentException("The built profile is not strict.");
 		}
-		return new ImmutableStrictProfileI(ImmutableStrictProfile.mapNonStrictToStrict(votes));
+		return new ImmutableStrictProfileI(ImmutableStrictProfileI.mapNonStrictToStrict(votes));
 	}
 	
 	/**
 	 * 
-	 * @return a StrictProfile create from te builder if it is strict and complete, otherwise throws an exception.
+	 * @return a StrictProfile created from the builder if it is strict and complete, otherwise throws an exception.
 	 */
 	public StrictProfile createStrictProfile() {
 		if(!createProfileI().isComplete()) {
@@ -92,6 +92,6 @@ public class ProfileBuilder {
 		if(!createProfileI().isStrict()) {
 			throw new IllegalArgumentException("The built profile is not strict.");
 		}
-		return new ImmutableStrictProfile(ImmutableStrictProfile.mapNonStrictToStrict(votes));
+		return new ImmutableStrictProfile(ImmutableStrictProfileI.mapNonStrictToStrict(votes));
 	}
 }

@@ -19,13 +19,16 @@ public class SWFCommander{
      * @return the entered StrictPreference
      * @throws IOException when the entered preference is empty.
      */
-    public static StrictPreference askPreference() {
+    public static StrictPreference askPreference() throws IOException {
     	LOGGER.debug("askPreference");
         System.out.println("Enter a StrictPreference complete");
         try(Scanner scan = new Scanner(System.in)){
         	LOGGER.debug("Scanner OK");
         	
         	String vote = scan.nextLine();
+        	if(vote == ""){
+        		throw new IOException("empty Preference entered !");
+        	}
         	return new ReadProfile().getPreferences(vote);
         }
     }   
@@ -51,7 +54,7 @@ public class SWFCommander{
             System.out.println("Continue ? (yes/no)");
             try(Scanner scn = new Scanner(System.in)){
             	String answer = scn.nextLine();
-            	if(answer.trim().toLowerCase() != ("yes")) {
+            	if(answer.trim().toLowerCase() != ("yes") && answer.trim().toLowerCase() != ("y")) {// user can answer "yes" or just "y" to continue
             		LOGGER.debug("answered no to continue.");
                 	keepGoing = false;
             	}

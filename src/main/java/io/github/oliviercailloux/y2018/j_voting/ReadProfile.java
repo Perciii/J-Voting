@@ -7,6 +7,7 @@ import org.slf4j.*;
 
 import com.google.common.base.Charsets;
 import com.google.common.base.Preconditions;
+import com.google.common.collect.Iterables;
 import com.google.common.io.CharStreams;
 
 
@@ -46,7 +47,7 @@ public class ReadProfile {
 				profiles.add(it.next());
 			}
 			LOGGER.debug("lines with the number of votes for each StrictPreference : {}", profiles);
-			StrictPreference listeAlternatives = getAlternatives(nbAlternatives, alternatives);
+			StrictPreference listeAlternatives = getAlternatives(alternatives);
 			List<Integer> listInt = getStatsVoters(lineNbVoters);
 			return buildProfile(profiles, listeAlternatives, listInt.get(0));
 		}
@@ -66,9 +67,8 @@ public class ReadProfile {
 		
 		try(InputStreamReader isr = new InputStreamReader(is, Charsets.UTF_8)){
 			List<String> fileRead =  CharStreams.readLines(isr);
-			Iterator<String> it = fileRead.iterator();
-			while(it.hasNext()){
-				System.out.println(it.next());
+			for(String line : fileRead){
+				System.out.println(line);
 			}
 		}
 		
@@ -79,21 +79,14 @@ public class ReadProfile {
 	 * @param file <code>not null</code> a list of strings each containing an alternative
 	 * @return the Alternatives in the profile given as a StrictPreference.
 	 */
-	public StrictPreference getAlternatives(int nbAlternatives, List<String> file){
+	public StrictPreference getAlternatives(List<String> file){
 		LOGGER.debug("GetAlternatives :");
-		Preconditions.checkNotNull(nbAlternatives);
 		Preconditions.checkNotNull(file);
-		LOGGER.debug("parameters : nbAlternatives = {}, file = {}", nbAlternatives, file); 
-		Iterator<String> it = file.iterator();
-		String s1; 
+		LOGGER.debug("parameter : file = {}", file); 
 		List<Alternative> alternatives= new ArrayList<>();
-		for(int k = 1 ; k <= nbAlternatives ; k++){//we add each alternative to a list
-			s1 = it.next();
-			LOGGER.debug("next Alternative : {}", s1);
-			if (s1.contains(",")){//line with alternative doesn't contain ,
-				throw new Error("Error: nbAlternative is not correct");
-			}
-			alternatives.add(new Alternative(Integer.parseInt(s1)));
+		for(String alternative : file){
+			LOGGER.debug("next Alternative : {}", alternative);
+			alternatives.add(new Alternative(Integer.parseInt(alternative)));
 		}
 		StrictPreference listAlternatives = new StrictPreference(alternatives);
 		LOGGER.debug("returns listAlternatives : {}", listAlternatives);
@@ -128,10 +121,11 @@ public class ReadProfile {
 		Preconditions.checkNotNull(listeAlternatives);
 		Preconditions.checkNotNull(s1);
 		LOGGER.debug("parameters : listeAlternatives {}, s1 {}", listeAlternatives, s1);
-		String[] s2 = s1.split(",");
+		
+		String[] alternatives = s1.split(",");
 		List<Alternative> pref = new ArrayList<>();
-		for(int i = 1 ; i < s2.length ; i++){//we collect all the alternatives, skipping the first element which is the nb of votes
-			Alternative alter = new Alternative(Integer.parseInt(s2[i].trim()));
+		for(String alternative : Iterables.skip(Arrays.asList(alternatives), 1)){
+			Alternative alter = new Alternative(Integer.parseInt(alternative.trim()));
 			LOGGER.debug("next alternative {}", alter.getId());
 			if(listeAlternatives.contains(alter)) {
 				LOGGER.debug("correct alternative");
@@ -148,7 +142,7 @@ public class ReadProfile {
 	/**
 	 * 
 	 * @param s1 not <code>null</null>
-	 * @return the strictpreference in the string. The string only contains the alternatives.
+	 * @return the strictPreference in the string. The string only contains the alternatives.
 	 */
 	public StrictPreference getPreferences(String s1){
 		LOGGER.debug("GetPreferences");
@@ -156,8 +150,8 @@ public class ReadProfile {
 		LOGGER.debug("parameters : s1 {}",s1);
 		String[] s2 = s1.split(",");
 		List<Alternative> pref = new ArrayList<>();
-		for(String stralt : s2){
-			Alternative alter = new Alternative(Integer.parseInt(stralt.trim()));
+		for(String strAlt : s2){
+			Alternative alter = new Alternative(Integer.parseInt(strAlt.trim()));
 			LOGGER.debug("next alternative {}", alter.getId());
 			pref.add(alter);
 		}
@@ -197,19 +191,17 @@ public class ReadProfile {
 		Preconditions.checkNotNull(file);
 		Preconditions.checkNotNull(listAlternatives);
 		Preconditions.checkNotNull(nbVoters);
-		Iterator<String> it = file.iterator();
+
 		StrictProfileBuilder profile = new StrictProfileBuilder();
-		String s1; //where we store the current line
-		while(it.hasNext()){
-			s1 = it.next();
-			LOGGER.debug("next line : {}",s1);
-			if (!s1.contains(",")){// if the line doesn't contain "," it's the line of an alternative
+		for(String line : file){
+			LOGGER.debug("next line : {}", line);
+			if (!line.contains(",")){// if the line doesn't contain "," it's the line of an alternative
 				throw new IllegalArgumentException("the first string of file is an alternative line.");
 			}
-			String[] line = s1.split(",");
-			StrictPreference pref = getPreferences(listAlternatives,s1);
-			LOGGER.debug("to add : {} votes for the StrictPreference {}",line[0].trim(),pref);
-			addVotes(pref, Integer.parseInt(line[0].trim()), profile);
+			String[] lineAsArray = line.split(",");
+			StrictPreference pref = getPreferences(listAlternatives, line);
+			LOGGER.debug("to add : {} votes for the StrictPreference {}", lineAsArray[0].trim(), pref);
+			addVotes(pref, Integer.parseInt(lineAsArray[0].trim()), profile);
 		}
 		return profile.createStrictProfileI();
 	}

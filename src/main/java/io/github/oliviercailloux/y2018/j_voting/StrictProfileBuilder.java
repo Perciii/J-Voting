@@ -16,7 +16,7 @@ public class StrictProfileBuilder extends ProfileBuilder{
 	
 	public StrictProfileBuilder() {
 		LOGGER.debug("constructor empty:");
-		votes = new HashMap<Voter,Preference>();
+		votes = new HashMap<>();
 	}
 	
 	/**

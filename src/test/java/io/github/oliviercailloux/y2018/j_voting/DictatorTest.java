@@ -1,5 +1,7 @@
 package io.github.oliviercailloux.y2018.j_voting;
 
+import static org.junit.Assert.*;
+
 import java.util.*;
 import org.junit.Test;
 import org.junit.Assert.*;

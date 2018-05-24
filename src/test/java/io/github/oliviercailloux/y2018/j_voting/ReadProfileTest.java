@@ -27,7 +27,7 @@ public class ReadProfileTest {
 		alternatives.add(a3);
 		StrictPreference pref = new StrictPreference(alternatives);
 		
-		assertTrue(pref.equals(rp.getAlternatives(3, file)));
+		assertTrue(pref.equals(rp.getAlternatives(file)));
 	}
 
 	@Test

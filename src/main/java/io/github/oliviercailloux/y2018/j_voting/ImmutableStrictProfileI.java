@@ -48,6 +48,7 @@ public class ImmutableStrictProfileI extends ImmutableProfileI implements Strict
 		return newmap;
 	}
 	
+	@Override
 	public StrictPreference getPreference(Voter v) {
 		LOGGER.debug("getPreference:");
 		Preconditions.checkNotNull(v);
@@ -66,5 +67,4 @@ public class ImmutableStrictProfileI extends ImmutableProfileI implements Strict
 		}
 		return new StrictPreference(StrictPreference.listSetAlternativeToList(prefs.get(0).getPreferencesNonStrict()));
 	}
-
 }
