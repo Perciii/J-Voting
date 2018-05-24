@@ -1,14 +1,13 @@
 package io.github.oliviercailloux.y2018.j_voting;
 
 import static org.junit.Assert.*;
-
 import org.junit.Test;
 import java.util.*;
+
 public class ImmutableProfileITest {
 
-	public static ProfileI createIPIToTest() {
-		ProfileBuilder profile = new ProfileBuilder();
-		
+	public static ImmutableProfileI createIPIToTest() {
+		Map<Voter,Preference> profile = new HashMap<>();
 		Alternative a1 = new Alternative(1);
 		Alternative a2 = new Alternative(2);
 		Alternative a3 = new Alternative(3);
@@ -43,14 +42,14 @@ public class ImmutableProfileITest {
 		Preference pref1 = new Preference(list1);
 		Preference pref2 = new Preference(list2);
 		
-		profile.addProfile(v1, pref1);
-		profile.addProfile(v2, pref1);
-		profile.addProfile(v3, pref1);
-		profile.addProfile(v4, pref1);
-		profile.addProfile(v5, pref2);
-		profile.addProfile(v6, pref2);
+		profile.put(v1, pref1);
+		profile.put(v2, pref1);
+		profile.put(v3, pref1);
+		profile.put(v4, pref1);
+		profile.put(v5, pref2);
+		profile.put(v6, pref2);
 		
-		return profile.createProfileI();
+		return new ImmutableProfileI(profile);
 	}
 	
 	@Test
@@ -197,8 +196,7 @@ public class ImmutableProfileITest {
 
 	@Test
 	public void testEqualsObject() {
-ProfileBuilder profile = new ProfileBuilder();
-		
+		Map<Voter,Preference> profile = new HashMap<>();
 		Alternative a1 = new Alternative(1);
 		Alternative a2 = new Alternative(2);
 		Alternative a3 = new Alternative(3);
@@ -233,15 +231,15 @@ ProfileBuilder profile = new ProfileBuilder();
 		Preference pref1 = new Preference(list1);
 		Preference pref2 = new Preference(list2);
 		
-		profile.addProfile(v1, pref1);
-		profile.addProfile(v2, pref1);
-		profile.addProfile(v3, pref1);
-		profile.addProfile(v4, pref1);
-		profile.addProfile(v5, pref2);
-		profile.addProfile(v6, pref2);
+		profile.put(v1, pref1);
+		profile.put(v2, pref1);
+		profile.put(v3, pref1);
+		profile.put(v4, pref1);
+		profile.put(v5, pref2);
+		profile.put(v6, pref2);
 		
-		ProfileI p = profile.createProfileI();
-		assertTrue(p.equals(createIPIToTest()));
+		ImmutableProfileI prof = new ImmutableProfileI(profile);
+		assertTrue(prof.equals(createIPIToTest()));
 	}
 
 }
