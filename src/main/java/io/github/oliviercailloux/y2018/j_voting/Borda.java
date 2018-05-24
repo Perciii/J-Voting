@@ -54,7 +54,7 @@ public class Borda implements SocialWelfareFunction{
 	/**
 	 * assigns a score to each alternative of a StrictPreference
 	 * @param sPref a StrictPreference <code>not null</code>
-	 * @return a multiset for the alternaitves in this StrictPreference
+	 * adds the scores of the preference to the multiset for the alternaitves in this StrictPreference
 	 */
 	public void getScores(Preference pref){
 		LOGGER.debug("getScorePref");
@@ -71,7 +71,7 @@ public class Borda implements SocialWelfareFunction{
 	/**
 	 * 
 	 * @param profile a ProfileI <code>not null</code>
-	 * @return unsortedScores a HashMultiset for the alternatives of the profile
+	 * sets the scores in the multiset for the profile (if an alternative has a score of 3, it ill appear three times in the multiset)
 	 */
 	public void getScores(ProfileI profile){
 		LOGGER.debug("getScoreProf");
