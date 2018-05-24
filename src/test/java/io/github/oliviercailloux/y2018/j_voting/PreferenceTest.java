@@ -217,4 +217,10 @@ public class PreferenceTest {
 		Preference p = new Preference(list);
 		assertTrue(p.isStrict());
 	}
+	
+	@Test
+	public void testGetAlternativeRank() {
+		assertEquals(createPreferenceToTest().getAlternativeRank(new Alternative(4)),3);
+	}
+	
 }

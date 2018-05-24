@@ -20,12 +20,8 @@ public class Borda implements SocialWelfareFunction{
 		LOGGER.debug("getSocietyStrictPreference");
 		Preconditions.checkNotNull(profile);
 		LOGGER.debug("parameter SProfile : {}", profile);
-		
-		getScores(profile);
-		
+		setScores(profile);
 		LOGGER.debug("return AScores : {}", scores);
-		
-		//int size = scores.elementSet().size();
 		List<Set<Alternative>> al = new ArrayList<>();
 		Set<Alternative> s = new HashSet<>();
 		HashMultiset<Alternative> tempscores = scores;
@@ -36,16 +32,7 @@ public class Borda implements SocialWelfareFunction{
 				tempscores.remove(a,tempscores.count(a));
 			}
 		}
-		/*
-		Alternative alMax;
-		for(int i=0 ; i<size ; i++){
-			alMax = getMax(tempscores);
-			al.add(alMax);
-			tempscores.remove(alMax,tempscores.count(alMax));
-		}*/
-		
 		Preference pref = new Preference(al);
-		
 		LOGGER.debug("return AScores : {}", pref);
 		return pref;
 	}
@@ -54,15 +41,15 @@ public class Borda implements SocialWelfareFunction{
 	/**
 	 * assigns a score to each alternative of a StrictPreference
 	 * @param sPref a StrictPreference <code>not null</code>
-	 * adds the scores of the preference to the multiset for the alternaitves in this StrictPreference
+	 * adds the scores of the preference to the multiset for the alternatives in this StrictPreference
 	 */
-	public void getScores(Preference pref){
+	public void setScores(Preference pref){
 		LOGGER.debug("getScorePref");
 		Preconditions.checkNotNull(pref);
 		LOGGER.debug("parameter SPref : {}", pref);
-		int size = pref.size();
+		int size = pref.getPreferencesNonStrict().size();
 		for(Alternative a : Preference.toAlternativeSet(pref.getPreferencesNonStrict())){
-			scores.add(a,size - pref.getAlternativeRank(a));
+			scores.add(a,size - pref.getAlternativeRank(a) + 1);
 		}
 		LOGGER.debug("return score : {}", scores);
 	}
@@ -73,22 +60,13 @@ public class Borda implements SocialWelfareFunction{
 	 * @param profile a ProfileI <code>not null</code>
 	 * sets the scores in the multiset for the profile (if an alternative has a score of 3, it ill appear three times in the multiset)
 	 */
-	public void getScores(ProfileI profile){
+	public void setScores(ProfileI profile){
 		LOGGER.debug("getScoreProf");
 		Preconditions.checkNotNull(profile);
 		LOGGER.debug("parameter SProfile : {}", profile);
 		Iterable<Voter> allVoters  = profile.getAllVoters();
-		Set<Alternative> alternatives;
-		int size = 0;
-		
 		for(Voter v : allVoters){
-			alternatives = Preference.toAlternativeSet(profile.getPreference(v).getPreferencesNonStrict());
-			
-			for(Alternative a : alternatives){
-				size = alternatives.size();
-				scores.add(a,size - (profile.getPreference(v)).getAlternativeRank(a));
-			}
-			
+			setScores(profile.getPreference(v));			
 		}
 		
 		LOGGER.debug("return scores : {}", scores);
@@ -96,8 +74,8 @@ public class Borda implements SocialWelfareFunction{
 
 
 	/**
-	 * @param scores a multiset <code>not null</code>
-	 * @return the alternative with the maximum score in the multiset
+	 * @param tempscores a multiset <code>not null</code>
+	 * @return the alternatives with the maximum score in the multiset
 	 */
 	public Set<Alternative> getMax(HashMultiset<Alternative> tempscores){
 		LOGGER.debug("getMax");
