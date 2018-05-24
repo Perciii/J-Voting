@@ -2,7 +2,7 @@ package io.github.oliviercailloux.y2018.j_voting;
 
 import java.util.*;
 import org.junit.Test;
-import static org.junit.Assert.*;
+import org.junit.Assert.*;
 import com.google.common.collect.*;
 
 public class DictatorTest {
