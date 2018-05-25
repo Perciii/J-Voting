@@ -40,4 +40,25 @@ public class DictatorTest {
 		ProfileI profile = prof.createProfileI();
 		assertEquals(d1.getSocietyPreference(profile),pref1);
 	}
+
+	@Test
+	public void equalsTest() {
+		Voter v1 = new Voter(1);
+		Voter v2 = new Voter(2);
+		Dictator d1 = new Dictator(v1);
+		Dictator d2 = new Dictator(v2);
+		Dictator d3 = new Dictator(v1);
+		assertTrue(d1.equals(d3));
+		assertTrue(!d1.equals(d2));
+	}
+	
+	@Test
+	public void equalsVoterTest() {
+		Voter v1 = new Voter(1);
+		Voter v2 = new Voter(2);
+		Dictator d1 = new Dictator(v1);
+		assertTrue(d1.equalsVoter(v1));
+		assertTrue(!d1.equalsVoter(v2));
+	}
+
 }
