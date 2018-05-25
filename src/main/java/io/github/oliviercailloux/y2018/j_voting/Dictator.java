@@ -21,17 +21,11 @@ public class Dictator implements SocialWelfareFunction{
 	@Override
 	public Preference getSocietyPreference(ProfileI profile) {
 		LOGGER.debug("getSocietyStrictPreference");
-		
 		Preconditions.checkNotNull(profile);
 		Preconditions.checkArgument(profile.contains(Dictator));
-		
 		LOGGER.debug("parameter profile : {}", profile);
 		LOGGER.debug("Dictator : {}", Dictator);
 		LOGGER.debug("return preference : {}", profile.getPreference(Dictator));
-		
 		return profile.getPreference(Dictator);
-
 	}
-
-
 }

@@ -2,15 +2,11 @@ package io.github.oliviercailloux.y2018.j_voting;
 
 import java.util.*;
 import java.io.*;
-
 import org.slf4j.*;
-
 import com.google.common.base.Charsets;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Iterables;
 import com.google.common.io.CharStreams;
-
-
 
 public class ReadProfile {
 	
@@ -22,16 +18,13 @@ public class ReadProfile {
 	 * @return sProfile a StrictProfile
 	 * @throws IOException 
 	 */
-
 	public StrictProfileI createProfileFromStream(InputStream is) throws IOException{
 		LOGGER.debug("CreateProfileFromReadFile : ");
 		Preconditions.checkNotNull(is);
 		
 		try(InputStreamReader isr = new InputStreamReader(is, Charsets.UTF_8)){
 			List<String> fileRead =  CharStreams.readLines(isr);
-
 			Iterator<String> it = fileRead.iterator();
-			//StrictProfileBuilder sProfile = new StrictProfileBuilder();
 			String lineNbVoters;
 			int nbAlternatives = Integer.parseInt(it.next());	//first number of the file is the number of alternatives
 			LOGGER.debug("number of alternatives : {}", nbAlternatives);
@@ -63,14 +56,12 @@ public class ReadProfile {
 		LOGGER.debug("DisplayProfileFromFile : ") ;
 		Preconditions.checkNotNull(is);
 		LOGGER.debug("parameter : InputStream = {}", is);
-		
 		try(InputStreamReader isr = new InputStreamReader(is, Charsets.UTF_8)){
 			List<String> fileRead =  CharStreams.readLines(isr);
 			for(String line : fileRead){
 				System.out.println(line);
 			}
 		}
-		
 	}
 	
 	/**
@@ -204,7 +195,6 @@ public class ReadProfile {
 		}
 		return profile.createStrictProfileI();
 	}
-	
 	
 	/**
 	 * This method displays the contents of the profiles in the resources, if they exist 

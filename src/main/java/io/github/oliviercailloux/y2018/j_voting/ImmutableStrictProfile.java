@@ -48,5 +48,4 @@ public class ImmutableStrictProfile extends ImmutableStrictProfileI implements S
 			writer.close();
 		}
 	}
-
 }

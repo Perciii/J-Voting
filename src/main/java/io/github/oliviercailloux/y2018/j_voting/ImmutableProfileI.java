@@ -11,6 +11,7 @@ public class ImmutableProfileI implements ProfileI{
 	
 	public ImmutableProfileI(Map<Voter,Preference> votes) {
 		LOGGER.debug("constructor:");
+		Preconditions.checkNotNull(votes);
 		this.votes = votes;
 	}
 	
@@ -93,7 +94,6 @@ public class ImmutableProfileI implements ProfileI{
 		LOGGER.debug("isComplete");
 		Preference pref = votes.values().iterator().next();
 		LOGGER.debug("first preferences :{}", pref);
-		
 		for(Preference p : votes.values()) {
 			if(!p.hasSameAlternatives(pref)) {
 				LOGGER.debug("Profile incomplete.");

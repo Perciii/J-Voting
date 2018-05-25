@@ -1,10 +1,7 @@
 package io.github.oliviercailloux.y2018.j_voting;
 
-
 import org.slf4j.*;
 import com.google.common.base.Preconditions;
-
-
 
 /**
  * This class is immutable
@@ -62,5 +59,4 @@ public class Voter implements Comparable<Voter>{
 		LOGGER.debug("calling voter :v1 {},parameter v2 {}",this.getId(),v2.getId());
 		return this.getId()-v2.getId();
 	}
-
 }

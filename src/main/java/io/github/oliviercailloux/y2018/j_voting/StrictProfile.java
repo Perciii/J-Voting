@@ -1,6 +1,7 @@
 package io.github.oliviercailloux.y2018.j_voting;
 
 import java.io.*;
+
 /**
  *A StrictProfile represents a complete StrictProfile. The preferences are strict. The preferences are about the same alternatives exactly.
  *

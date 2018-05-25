@@ -1,7 +1,5 @@
 package io.github.oliviercailloux.y2018.j_voting;
 
-//import java.util.*;
-
 import org.slf4j.*;
 import com.google.common.base.Preconditions;
 

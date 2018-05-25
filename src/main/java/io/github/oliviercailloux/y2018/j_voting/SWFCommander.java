@@ -2,14 +2,12 @@ package io.github.oliviercailloux.y2018.j_voting;
 
 import java.util.*;
 import java.io.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.slf4j.*;
 
 public class SWFCommander{
     private SocialWelfareFunction swf ; 
 	private static Logger LOGGER = LoggerFactory.getLogger(SWFCommander.class.getName());
     
-	
 	public SWFCommander(SocialWelfareFunction s) {
 		swf = s;
 	}
@@ -24,7 +22,6 @@ public class SWFCommander{
         System.out.println("Enter a StrictPreference complete");
         try(Scanner scan = new Scanner(System.in)){
         	LOGGER.debug("Scanner OK");
-        	
         	String vote = scan.nextLine();
         	if(vote.isEmpty()){
         		throw new IOException("empty Preference entered !");
@@ -43,7 +40,6 @@ public class SWFCommander{
     	StrictProfileBuilder prof = new StrictProfileBuilder();
         boolean keepGoing = true;
         int voterId = 1;
-
         while(keepGoing){
         	LOGGER.debug("new voter id  : {}", voterId);
             Voter v = new Voter(voterId);
@@ -62,6 +58,5 @@ public class SWFCommander{
             voterId++;
             System.out.println(swf.getSocietyPreference(prof.createProfileI()));
         }
-    }
-    
+    } 
 }

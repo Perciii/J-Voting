@@ -1,6 +1,5 @@
 package io.github.oliviercailloux.y2018.j_voting;
 
-
 import java.util.*;
 import org.slf4j.*;
 import com.google.common.base.Preconditions;
@@ -85,11 +84,9 @@ public class Borda implements SocialWelfareFunction{
 		Iterable<Voter> allVoters  = profile.getAllVoters();
 		for(Voter v : allVoters){
 			setScores(profile.getPreference(v));			
-		}
-		
+		}		
 		LOGGER.debug("return scores : {}", scores);
 	}
-
 
 	/**
 	 * @param tempscores a multiset <code>not null</code>
@@ -111,7 +108,7 @@ public class Borda implements SocialWelfareFunction{
 				first = false;
 			}
 			else{
-				if (tempscores.count(a)>tempscores.count(alternativeMax)){
+				if (tempscores.count(a) > tempscores.count(alternativeMax)){
 					alternativeMax = a ;
 					set = new HashSet<>();
 					set.add(a);					
@@ -120,12 +117,9 @@ public class Borda implements SocialWelfareFunction{
 					set.add(a);					
 				}
 			}
-		}
-		
-		
+		}		
 		LOGGER.debug("Max : {} ", set);
 		return set;
-		
 	}
 	
 	@Override
@@ -139,22 +133,17 @@ public class Borda implements SocialWelfareFunction{
 	 * @param mset2<code>not null</code>
 	 * @return true if the multisets have the same alternatives with the same scores
 	 */
-	
-	
 	@Override
 	public boolean equals(Object o1){
 		LOGGER.debug("equals");
 		Preconditions.checkNotNull(o1);
-		
 		if (!(o1 instanceof Borda)){
 			LOGGER.debug("returns false");
 			return false;
 		}
-		
 		Borda borda = (Borda) o1;
 		Multiset<Alternative> mset1 = borda.scores;
 		Multiset<Alternative> mset2 = this.scores;
-		
 		Iterable<Alternative> alternativesList = mset1.elementSet();
 		
 		for(Alternative a : alternativesList){	
@@ -163,23 +152,19 @@ public class Borda implements SocialWelfareFunction{
 				return false;
 			}
 			
-			if(!(mset2.count(a)==mset1.count(a))){
+			if(!(mset2.count(a) == mset1.count(a))){
 				LOGGER.debug("not same scores -> false");
 				return false;		
 			}
 			mset2.remove(a, mset2.count(a));		
 	
 		}
-		if(mset2.size()!=0){
+		if(mset2.size() != 0){
 			LOGGER.debug("not same alternatives -> false");
 			return false;
 		}
 		LOGGER.debug("returns true");
 		return true;
-		
 	}
-	
-	
-
 }
 

@@ -1,10 +1,8 @@
 package io.github.oliviercailloux.y2018.j_voting;
 
 import java.util.HashMap;
-
 import org.slf4j.*;
 import com.google.common.base.Preconditions;
-
 
 /**
  * 
@@ -50,5 +48,4 @@ public class StrictProfileBuilder extends ProfileBuilder{
 		}
 		votes.put(v,pref);
 	}
-	
 }

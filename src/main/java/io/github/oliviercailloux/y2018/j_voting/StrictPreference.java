@@ -2,9 +2,7 @@ package io.github.oliviercailloux.y2018.j_voting;
 
 import java.util.*;
 import org.slf4j.*;
-
 import com.google.common.base.Preconditions;
-
 
 /**
  * This class is immutable
@@ -24,7 +22,6 @@ public class StrictPreference extends Preference {
 		super(listAlternativeToListSetAlternative(preferences));
 		LOGGER.debug("StrictPreference constructor");
 	}
-	
 
 	@Override
 	public String toString() {
@@ -38,13 +35,17 @@ public class StrictPreference extends Preference {
 		return s.substring(0,s.length()-1);
 	}
 	
+	/**
+	 * 
+	 * @return a list of the alternatives by order of preference
+	 */
 	public List<Alternative> getPreferences(){
 		LOGGER.debug("getPreferences:");
 		return listSetAlternativeToList(preferences);
 	}
 	
 	/**
-	 * @param list a list of alternatives
+	 * @param list a list of alternatives not <code> null </code>
 	 * @return a list of set of alternatives. each set is composed of one alternative
 	 */
 	public static List<Set<Alternative>>listAlternativeToListSetAlternative(List<Alternative> list) {
@@ -63,7 +64,7 @@ public class StrictPreference extends Preference {
 	
 
 	/**
-	 * @param sets
+	 * @param sets not <code>null</code>
 	 * @return a list of alternatives from a list of sets of alternatives.
 	 */
 	public static List<Alternative> listSetAlternativeToList(List<Set<Alternative>> sets){
@@ -79,5 +80,4 @@ public class StrictPreference extends Preference {
 		LOGGER.debug("list : {}",alts);
 		return alts;
 	}
-
 }
