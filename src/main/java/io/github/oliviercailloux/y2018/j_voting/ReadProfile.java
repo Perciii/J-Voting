@@ -64,7 +64,6 @@ public class ReadProfile {
 		Preconditions.checkNotNull(is);
 		LOGGER.debug("parameter : InputStream = {}", is);
 		
-		
 		try(InputStreamReader isr = new InputStreamReader(is, Charsets.UTF_8)){
 			List<String> fileRead =  CharStreams.readLines(isr);
 			for(String line : fileRead){

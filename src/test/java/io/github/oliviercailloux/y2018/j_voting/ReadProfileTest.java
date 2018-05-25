@@ -82,7 +82,9 @@ public class ReadProfileTest {
 		
 		rp.addVotes(pref,2,p);
 		
-		assertTrue(p.contains(v1) && p.contains(v2) && p.getPreference(v1).equals(pref) && p.getPreference(v2).equals(pref));
+		StrictProfileI prof = p.createStrictProfileI();
+		
+		assertTrue(prof.contains(v1) && prof.contains(v2) && prof.getPreference(v1).equals(pref) && prof.getPreference(v2).equals(pref));
 	}
 
 	@Test
@@ -114,7 +116,7 @@ public class ReadProfileTest {
 		alternatives2.add(a1);
 		StrictPreference pref2 = new StrictPreference(alternatives2);
 		
-		StrictProfileBuilder profile = rp.buildProfile(file, pref, 3);
+		StrictProfileI profile = rp.buildProfile(file, pref, 3);
 		
 		assertTrue(profile.contains(v1) && profile.contains(v2) && profile.contains(v3) && profile.getPreference(v1).equals(pref) && profile.getPreference(v2).equals(pref) && profile.getPreference(v3).equals(pref2));
 	}
@@ -123,7 +125,7 @@ public class ReadProfileTest {
 	public void testCreateProfileFromStream() throws IOException {
 		ReadProfile rp = new ReadProfile();
 		
-		StrictProfileBuilder profile = rp.createProfileFromStream(getClass().getResourceAsStream("profileToRead.soc"));
+		ProfileI profile = rp.createProfileFromStream(getClass().getResourceAsStream("profileToRead.soc"));
 		
 		Alternative a1 = new Alternative(1);
 		Alternative a2 = new Alternative(2);

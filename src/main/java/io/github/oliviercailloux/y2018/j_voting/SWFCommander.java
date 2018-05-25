@@ -26,7 +26,7 @@ public class SWFCommander{
         	LOGGER.debug("Scanner OK");
         	
         	String vote = scan.nextLine();
-        	if(vote == ""){
+        	if(vote.isEmpty()){
         		throw new IOException("empty Preference entered !");
         	}
         	return new ReadProfile().getPreferences(vote);

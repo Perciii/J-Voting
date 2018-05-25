@@ -1,16 +1,13 @@
 package io.github.oliviercailloux.y2018.j_voting;
 
 import static org.junit.Assert.*;
-
 import java.util.*;
 import org.junit.Test;
-import org.junit.Assert.*;
-import com.google.common.collect.*;
 
 public class DictatorTest {
 
 	@Test
-	public static void getSocietyPreferenceTest() {
+	public void getSocietyPreferenceTest() {
 		Voter v1 = new Voter(1);
 		Voter v2 = new Voter(2);
 		Voter v3 = new Voter(3);

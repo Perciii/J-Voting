@@ -2,14 +2,10 @@ package io.github.oliviercailloux.y2018.j_voting;
 
 import org.slf4j.*;
 import com.google.common.base.Preconditions;
-import java.util.*;
-
-
 
 public class Dictator implements SocialWelfareFunction{
 	
 	private Voter Dictator;
-	
 	private static Logger LOGGER = LoggerFactory.getLogger(Borda.class.getName());	
 	
 	public Dictator (Voter v){
