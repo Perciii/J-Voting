@@ -3,6 +3,11 @@ package io.github.oliviercailloux.y2018.j_voting;
 import org.slf4j.*;
 import com.google.common.base.Preconditions;
 
+/**
+ * 
+ * This class provides a result for an election that is necessarily the preference of the dictator (a Voter).
+ *
+ */
 public class Dictator implements SocialWelfareFunction{
 	
 	private Voter Dictator;
