@@ -35,7 +35,6 @@ public class DictatorTest {
 		list1.add(s1);
 		list1.add(s2);		
 		list2.add(s2);
-		list3.add(s2);
 		list3.add(s3);
 		
 		Preference pref1 = new Preference(list1);
@@ -51,7 +50,6 @@ public class DictatorTest {
 		ProfileI profile = prof.createProfileI();
 		
 		assertEquals(d1.getSocietyPreference(profile),pref1);
-	
 	}
 	
 	

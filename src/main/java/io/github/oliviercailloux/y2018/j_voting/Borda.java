@@ -9,8 +9,26 @@ import com.google.common.collect.*;
 public class Borda implements SocialWelfareFunction{
 
 	private static Logger LOGGER = LoggerFactory.getLogger(Borda.class.getName());	
-	private HashMultiset<Alternative> scores;
+	private Multiset<Alternative> scores;
+
+	public Borda(Multiset<Alternative> tempscores) {
+		LOGGER.debug("Borda");
+		scores = tempscores;
+	}
+
+	public Borda() {
+		LOGGER.debug("emptyBorda");
+		scores = HashMultiset.create();
+	}
 	
+	/**
+	 * 
+	 * @return the multiset of alternatives of the object Borda.
+	 */
+	public Multiset<Alternative> getMultiSet(){
+		LOGGER.debug("getMultiSet:");
+		return scores;
+	}
 	/**
 	 * @param profile a ProfileI <code>not null</code>
 	 * @return a Preference with the alternatives sorted
@@ -24,7 +42,7 @@ public class Borda implements SocialWelfareFunction{
 		LOGGER.debug("return AScores : {}", scores);
 		List<Set<Alternative>> al = new ArrayList<>();
 		Set<Alternative> s = new HashSet<>();
-		HashMultiset<Alternative> tempscores = scores;
+		Multiset<Alternative> tempscores = scores;
 		while(!tempscores.isEmpty()) {
 			s = getMax(tempscores);
 			al.add(s);
@@ -77,7 +95,7 @@ public class Borda implements SocialWelfareFunction{
 	 * @param tempscores a multiset <code>not null</code>
 	 * @return the alternatives with the maximum score in the multiset
 	 */
-	public Set<Alternative> getMax(HashMultiset<Alternative> tempscores){
+	public Set<Alternative> getMax(Multiset<Alternative> tempscores){
 		LOGGER.debug("getMax");
 		Preconditions.checkNotNull(tempscores);
 		Set<Alternative> set = new HashSet<>();
@@ -110,17 +128,6 @@ public class Borda implements SocialWelfareFunction{
 		
 	}
 	
-	
-	public Borda(HashMultiset<Alternative> tempscores) {
-		LOGGER.debug("Borda");
-		scores = tempscores;
-	}
-
-	public Borda() {
-		LOGGER.debug("emptyBorda");
-		scores = HashMultiset.create();
-	}
-	
 	@Override
 	public int hashCode() {
 		LOGGER.debug("hashCode");
@@ -145,8 +152,8 @@ public class Borda implements SocialWelfareFunction{
 		}
 		
 		Borda borda = (Borda) o1;
-		HashMultiset<Alternative> mset1 = borda.scores;
-		HashMultiset<Alternative> mset2 = this.scores;
+		Multiset<Alternative> mset1 = borda.scores;
+		Multiset<Alternative> mset2 = this.scores;
 		
 		Iterable<Alternative> alternativesList = mset1.elementSet();
 		

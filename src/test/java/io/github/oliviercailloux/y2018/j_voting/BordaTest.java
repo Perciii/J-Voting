@@ -63,6 +63,29 @@ public class BordaTest {
 		
 		Set<Alternative> s1 = new HashSet<>();
 		Set<Alternative> s2 = new HashSet<>();
+		Set<Alternative> s3 = new HashSet<>();
+		
+		s1.add(a1);
+		s2.add(a2);
+		s3.add(a3);
+
+		list1.add(s2);
+		list1.add(s1);
+		list1.add(s3);		
+		Preference pref1 = new Preference(list1);
+		assertEquals(new Borda().getSocietyPreference(prof),pref1);
+	}
+	
+	@Test
+	public void testSetScoresPref() {
+		Borda b = new Borda();
+		Alternative a1 = new Alternative(1);
+		Alternative a2 = new Alternative(2);
+		Alternative a3 = new Alternative(3);
+		List<Set<Alternative>> list1 = new ArrayList<>();
+		
+		Set<Alternative> s1 = new HashSet<>();
+		Set<Alternative> s2 = new HashSet<>();
 		
 		s1.add(a1);
 		s1.add(a2);
@@ -71,11 +94,22 @@ public class BordaTest {
 		list1.add(s1);
 		list1.add(s2);		
 		Preference pref1 = new Preference(list1);
-		assertEquals(new Borda().getSocietyPreference(prof),pref1);
+		b.setScores(pref1);
+		Multiset<Alternative> m = b.getMultiSet();
+		assertTrue(m.count(a1) == 2 && m.count(a2) == 2 && m.count(a3) == 1);
 	}
 	
-	//test setscores ? => add a getMultiSet to Borda
-
+	@Test
+	public void testSetScoresProfile() {
+		Borda b = new Borda();
+		ProfileI p = createIPIToTest();
+		Alternative a1 = new Alternative(1);
+		Alternative a2 = new Alternative(2);
+		Alternative a3 = new Alternative(3);
+		b.setScores(p);
+		Multiset<Alternative> m = b.getMultiSet();
+		assertTrue(m.count(a1) == 10 && m.count(a2) == 12 && m.count(a3) == 6);
+	}
 	
 	@Test
 	public void testgetMax(){
