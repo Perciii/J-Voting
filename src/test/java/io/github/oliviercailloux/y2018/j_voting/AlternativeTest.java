@@ -32,5 +32,4 @@ public class AlternativeTest {
 		Alternative a = new Alternative(7);
 		assertEquals(a.toString(), Integer.toString(7));
 	}
-
 }

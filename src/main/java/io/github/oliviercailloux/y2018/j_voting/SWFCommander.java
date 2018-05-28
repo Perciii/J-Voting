@@ -1,71 +1,62 @@
 package io.github.oliviercailloux.y2018.j_voting;
 
 import java.util.*;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.io.*;
+import org.slf4j.*;
 
 public class SWFCommander{
-    private static SocialWelfareFunction result ; 
+    private SocialWelfareFunction swf ; 
 	private static Logger LOGGER = LoggerFactory.getLogger(SWFCommander.class.getName());
     
-	
-	public SWFCommander(SocialWelfareFunction res) {
-		result = res;
+	public SWFCommander(SocialWelfareFunction s) {
+		swf = s;
 	}
 	
     /**
      * Asks the user to enter a StrictPreference 
      * @return the entered StrictPreference
+     * @throws IOException when the entered preference is empty.
      */
-    public static StrictPreference askPreference(){
-    	LOGGER.debug("askPreference\n");
+    public static StrictPreference askPreference() throws IOException {
+    	LOGGER.debug("askPreference");
         System.out.println("Enter a StrictPreference complete");
-        
-        List<Alternative> list = new ArrayList<>();
-        
         try(Scanner scan = new Scanner(System.in)){
         	LOGGER.debug("Scanner OK");
-        	
         	String vote = scan.nextLine();
-        	String[] preference = vote.split(",");
-        	for(int i = 0 ; i < preference.length ; i++){
-                list.add(new Alternative(Integer.parseInt(preference[i].trim())));
-                LOGGER.debug("added alternative : {}\n", Integer.parseInt(preference[i].trim()));
-            }
+        	if(vote.isEmpty()){
+        		throw new IOException("empty Preference entered !");
+        	}
+        	return new ReadProfile().getPreferences(vote);
         }
-        
-        LOGGER.debug("list of alternatives : {}\n", list);
-        return new StrictPreference(list);
     }   
     
     /**
-     * Asks the user to enter StrictPreferences while it doesn't enter an empty one.
-     * Each time the user enters a StrictPreference, it displays the current state of the StrictProfile.
+     * Asks the user to enter StrictPreferences while he doesn't say no to the question "continue?".
+     * Each time the user enters a StrictPreference, it displays the current state of the StrictProfile (the winning StrictPreference).
+     * @throws IOException when the entered preference is empty.
      */
-    public void createProfileIncrementally(){
-    	StrictProfile prof = new StrictProfile();
+    public void createProfileIncrementally() throws IOException{
+    	LOGGER.debug("createProfileIncrementally:");
+    	StrictProfileBuilder prof = new StrictProfileBuilder();
         boolean keepGoing = true;
         int voterId = 1;
-
         while(keepGoing){
-        	LOGGER.debug("new voter id  : {}\n", voterId);
-        	
+        	LOGGER.debug("new voter id  : {}", voterId);
             Voter v = new Voter(voterId);
             StrictPreference strictPreference = askPreference();
-            LOGGER.debug("StrictPreference(s) : ");
+            LOGGER.debug("strictPreference :{}",strictPreference);
+            prof.addProfile(v, strictPreference);
             
-            if(strictPreference.size() >= 1){
-            	LOGGER.debug(strictPreference.getPreferences().toString());//not sure of this
-            	
-            	prof.addProfile(v, strictPreference);
-            }
-            else{
-            	keepGoing = false;
+            System.out.println("Continue ? (yes/no)");
+            try(Scanner scn = new Scanner(System.in)){
+            	String answer = scn.nextLine();
+            	if(answer.trim().toLowerCase() != ("yes") && answer.trim().toLowerCase() != ("y")) {// user can answer "yes" or just "y" to continue
+            		LOGGER.debug("answered no to continue.");
+                	keepGoing = false;
+            	}
             }
             voterId++;
-            System.out.println(result.getSocietyStrictPreference(prof));
+            System.out.println(swf.getSocietyPreference(prof.createProfileI()));
         }
-    }
-    
+    } 
 }

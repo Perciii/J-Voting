@@ -25,4 +25,10 @@ public class VoterTest {
 		assertTrue(v.equals(v2) && v2.equals(v));
 	}
 
+	@Test
+	public void testCompareTo() {
+		Voter v1 = new Voter(1);
+		Voter v2 = new Voter(3);
+		assertTrue(v1.compareTo(v2)<0);
+	}
 }
