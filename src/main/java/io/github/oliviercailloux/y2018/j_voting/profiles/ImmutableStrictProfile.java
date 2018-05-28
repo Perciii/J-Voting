@@ -2,12 +2,7 @@ package io.github.oliviercailloux.y2018.j_voting.profiles;
 
 import org.slf4j.*;
 import com.google.common.base.Preconditions;
-
-import io.github.oliviercailloux.y2018.j_voting.Alternative;
-import io.github.oliviercailloux.y2018.j_voting.Preference;
-import io.github.oliviercailloux.y2018.j_voting.StrictPreference;
-import io.github.oliviercailloux.y2018.j_voting.Voter;
-
+import io.github.oliviercailloux.y2018.j_voting.*;
 import java.io.*;
 import java.util.*;
 

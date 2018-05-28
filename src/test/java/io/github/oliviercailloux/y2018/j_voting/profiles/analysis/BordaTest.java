@@ -1,12 +1,6 @@
 package io.github.oliviercailloux.y2018.j_voting.profiles.analysis;
 
-import io.github.oliviercailloux.y2018.j_voting.Alternative;
-import io.github.oliviercailloux.y2018.j_voting.Preference;
-import io.github.oliviercailloux.y2018.j_voting.Voter;
-import io.github.oliviercailloux.y2018.j_voting.profiles.ImmutableProfileI;
-import io.github.oliviercailloux.y2018.j_voting.profiles.ProfileI;
-import io.github.oliviercailloux.y2018.j_voting.profiles.analysis.Borda;
-
+import io.github.oliviercailloux.y2018.j_voting.*;
 import java.util.*;
 import org.junit.Test;
 import static org.junit.Assert.*;

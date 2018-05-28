@@ -1,19 +1,11 @@
 package io.github.oliviercailloux.y2018.j_voting.profiles.management;
 
-import io.github.oliviercailloux.y2018.j_voting.Alternative;
-import io.github.oliviercailloux.y2018.j_voting.StrictPreference;
-import io.github.oliviercailloux.y2018.j_voting.Voter;
-import io.github.oliviercailloux.y2018.j_voting.profiles.StrictProfileI;
-
+import io.github.oliviercailloux.y2018.j_voting.*;
 import java.util.*;
 import java.io.*;
 import java.net.URL;
-
 import org.slf4j.*;
-import com.google.common.base.Charsets;
-import com.google.common.base.Preconditions;
-import com.google.common.collect.Iterables;
-import com.google.common.io.CharStreams;
+import com.google.common.*;
 
 public class ReadProfile {
 	

@@ -1,9 +1,6 @@
 package io.github.oliviercailloux.y2018.j_voting.profiles.management;
 
-import io.github.oliviercailloux.y2018.j_voting.StrictPreference;
-import io.github.oliviercailloux.y2018.j_voting.Voter;
-import io.github.oliviercailloux.y2018.j_voting.profiles.analysis.SocialWelfareFunction;
-
+import io.github.oliviercailloux.y2018.j_voting.*;
 import java.util.*;
 import java.io.*;
 import org.slf4j.*;

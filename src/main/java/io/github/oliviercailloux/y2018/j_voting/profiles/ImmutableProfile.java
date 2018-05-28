@@ -1,14 +1,8 @@
 package io.github.oliviercailloux.y2018.j_voting.profiles;
 
-import io.github.oliviercailloux.y2018.j_voting.Alternative;
-import io.github.oliviercailloux.y2018.j_voting.Preference;
-import io.github.oliviercailloux.y2018.j_voting.Voter;
-
-import java.util.Map;
-import java.util.Set;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import io.github.oliviercailloux.y2018.j_voting.*;
+import java.util.*;
+import org.slf4j.*;
 
 public class ImmutableProfile extends ImmutableProfileI implements Profile{
 

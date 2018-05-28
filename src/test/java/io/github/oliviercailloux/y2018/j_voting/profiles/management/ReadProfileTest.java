@@ -1,14 +1,7 @@
 package io.github.oliviercailloux.y2018.j_voting.profiles.management;
 
 import static org.junit.Assert.*;
-import io.github.oliviercailloux.y2018.j_voting.Alternative;
-import io.github.oliviercailloux.y2018.j_voting.StrictPreference;
-import io.github.oliviercailloux.y2018.j_voting.Voter;
-import io.github.oliviercailloux.y2018.j_voting.profiles.ProfileI;
-import io.github.oliviercailloux.y2018.j_voting.profiles.StrictProfileI;
-import io.github.oliviercailloux.y2018.j_voting.profiles.management.ReadProfile;
-import io.github.oliviercailloux.y2018.j_voting.profiles.management.StrictProfileBuilder;
-
+import io.github.oliviercailloux.y2018.j_voting.*;
 import java.io.IOException;
 import java.util.*;
 import org.junit.Test;
