@@ -1,7 +1,19 @@
-package io.github.oliviercailloux.y2018.j_voting;
+package io.github.oliviercailloux.y2018.j_voting.profiles.management;
 
 import org.slf4j.*;
 import com.google.common.base.Preconditions;
+
+import io.github.oliviercailloux.y2018.j_voting.Preference;
+import io.github.oliviercailloux.y2018.j_voting.Voter;
+import io.github.oliviercailloux.y2018.j_voting.profiles.ImmutableProfile;
+import io.github.oliviercailloux.y2018.j_voting.profiles.ImmutableProfileI;
+import io.github.oliviercailloux.y2018.j_voting.profiles.ImmutableStrictProfile;
+import io.github.oliviercailloux.y2018.j_voting.profiles.ImmutableStrictProfileI;
+import io.github.oliviercailloux.y2018.j_voting.profiles.Profile;
+import io.github.oliviercailloux.y2018.j_voting.profiles.ProfileI;
+import io.github.oliviercailloux.y2018.j_voting.profiles.StrictProfile;
+import io.github.oliviercailloux.y2018.j_voting.profiles.StrictProfileI;
+
 import java.util.*;
 
 /**

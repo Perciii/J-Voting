@@ -1,4 +1,7 @@
-package io.github.oliviercailloux.y2018.j_voting;
+package io.github.oliviercailloux.y2018.j_voting.profiles;
+
+import io.github.oliviercailloux.y2018.j_voting.StrictPreference;
+import io.github.oliviercailloux.y2018.j_voting.Voter;
 
 /**
  *A StrictProfileI represents an incomplete StrictProfile. The preferences are strict. The preferences are not necessarily about the same alternatives.

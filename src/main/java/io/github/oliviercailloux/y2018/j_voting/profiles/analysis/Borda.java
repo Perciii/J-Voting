@@ -1,4 +1,9 @@
-package io.github.oliviercailloux.y2018.j_voting;
+package io.github.oliviercailloux.y2018.j_voting.profiles.analysis;
+
+import io.github.oliviercailloux.y2018.j_voting.Alternative;
+import io.github.oliviercailloux.y2018.j_voting.Preference;
+import io.github.oliviercailloux.y2018.j_voting.Voter;
+import io.github.oliviercailloux.y2018.j_voting.profiles.ProfileI;
 
 import java.util.*;
 import org.slf4j.*;

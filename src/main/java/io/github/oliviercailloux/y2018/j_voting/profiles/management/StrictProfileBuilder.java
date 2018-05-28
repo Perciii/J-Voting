@@ -1,4 +1,8 @@
-package io.github.oliviercailloux.y2018.j_voting;
+package io.github.oliviercailloux.y2018.j_voting.profiles.management;
+
+import io.github.oliviercailloux.y2018.j_voting.Preference;
+import io.github.oliviercailloux.y2018.j_voting.Voter;
+import io.github.oliviercailloux.y2018.j_voting.profiles.StrictProfileI;
 
 import java.util.HashMap;
 import org.slf4j.*;
