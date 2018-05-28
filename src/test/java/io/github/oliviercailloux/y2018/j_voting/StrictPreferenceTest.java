@@ -53,4 +53,17 @@ public class StrictPreferenceTest {
 		StrictPreference strict = new StrictPreference(prefs);
 		assertEquals(strict.toString(),"1,2,3");
 	}
+	
+	@Test
+	public void testGetAlternative() {
+		Alternative a1 = new Alternative(1);
+		Alternative a2 = new Alternative(2);
+		Alternative a3 = new Alternative(3);
+		List<Alternative> prefs = new ArrayList<>();
+		prefs.add(a1);
+		prefs.add(a2);
+		prefs.add(a3);
+		StrictPreference strict = new StrictPreference(prefs);
+		assertEquals(strict.getAlternative(1),a2);
+	}
 }

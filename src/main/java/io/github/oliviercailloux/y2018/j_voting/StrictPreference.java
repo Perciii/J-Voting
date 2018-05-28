@@ -80,4 +80,16 @@ public class StrictPreference extends Preference {
 		LOGGER.debug("list : {}",alts);
 		return alts;
 	}
+	
+	/**
+	 * 
+	 * @param position not <code>null</code>
+	 * @return the alternative at the position given in the strict preference
+	 */
+	public Alternative getAlternative(Integer position) {
+		LOGGER.debug("getAlternative");
+		Preconditions.checkNotNull(position);
+		LOGGER.debug("position : {}",position);
+		return preferences.get(position).iterator().next();
+	}
 }
