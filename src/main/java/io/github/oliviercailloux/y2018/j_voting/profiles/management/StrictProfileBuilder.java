@@ -1,6 +1,7 @@
 package io.github.oliviercailloux.y2018.j_voting.profiles.management;
 
 import io.github.oliviercailloux.y2018.j_voting.*;
+import io.github.oliviercailloux.y2018.j_voting.profiles.*;
 import java.util.HashMap;
 import org.slf4j.*;
 import com.google.common.base.Preconditions;

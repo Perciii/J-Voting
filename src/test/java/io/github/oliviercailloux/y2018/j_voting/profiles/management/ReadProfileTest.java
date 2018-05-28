@@ -2,6 +2,7 @@ package io.github.oliviercailloux.y2018.j_voting.profiles.management;
 
 import static org.junit.Assert.*;
 import io.github.oliviercailloux.y2018.j_voting.*;
+import io.github.oliviercailloux.y2018.j_voting.profiles.*;
 import java.io.IOException;
 import java.util.*;
 import org.junit.Test;
