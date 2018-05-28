@@ -3,6 +3,12 @@ package io.github.oliviercailloux.y2018.j_voting.profiles.management;
 import io.github.oliviercailloux.y2018.j_voting.*;
 import io.github.oliviercailloux.y2018.j_voting.profiles.*;
 import java.util.*;
+
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.MediaType;
+
 import java.io.*;
 import java.net.URL;
 import org.slf4j.*;
@@ -57,28 +63,12 @@ public class ReadProfile {
 	public StrictProfileI createProfilefromURL(URL url) throws IOException{
 		LOGGER.debug("CreateProfileFromURL : ");
 		Preconditions.checkNotNull(url);
+		LOGGER.debug("parameter : URL = {}", url.toString());
 		
-		try(InputStreamReader urls = new InputStreamReader(url.openStream(), Charsets.UTF_8)){
-			List<String> fileRead =  CharStreams.readLines(urls);
-			Iterator<String> it = fileRead.iterator();
-			String lineNbVoters;
-			int nbAlternatives = Integer.parseInt(it.next());	//first number of the file is the number of alternatives
-			LOGGER.debug("number of alternatives : {}", nbAlternatives);
-			List<String> alternatives = new ArrayList<>();
-			List<String> profiles = new ArrayList<>();
-			for(int i = 1 ; i <= nbAlternatives ; i++){//get the lines with the alternatives
-				alternatives.add(it.next());
-			}
-			LOGGER.debug("alternatives : {}", alternatives);
-			lineNbVoters = it.next();//get the line with the nb of voters
-			LOGGER.debug("line with stats about the votes ); {}", lineNbVoters);
-			while(it.hasNext()){//get the rest of the file
-				profiles.add(it.next());
-			}
-			LOGGER.debug("lines with the number of votes for each StrictPreference : {}", profiles);
-			StrictPreference listeAlternatives = getAlternatives(alternatives);
-			List<Integer> listInt = getStatsVoters(lineNbVoters);
-			return buildProfile(profiles, listeAlternatives, listInt.get(0));
+		Client client = ClientBuilder.newClient();
+		WebTarget t1 = client.target(url.toString());
+		try(InputStream is = t1.request().get(InputStream.class)){
+			return createProfileFromStream(is);
 		}
 	}
 	
