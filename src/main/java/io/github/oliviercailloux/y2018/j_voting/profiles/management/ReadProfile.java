@@ -29,7 +29,7 @@ public class ReadProfile {
 	 * @return sProfile a StrictProfile
 	 * @throws IOException 
 	 */
-	public StrictProfileI createProfileFromStream(InputStream is) throws IOException{
+	public ProfileI createProfileFromStream(InputStream is) throws IOException{
 		LOGGER.debug("CreateProfileFromReadFile : ");
 		Preconditions.checkNotNull(is);
 		
@@ -59,11 +59,11 @@ public class ReadProfile {
 	
 	/**
 	 * Creates a StrictProfile with the information extracted from the URL given as parameter
-	 * @param url <code>not null</code> the url from which the data has to be extracted
+	 * @param url <code>not null</code> the URL from which the data has to be extracted
 	 * @return a StrictProfile
 	 * @throws IOException
 	 */
-	public StrictProfileI createProfilefromURL(URL url) throws IOException{
+	public ProfileI createProfilefromURL(URL url) throws IOException{
 		LOGGER.debug("CreateProfileFromURL : ");
 		Preconditions.checkNotNull(url);
 		LOGGER.debug("parameter : URL = {}", url.toString());
@@ -71,8 +71,32 @@ public class ReadProfile {
 		Client client = ClientBuilder.newClient();
 		WebTarget t1 = client.target(url.toString());
 		try(InputStream is = t1.request().get(InputStream.class)){
-			return createProfileFromStream(is);
+			return restrictProfile(createProfileFromStream(is));
 		}
+	}
+	
+	/**
+	 * Returns the stricter Profile possible from the profile used as a parameter
+	 * @param profile
+	 * @return the stricter profile possible
+	 */
+	public ProfileI restrictProfile(ProfileI profile) {
+		LOGGER.debug("StricterProfile : ");
+		Preconditions.checkNotNull(profile);
+		
+		if(profile.isComplete()) {
+			if(profile.isStrict()) {
+				ImmutableStrictProfile isp = (ImmutableStrictProfile) profile;
+				return isp;
+			}
+			ImmutableProfile ip = (ImmutableProfile) profile;
+			return ip;
+		}
+		if(profile.isStrict()) {
+			ImmutableStrictProfileI ispi = (ImmutableStrictProfileI) profile;
+			return ispi;
+		}
+		return profile;
 	}
 	
 	/**
@@ -185,7 +209,7 @@ public class ReadProfile {
 	 * @param nbVoters <code>not null</code> the number of voters
 	 * @return the created StrictProfile
 	 */
-	public StrictProfileI buildProfile(List<String> file, StrictPreference listAlternatives, int nbVoters){
+	public ProfileI buildProfile(List<String> file, StrictPreference listAlternatives, int nbVoters){
 		LOGGER.debug("BuildProfiles :");
 		Preconditions.checkNotNull(file);
 		Preconditions.checkNotNull(listAlternatives);
@@ -202,7 +226,7 @@ public class ReadProfile {
 			LOGGER.debug("to add : {} votes for the StrictPreference {}", lineAsArray[0].trim(), pref);
 			profile.addVotes(pref, Integer.parseInt(lineAsArray[0].trim()));
 		}
-		return profile.createStrictProfileI();
+		return profile.createProfileI();
 	}
 	
 	/**
