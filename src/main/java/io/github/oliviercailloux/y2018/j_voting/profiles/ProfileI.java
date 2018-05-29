@@ -1,7 +1,6 @@
 package io.github.oliviercailloux.y2018.j_voting.profiles;
 
 import io.github.oliviercailloux.y2018.j_voting.*;
-
 import java.util.*;
 
 /**
@@ -34,7 +33,7 @@ public interface ProfileI {
 	 * 
 	 * @return a sorted set of all the voters in the profile. The voters are ordered by id.
 	 */
-	public SortedSet<Voter> getAllVoters();
+	public NavigableSet<Voter> getAllVoters();
 	
 	/**
 	 * 
@@ -81,14 +80,9 @@ public interface ProfileI {
 	
 	/**
 	 * 
-	 * @return a string representing the profile.
+	 * @param o an object not <code>null</code>
+	 * @return true if both objects implement ProfileI, contain all the same voters and each voter has the same preference in each profile.
 	 */
-	@Override
-	public String toString();
-	
-	@Override
-	public int hashCode();
-	
 	@Override
 	public boolean equals(Object o);
 }

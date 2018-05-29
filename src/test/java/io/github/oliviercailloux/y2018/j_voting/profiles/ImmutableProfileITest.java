@@ -80,7 +80,7 @@ public class ImmutableProfileITest {
 		Voter v4 = new Voter(4);
 		Voter v5 = new Voter(5);
 		Voter v6 = new Voter(6);
-		SortedSet<Voter> set = new TreeSet<>();
+		NavigableSet<Voter> set = new TreeSet<>();
 		set.add(v1);
 		set.add(v2);
 		set.add(v3);

@@ -51,9 +51,9 @@ public class ImmutableProfileI implements ProfileI{
 	}
 
 	@Override
-	public SortedSet<Voter> getAllVoters() {
+	public NavigableSet<Voter> getAllVoters() {
 		LOGGER.debug("getAllVoters:");
-		SortedSet<Voter> keys = new TreeSet<>();
+		NavigableSet<Voter> keys = new TreeSet<>();
 		for(Voter v : votes.keySet()) {
 			keys.add(v);
 		}
@@ -137,7 +137,7 @@ public class ImmutableProfileI implements ProfileI{
 	public boolean equals(Object o) {
 		LOGGER.debug("equals:");
 		Preconditions.checkNotNull(o);
-		if(!(o instanceof ImmutableProfileI)) {
+		if(!(o instanceof ProfileI)) {
 			return false;
 		}
 		ProfileI prof = (ImmutableProfileI) o;
