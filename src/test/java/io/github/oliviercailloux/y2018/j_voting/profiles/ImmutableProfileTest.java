@@ -58,6 +58,6 @@ public class ImmutableProfileTest {
 		alters.add(a1);
 		alters.add(a2);
 		alters.add(a3);
-		assertTrue(Preference.alternativeSetEqual(alters,createIPToTest().getAlternatives()));
+		assertEquals(alters,createIPToTest().getAlternatives());
 	}
 }

@@ -43,7 +43,9 @@ public class PreferenceTest {
 		set3.add(a4);
 		set3.add(a5);
 		List<Set<Alternative>> pref = createPreferenceToTest().getPreferencesNonStrict();
-		assertTrue(Preference.alternativeSetEqual(pref.get(0),set1) && Preference.alternativeSetEqual(pref.get(1),set2) && Preference.alternativeSetEqual(pref.get(2),set3));
+		assertEquals(pref.get(0),set1);
+		assertEquals(pref.get(1),set2);
+		assertEquals(pref.get(2),set3);
 	}
 
 	@Test
@@ -148,7 +150,7 @@ public class PreferenceTest {
 		set.add(a3);
 		set.add(a4);
 		set.add(a5);
-		assertTrue(Preference.alternativeSetEqual(Preference.toAlternativeSet(createPreferenceToTest().getPreferencesNonStrict()),set));
+		assertEquals(Preference.toAlternativeSet(createPreferenceToTest().getPreferencesNonStrict()),set);
 	}
 
 	@Test
@@ -170,7 +172,7 @@ public class PreferenceTest {
 		set2.add(a1);
 		set2.add(a2);
 		set2.add(a5);
-		assertTrue(Preference.alternativeSetEqual(set,set2));
+		assertEquals(set,set2);
 	}
 
 	@Test
@@ -186,7 +188,7 @@ public class PreferenceTest {
 		set.add(a3);
 		set.add(a4);
 		set.add(a5);
-		assertTrue(Preference.alternativeSetContains(set, a3));
+		assertTrue(set.contains(a3));
 	}
 
 	@Test
@@ -222,5 +224,5 @@ public class PreferenceTest {
 	public void testGetAlternativeRank() {
 		assertEquals(createPreferenceToTest().getAlternativeRank(new Alternative(4)),3);
 	}
-	
+
 }

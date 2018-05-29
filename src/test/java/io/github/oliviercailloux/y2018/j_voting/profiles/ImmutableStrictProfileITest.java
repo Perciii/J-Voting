@@ -126,8 +126,11 @@ public class ImmutableStrictProfileITest {
 		list2.add(s1);
 		Preference p1 = new Preference(list1);
 		Preference p2 = new Preference(list2);
-		Map<Voter,Preference> map = ImmutableStrictProfileI.mapStrictToNonStrict(createStrictMap());		
-		assertTrue(map.size() == 3 && map.get(v1).equals(p1) && map.get(v2).equals(p1) && map.get(v3).equals(p2));
+		Map<Voter,Preference> map = ImmutableStrictProfileI.mapStrictToNonStrict(createStrictMap());	
+		assertEquals(map.size(),3);
+		assertEquals(map.get(v1),p1);
+		assertEquals(map.get(v2),p1);
+		assertEquals(map.get(v3),p2);
 	}
 
 	@Test
@@ -149,7 +152,10 @@ public class ImmutableStrictProfileITest {
 		StrictPreference p1 = new StrictPreference(list1);
 		StrictPreference p2 = new StrictPreference(list2);
 		Map<Voter,StrictPreference> map = ImmutableStrictProfileI.mapNonStrictToStrict(createNonStrictMap());		
-		assertTrue(map.size() == 3 && map.get(v1).equals(p1) && map.get(v2).equals(p1) && map.get(v3).equals(p2));
+		assertEquals(map.size(),3);
+		assertEquals(map.get(v1),p1);
+		assertEquals(map.get(v2),p1);
+		assertEquals(map.get(v3),p2);
 	}
 
 	@Test

@@ -21,7 +21,7 @@ public class AlternativeTest {
 	public void testEqualsAlternative() {
 		Alternative a = new Alternative(7);
 		Alternative b = new Alternative(7);
-		assertTrue(a.equals(b) && b.equals(a));
+		assertEquals(a,b);
 	}
 
 	/**

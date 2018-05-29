@@ -60,7 +60,7 @@ public class ProfileBuilderTest {
 		
 		ImmutableProfileI testProfileI = ImmutableProfileITest.createIPIToTest();
 		
-		assertTrue(immutableProfileI.equals(testProfileI));
+		assertEquals(immutableProfileI,testProfileI);
 	}
 
 	@Test
@@ -114,7 +114,7 @@ public class ProfileBuilderTest {
 		
 		ImmutableProfile testProfile = ImmutableProfileTest.createIPToTest();
 		
-		assertTrue(immutableProfile.equals(testProfile));
+		assertEquals(immutableProfile,testProfile);
 	}
 
 	@Test
@@ -157,7 +157,7 @@ public class ProfileBuilderTest {
 		
 		ImmutableStrictProfileI testStrictProfileI = ImmutableStrictProfileITest.createISPIToTest();
 		
-		assertTrue(immutableStrictProfileI.equals(testStrictProfileI));
+		assertEquals(immutableStrictProfileI,testStrictProfileI);
 	}
 
 	@Test
@@ -201,7 +201,7 @@ public class ProfileBuilderTest {
 		
 		ImmutableStrictProfile testStrictProfile = ImmutableStrictProfileTest.createISPToTest();
 		
-		assertTrue(immutableStrictProfile.equals(testStrictProfile));
+		assertEquals(immutableStrictProfile,testStrictProfile);
 	}
 
 }

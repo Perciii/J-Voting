@@ -51,6 +51,10 @@ public class Dictator implements SocialWelfareFunction{
 		return Objects.hash(dictator);
 	}
 
+	/**
+	 * @param o1 not <code>null</code>
+	 * @return true if both Dictators have the same voter as dictator.
+	 */
 	@Override
 	public boolean equals(Object o1){
 		LOGGER.debug("equals");
@@ -60,11 +64,6 @@ public class Dictator implements SocialWelfareFunction{
 			return false;
 		}
 		Dictator d1 = (Dictator) o1;
-		if ((d1.getDictator()).equals(this.dictator)){
-			LOGGER.debug("returns true");
-			return true;
-		}
-		LOGGER.debug("returns false");
-		return false;
+		return (d1.getDictator()).equals(this.dictator);
 	}
 }

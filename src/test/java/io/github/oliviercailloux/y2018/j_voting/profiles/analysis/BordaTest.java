@@ -83,7 +83,9 @@ public class BordaTest {
 		Preference pref1 = new Preference(list1);
 		b.setScores(pref1);
 		Multiset<Alternative> m = b.getMultiSet();
-		assertTrue(m.count(a1) == 2 && m.count(a2) == 2 && m.count(a3) == 1);
+		assertEquals(m.count(a1),2);
+		assertEquals(m.count(a2),2);
+		assertEquals(m.count(a3),1);
 	}
 	
 	@Test
@@ -95,7 +97,9 @@ public class BordaTest {
 		Alternative a3 = new Alternative(3);
 		b.setScores(p);
 		Multiset<Alternative> m = b.getMultiSet();
-		assertTrue(m.count(a1) == 10 && m.count(a2) == 12 && m.count(a3) == 6);
+		assertEquals(m.count(a1),10);
+		assertEquals(m.count(a2),12);
+		assertEquals(m.count(a3),6);
 	}
 	
 	@Test
@@ -110,7 +114,7 @@ public class BordaTest {
 		Set<Alternative> set = new HashSet<>();
 		set.add(a1);
 		set.add(a3);
-		assertTrue(Preference.alternativeSetEqual(new Borda().getMax(listScores),set));
+		assertEquals(new Borda().getMax(listScores),set);
 	}
 	
 	@Test
@@ -133,7 +137,7 @@ public class BordaTest {
 		Borda b1 = new Borda(mset1);
 		Borda b2 = new Borda(mset2);
 		Borda b3 = new Borda(mset3);
-		assertTrue(b1.equals(b2));
+		assertEquals(b1,b2);
 		assertTrue(!(b1.equals(b3)));
 	}
 }

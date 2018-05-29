@@ -81,7 +81,7 @@ public class Preference {
 		LOGGER.debug("parameter preference : {}",p);
 		if(this.size() == p.size() && preferences.size() == p.getPreferencesNonStrict().size()) { //same number of alternatives and same number of sets
 			for(int i=0;i<this.preferences.size();i++) {
-				if(!alternativeSetEqual(preferences.get(i),p.getPreferencesNonStrict().get(i))) {
+				if(!preferences.get(i).equals(p.getPreferencesNonStrict().get(i))) {
 					LOGGER.debug("return false");
 					return false;
 				}
@@ -107,7 +107,7 @@ public class Preference {
 		LOGGER.debug("contains:");
 		Preconditions.checkNotNull(alter);
 		LOGGER.debug("parameter alternative : {}",alter);
-		return(alternativeSetContains(toAlternativeSet(preferences),alter));
+		return(toAlternativeSet(preferences).contains(alter));
 	}
 	
 	/**
@@ -141,8 +141,8 @@ public class Preference {
 	
 	/**
 	 * 
-	 * @param alter not <code>null</code> 
-	 * @return the rank of the alternative given in the Preference. If the alternative is not in the preference, it throws an IllegalArgumentException.
+	 * @param alter not <code>null</code>. If the alternative is not in the preference, it throws an IllegalArgumentException.
+	 * @return the rank of the alternative given in the Preference. 
 	 */
 	public int getAlternativeRank(Alternative alter) {
 		LOGGER.debug("getAlternativeRank:");
@@ -152,7 +152,7 @@ public class Preference {
 		}
 		int rank = 1;
 		for(Set<Alternative> set : preferences) {
-			if(alternativeSetContains(set,alter)) {
+			if(set.contains(alter)) {
 				LOGGER.debug("alternative rank : {}",rank);
 				break;
 			}
@@ -172,58 +172,13 @@ public class Preference {
 		Set<Alternative> set = new HashSet<>();
 		for(Set<Alternative> sets : preferences) {
 			for(Alternative alter : sets) {
-				if(!alternativeSetContains(set,alter)) {
+				if(!set.contains(alter)) {
 					set.add(alter);
 				}
 			}
 		}
 		LOGGER.debug("set : {}",set);
 		return set;
-	}
-	
-	/**
-	 * 
-	 * @param set1 <code>not null</code>
-	 * @param set2 <code>not null</code>
-	 * @return true if the two sets contain the same alternatives
-	 */
-	public static boolean alternativeSetEqual(Set<Alternative> set1, Set<Alternative> set2) {
-		LOGGER.debug("alternativeSetEquals:");
-		Preconditions.checkNotNull(set1);
-		Preconditions.checkNotNull(set2);
-		LOGGER.debug("parameter set1 : {}\nset2 : {}",set1,set2);
-		if(set1.size() == set2.size()) {
-			for(Alternative alter : set1) {
-				if(!alternativeSetContains(set2,alter)) {
-					LOGGER.debug("return false (same size and some different alternatives");
-					return false;
-				}
-			}
-			LOGGER.debug("return true");
-			return true;
-		}
-		LOGGER.debug("return false (not the same size)");
-		return false;
-	}
-	
-	/**
-	 * @param set <code>not null</code>
-	 * @param alter <code>not null</code>
-	 * @return whether the set contains the alternative
-	 */
-	public static boolean alternativeSetContains(Set<Alternative> set,Alternative alter) {
-		LOGGER.debug("alternativeSetContains:");
-		Preconditions.checkNotNull(set);
-		Preconditions.checkNotNull(alter);
-		LOGGER.debug("parameter set : {}\n,alternative : {}",set,alter);
-		for(Alternative a : set) {
-			if(a.equals(alter)) {
-				LOGGER.debug("return true");
-				return true;
-			}
-		}
-		LOGGER.debug("return false");
-		return false;
 	}
 	
 	/**

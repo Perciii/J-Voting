@@ -51,7 +51,7 @@ public class DictatorTest {
 		Dictator d1 = new Dictator(v1);
 		Dictator d2 = new Dictator(v2);
 		Dictator d3 = new Dictator(v1);
-		assertTrue(d1.equals(d3));
+		assertEquals(d1,d3);
 		assertTrue(!d1.equals(d2));
 	}
 	
@@ -60,8 +60,8 @@ public class DictatorTest {
 		Voter v1 = new Voter(1);
 		Voter v2 = new Voter(2);
 		Dictator d1 = new Dictator(v1);
-		assertTrue(d1.equalsVoter(v1));
-		assertTrue(!d1.equalsVoter(v2));
+		assertEquals(d1.getDictator(),v1);
+		assertTrue(!d1.getDictator().equals(v2));
 	}
 
 }

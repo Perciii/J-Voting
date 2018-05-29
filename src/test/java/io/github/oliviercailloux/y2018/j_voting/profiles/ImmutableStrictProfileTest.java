@@ -54,7 +54,7 @@ public class ImmutableStrictProfileTest {
 		alters.add(a1);
 		alters.add(a2);
 		alters.add(a3);
-		assertTrue(Preference.alternativeSetEqual(alters,createISPToTest().getAlternatives()));
+		assertEquals(alters,createISPToTest().getAlternatives());
 	}
 
 }

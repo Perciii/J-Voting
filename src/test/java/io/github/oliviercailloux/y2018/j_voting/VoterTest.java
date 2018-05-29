@@ -22,7 +22,7 @@ public class VoterTest {
 	public void testEquals() {
 		Voter v = new Voter(3);
 		Voter v2 = new Voter(3);
-		assertTrue(v.equals(v2) && v2.equals(v));
+		assertEquals(v,v2);
 	}
 
 	@Test

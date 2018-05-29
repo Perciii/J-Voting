@@ -63,14 +63,8 @@ public class ImmutableProfileITest {
 		list1.add(s2);
 		
 		Preference pref1 = new Preference(list1);
-		assertTrue(pref1.equals(createIPIToTest().getPreference(v1)));
+		assertEquals(pref1,createIPIToTest().getPreference(v1));
 	}
-
-	/*
-	@Test
-	public void testGetProfile() {
-		fail("Not yet implemented");
-	}*/
 
 	@Test
 	public void testContains() {
@@ -207,6 +201,6 @@ public class ImmutableProfileITest {
 		profile.put(v5, pref2);
 		profile.put(v6, pref2);		
 		ImmutableProfileI prof = new ImmutableProfileI(profile);
-		assertTrue(prof.equals(createIPIToTest()));
+		assertEquals(prof,createIPIToTest());
 	}
 }
