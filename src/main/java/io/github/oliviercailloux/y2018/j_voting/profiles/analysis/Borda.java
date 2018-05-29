@@ -9,7 +9,7 @@ import com.google.common.collect.*;
 
 public class Borda implements SocialWelfareFunction{
 
-	private static Logger LOGGER = LoggerFactory.getLogger(Borda.class.getName());	
+	private static final Logger LOGGER = LoggerFactory.getLogger(Borda.class.getName());	
 	private Multiset<Alternative> scores;
 
 	public Borda(Multiset<Alternative> tempscores) {

@@ -6,7 +6,7 @@ import org.slf4j.*;
 
 public class ImmutableProfile extends ImmutableProfileI implements Profile{
 
-	private static Logger LOGGER = LoggerFactory.getLogger(ImmutableProfile.class.getName());
+	private static final Logger LOGGER = LoggerFactory.getLogger(ImmutableProfile.class.getName());
 	
 	public ImmutableProfile(Map<Voter, Preference> votes) {
 		super(votes);

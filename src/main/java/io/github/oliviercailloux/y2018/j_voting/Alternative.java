@@ -8,7 +8,7 @@ import com.google.common.base.Preconditions;
  * Contains an integer which corresponds to a voting possibility
  */
 public class Alternative {
-	private static Logger LOGGER = LoggerFactory.getLogger(Alternative.class.getName());
+	private static final Logger LOGGER = LoggerFactory.getLogger(Alternative.class.getName());
 	private int id;
 	
 	/**

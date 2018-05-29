@@ -12,7 +12,7 @@ import com.google.common.base.Preconditions;
  *
  */
 public class Preference {
-	private static Logger LOGGER = LoggerFactory.getLogger(Preference.class.getName());
+	private static final Logger LOGGER = LoggerFactory.getLogger(Preference.class.getName());
 	protected List<Set<Alternative>> preferences;
 	
 	/**

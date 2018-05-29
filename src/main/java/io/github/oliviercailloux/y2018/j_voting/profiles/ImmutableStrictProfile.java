@@ -8,7 +8,7 @@ import java.util.*;
 
 public class ImmutableStrictProfile extends ImmutableStrictProfileI implements StrictProfile{
 
-	private static Logger LOGGER = LoggerFactory.getLogger(ImmutableStrictProfile.class.getName());
+	private static final Logger LOGGER = LoggerFactory.getLogger(ImmutableStrictProfile.class.getName());
 	
 	public ImmutableStrictProfile(Map<Voter,StrictPreference> map) {
 		super(map);

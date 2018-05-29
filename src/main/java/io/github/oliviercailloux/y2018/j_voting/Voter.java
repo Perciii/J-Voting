@@ -9,7 +9,7 @@ import com.google.common.base.Preconditions;
  */
 public class Voter implements Comparable<Voter>{
 	private int id;
-	private static Logger LOGGER = LoggerFactory.getLogger(Voter.class.getName());
+	private static final Logger LOGGER = LoggerFactory.getLogger(Voter.class.getName());
 	
 	/**
 	 * Creates a new object Voter with the id given as a parameter

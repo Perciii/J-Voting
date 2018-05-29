@@ -13,7 +13,7 @@ import java.util.*;
  */
 public class ProfileBuilder {
 
-	private static Logger LOGGER = LoggerFactory.getLogger(ProfileBuilder.class.getName());
+	private static final Logger LOGGER = LoggerFactory.getLogger(ProfileBuilder.class.getName());
 	protected Map<Voter,Preference> votes;
 	protected int nextVoterId = 1;
 	
@@ -42,13 +42,32 @@ public class ProfileBuilder {
 	 * 
 	 * adds the preference pref for the voter v in the map.
 	 */
-	public void addProfile(Voter v, Preference pref) {
+	public void addVote(Voter v, Preference pref) {
 		LOGGER.debug("addProfile:");
 		Preconditions.checkNotNull(v);
 		Preconditions.checkNotNull(pref);
 		LOGGER.debug("parameters: voter {} pref {}",v,pref);
 		votes.put(v,pref);
 	}
+	
+	/**Adds several votes (the given number) for the given preference to the profile.
+	 * 
+	 * @param pref <code>not null</code> a StrictPreference
+	 * @param nbVoters <code>not null</code> the number of voters that voted for the preference as parameter
+	 */
+	public void addVotes(Preference pref, int nbVoters){
+		LOGGER.debug("AddVotes");
+		Preconditions.checkNotNull(pref);
+		Preconditions.checkNotNull(nbVoters);
+		LOGGER.debug("parameters : nbVoters {} for the preference {}", nbVoters, pref); 
+		for(int m = 0 ; m < nbVoters ; m++){//we create as many profiles as voters 
+			Voter v =new Voter(nextVoterId);
+			LOGGER.debug("adds the voter {} and the pref as parameter to the profile", nextVoterId);
+			nextVoterId++;
+			addVote(v, pref);
+		}
+	}
+	
 	
 	/**
 	 * 

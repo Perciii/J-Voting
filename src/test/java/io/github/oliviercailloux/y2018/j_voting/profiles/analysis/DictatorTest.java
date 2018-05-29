@@ -37,9 +37,9 @@ public class DictatorTest {
 		Preference pref2 = new Preference(list2);
 		Preference pref3 = new Preference(list3);
 		ProfileBuilder prof = new ProfileBuilder();
-		prof.addProfile(v1, pref1);
-		prof.addProfile(v2, pref2);
-		prof.addProfile(v3, pref3);
+		prof.addVote(v1, pref1);
+		prof.addVote(v2, pref2);
+		prof.addVote(v3, pref3);
 		ProfileI profile = prof.createProfileI();
 		assertEquals(d1.getSocietyPreference(profile),pref1);
 	}

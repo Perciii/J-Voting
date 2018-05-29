@@ -12,7 +12,7 @@ import com.google.common.base.Preconditions;
  *
  */
 public class StrictProfileBuilder extends ProfileBuilder{
-	private static Logger LOGGER = LoggerFactory.getLogger(StrictProfileBuilder.class.getName());
+	private static final Logger LOGGER = LoggerFactory.getLogger(StrictProfileBuilder.class.getName());
 	
 	public StrictProfileBuilder() {
 		LOGGER.debug("constructor empty:");
@@ -40,7 +40,7 @@ public class StrictProfileBuilder extends ProfileBuilder{
 	 * adds the preference pref for the voter v in the map. If the preference isn't strict, it throws an IllegalArgumentException.
 	 */
 	@Override
-	public void addProfile(Voter v, Preference pref) {
+	public void addVote(Voter v, Preference pref) {
 		LOGGER.debug("addProfile:");
 		Preconditions.checkNotNull(v);
 		Preconditions.checkNotNull(pref);

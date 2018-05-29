@@ -8,7 +8,7 @@ import org.slf4j.*;
 
 public class SWFCommander{
     private SocialWelfareFunction swf ; 
-	private static Logger LOGGER = LoggerFactory.getLogger(SWFCommander.class.getName());
+	private static final Logger LOGGER = LoggerFactory.getLogger(SWFCommander.class.getName());
     
 	public SWFCommander(SocialWelfareFunction s) {
 		swf = s;
@@ -47,7 +47,7 @@ public class SWFCommander{
             Voter v = new Voter(voterId);
             StrictPreference strictPreference = askPreference();
             LOGGER.debug("strictPreference :{}",strictPreference);
-            prof.addProfile(v, strictPreference);
+            prof.addVote(v, strictPreference);
             
             System.out.println("Continue ? (yes/no)");
             try(Scanner scn = new Scanner(System.in)){

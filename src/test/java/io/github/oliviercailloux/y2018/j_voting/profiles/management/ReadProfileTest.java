@@ -50,12 +50,11 @@ public class ReadProfileTest {
 		alternatives2.add(a1);
 		alternatives2.add(a3);
 		StrictPreference pref2 = new StrictPreference(alternatives2);
-		assertTrue(pref.equals(rp.getPreferences(pref2, "4,1,2,3")));
+		assertEquals(pref,rp.getPreferences(pref2, "4,1,2,3"));
 	}
 
 	@Test
 	public void testAddVotes() {
-		ReadProfile rp = new ReadProfile();
 		StrictProfileBuilder p = new StrictProfileBuilder();
 		Alternative a1 = new Alternative(1);
 		Alternative a2 = new Alternative(2);
@@ -67,7 +66,7 @@ public class ReadProfileTest {
 		alternatives.add(a2);
 		alternatives.add(a3);
 		StrictPreference pref = new StrictPreference(alternatives);
-		rp.addVotes(pref,2,p);
+		p.addVotes(pref,2);
 		StrictProfileI prof = p.createStrictProfileI();
 		assertTrue(prof.contains(v1) && prof.contains(v2) && prof.getPreference(v1).equals(pref) && prof.getPreference(v2).equals(pref));
 	}

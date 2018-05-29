@@ -14,13 +14,13 @@ import java.util.*;
  */
 public class Dictator implements SocialWelfareFunction{
 
-	private Voter Dictator;
-	private static Logger LOGGER = LoggerFactory.getLogger(Borda.class.getName());	
+	private Voter dictator;
+	private static final Logger LOGGER = LoggerFactory.getLogger(Borda.class.getName());	
 
 	public Dictator (Voter v){
 		LOGGER.debug("Dictator");
 		Preconditions.checkNotNull(v);
-		Dictator = v;
+		dictator = v;
 	}
 
 	/***
@@ -32,23 +32,23 @@ public class Dictator implements SocialWelfareFunction{
 	public Preference getSocietyPreference(ProfileI profile) {
 		LOGGER.debug("getSocietyStrictPreference");
 		Preconditions.checkNotNull(profile);
-		Preconditions.checkArgument(profile.contains(Dictator));
+		Preconditions.checkArgument(profile.contains(dictator));
 		LOGGER.debug("parameter profile : {}", profile);
-		LOGGER.debug("Dictator : {}", Dictator);
-		LOGGER.debug("return preference : {}", profile.getPreference(Dictator));
-		return profile.getPreference(Dictator);
+		LOGGER.debug("Dictator : {}", dictator);
+		LOGGER.debug("return preference : {}", profile.getPreference(dictator));
+		return profile.getPreference(dictator);
 	}
 
 	
 	public Voter getDictator(){
 		LOGGER.debug("getDictator");
-		return Dictator;
+		return dictator;
 	}
 
 	@Override
 	public int hashCode() {
 		LOGGER.debug("hashCode");
-		return Objects.hash(Dictator);
+		return Objects.hash(dictator);
 	}
 
 	@Override
@@ -60,35 +60,11 @@ public class Dictator implements SocialWelfareFunction{
 			return false;
 		}
 		Dictator d1 = (Dictator) o1;
-		if ((d1.getDictator()).equals(this.Dictator)){
+		if ((d1.getDictator()).equals(this.dictator)){
 			LOGGER.debug("returns true");
 			return true;
 		}
 		LOGGER.debug("returns false");
 		return false;
 	}
-	
-	
-	/***
-	 * 
-	 * @param o1 : a voter
-	 * @return true if o1 is the dictator
-	 */
-	
-	public boolean equalsVoter(Object o1){
-		LOGGER.debug("equalsVoter");
-		Preconditions.checkNotNull(o1);
-		if (!(o1 instanceof Voter)){
-			LOGGER.debug("returns false");
-			return false;
-		}
-		Voter v1 = (Voter) o1;
-		if (v1.equals(this.Dictator)){
-			LOGGER.debug("returns true");
-			return true;
-		}
-		LOGGER.debug("returns false");
-		return false;
-	}
-	
 }

@@ -7,7 +7,7 @@ import com.google.common.base.Preconditions;
 
 public class ImmutableStrictProfileI extends ImmutableProfileI implements StrictProfileI{
 
-	private static Logger LOGGER = LoggerFactory.getLogger(ImmutableStrictProfileI.class.getName());
+	private static final Logger LOGGER = LoggerFactory.getLogger(ImmutableStrictProfileI.class.getName());
 	
 	
 	public ImmutableStrictProfileI(Map<Voter, StrictPreference> map) {

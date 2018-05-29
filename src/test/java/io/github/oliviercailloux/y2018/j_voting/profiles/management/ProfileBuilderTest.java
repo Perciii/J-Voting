@@ -48,12 +48,12 @@ public class ProfileBuilderTest {
 		Preference pref1 = new Preference(list1);
 		Preference pref2 = new Preference(list2);
 		
-		profileBuilder.addProfile(v1, pref1);
-		profileBuilder.addProfile(v2, pref1);
-		profileBuilder.addProfile(v3, pref1);
-		profileBuilder.addProfile(v4, pref1);
-		profileBuilder.addProfile(v5, pref2);
-		profileBuilder.addProfile(v6, pref2);
+		profileBuilder.addVote(v1, pref1);
+		profileBuilder.addVote(v2, pref1);
+		profileBuilder.addVote(v3, pref1);
+		profileBuilder.addVote(v4, pref1);
+		profileBuilder.addVote(v5, pref2);
+		profileBuilder.addVote(v6, pref2);
 	
 		ProfileI immutableProfileI = profileBuilder.createProfileI();
 		//---end of creation of  a ProfileI with ProfileBuilder
@@ -102,12 +102,12 @@ public class ProfileBuilderTest {
 		Preference pref1 = new Preference(list1);
 		Preference pref2 = new Preference(list2);
 		
-		profileBuilder.addProfile(v1, pref1);
-		profileBuilder.addProfile(v2, pref1);
-		profileBuilder.addProfile(v3, pref1);
-		profileBuilder.addProfile(v4, pref1);
-		profileBuilder.addProfile(v5, pref2);
-		profileBuilder.addProfile(v6, pref2);
+		profileBuilder.addVote(v1, pref1);
+		profileBuilder.addVote(v2, pref1);
+		profileBuilder.addVote(v3, pref1);
+		profileBuilder.addVote(v4, pref1);
+		profileBuilder.addVote(v5, pref2);
+		profileBuilder.addVote(v6, pref2);
 		
 		Profile immutableProfile = profileBuilder.createProfile();
 		//---end of creation of a Profile with ProfileBuilder
@@ -145,12 +145,12 @@ public class ProfileBuilderTest {
 		StrictPreference pref1 = new StrictPreference(list1);
 		StrictPreference pref2 = new StrictPreference(list2);
 		
-		profileBuilder.addProfile(v1, pref1);
-		profileBuilder.addProfile(v2, pref1);
-		profileBuilder.addProfile(v3, pref1);
-		profileBuilder.addProfile(v4, pref1);
-		profileBuilder.addProfile(v5, pref2);
-		profileBuilder.addProfile(v6, pref2);
+		profileBuilder.addVote(v1, pref1);
+		profileBuilder.addVote(v2, pref1);
+		profileBuilder.addVote(v3, pref1);
+		profileBuilder.addVote(v4, pref1);
+		profileBuilder.addVote(v5, pref2);
+		profileBuilder.addVote(v6, pref2);
 		
 		StrictProfileI immutableStrictProfileI = profileBuilder.createStrictProfileI();
 		//---end of creation of a StrictProfileI with ProfileBuilder
@@ -189,12 +189,12 @@ public class ProfileBuilderTest {
 		StrictPreference pref1 = new StrictPreference(list1);
 		StrictPreference pref2 = new StrictPreference(list2);
 		
-		profileBuilder.addProfile(v1, pref1);
-		profileBuilder.addProfile(v2, pref1);
-		profileBuilder.addProfile(v3, pref1);
-		profileBuilder.addProfile(v4, pref1);
-		profileBuilder.addProfile(v5, pref2);
-		profileBuilder.addProfile(v6, pref2);
+		profileBuilder.addVote(v1, pref1);
+		profileBuilder.addVote(v2, pref1);
+		profileBuilder.addVote(v3, pref1);
+		profileBuilder.addVote(v4, pref1);
+		profileBuilder.addVote(v5, pref2);
+		profileBuilder.addVote(v6, pref2);
 		
 		StrictProfile immutableStrictProfile = profileBuilder.createStrictProfile();
 		//---end of creation of a StrictProfile with ProfileBuilder

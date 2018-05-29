@@ -7,7 +7,7 @@ import com.google.common.base.Preconditions;
 
 public class ImmutableProfileI implements ProfileI{
 
-	private static Logger LOGGER = LoggerFactory.getLogger(ImmutableProfileI.class.getName());
+	private static final Logger LOGGER = LoggerFactory.getLogger(ImmutableProfileI.class.getName());
 	protected Map<Voter,Preference> votes;
 	
 	public ImmutableProfileI(Map<Voter,Preference> votes) {

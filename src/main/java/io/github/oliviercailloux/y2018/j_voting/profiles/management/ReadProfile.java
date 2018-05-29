@@ -14,9 +14,14 @@ import com.google.common.base.*;
 import com.google.common.collect.Iterables;
 import com.google.common.io.*;
 
+/**
+ * 
+ * The ReadProfile class provides methods creating and displaying Profiles from different resources (e.g. InputStream, URL).
+ *
+ */
 public class ReadProfile {
 	
-	private static Logger LOGGER = LoggerFactory.getLogger(ReadProfile.class.getName());
+	private static final Logger LOGGER = LoggerFactory.getLogger(ReadProfile.class.getName());
 	
 	/**
 	 * Creates a StrictProfile with the information extracted from the InputStream given as parameter.
@@ -89,11 +94,10 @@ public class ReadProfile {
 	}
 	
 	/**
-	 * @param nbAlternatives <code>not null</code> the number of alternatives in the profile
 	 * @param file <code>not null</code> a list of strings each containing an alternative
-	 * @return the Alternatives in the profile given as a StrictPreference.
+	 * @return the Alternatives in the list of strings given as a StrictPreference.
 	 */
-	public StrictPreference getAlternatives(List<String> file){
+	private StrictPreference getAlternatives(List<String> file){
 		LOGGER.debug("GetAlternatives :");
 		Preconditions.checkNotNull(file);
 		LOGGER.debug("parameter : file = {}", file); 
@@ -112,7 +116,7 @@ public class ReadProfile {
 	 * @param s <code>not null</code> the line with the voters statistics (number, sum of count, number of unique alternatives)
 	 * @return a List with the three computed statistics
 	 */
-	public List<Integer> getStatsVoters(String s){
+	private List<Integer> getStatsVoters(String s){
 		LOGGER.debug("GetNbVoters :");
 		Preconditions.checkNotNull(s);
 		LOGGER.debug("parameter : s = {}", s);
@@ -176,25 +180,6 @@ public class ReadProfile {
 	}
 	
 	/**
-	 * @param pref <code>not null</code> a StrictPreference
-	 * @param nbVoters <code>not null</code> the number of voters that voted for the preference as parameter
-	 * @param profile <code>not null</code> the StrictProfile to which the votes will be added
-	 */
-	public void addVotes(StrictPreference pref, int nbVoters, StrictProfileBuilder profile){
-		LOGGER.debug("AddVotes");
-		Preconditions.checkNotNull(pref);
-		Preconditions.checkNotNull(nbVoters);
-		Preconditions.checkNotNull(profile);
-		LOGGER.debug("parameters : nbVoters {} for the preference {}", nbVoters, pref); 
-		for(int m = 0 ; m < nbVoters ; m++){//we create as many profiles as voters 
-			Voter v =new Voter(profile.nextVoterId);
-			LOGGER.debug("adds the voter {} and the pref as parameter to the profile", profile.nextVoterId);
-			profile.nextVoterId++;
-			profile.addProfile(v, pref);
-		}
-	}
-
-	/**
 	 * @param file <code>not null</code> the lines with the number of votes for each preference
 	 * @param listAlternatives <code>not null</code> the alternatives of the profile
 	 * @param nbVoters <code>not null</code> the number of voters
@@ -215,7 +200,7 @@ public class ReadProfile {
 			String[] lineAsArray = line.split(",");
 			StrictPreference pref = getPreferences(listAlternatives, line);
 			LOGGER.debug("to add : {} votes for the StrictPreference {}", lineAsArray[0].trim(), pref);
-			addVotes(pref, Integer.parseInt(lineAsArray[0].trim()), profile);
+			profile.addVotes(pref, Integer.parseInt(lineAsArray[0].trim()));
 		}
 		return profile.createStrictProfileI();
 	}
