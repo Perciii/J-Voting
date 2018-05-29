@@ -4,10 +4,8 @@ import io.github.oliviercailloux.y2018.j_voting.*;
 import io.github.oliviercailloux.y2018.j_voting.profiles.*;
 import java.util.*;
 
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.WebTarget;
-import javax.ws.rs.core.MediaType;
+import javax.ws.rs.client.*;
+//import javax.ws.rs.core.MediaType;
 
 import java.io.*;
 import java.net.URL;
