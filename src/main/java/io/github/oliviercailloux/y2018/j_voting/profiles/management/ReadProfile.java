@@ -77,7 +77,7 @@ public class ReadProfile {
 	
 	/**
 	 * Returns the stricter Profile possible from the profile used as a parameter
-	 * @param profile
+	 * @param profile not <code>null</code> an incomplete non-strict profile (the more general)
 	 * @return the stricter profile possible
 	 */
 	public ProfileI restrictProfile(ProfileI profile) {
@@ -118,15 +118,15 @@ public class ReadProfile {
 	}
 	
 	/**
-	 * @param file <code>not null</code> a list of strings each containing an alternative
-	 * @return the Alternatives in the list of strings given as a StrictPreference.
+	 * @param listOfStrings <code>not null</code> a list of strings each containing an alternative
+	 * @return the Alternatives, in the list of strings, given as a StrictPreference.
 	 */
-	private StrictPreference getAlternatives(List<String> file){
+	private StrictPreference getAlternatives(List<String> listOfStrings){
 		LOGGER.debug("GetAlternatives :");
-		Preconditions.checkNotNull(file);
-		LOGGER.debug("parameter : file = {}", file); 
+		Preconditions.checkNotNull(listOfStrings);
+		LOGGER.debug("parameter : file = {}", listOfStrings); 
 		List<Alternative> alternatives= new ArrayList<>();
-		for(String alternative : file){
+		for(String alternative : listOfStrings){
 			LOGGER.debug("next Alternative : {}", alternative);
 			alternatives.add(new Alternative(Integer.parseInt(alternative)));
 		}
