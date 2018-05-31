@@ -42,13 +42,13 @@ public class ReadProfile {
 			List<String> alternatives = new ArrayList<>();
 			List<String> profiles = new ArrayList<>();
 			for(int i = 1 ; i <= nbAlternatives ; i++){//get the lines with the alternatives
-				alternatives.add(it.next());
+				alternatives.add(it.next().trim());
 			}
 			LOGGER.debug("alternatives : {}", alternatives);
-			lineNbVoters = it.next();//get the line with the nb of voters
+			lineNbVoters = it.next().trim();//get the line with the nb of voters
 			LOGGER.debug("line with stats about the votes ); {}", lineNbVoters);
 			while(it.hasNext()){//get the rest of the file
-				profiles.add(it.next());
+				profiles.add(it.next().trim());
 			}
 			LOGGER.debug("lines with the number of votes for each StrictPreference : {}", profiles);
 			StrictPreference listeAlternatives = getAlternatives(alternatives);
@@ -72,6 +72,24 @@ public class ReadProfile {
 		WebTarget t1 = client.target(url.toString());
 		try(InputStream is = t1.request().get(InputStream.class)){
 			return createProfileFromStream(is).restrictProfile();
+		}
+	}
+	
+	/**
+	 * This method prints strings from the read file which InputStream is passed as an argument. It uses an InputStreamReader using UTF-8 to read the Stream
+	 * @param is an InputStream <code>not null</code> to read from the desired file<br>
+	 * InputStream is closed in this method
+	 * @throws IOException 
+	 */
+	public void displayProfileFromStream(InputStream is) throws IOException{
+		LOGGER.debug("DisplayProfileFromFile : ") ;
+		Preconditions.checkNotNull(is);
+		LOGGER.debug("parameter : InputStream = {}", is);
+		try(InputStreamReader isr = new InputStreamReader(is, Charsets.UTF_8)){
+			List<String> fileRead =  CharStreams.readLines(isr);
+			for(String line : fileRead){
+				System.out.println(line);
+			}
 		}
 	}
 	
@@ -192,15 +210,17 @@ public class ReadProfile {
 	 **/
 	public void main(String[] args) throws IOException {
 		//read SOC file
-		try(FileReader filesoc = new FileReader("profil.soc")){
-			LOGGER.debug("SOC Profile : {}", filesoc);
-			System.out.println(CharStreams.toString(filesoc));
+		try(InputStream socStream = getClass().getResourceAsStream("profil.soc")){
+			LOGGER.debug("SOC Profile stream : {}", socStream);
+			//StrictProfile socProfile = createProfileFromFile(socPath);
+			displayProfileFromStream(socStream);
 		}
 		
 		//read SOI file
-		try(FileReader filesoi = new FileReader("profil.soi")){
-			LOGGER.debug("SOI Profile : {}", filesoi);
-			System.out.println(CharStreams.toString(filesoi));
+		try(InputStream soiStream = getClass().getResourceAsStream("profil.soi")){
+			LOGGER.debug("SOI Profile stream : {}", soiStream);
+			//StrictProfile socProfile = createProfileFromFile(socPath);
+			displayProfileFromStream(soiStream);
 		}
 	}
 }
