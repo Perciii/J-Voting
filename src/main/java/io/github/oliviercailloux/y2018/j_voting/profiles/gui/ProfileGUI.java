@@ -1,9 +1,11 @@
 package io.github.oliviercailloux.y2018.j_voting.profiles.gui;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -207,19 +209,29 @@ public class ProfileGUI {
 					@Override
 					public void widgetSelected(SelectionEvent e) {
 						
-						ProfileI prof = profileBuilder.createProfileI();
-						prof = prof.restrictProfile();
+						/*ProfileI prof = profileBuilder.createProfileI();
+						prof = prof.restrictProfile();*/
 						
-						if(prof.isComplete() && prof.isStrict()) {
-							try(OutputStream outputStream = new FileOutputStream(args[0])){
-								((StrictProfile) prof).writeToSOC(outputStream);
+						try {
+							StrictProfile sp = profileBuilder.createStrictProfile();
+							try(OutputStream outputStream = new FileOutputStream(new File(getClass().getResource(args[0]).toURI()))){
+								sp.writeToSOC(outputStream);
 							} catch (IOException ioe) {
 								MessageBox dialog = new MessageBox(shell, SWT.ICON_QUESTION | SWT.OK);
 									dialog.setText("IOException");
 									dialog.setMessage("Error when opening Stream : " + ioe);
 									dialog.open();
+							} catch (URISyntaxException uriSE) {
+								throw new IllegalStateException(uriSE);
 							}
+						} catch (IllegalArgumentException iae) {
+							MessageBox dialog = new MessageBox(shell, SWT.ICON_QUESTION | SWT.OK);
+							dialog.setText("Illegal Argument Exception");
+							dialog.setMessage("New profile is not in SOC format : " + iae);
+							dialog.open();
 						}
+						
+							
 					}
 				});
 		
