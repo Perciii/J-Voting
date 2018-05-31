@@ -17,6 +17,11 @@ public interface ProfileI {
 	public Preference getPreference(Voter v);
 	
 	/**
+	 * @return the maximum size of a Preference in an incomplete Profile
+	 */
+	public int getMaxSizeOfPreference();
+	
+	/**
 	 * 
 	 * @return the profile as a map mapping the voters to their preference.
 	 */

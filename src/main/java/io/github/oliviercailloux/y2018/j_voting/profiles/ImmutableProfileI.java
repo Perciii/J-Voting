@@ -35,9 +35,7 @@ public class ImmutableProfileI implements ProfileI{
 		throw new NoSuchElementException("Voter " + v + "is not in the map !");
 	}
 	
-	/**
-	 * @return the maximum size of a Preference in an incomplete Profile
-	 */
+	@Override
 	public int getMaxSizeOfPreference() {
 		int maxSize = 0;
 		Set<Map.Entry<Voter,Preference>> mapping = votes.entrySet();
