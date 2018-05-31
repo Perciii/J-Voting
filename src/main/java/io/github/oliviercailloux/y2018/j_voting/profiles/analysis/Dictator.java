@@ -8,9 +8,8 @@ import io.github.oliviercailloux.y2018.j_voting.profiles.*;
 import java.util.*;
 
 /**
- * 
+ * This class is immutable.
  * This class provides a result for an election that is necessarily the preference of the dictator (a Voter).
- *
  */
 public class Dictator implements SocialWelfareFunction{
 

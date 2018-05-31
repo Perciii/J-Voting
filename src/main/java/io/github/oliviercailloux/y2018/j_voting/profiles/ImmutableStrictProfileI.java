@@ -5,6 +5,10 @@ import java.util.*;
 import org.slf4j.*;
 import com.google.common.base.Preconditions;
 
+/**
+ * This class is immutable.
+ * Represents a Strict Incomplete Profile.
+ */
 public class ImmutableStrictProfileI extends ImmutableProfileI implements StrictProfileI{
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(ImmutableStrictProfileI.class.getName());

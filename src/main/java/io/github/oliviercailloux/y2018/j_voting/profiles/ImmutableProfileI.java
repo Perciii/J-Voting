@@ -5,6 +5,10 @@ import java.util.*;
 import org.slf4j.*;
 import com.google.common.base.Preconditions;
 
+/**
+ * This class is immutable.
+ * Represents an Incomplete Profile.
+ */
 public class ImmutableProfileI implements ProfileI{
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(ImmutableProfileI.class.getName());
@@ -29,6 +33,19 @@ public class ImmutableProfileI implements ProfileI{
 			}
 		}
 		throw new NoSuchElementException("Voter " + v + "is not in the map !");
+	}
+	
+	/**
+	 * @return the maximum size of a Preference in an incomplete Profile
+	 */
+	public int getMaxSizeOfPreference() {
+		int maxSize = 0;
+		Set<Map.Entry<Voter,Preference>> mapping = votes.entrySet();
+		for(Map.Entry<Voter,Preference> vote : mapping) {
+			if(vote.getValue().size() > maxSize)
+				maxSize = vote.getValue().size();
+		}
+		return maxSize;
 	}
 
 	@Override

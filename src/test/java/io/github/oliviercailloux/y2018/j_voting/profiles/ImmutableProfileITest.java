@@ -3,6 +3,7 @@ package io.github.oliviercailloux.y2018.j_voting.profiles;
 import static org.junit.Assert.*;
 import org.junit.Test;
 import io.github.oliviercailloux.y2018.j_voting.*;
+import io.github.oliviercailloux.y2018.j_voting.profiles.management.*;
 
 import java.util.*;
 
@@ -44,6 +45,33 @@ public class ImmutableProfileITest {
 		profile.put(v5, pref2);
 		profile.put(v6, pref2);
 		return new ImmutableProfileI(profile);
+	}
+	
+	@Test
+	public void testGetMaxSizeOfPreference() {
+		ImmutableProfileI ipi = createIPIToTest();
+		
+		Alternative a = new Alternative(4);
+		Alternative a1 = new Alternative(5);
+		Alternative a2 = new Alternative(6);
+		Alternative a3 = new Alternative(7);
+		List<Set<Alternative>> list = new ArrayList<>();
+		Set<Alternative> s = new HashSet<>();
+		s.add(a);
+		s.add(a1);
+		s.add(a2);
+		s.add(a3);
+		list.add(s);
+		Preference pref = new Preference(list);
+		
+		ProfileBuilder pb = new ProfileBuilder(ipi);
+		Voter v = ipi.getAllVoters().first();
+		pb.addVote(v, pref);
+		ipi = (ImmutableProfileI) pb.createProfileI();		
+		
+		int max = ipi.getMaxSizeOfPreference();
+		assertEquals(pref.size(), max);
+		
 	}
 	
 	@Test

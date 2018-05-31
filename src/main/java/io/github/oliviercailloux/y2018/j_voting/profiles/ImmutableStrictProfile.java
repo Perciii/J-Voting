@@ -6,6 +6,10 @@ import io.github.oliviercailloux.y2018.j_voting.*;
 import java.io.*;
 import java.util.*;
 
+/**
+ * This class is immutable.
+ * Represents a Strict Complete Profile.
+ */
 public class ImmutableStrictProfile extends ImmutableStrictProfileI implements StrictProfile{
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(ImmutableStrictProfile.class.getName());
