@@ -203,4 +203,10 @@ public class ImmutableProfileITest {
 		ImmutableProfileI prof = new ImmutableProfileI(profile);
 		assertEquals(prof,createIPIToTest());
 	}
+	
+	@Test
+	public void testRestrictProfile() {
+		ProfileI prof = ImmutableStrictProfileTest.createISPToTest().restrictProfile();
+		assertTrue(prof instanceof ImmutableStrictProfile);
+	}
 }

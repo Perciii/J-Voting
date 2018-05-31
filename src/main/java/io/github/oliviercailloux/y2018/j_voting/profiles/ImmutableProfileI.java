@@ -166,5 +166,26 @@ public class ImmutableProfileI implements ProfileI{
 		LOGGER.debug("hasCode:");
 		return Objects.hash(votes);
 	}
+	
+	public ProfileI restrictProfile() {
+		LOGGER.debug("StricterProfile : ");
+		if(isComplete()) {
+			if(isStrict()) {
+				LOGGER.debug("strict complete profile");
+				ImmutableStrictProfile isp = (ImmutableStrictProfile) this;
+				return isp;
+			}
+			LOGGER.debug("non strict complete profile");
+			ImmutableProfile ip = (ImmutableProfile) this;
+			return ip;
+		}
+		if(isStrict()) {
+			LOGGER.debug("strict incomplete profile");
+			ImmutableStrictProfileI ispi = (ImmutableStrictProfileI) this;
+			return ispi;
+		}
+		LOGGER.debug("non strict incomplete profile");
+		return this;
+	}
 
 }

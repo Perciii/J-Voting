@@ -85,4 +85,10 @@ public interface ProfileI {
 	 */
 	@Override
 	public boolean equals(Object o);
+	
+	/**
+	 * 
+	 * @return the stricter profile possible
+	 */
+	public ProfileI restrictProfile();
 }

@@ -71,32 +71,8 @@ public class ReadProfile {
 		Client client = ClientBuilder.newClient();
 		WebTarget t1 = client.target(url.toString());
 		try(InputStream is = t1.request().get(InputStream.class)){
-			return restrictProfile(createProfileFromStream(is));
+			return createProfileFromStream(is).restrictProfile();
 		}
-	}
-	
-	/**
-	 * Returns the stricter Profile possible from the profile used as a parameter
-	 * @param profile not <code>null</code> an incomplete non-strict profile (the more general)
-	 * @return the stricter profile possible
-	 */
-	public ProfileI restrictProfile(ProfileI profile) {
-		LOGGER.debug("StricterProfile : ");
-		Preconditions.checkNotNull(profile);
-		
-		if(profile.isComplete()) {
-			if(profile.isStrict()) {
-				ImmutableStrictProfile isp = (ImmutableStrictProfile) profile;
-				return isp;
-			}
-			ImmutableProfile ip = (ImmutableProfile) profile;
-			return ip;
-		}
-		if(profile.isStrict()) {
-			ImmutableStrictProfileI ispi = (ImmutableStrictProfileI) profile;
-			return ispi;
-		}
-		return profile;
 	}
 	
 	/**
