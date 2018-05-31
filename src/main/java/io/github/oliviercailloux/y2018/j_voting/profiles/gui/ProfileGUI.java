@@ -9,21 +9,37 @@ public class ProfileGUI {
 	* 2)
 	* StrictProfile --> Map ? : 
 	* Map<Voter, Preference> profile = strictProfile.getProfile()
-	*
+	* 
 	* 3)
-	* create "window"
-	*
-	* 4)
 	* create table with size :
 	* 		width : strictProfile.getNbVoters();
 	*  		length : strictProfile.getProfile().get(1).size();
 	*
-	* 5)
+	* 4)
 	* populate table with map :
 	* 		NavigableSet<Voter>  voters = strictProfile.getAllVoters(); --> first row of data
 	* 		for(Voter voter : voters){
 	* 			createColumn(voter) --> populate it with getPreference(voter);
 	* 		}
+	*
+	* 5)
+	* create "window" : 
+	*
+	* public static void main(String[] args) {
+	*	Display display = new Display();
+	*	Shell shell = new Shell(display);
+	*	shell.setLayout(new FillLayout());
+	*	new ProfileTableViewer(shell);
+	*	shell.open();
+	*
+	*	while (!shell.isDisposed()) {
+	*		if (!display.readAndDispatch())
+	*			display.sleep();
+	*	}
+	*
+	*	display.dispose();
+	*
+	* }
 	* 
 	*/
 }
