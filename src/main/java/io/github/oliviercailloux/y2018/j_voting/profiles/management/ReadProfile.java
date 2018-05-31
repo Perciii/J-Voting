@@ -76,24 +76,6 @@ public class ReadProfile {
 	}
 	
 	/**
-	 * This method prints strings from the read file which InputStream is passed as an argument. It uses an InputStreamReader using UTF-8 to read the Stream
-	 * @param is an InputStream <code>not null</code> to read from the desired file<br>
-	 * InputStream is closed in this method
-	 * @throws IOException 
-	 */
-	public void displayProfileFromStream(InputStream is) throws IOException{
-		LOGGER.debug("DisplayProfileFromFile : ") ;
-		Preconditions.checkNotNull(is);
-		LOGGER.debug("parameter : InputStream = {}", is);
-		try(InputStreamReader isr = new InputStreamReader(is, Charsets.UTF_8)){
-			List<String> fileRead =  CharStreams.readLines(isr);
-			for(String line : fileRead){
-				System.out.println(line);
-			}
-		}
-	}
-	
-	/**
 	 * @param listOfStrings <code>not null</code> a list of strings each containing an alternative
 	 * @return the Alternatives, in the list of strings, given as a StrictPreference.
 	 */
@@ -210,17 +192,15 @@ public class ReadProfile {
 	 **/
 	public void main(String[] args) throws IOException {
 		//read SOC file
-		try(InputStream socStream = getClass().getResourceAsStream("profil.soc")){
-			LOGGER.debug("SOC Profile stream : {}", socStream);
-			//StrictProfile socProfile = createProfileFromFile(socPath);
-			displayProfileFromStream(socStream);
+		try(FileReader filesoc = new FileReader("profil.soc")){
+			LOGGER.debug("SOC Profile : {}", filesoc);
+			System.out.println(CharStreams.toString(filesoc));
 		}
 		
 		//read SOI file
-		try(InputStream soiStream = getClass().getResourceAsStream("profil.soi")){
-			LOGGER.debug("SOI Profile stream : {}", soiStream);
-			//StrictProfile socProfile = createProfileFromFile(socPath);
-			displayProfileFromStream(soiStream);
+		try(FileReader filesoi = new FileReader("profil.soi")){
+			LOGGER.debug("SOI Profile : {}", filesoi);
+			System.out.println(CharStreams.toString(filesoi));
 		}
 	}
 }
