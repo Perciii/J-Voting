@@ -36,7 +36,9 @@ import com.google.common.base.Preconditions;
 
 import io.github.oliviercailloux.y2018.j_voting.Alternative;
 import io.github.oliviercailloux.y2018.j_voting.Preference;
+import io.github.oliviercailloux.y2018.j_voting.StrictPreference;
 import io.github.oliviercailloux.y2018.j_voting.Voter;
+import io.github.oliviercailloux.y2018.j_voting.profiles.Profile;
 import io.github.oliviercailloux.y2018.j_voting.profiles.ProfileI;
 import io.github.oliviercailloux.y2018.j_voting.profiles.StrictProfile;
 import io.github.oliviercailloux.y2018.j_voting.profiles.management.ProfileBuilder;
@@ -49,51 +51,52 @@ public class ProfileGUI {
 		Preconditions.checkNotNull(args[0]);
 		String arg = args[0];
 		LOGGER.debug("Arg : {}", arg);
-		
+
 
 		ReadProfile rp = new ReadProfile();
-		
+
 		try(InputStream is = new ProfileGUI().getClass().getResourceAsStream(arg)){
 			ProfileI profileI = rp.createProfileFromStream(is);
-			
+
 			ProfileBuilder profileBuilder = new ProfileBuilder(profileI);
-			
-			
-		
+
+
+
 			if(profileI.isComplete() && profileI.isStrict()) {
 				StrictProfile strictProfile = profileBuilder.createStrictProfile();
-		
-		
+
+
 				Display display = new Display ();
 				Shell shell = new Shell (display);
 				shell.setLayout(new GridLayout());
-				
+
 				Table table = new Table (shell, SWT.MULTI | SWT.BORDER | SWT.FULL_SELECTION);
 				table.setLinesVisible (true);
 				table.setHeaderVisible (true);
-				
+
 				GridData data = new GridData(SWT.FILL, SWT.FILL, true, true);
-				data.heightHint = 200;
+				data.heightHint = 300;
+				data.widthHint = 1000;
 				table.setLayoutData(data);
-				
+
 				String[] titles = new String[strictProfile.getNbVoters()];
 				Iterable<Voter> allVoters = strictProfile.getAllVoters();
-				
+
 				int i = 0;
 				for(Voter v : allVoters){
 					titles[i] = "Voter " + v.getId();
 					i++;
 				}
-		
-		
-		
+
+
+
 				for (i = 0 ; i < titles.length ; i++) {
 					TableColumn column = new TableColumn (table, SWT.NONE);
 					column.setText (titles[i]);
 				}
-		
-		
-		
+
+
+
 				int nbAlternatives = strictProfile.getNbAlternatives();
 				List<String> alternatives = new ArrayList<>();
 				for(i = 0 ; i < nbAlternatives ; i++){
@@ -101,23 +104,23 @@ public class ProfileGUI {
 						alternatives.add(strictProfile.getPreference(v).getAlternative(i).toString());
 						//add method to get ieme alternative of each voter in StrictProfile
 					}
-					
+
 					TableItem item = new TableItem (table, SWT.NONE);
 					item.setText(alternatives.toArray(new String[nbAlternatives]));	
 					alternatives = new ArrayList<>();
 				}
-		
+
 				for (i = 0 ; i < titles.length ; i++) {
 					table.getColumn(i).pack();
 				}
-		
-		
+
+
 				Button button = new Button(shell, SWT.PUSH);
 				button.setText("Save");
 				shell.setSize(300, 300);
 				shell.open();
-		
-		
+
+
 				final TableEditor editor = new TableEditor(table);
 				editor.horizontalAlignment = SWT.LEFT;
 				editor.grabHorizontal = true;
@@ -133,37 +136,42 @@ public class ProfileGUI {
 							if (rect.contains(pt)) {
 								final int column = j;
 								final Text text = new Text (table, SWT.NONE);
-		
+								StrictProfile sp = profileBuilder.createStrictProfile();
 								Listener textListener = e -> {
-		
+
 									List<Set<Alternative>> list3 = new ArrayList<>();
 									Set<Alternative> s1 = new HashSet<>();
-									
-									int c = 0, ligne = Integer.parseInt(item.getText()), l = 0;
-									LOGGER.debug("Ligne : {}", ligne);
-									
+									TableItem[] items = table.getItems();
+									int c = 0, l = 0;
+									LOGGER.debug("Alter1 : {}", new Alternative(Integer.parseInt(items[l+1].getText())));
+									LOGGER.debug("colonne : {}", column);
+									LOGGER.debug("Text : {}", text.getText());
 									Voter currentVoter = new Voter(1);
 									for(Voter v : allVoters){
 										if(c == column) {
-											currentVoter = v;
-											if(l == ligne) {
-												System.out.println("text hashcode " + Integer.parseInt(text.getText()));
-												s1.add(new Alternative(Integer.parseInt(text.getText())));
-											} else {
-												System.out.println("alternative " + (strictProfile.getPreference(v).getAlternative(ligne - 1)));
-												s1.add(strictProfile.getPreference(v).getAlternative(ligne - 1));
+											for(l=0;l<nbAlternatives;l++) {
+												currentVoter = v;
+												if((((StrictPreference) sp.getPreference(v)).getAlternative(l)).equals(new Alternative(Integer.parseInt(text.getText())))) {
+													System.out.println("text " + Integer.parseInt(item.getText()));
+													s1.add(new Alternative(Integer.parseInt(item.getText(column))));
+												}
+												else {
+													System.out.println("alternative11 " + (((StrictPreference) sp.getPreference(v)).getAlternative(l)));
+													s1.add(((StrictPreference) sp.getPreference(v)).getAlternative(l));
+												}
 											}
-											l++;
 										}
 										c++;
 									}
-		
-		
+	
 									list3.add(s1);
 									Preference pref3 = new Preference(list3);
 									profileBuilder.addVote(currentVoter, pref3);
-									
-		
+									ProfileI sp2 = profileBuilder.createProfileI();
+									for(Voter v : allVoters) {
+										LOGGER.debug("Preference Voter11 {} : {}", v, sp2.getPreference(v).toString());
+									}
+
 									switch (e.type) {
 									case SWT.FocusOut:
 										item.setText (column, text.getText());
@@ -174,7 +182,7 @@ public class ProfileGUI {
 										case SWT.TRAVERSE_RETURN:
 											item.setText (column, text.getText());
 											break;
-										//FALL THROUGH
+											//FALL THROUGH
 										case SWT.TRAVERSE_ESCAPE:
 											text.dispose ();
 											e.doit = false;
@@ -193,6 +201,7 @@ public class ProfileGUI {
 								text.setText(item.getText(j));
 								text.selectAll();
 								text.setFocus();
+								LOGGER.debug("Text : {}", text.getText());
 								return;
 							}
 							if (!visible && rect.intersects(clientArea)) {
@@ -203,15 +212,19 @@ public class ProfileGUI {
 						index++;
 					}
 				});
-		
-		
+
+
 				button.addSelectionListener(new SelectionAdapter() {
-		
+
 					@Override
 					public void widgetSelected(SelectionEvent e) {
-						
+
 						try {
 							StrictProfile sp = profileBuilder.createStrictProfile();
+							for(Voter v : allVoters) {
+								LOGGER.debug("Preference Voter {} : {}", v, sp.getPreference(v).toString());
+							}
+
 							// new File(getClass().getResource(args[0]).toURI())
 							URL resourceUrl = getClass().getResource(args[0]);
 							File file = new File(resourceUrl.toURI());
@@ -219,24 +232,24 @@ public class ProfileGUI {
 								sp.writeToSOC(outputStream);
 							} catch (IOException ioe) {
 								MessageBox dialog = new MessageBox(shell, SWT.ICON_QUESTION | SWT.OK);
-									dialog.setText("IOException");
-									dialog.setMessage("Error when opening Stream : " + ioe);
-									dialog.open();
+								dialog.setText("IOException");
+								dialog.setMessage("Error when opening Stream : " + ioe);
+								dialog.open();
 							}
 						} catch (IllegalArgumentException iae) {
-							MessageBox dialog = new MessageBox(shell, SWT.ICON_QUESTION | SWT.OK);
+							/*	MessageBox dialog = new MessageBox(shell, SWT.ICON_QUESTION | SWT.OK);
 							dialog.setText("Illegal Argument Exception");
 							dialog.setMessage("New profile is not in SOC format : " + iae);
-							dialog.open();
+							dialog.open();*/
 						} catch (URISyntaxException uriSE) {
 							throw new IllegalStateException(uriSE);
 						}
-						
-							
+
+
 					}
 				});
-		
-		
+
+
 				shell.pack();
 				shell.open();
 				while (!shell.isDisposed()) {
