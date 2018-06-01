@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -138,7 +139,7 @@ public class ProfileGUI {
 									List<Set<Alternative>> list3 = new ArrayList<>();
 									Set<Alternative> s1 = new HashSet<>();
 									
-									int c = 0, ligne = Integer.parseInt(item.getText()), l=0;
+									int c = 0, ligne = Integer.parseInt(item.getText()), l = 0;
 									LOGGER.debug("Ligne : {}", ligne);
 									
 									Voter currentVoter = new Voter(1);
@@ -194,7 +195,7 @@ public class ProfileGUI {
 								text.setFocus();
 								return;
 							}
-							if (!visible && rect.intersects (clientArea)) {
+							if (!visible && rect.intersects(clientArea)) {
 								visible = true;
 							}
 						}
@@ -209,26 +210,26 @@ public class ProfileGUI {
 					@Override
 					public void widgetSelected(SelectionEvent e) {
 						
-						/*ProfileI prof = profileBuilder.createProfileI();
-						prof = prof.restrictProfile();*/
-						
 						try {
 							StrictProfile sp = profileBuilder.createStrictProfile();
-							try(OutputStream outputStream = new FileOutputStream(new File(getClass().getResource(args[0]).toURI()))){
+							// new File(getClass().getResource(args[0]).toURI())
+							URL resourceUrl = getClass().getResource(args[0]);
+							File file = new File(resourceUrl.toURI());
+							try(OutputStream outputStream = new FileOutputStream(file);){
 								sp.writeToSOC(outputStream);
 							} catch (IOException ioe) {
 								MessageBox dialog = new MessageBox(shell, SWT.ICON_QUESTION | SWT.OK);
 									dialog.setText("IOException");
 									dialog.setMessage("Error when opening Stream : " + ioe);
 									dialog.open();
-							} catch (URISyntaxException uriSE) {
-								throw new IllegalStateException(uriSE);
 							}
 						} catch (IllegalArgumentException iae) {
 							MessageBox dialog = new MessageBox(shell, SWT.ICON_QUESTION | SWT.OK);
 							dialog.setText("Illegal Argument Exception");
 							dialog.setMessage("New profile is not in SOC format : " + iae);
 							dialog.open();
+						} catch (URISyntaxException uriSE) {
+							throw new IllegalStateException(uriSE);
 						}
 						
 							
