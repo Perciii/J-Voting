@@ -201,9 +201,9 @@ public class ProfileGUI {
 			if (!display.readAndDispatch())
 				display.sleep();
 		}
-		System.out.println("voterToModify : " + voterToModify);
-		System.out.println("alternative1 : " + alternative1);
-		System.out.println("alternative2 : " + alternative2);
+		LOGGER.debug("voterToModify : " + voterToModify);
+		LOGGER.debug("alternative1 : " + alternative1);
+		LOGGER.debug("alternative2 : " + alternative2);
 	}
 
 	public static void modif() {
@@ -216,56 +216,27 @@ public class ProfileGUI {
 			List<Alternative> list3 = new ArrayList<>();
 			
 			Voter voter = new Voter(voterToModify);
-
-			//Iterable<Voter> allV = strictProfile.getAllVoters();
-			//for(Voter v : allV){
-				LOGGER.debug("Voter : " + voter.getId());
-				//if(v.equals(voter)) {
-					//LOGGER.debug("v" + voter.getId() + " = voterToModify");
-					
-					for(int rank = 0 ; rank < nbAlternatives ; rank++) { // browse alternatives
-						if ((strictProfile.getPreference(voter).getAlternative(rank)).equals(new Alternative(alternative1))) { // if tested alternative = alternative to replace
-							System.out.println("alternative1");
-							list3.add(new Alternative(alternative2)); // replace it with the replacing one
-						}
-						else if ((strictProfile.getPreference(voter).getAlternative(rank)).equals(new Alternative(alternative2))) { // tested alternative = replacing alternative
-							System.out.println("alternative2");
-							list3.add(new Alternative(alternative1)); // replace it with the replaced one
-						}
-						else { // if tested alternative != replaced or replacing one
-							list3.add(strictProfile.getPreference(voter).getAlternative(rank)); // add it to its original rank
-						}
-					}
-				//}
-			//}// now the two alternatives are switched
+			
+			LOGGER.debug("Voter : " + voter.getId());
+			for(int rank = 0 ; rank < nbAlternatives ; rank++) { // browse alternatives
+				Alternative alternativeAtThisRank = (strictProfile.getPreference(voter).getAlternative(rank));
+				if (alternativeAtThisRank.equals(new Alternative(alternative1))) { // if tested alternative = alternative to replace
+					LOGGER.debug("alternative1 rank : " + rank);
+					list3.add(new Alternative(alternative2)); // replace it with the replacing one
+				}
+				else if (alternativeAtThisRank.equals(new Alternative(alternative2))) { // tested alternative = replacing alternative
+					LOGGER.debug("alternative2 rank : " + rank);
+					list3.add(new Alternative(alternative1)); // replace it with the replaced one
+				}
+				else { // if tested alternative != replaced or replacing one
+					list3.add(alternativeAtThisRank); // add it to its original rank
+				}
+			}
+			// now the two alternatives are switched
+			
 			StrictPreference newPreference = new StrictPreference(list3);
 			LOGGER.debug("New preference for voter v" + voter + " : " + newPreference.toString());
 			profileBuilder.addVote(new Voter(voterToModify), newPreference);// change preference for this Voter in global ProfileBuilder
-			
-			/*StrictProfile sp = profileBuilder.createStrictProfile();
-			Iterable<Voter> allVoters = sp.getAllVoters();
-			for(Voter v : allVoters) {
-				LOGGER.debug("Preference Voter {} : {}", v, sp.getPreference(v).toString());
-			}
-			try {
-				//new File(getClass().getResource(args[0]).toURI())
-				URL resourceUrl = ProfileGUI.class.getResource(args[0]);
-				File file = new File(resourceUrl.toURI());
-				try(OutputStream outputStream = new FileOutputStream(file);){
-					sp.writeToSOC(outputStream);
-					//System.out.println("writeToSOC args"+args[0]);
-				//	display.dispose();
-					modif = true;
-				} catch (IOException ioe) {
-					MessageBox dialog = new MessageBox(shell, SWT.ICON_QUESTION | SWT.OK);
-					dialog.setText("IOException");
-					dialog.setMessage("Error when opening Stream : " + ioe);
-					dialog.open();
-				}
-			} catch (URISyntaxException uriSE) {
-				throw new IllegalStateException(uriSE);
-			}*/
-
 	}
 
 
@@ -301,6 +272,7 @@ public class ProfileGUI {
 	public static void main (String [] args) throws IOException {
 		LOGGER.debug("Main");
 		profileBuilder = tableDisplay(args);
+		
 		/*
 		modif();
 		boolean save = false;
