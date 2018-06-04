@@ -27,21 +27,21 @@ public class StrictPreference extends Preference {
 	public String toString() {
 		LOGGER.debug("toString : ");
 		String s = "";
-		for(Set<Alternative> set : preferences) {
+		for(Set<Alternative> set : preference) {
 			for(Alternative a : set) {
 				s += a.toString() + ",";
 			}
 		}
-		return s.substring(0,s.length()-1);
+		return s.substring(0, s.length()-1);
 	}
 	
 	/**
 	 * 
 	 * @return a list of the alternatives by order of preference
 	 */
-	public List<Alternative> getPreferences(){
-		LOGGER.debug("getPreferences:");
-		return listSetAlternativeToList(preferences);
+	public List<Alternative> getAlternatives(){
+		LOGGER.debug("getAlternatives :");
+		return listSetAlternativeToList(preference);
 	}
 	
 	/**
@@ -49,16 +49,16 @@ public class StrictPreference extends Preference {
 	 * @return a list of set of alternatives. each set is composed of one alternative
 	 */
 	public static List<Set<Alternative>>listAlternativeToListSetAlternative(List<Alternative> list) {
-		LOGGER.debug("listAlternativeToListSetAlternative");
+		LOGGER.debug("listAlternativeToListSetAlternative :");
 		Preconditions.checkNotNull(list);
-		LOGGER.debug("parameter list : {}",list);
+		LOGGER.debug("parameter list : {}", list);
 		List<Set<Alternative>> set = new ArrayList<>();
 		for(Alternative a : list) {
 			Set<Alternative> alterset = new HashSet<>();
 			alterset.add(a);
 			set.add(alterset);
 		}
-		LOGGER.debug("new list of set : {}",set);
+		LOGGER.debug("new list of set : {}", set);
 		return set;
 	}
 	
@@ -68,16 +68,16 @@ public class StrictPreference extends Preference {
 	 * @return a list of alternatives from a list of sets of alternatives.
 	 */
 	public static List<Alternative> listSetAlternativeToList(List<Set<Alternative>> sets){
-		LOGGER.debug("listSetAlternativeToList:");
+		LOGGER.debug("listSetAlternativeToList :");
 		Preconditions.checkNotNull(sets);
-		LOGGER.debug("parameter sets :{}",sets);
+		LOGGER.debug("parameter sets :{}", sets);
 		List<Alternative> alts = new ArrayList<>();
 		for(Set<Alternative> s : sets) {
 			for(Alternative a : s) {
 				alts.add(a);
 			}
 		}
-		LOGGER.debug("list : {}",alts);
+		LOGGER.debug("list : {}", alts);
 		return alts;
 	}
 	
@@ -89,7 +89,7 @@ public class StrictPreference extends Preference {
 	public Alternative getAlternative(Integer position) {
 		LOGGER.debug("getAlternative");
 		Preconditions.checkNotNull(position);
-		LOGGER.debug("position : {}",position);
-		return preferences.get(position).iterator().next();
+		LOGGER.debug("position : {}", position);
+		return preference.get(position).iterator().next();
 	}
 }

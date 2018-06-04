@@ -26,14 +26,34 @@ public class ImmutableStrictProfile extends ImmutableStrictProfileI implements S
 
 	@Override
 	public Set<Alternative> getAlternatives() {
-		LOGGER.debug("getAlternatives:");
+		LOGGER.debug("getAlternatives :");
 		Preference p = votes.values().iterator().next();
 		return Preference.toAlternativeSet(p.getPreferencesNonStrict());
+	}
+	
+	/**
+	 * Get a List of each ith Alternative of each Voter in the profile
+	 * @param i not <code> null</code> the rank of the Alternatives to get
+	 * @return a List of Alternatives
+	 */
+	@Override
+	public List<Alternative> getIthAlternatives(int i) {
+		LOGGER.debug("getIthAlternatives :");
+		Preconditions.checkNotNull(i);
+		
+		NavigableSet<Voter> voters = getAllVoters();
+		List<Alternative> listIthAlternatives = new ArrayList<>();
+		
+		for(Voter v : voters) {
+			listIthAlternatives.add(getPreference(v).getAlternative(i));
+		}
+		
+		return listIthAlternatives;
 	}
 
 	@Override
 	public void writeToSOC(OutputStream output) throws IOException {
-		LOGGER.debug("writeToSOC:");
+		LOGGER.debug("writeToSOC :");
 		Preconditions.checkNotNull(output);
 		try(Writer writer = new BufferedWriter(new OutputStreamWriter(output))){
 			String soc = "";
@@ -41,7 +61,7 @@ public class ImmutableStrictProfile extends ImmutableStrictProfileI implements S
 			for(Alternative alter : getAlternatives()) {
 				soc += alter.getId() + "\n";
 			}
-			soc += getNbVoters() + ","+getSumVoteCount() + "," + getNbUniquePreferences() + "\n";
+			soc += getNbVoters() + "," + getSumVoteCount() + "," + getNbUniquePreferences() + "\n";
 			for(Preference pref : this.getUniquePreferences()) {
 				soc += getNbVoterByPreference(pref);
 				for(Alternative a : Preference.toAlternativeSet(pref.getPreferencesNonStrict())) {

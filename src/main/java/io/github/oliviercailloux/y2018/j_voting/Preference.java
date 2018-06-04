@@ -13,29 +13,29 @@ import com.google.common.base.Preconditions;
  */
 public class Preference {
 	private static final Logger LOGGER = LoggerFactory.getLogger(Preference.class.getName());
-	protected List<Set<Alternative>> preferences;
+	protected List<Set<Alternative>> preference;
 	
 	/**
 	 * @param preferences <code>not null</code> a list of sets of alternatives. In a set, the alternatives are equally ranked. The sets are sorted by preference in the list.
 	 * If an alternative is present several times, an IllegalArgumentException is thrown.
 	 */
-	public Preference(List<Set<Alternative>> preferences) {
+	public Preference(List<Set<Alternative>> preference) {
 		LOGGER.debug("Preference constructor");
-		Preconditions.checkNotNull(preferences);
-		LOGGER.debug("parameter : {}",preferences);
-		if(toAlternativeSet(preferences).size() != size(preferences)) {
+		Preconditions.checkNotNull(preference);
+		LOGGER.debug("parameter : {}", preference);
+		if(toAlternativeSet(preference).size() != size(preference)) {
 			LOGGER.debug("alternative several times in the preference");
 			throw new IllegalArgumentException("A preference cannot contain several times the same alternative.");
 		}
-		this.preferences = preferences; 
+		this.preference = preference; 
 	}
 	
 	/**
 	 * @return the preference of alternatives
 	 */
 	public List<Set<Alternative>> getPreferencesNonStrict(){
-		LOGGER.debug("getPreferencesNonStrict:");
-		return preferences;
+		LOGGER.debug("getPreferencesNonStrict :");
+		return preference;
 	}
 	
 	/**
@@ -45,15 +45,15 @@ public class Preference {
 	public String toString() {
 		LOGGER.debug("toString:");
 		String s = "";
-		for(Set<Alternative> set : preferences) {
+		for(Set<Alternative> set : preference) {
 			s += "{";
 			for(Alternative alter : set) {
 				s += alter.getId() + ",";
 			}
-			s = s.substring(0,s.length()-1) + "},";
+			s = s.substring(0, s.length()-1) + "},";
 		}
-		s = s.substring(0,s.length()-1);
-		LOGGER.debug("preference string : {}",s);
+		s = s.substring(0, s.length()-1);
+		LOGGER.debug("preference string : {}", s);
 		return s;
 	}
 	
@@ -61,8 +61,8 @@ public class Preference {
 	 * @return the size of the Preference, i.e. the number of alternatives in the Preference
 	 */
 	public int size() {
-		LOGGER.debug("size:");
-		return size(preferences);
+		LOGGER.debug("size :");
+		return size(preference);
 	}
 	
 	/**
@@ -79,9 +79,9 @@ public class Preference {
 		}
 		Preference p = (Preference) pref;
 		LOGGER.debug("parameter preference : {}",p);
-		if(this.size() == p.size() && preferences.size() == p.getPreferencesNonStrict().size()) { //same number of alternatives and same number of sets
-			for(int i=0;i<this.preferences.size();i++) {
-				if(!preferences.get(i).equals(p.getPreferencesNonStrict().get(i))) {
+		if(this.size() == p.size() && preference.size() == p.getPreferencesNonStrict().size()) { //same number of alternatives and same number of sets
+			for(int i = 0 ; i < this.preference.size() ; i++) {
+				if(!preference.get(i).equals(p.getPreferencesNonStrict().get(i))) {
 					LOGGER.debug("return false");
 					return false;
 				}
@@ -96,7 +96,7 @@ public class Preference {
 	
 	@Override
 	public int hashCode() {
-		return Objects.hash(preferences);
+		return Objects.hash(preference);
 	}
 	
 	/**
@@ -106,8 +106,8 @@ public class Preference {
 	public boolean contains(Alternative alter) {
 		LOGGER.debug("contains:");
 		Preconditions.checkNotNull(alter);
-		LOGGER.debug("parameter alternative : {}",alter);
-		return(toAlternativeSet(preferences).contains(alter));
+		LOGGER.debug("parameter alternative : {}", alter);
+		return(toAlternativeSet(preference).contains(alter));
 	}
 	
 	/**
@@ -117,7 +117,7 @@ public class Preference {
 	public boolean hasSameAlternatives(Preference p) {
 		LOGGER.debug("hasSameAlternatives:");
 		Preconditions.checkNotNull(p);
-		LOGGER.debug("parameter preference : {}",p);
+		LOGGER.debug("parameter preference : {}", p);
 		return(this.isIncludedIn(p) && p.isIncludedIn(this));
 	}
 	
@@ -128,8 +128,8 @@ public class Preference {
 	public boolean isIncludedIn(Preference p) {
 		LOGGER.debug("isIncludedIn:");
 		Preconditions.checkNotNull(p);
-		LOGGER.debug("parameter preference : {}",p);
-		for(Alternative alter : toAlternativeSet(preferences)) {
+		LOGGER.debug("parameter preference : {}", p);
+		for(Alternative alter : toAlternativeSet(preference)) {
 			if(!p.contains(alter)) {
 				LOGGER.debug("return false");
 				return false;
@@ -151,9 +151,9 @@ public class Preference {
 			throw new IllegalArgumentException("Alternative not in the set");
 		}
 		int rank = 1;
-		for(Set<Alternative> set : preferences) {
+		for(Set<Alternative> set : preference) {
 			if(set.contains(alter)) {
-				LOGGER.debug("alternative rank : {}",rank);
+				LOGGER.debug("alternative rank : {}", rank);
 				break;
 			}
 			rank ++;
@@ -166,18 +166,18 @@ public class Preference {
 	 * @param preferences not <code> null </code> a list of sets of alternatives
 	 * @return  a set of alternatives containing all the alternatives of the list of set of alternative given. If an alternative appears several times in the list of sets, it appears only once in the new set.
 	 */
-	public static Set<Alternative> toAlternativeSet(List<Set<Alternative>> preferences){
+	public static Set<Alternative> toAlternativeSet(List<Set<Alternative>> preference){
 		LOGGER.debug("toAlternativeSet:");
-		Preconditions.checkNotNull(preferences);
+		Preconditions.checkNotNull(preference);
 		Set<Alternative> set = new HashSet<>();
-		for(Set<Alternative> sets : preferences) {
+		for(Set<Alternative> sets : preference) {
 			for(Alternative alter : sets) {
 				if(!set.contains(alter)) {
 					set.add(alter);
 				}
 			}
 		}
-		LOGGER.debug("set : {}",set);
+		LOGGER.debug("set : {}", set);
 		return set;
 	}
 	
@@ -193,7 +193,7 @@ public class Preference {
 		for(Set<Alternative> set : list) {
 			size += set.size();
 		}
-		LOGGER.debug("size = {}",size);
+		LOGGER.debug("size = {}", size);
 		return size;
 	}
 	
@@ -203,7 +203,7 @@ public class Preference {
 	 */
 	public boolean isStrict() {
 		LOGGER.debug("isStrict:");
-		if(preferences.size() == size(preferences)) {
+		if(preference.size() == size(preference)) {
 			return true;
 		}
 		return false;

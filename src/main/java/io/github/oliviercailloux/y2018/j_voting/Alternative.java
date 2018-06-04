@@ -28,7 +28,7 @@ public class Alternative {
 	
 	/**
 	 * @param a an alternative
-	 * @return true if both alternatives are equals, ie have the same id, false if not
+	 * @return true if both alternatives are equals, i.e. have the same id, false if not
 	 */
 	@Override
 	public boolean equals(Object o){

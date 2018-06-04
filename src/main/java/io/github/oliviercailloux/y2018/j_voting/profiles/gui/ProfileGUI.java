@@ -106,7 +106,7 @@ public class ProfileGUI {
 		}*/
 	}
 
-	public static void modif(String[] args) throws IOException {
+	public static void modif(String[] args) {
 		LOGGER.debug("modif");
 		StrictProfile strictProfile = profileBuilder.createStrictProfile();
 		int nbAlternatives = strictProfile.getNbAlternatives();
@@ -252,6 +252,7 @@ public class ProfileGUI {
 		Button buttonCancel = new Button(shell, SWT.PUSH);
 		buttonCancel.setText("Cancel");
 		text.addListener(SWT.Modify, new Listener() {
+			@Override
 			public void handleEvent(Event event) {
 				try {
 					modifVoter = Integer.parseInt(text.getText());
@@ -262,6 +263,7 @@ public class ProfileGUI {
 			}
 		});
 		text1.addListener(SWT.Modify, new Listener() {
+			@Override
 			public void handleEvent(Event event) {
 				try {
 					alter1 = Integer.parseInt(text1.getText());
@@ -272,6 +274,7 @@ public class ProfileGUI {
 			}
 		});
 		text2.addListener(SWT.Modify, new Listener() {
+			@Override
 			public void handleEvent(Event event) {
 				try {
 					alter2 = Integer.parseInt(text2.getText());
@@ -282,16 +285,19 @@ public class ProfileGUI {
 			}
 		});
 		buttonOK.addListener(SWT.Selection, new Listener() {
+			@Override
 			public void handleEvent(Event event) {
 				shell.dispose();
 			}
 		});
 		buttonCancel.addListener(SWT.Selection, new Listener() {
+			@Override
 			public void handleEvent(Event event) {
 				shell.dispose();
 			}
 		});
 		shell.addListener(SWT.Traverse, new Listener() {
+			@Override
 			public void handleEvent(Event event) {
 				if(event.detail == SWT.TRAVERSE_ESCAPE)
 					event.doit = false;

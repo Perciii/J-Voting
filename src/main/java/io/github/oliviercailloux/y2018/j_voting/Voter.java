@@ -56,7 +56,7 @@ public class Voter implements Comparable<Voter>{
 	public int compareTo(Voter v2) {
 		LOGGER.debug("compare:");
 		Preconditions.checkNotNull(v2);
-		LOGGER.debug("calling voter :v1 {},parameter v2 {}",this.getId(),v2.getId());
-		return this.getId()-v2.getId();
+		LOGGER.debug("calling voter : v1 {}, parameter v2 {}", this.getId(), v2.getId());
+		return this.getId() - v2.getId();
 	}
 }

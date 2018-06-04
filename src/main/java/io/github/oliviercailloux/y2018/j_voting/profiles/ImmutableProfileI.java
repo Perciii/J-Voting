@@ -182,6 +182,7 @@ public class ImmutableProfileI implements ProfileI{
 		return Objects.hash(votes);
 	}
 	
+	@Override
 	public ProfileI restrictProfile() {
 		LOGGER.debug("StricterProfile : ");
 		if(isComplete()) {

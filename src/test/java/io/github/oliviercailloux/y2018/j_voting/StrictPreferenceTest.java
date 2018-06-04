@@ -19,7 +19,7 @@ public class StrictPreferenceTest {
 		prefs.add(a2);
 		prefs.add(a3);
 		StrictPreference p = new StrictPreference(prefs);
-		assertEquals(p.getPreferences(),prefs);
+		assertEquals(p.getAlternatives(), prefs);
 	}
 	
 	@Test

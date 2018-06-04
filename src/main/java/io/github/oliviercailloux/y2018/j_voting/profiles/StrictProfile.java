@@ -2,20 +2,20 @@ package io.github.oliviercailloux.y2018.j_voting.profiles;
 
 import io.github.oliviercailloux.y2018.j_voting.*;
 import java.io.*;
+import java.util.*;
 
 /**
  *A StrictProfile represents a complete StrictProfile. The preferences are strict. The preferences are about the same alternatives exactly.
  *
  */
 public interface StrictProfile extends StrictProfileI,Profile{
-
+	
 	/**
-	 * 
-	 * @param v a voter not <code>null</code>
-	 * @return the StrictPreference of the voter v in the profile.
+	 * @param i not <code>null</code> the ith alternative to get from Voters in the profile
+	 * @return a List of Alternatives
 	 */
-	@Override
-	public StrictPreference getPreference(Voter v);
+	public List<Alternative> getIthAlternatives(int i);
+	
 	
 	/**
 	 * writes the strict and complete profile into a new file with the SOC format.
