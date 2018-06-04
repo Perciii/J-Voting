@@ -29,29 +29,34 @@ public class ProfileGUI {
 
 	static Display display = new Display ();
 	static Shell shell = new Shell (display);
-	static Shell shellM = new Shell (display);
+	static Shell mainShell = new Shell (display);
 	static Button edit = new Button(shell, SWT.PUSH);
 	static Table table = new Table (shell, SWT.MULTI | SWT.BORDER | SWT.FULL_SELECTION);
 	static Button save = new Button(shell, SWT.PUSH);
-	static Integer modifVoter = null;
-	static Integer alter1 = null;
-	static Integer alter2 = null;
+	static Integer voterToModify = null;
+	static Integer alternative1 = null;
+	static Integer alternative2 = null;
 	static ProfileBuilder profileBuilder;
 	static boolean modif = false;
 	
-	public static ProfileBuilder tableDisplay(String[] args1) throws IOException {
+	public static ProfileBuilder tableDisplay(String[] args) throws IOException {
 		LOGGER.debug("tableDisplay");
-		Preconditions.checkNotNull(args1[0]);
-		String arg = args1[0];//arg is the file path
+		Preconditions.checkNotNull(args[0]);
+		
+		String arg = args[0];//arg is the file path
 		ReadProfile rp = new ReadProfile();
+		
 		try(InputStream is = new ProfileGUI().getClass().getResourceAsStream(arg)){
 			ProfileI profileI = rp.createProfileFromStream(is);
-			ProfileBuilder profileBuilder = new ProfileBuilder(profileI);
+			profileBuilder = new ProfileBuilder(profileI);
 
 			if(profileI.isComplete() && profileI.isStrict()) {
-				StrictProfile strictProfile = profileBuilder.createStrictProfile();
-				Iterable<Voter> allVoters = strictProfile.getAllVoters();
-				int i = 0,nbAlternatives = strictProfile.getNbAlternatives();
+				StrictProfile strictProfile = profileBuilder.createStrictProfile();//if profile get from file is SOC, create a StrictProfile from it
+				
+				Iterable<Voter> allVoters = strictProfile.getAllVoters(); //get voters from profile
+				int i = 0, nbAlternatives = strictProfile.getNbAlternatives(); 
+				
+				//table layout handling
 				shell.setLayout(new GridLayout());
 				table.setLinesVisible (true);
 				table.setHeaderVisible (true);
@@ -73,191 +78,73 @@ public class ProfileGUI {
 
 				//ROWS
 				List<String> alternatives = new ArrayList<>();
+				
 				for(i = 0 ; i < nbAlternatives ; i++){
-					for(Voter v : allVoters){
-						alternatives.add(strictProfile.getPreference(v).getAlternative(i).toString());
-						//add method to get ieme alternative of each voter in StrictProfile
+					List <Alternative> ithAlternatives = strictProfile.getIthAlternatives(i); // get ith alternative of each voter
+					for(Alternative alt : ithAlternatives) {
+						alternatives.add(alt.toString()); // convert alternatives in the list to strings
 					}
+					
 					TableItem item = new TableItem (table, SWT.NONE);
-					item.setText(alternatives.toArray(new String[nbAlternatives]));	
-					alternatives = new ArrayList<>();
+					item.setText(alternatives.toArray(new String[nbAlternatives]));	// create a row with ith alternatives
+					alternatives.clear(); // empty the list
 				}
 				for (i = 0 ; i < titles.size() ; i++) {
-					table.getColumn(i).pack();
+					table.getColumn(i).pack(); // resize automatically the column
 				}
+				
 				edit.setText("Edit");
+				edit.addSelectionListener(new SelectionAdapter() {
+					@Override
+					public void widgetSelected(SelectionEvent e) {
+						edit();
+					}
+				});
+				
 				save.setText("Save");
+				save.addSelectionListener(new SelectionAdapter() {
+					@Override
+					public void widgetSelected(SelectionEvent e) {
+						save(arg);
+					}
+				});
 				shell.setSize(300, 300);
 				shell.setText("EditSOC");
 				shell.open();
 			}
-			return profileBuilder;
+			return profileBuilder; // return profileBuilder containing the profile get in the read file
 		}
-	}
-
-	public static void main (String [] args) throws IOException {
-		LOGGER.debug("Main");
-		profileBuilder = tableDisplay(args);
-		modif(args);
-		boolean save = false;
-		save = save(args);
-	/*	if(modif&&!save) {
-			profileBuilder = tableDisplay(args);
-		}*/
-	}
-
-	public static void modif(String[] args) {
-		LOGGER.debug("modif");
-		StrictProfile strictProfile = profileBuilder.createStrictProfile();
-		int nbAlternatives = strictProfile.getNbAlternatives();
-
-		edit.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				edit();
-				List<Set<Alternative>> list3 = new ArrayList<>();
-				Iterable<Voter> allV = strictProfile.getAllVoters();
-				Voter voter = new Voter(modifVoter);
-				for(Voter v : allV){
-					System.out.println("voter " +v.getId());
-					if(v.equals(voter)) {
-						System.out.println("true ");
-						for(int l=0;l<nbAlternatives;l++) {
-							if ((strictProfile.getPreference(v).getAlternative(l)).equals(new Alternative(alter1))) {
-								System.out.println("alter1");
-								Set<Alternative> s1 = new HashSet<>();
-								s1.add(new Alternative(alter2));
-								list3.add(s1);
-							}
-							else if ((strictProfile.getPreference(v).getAlternative(l)).equals(new Alternative(alter2))) {
-								System.out.println("alter2");
-								Set<Alternative> s1 = new HashSet<>();
-								s1.add(new Alternative(alter1));
-								list3.add(s1);
-							}
-							else {
-								Set<Alternative> s1 = new HashSet<>();
-								s1.add(strictProfile.getPreference(v).getAlternative(l));
-								list3.add(s1);
-							}
-							System.out.println("list3 " +list3);
-						}
-					}
-				}
-				Preference pref3 = new Preference(list3);
-				//System.out.println(pref3);
-				profileBuilder.addVote(new Voter(modifVoter), pref3);
-				StrictProfile sp = profileBuilder.createStrictProfile();
-				/*Iterable<Voter> allVoters = sp.getAllVoters();
-				for(Voter v : allVoters) {
-					LOGGER.debug("Preference Voter {} : {}", v, sp.getPreference(v).toString());
-				}*/
-				try {
-					//new File(getClass().getResource(args[0]).toURI())
-					URL resourceUrl = getClass().getResource(args[0]);
-					File file = new File(resourceUrl.toURI());
-					try(OutputStream outputStream = new FileOutputStream(file);){
-						sp.writeToSOC(outputStream);
-						//System.out.println("writeToSOC args"+args[0]);
-					//	display.dispose();
-						modif = true;
-					} catch (IOException ioe) {
-						/*MessageBox dialog = new MessageBox(shell, SWT.ICON_QUESTION | SWT.OK);
-						dialog.setText("IOException");
-						dialog.setMessage("Error when opening Stream : " + ioe);
-						dialog.open();*/
-					}
-				} catch (IllegalArgumentException iae) {
-					/*	MessageBox dialog = new MessageBox(shell, SWT.ICON_QUESTION | SWT.OK);
-							dialog.setText("Illegal Argument Exception");
-							dialog.setMessage("New profile is not in SOC format : " + iae);
-							dialog.open();*/
-				} catch (URISyntaxException uriSE) {
-					throw new IllegalStateException(uriSE);
-				}
-			}
-		});
-
-	}
-
-
-	public static boolean save(String[] args) {
-		LOGGER.debug("save");
-		save.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				try {
-					StrictProfile sp = profileBuilder.createStrictProfile();
-					/*for(int i=0;i<modif;i++) {
-						Preference pref3 = new Preference(globalList.get(i));
-						profileBuilder.addVote(globalVoter.get(i), pref3);
-					}
-					Iterable<Voter> allVoters = sp.getAllVoters();
-					for(Voter v : allVoters) {
-						LOGGER.debug("Preference Voter {} : {}", v, sp.getPreference(v).toString());
-					}
-					 */
-					// new File(getClass().getResource(args[0]).toURI())
-					URL resourceUrl = getClass().getResource(args[0]);
-					File file = new File(resourceUrl.toURI());
-					try(OutputStream outputStream = new FileOutputStream(file);){
-						sp.writeToSOC(outputStream);
-						display.dispose();
-					} catch (IOException ioe) {
-						MessageBox dialog = new MessageBox(shell, SWT.ICON_QUESTION | SWT.OK);
-						dialog.setText("IOException");
-						dialog.setMessage("Error when opening Stream : " + ioe);
-						dialog.open();
-					}
-				} catch (IllegalArgumentException iae) {
-					/*	MessageBox dialog = new MessageBox(shell, SWT.ICON_QUESTION | SWT.OK);
-							dialog.setText("Illegal Argument Exception");
-							dialog.setMessage("New profile is not in SOC format : " + iae);
-							dialog.open();*/
-				} catch (URISyntaxException uriSE) {
-					throw new IllegalStateException(uriSE);
-				}
-			}
-		});
-		shell.pack();
-		shell.open();
-		while (!shell.isDisposed()) {
-			if (!display.readAndDispatch()) display.sleep();
-			/*	else {
-				throw new IllegalArgumentException("Le profil spécifié n'est pas en format SOC");
-			}*/
-		}
-		display.dispose();
-		return true;
 	}
 
 
 	public static void edit() {
 		LOGGER.debug("edit");
-		final Shell shell = new Shell(shellM, SWT.TITLE | SWT.BORDER | SWT.APPLICATION_MODAL);
-		shell.setText("Edit");
-		shell.setLayout(new GridLayout(2, true));
-		Label label = new Label(shell, SWT.NULL);
+		final Shell modal = new Shell(mainShell, SWT.TITLE | SWT.BORDER | SWT.APPLICATION_MODAL);
+		modal.setText("Edit");
+		modal.setLayout(new GridLayout(2, true));
+		Label label = new Label(modal, SWT.NULL);
 		label.setText("Which voter do you want to change ?");
-		final Text text = new Text(shell, SWT.SINGLE | SWT.BORDER);
-		Label label1 = new Label(shell, SWT.NULL);
+		final Text text = new Text(modal, SWT.SINGLE | SWT.BORDER);
+		Label label1 = new Label(modal, SWT.NULL);
 		label1.setText("Replace this alternative ");
-		final Text text1 = new Text(shell, SWT.SINGLE | SWT.BORDER);
-		Label label2 = new Label(shell, SWT.NULL);
+		final Text text1 = new Text(modal, SWT.SINGLE | SWT.BORDER);
+		Label label2 = new Label(modal, SWT.NULL);
 		label2.setText("with");
-		final Text text2 = new Text(shell, SWT.SINGLE | SWT.BORDER);
-		final Button buttonOK = new Button(shell, SWT.PUSH);
+		final Text text2 = new Text(modal, SWT.SINGLE | SWT.BORDER);
+		final Button buttonOK = new Button(modal, SWT.PUSH);
 		buttonOK.setText("Ok");
 		buttonOK.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_END));
-		Button buttonCancel = new Button(shell, SWT.PUSH);
+		Button buttonCancel = new Button(modal, SWT.PUSH);
 		buttonCancel.setText("Cancel");
+		
 		text.addListener(SWT.Modify, new Listener() {
 			@Override
 			public void handleEvent(Event event) {
 				try {
-					modifVoter = Integer.parseInt(text.getText());
+					voterToModify = Integer.parseInt(text.getText());
 					buttonOK.setEnabled(true);
-				} catch (Exception e) {
+				} catch (IllegalArgumentException iae) {
+					LOGGER.debug("Illegal Argument Exception : " + iae);
 					buttonOK.setEnabled(false);
 				}
 			}
@@ -266,9 +153,10 @@ public class ProfileGUI {
 			@Override
 			public void handleEvent(Event event) {
 				try {
-					alter1 = Integer.parseInt(text1.getText());
+					alternative1 = Integer.parseInt(text1.getText());
 					buttonOK.setEnabled(true);
-				} catch (Exception e) {
+				} catch (IllegalArgumentException iae) {
+					LOGGER.debug("Illegal Argument Exception : " + iae);
 					buttonOK.setEnabled(false);
 				}
 			}
@@ -277,9 +165,10 @@ public class ProfileGUI {
 			@Override
 			public void handleEvent(Event event) {
 				try {
-					alter2 = Integer.parseInt(text2.getText());
+					alternative2 = Integer.parseInt(text2.getText());
 					buttonOK.setEnabled(true);
-				} catch (Exception e) {
+				} catch (IllegalArgumentException iae) {
+					LOGGER.debug("Illegal Argument Exception : " + iae);
 					buttonOK.setEnabled(false);
 				}
 			}
@@ -287,13 +176,14 @@ public class ProfileGUI {
 		buttonOK.addListener(SWT.Selection, new Listener() {
 			@Override
 			public void handleEvent(Event event) {
-				shell.dispose();
+				modal.dispose();
+				modif();
 			}
 		});
 		buttonCancel.addListener(SWT.Selection, new Listener() {
 			@Override
 			public void handleEvent(Event event) {
-				shell.dispose();
+				modal.dispose();
 			}
 		});
 		shell.addListener(SWT.Traverse, new Listener() {
@@ -304,16 +194,120 @@ public class ProfileGUI {
 			}
 		});
 		text.setText("");
-		shell.pack();
-		shell.open();
-		Display display = shellM.getDisplay();
-		while (!shell.isDisposed()) {
+		modal.pack();
+		modal.open();
+		Display display = mainShell.getDisplay();
+		while (!modal.isDisposed()) {
 			if (!display.readAndDispatch())
 				display.sleep();
 		}
-		System.out.println("modifVoter : "+modifVoter);
-		System.out.println("alter1 : "+alter1);
-		System.out.println("alter2 : "+alter2);
+		System.out.println("voterToModify : " + voterToModify);
+		System.out.println("alternative1 : " + alternative1);
+		System.out.println("alternative2 : " + alternative2);
+	}
+
+	public static void modif() {
+		LOGGER.debug("modif");
+		StrictProfile strictProfile = profileBuilder.createStrictProfile();
+		int nbAlternatives = strictProfile.getNbAlternatives();
+
+		
+		
+			List<Alternative> list3 = new ArrayList<>();
+			
+			Voter voter = new Voter(voterToModify);
+
+			//Iterable<Voter> allV = strictProfile.getAllVoters();
+			//for(Voter v : allV){
+				LOGGER.debug("Voter : " + voter.getId());
+				//if(v.equals(voter)) {
+					//LOGGER.debug("v" + voter.getId() + " = voterToModify");
+					
+					for(int rank = 0 ; rank < nbAlternatives ; rank++) { // browse alternatives
+						if ((strictProfile.getPreference(voter).getAlternative(rank)).equals(new Alternative(alternative1))) { // if tested alternative = alternative to replace
+							System.out.println("alternative1");
+							list3.add(new Alternative(alternative2)); // replace it with the replacing one
+						}
+						else if ((strictProfile.getPreference(voter).getAlternative(rank)).equals(new Alternative(alternative2))) { // tested alternative = replacing alternative
+							System.out.println("alternative2");
+							list3.add(new Alternative(alternative1)); // replace it with the replaced one
+						}
+						else { // if tested alternative != replaced or replacing one
+							list3.add(strictProfile.getPreference(voter).getAlternative(rank)); // add it to its original rank
+						}
+					}
+				//}
+			//}// now the two alternatives are switched
+			StrictPreference newPreference = new StrictPreference(list3);
+			LOGGER.debug("New preference for voter v" + voter + " : " + newPreference.toString());
+			profileBuilder.addVote(new Voter(voterToModify), newPreference);// change preference for this Voter in global ProfileBuilder
+			
+			/*StrictProfile sp = profileBuilder.createStrictProfile();
+			Iterable<Voter> allVoters = sp.getAllVoters();
+			for(Voter v : allVoters) {
+				LOGGER.debug("Preference Voter {} : {}", v, sp.getPreference(v).toString());
+			}
+			try {
+				//new File(getClass().getResource(args[0]).toURI())
+				URL resourceUrl = ProfileGUI.class.getResource(args[0]);
+				File file = new File(resourceUrl.toURI());
+				try(OutputStream outputStream = new FileOutputStream(file);){
+					sp.writeToSOC(outputStream);
+					//System.out.println("writeToSOC args"+args[0]);
+				//	display.dispose();
+					modif = true;
+				} catch (IOException ioe) {
+					MessageBox dialog = new MessageBox(shell, SWT.ICON_QUESTION | SWT.OK);
+					dialog.setText("IOException");
+					dialog.setMessage("Error when opening Stream : " + ioe);
+					dialog.open();
+				}
+			} catch (URISyntaxException uriSE) {
+				throw new IllegalStateException(uriSE);
+			}*/
+
+	}
+
+
+	public static boolean save(String outputFile) {
+		LOGGER.debug("save");
+		
+				try {
+					StrictProfile sp = profileBuilder.createStrictProfile();
+					
+					URL resourceUrl = ProfileGUI.class.getResource(outputFile);
+					File file = new File(resourceUrl.toURI());
+					try(OutputStream outputStream = new FileOutputStream(file);){
+						sp.writeToSOC(outputStream);
+						display.dispose();
+					} catch (IOException ioe) {
+						MessageBox dialog = new MessageBox(shell, SWT.ICON_QUESTION | SWT.OK);
+						dialog.setText("IOException");
+						dialog.setMessage("Error when opening Stream : " + ioe);
+						dialog.open();
+					}
+				} catch (URISyntaxException uriSE) {
+					throw new IllegalStateException(uriSE);
+				}
+		shell.pack();
+		shell.open();
+		while (!shell.isDisposed()) {
+			if (!display.readAndDispatch()) display.sleep();
+		}
+		display.dispose();
+		return true;
+	}
+
+	public static void main (String [] args) throws IOException {
+		LOGGER.debug("Main");
+		profileBuilder = tableDisplay(args);
+		/*
+		modif();
+		boolean save = false;
+		save = save(args);
+		if(modif&&!save) {
+			profileBuilder = tableDisplay(args);
+		}*/
 	}
 }
 
