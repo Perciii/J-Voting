@@ -32,7 +32,7 @@ public class ProfileBuilder {
 		LOGGER.debug("constructor ProfileI:");
 		Preconditions.checkNotNull(prof);
 		LOGGER.debug("parameter prof : {}",prof);
-		votes = prof.getProfile();
+		votes = (Map<Voter, Preference>) prof.getProfile();
 	}
 	
 	/**
@@ -99,7 +99,7 @@ public class ProfileBuilder {
 		if(!createProfileI().isStrict()) {
 			throw new IllegalArgumentException("The built profile is not strict.");
 		}
-		return new ImmutableStrictProfileI(ImmutableStrictProfileI.mapNonStrictToStrict(votes));
+		return new ImmutableStrictProfileI(votes);
 	}
 	
 	/**
@@ -113,6 +113,6 @@ public class ProfileBuilder {
 		if(!createProfileI().isStrict()) {
 			throw new IllegalArgumentException("The built profile is not strict.");
 		}
-		return new ImmutableStrictProfile(ImmutableStrictProfileI.mapNonStrictToStrict(votes));
+		return new ImmutableStrictProfile(votes);
 	}
 }

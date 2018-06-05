@@ -25,7 +25,7 @@ public interface ProfileI {
 	 * 
 	 * @return the profile as a map mapping the voters to their preference.
 	 */
-	public Map<Voter,Preference> getProfile();
+	public Map<Voter,? extends Preference> getProfile();
 	
 	/**
 	 * 
