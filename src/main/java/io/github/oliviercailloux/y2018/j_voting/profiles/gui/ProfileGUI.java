@@ -27,12 +27,11 @@ public class ProfileGUI {
 	static List<List<Set<Alternative>>> globalList = new ArrayList<>();//list of every list<set<alternative>> after modification
 	static List<Voter> globalVoter = new ArrayList<>();//list of every modified voter
 
-	static Display display = new Display ();
-	static Shell shell = new Shell (display);
-	static Shell mainShell = new Shell (display);
-	static Button edit = new Button(shell, SWT.PUSH);
-	static Table table = new Table (shell, SWT.MULTI | SWT.BORDER | SWT.FULL_SELECTION);
-	static Button save = new Button(shell, SWT.PUSH);
+	final static Display display = Display.getDefault();
+	final static Shell mainShell = new Shell (display, SWT.CLOSE);
+	static Button edit = new Button(mainShell, SWT.PUSH);
+	static Table table = new Table (mainShell, SWT.MULTI | SWT.BORDER | SWT.FULL_SELECTION);
+	static Button save = new Button(mainShell, SWT.PUSH);
 	static Integer voterToModify = null;
 	static Integer alternative1 = null;
 	static Integer alternative2 = null;
@@ -57,7 +56,7 @@ public class ProfileGUI {
 				int i = 0, nbAlternatives = strictProfile.getNbAlternatives(); 
 				
 				//table layout handling
-				shell.setLayout(new GridLayout());
+				mainShell.setLayout(new GridLayout());
 				table.setLinesVisible (true);
 				table.setHeaderVisible (true);
 				GridData data = new GridData(SWT.FILL, SWT.FILL, true, true);
@@ -100,6 +99,7 @@ public class ProfileGUI {
 						edit();
 					}
 				});
+				//text.setText("");
 				
 				save.setText("Save");
 				save.addSelectionListener(new SelectionAdapter() {
@@ -108,9 +108,22 @@ public class ProfileGUI {
 						save(arg);
 					}
 				});
-				shell.setSize(300, 300);
-				shell.setText("EditSOC");
-				shell.open();
+				
+				mainShell.addListener(SWT.Close, new Listener() {
+					@Override
+					public void handleEvent(Event e) {
+						mainShell.dispose();
+					}
+				});
+
+				mainShell.setSize(300, 300);
+				mainShell.setText("EditSOC");
+				mainShell.pack();
+				mainShell.open();
+				
+				while (!display.isDisposed()) {
+					if (!display.readAndDispatch()) display.sleep();
+				}
 			}
 			return profileBuilder; // return profileBuilder containing the profile get in the read file
 		}
@@ -119,23 +132,35 @@ public class ProfileGUI {
 
 	public static void edit() {
 		LOGGER.debug("edit");
-		final Shell modal = new Shell(mainShell, SWT.TITLE | SWT.BORDER | SWT.APPLICATION_MODAL);
-		modal.setText("Edit");
-		modal.setLayout(new GridLayout(2, true));
-		Label label = new Label(modal, SWT.NULL);
+
+		final Shell modalShell = new Shell(display, SWT.TITLE | SWT.BORDER | SWT.APPLICATION_MODAL | SWT.CLOSE);
+		modalShell.setText("Edit");
+		modalShell.setLayout(new GridLayout(2, true));
+		
+		Label label = new Label(modalShell, SWT.NULL);
 		label.setText("Which voter do you want to change ?");
-		final Text text = new Text(modal, SWT.SINGLE | SWT.BORDER);
-		Label label1 = new Label(modal, SWT.NULL);
+		
+		final Text text = new Text(modalShell, SWT.SINGLE | SWT.BORDER);
+		
+		Label label1 = new Label(modalShell, SWT.NULL);
 		label1.setText("Replace this alternative ");
-		final Text text1 = new Text(modal, SWT.SINGLE | SWT.BORDER);
-		Label label2 = new Label(modal, SWT.NULL);
+		
+		final Text text1 = new Text(modalShell, SWT.SINGLE | SWT.BORDER);
+		
+		Label label2 = new Label(modalShell, SWT.NULL);
 		label2.setText("with");
-		final Text text2 = new Text(modal, SWT.SINGLE | SWT.BORDER);
-		final Button buttonOK = new Button(modal, SWT.PUSH);
+		
+		final Text text2 = new Text(modalShell, SWT.SINGLE | SWT.BORDER);
+		
+		final Button buttonOK = new Button(modalShell, SWT.PUSH);
 		buttonOK.setText("Ok");
 		buttonOK.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_END));
-		Button buttonCancel = new Button(modal, SWT.PUSH);
+		
+		Button buttonCancel = new Button(modalShell, SWT.PUSH);
 		buttonCancel.setText("Cancel");
+		
+		modalShell.pack();
+		modalShell.open();
 		
 		text.addListener(SWT.Modify, new Listener() {
 			@Override
@@ -149,6 +174,7 @@ public class ProfileGUI {
 				}
 			}
 		});
+		
 		text1.addListener(SWT.Modify, new Listener() {
 			@Override
 			public void handleEvent(Event event) {
@@ -161,6 +187,7 @@ public class ProfileGUI {
 				}
 			}
 		});
+		
 		text2.addListener(SWT.Modify, new Listener() {
 			@Override
 			public void handleEvent(Event event) {
@@ -173,34 +200,37 @@ public class ProfileGUI {
 				}
 			}
 		});
+		
 		buttonOK.addListener(SWT.Selection, new Listener() {
 			@Override
 			public void handleEvent(Event event) {
-				modal.dispose();
 				modif();
+				modalShell.dispose();
 			}
 		});
+		
 		buttonCancel.addListener(SWT.Selection, new Listener() {
 			@Override
 			public void handleEvent(Event event) {
-				modal.dispose();
+				modalShell.dispose();
 			}
 		});
-		shell.addListener(SWT.Traverse, new Listener() {
+		
+		modalShell.addListener(SWT.Traverse, new Listener() {
 			@Override
 			public void handleEvent(Event event) {
 				if(event.detail == SWT.TRAVERSE_ESCAPE)
+					modalShell.dispose();
 					event.doit = false;
 			}
 		});
-		text.setText("");
-		modal.pack();
-		modal.open();
-		Display display = mainShell.getDisplay();
-		while (!modal.isDisposed()) {
-			if (!display.readAndDispatch())
-				display.sleep();
-		}
+		
+		modalShell.addListener(SWT.Close, new Listener() {
+			@Override
+			public void handleEvent(Event e) {
+				modalShell.dispose();
+			}
+		});
 		LOGGER.debug("voterToModify : " + voterToModify);
 		LOGGER.debug("alternative1 : " + alternative1);
 		LOGGER.debug("alternative2 : " + alternative2);
@@ -210,8 +240,6 @@ public class ProfileGUI {
 		LOGGER.debug("modif");
 		StrictProfile strictProfile = profileBuilder.createStrictProfile();
 		int nbAlternatives = strictProfile.getNbAlternatives();
-
-		
 		
 			List<Alternative> list3 = new ArrayList<>();
 			
@@ -240,7 +268,7 @@ public class ProfileGUI {
 	}
 
 
-	public static boolean save(String outputFile) {
+	public static void save(String outputFile) {
 		LOGGER.debug("save");
 		
 				try {
@@ -252,7 +280,7 @@ public class ProfileGUI {
 						sp.writeToSOC(outputStream);
 						display.dispose();
 					} catch (IOException ioe) {
-						MessageBox dialog = new MessageBox(shell, SWT.ICON_QUESTION | SWT.OK);
+						MessageBox dialog = new MessageBox(mainShell, SWT.ICON_QUESTION | SWT.OK);
 						dialog.setText("IOException");
 						dialog.setMessage("Error when opening Stream : " + ioe);
 						dialog.open();
@@ -260,13 +288,7 @@ public class ProfileGUI {
 				} catch (URISyntaxException uriSE) {
 					throw new IllegalStateException(uriSE);
 				}
-		shell.pack();
-		shell.open();
-		while (!shell.isDisposed()) {
-			if (!display.readAndDispatch()) display.sleep();
-		}
-		display.dispose();
-		return true;
+		//return true;
 	}
 
 	public static void main (String [] args) throws IOException {
