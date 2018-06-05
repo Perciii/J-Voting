@@ -22,8 +22,6 @@ import io.github.oliviercailloux.y2018.j_voting.profiles.management.*;
 public class ProfileGUI {
 	private static final Logger LOGGER = LoggerFactory.getLogger(ProfileGUI.class.getName());
 
-	//	private static int oldInt =0;//value before modification
-	//private static int modif = 0;//value after modification
 	static List<List<Set<Alternative>>> globalList = new ArrayList<>();//list of every list<set<alternative>> after modification
 	static List<Voter> globalVoter = new ArrayList<>();//list of every modified voter
 
@@ -96,7 +94,7 @@ public class ProfileGUI {
 				edit.addSelectionListener(new SelectionAdapter() {
 					@Override
 					public void widgetSelected(SelectionEvent e) {
-						edit();
+						edit(); //open edit modal
 					}
 				});
 				//text.setText("");
@@ -278,7 +276,6 @@ public class ProfileGUI {
 					File file = new File(resourceUrl.toURI());
 					try(OutputStream outputStream = new FileOutputStream(file);){
 						sp.writeToSOC(outputStream);
-						display.dispose();
 					} catch (IOException ioe) {
 						MessageBox dialog = new MessageBox(mainShell, SWT.ICON_QUESTION | SWT.OK);
 						dialog.setText("IOException");
