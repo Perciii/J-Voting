@@ -208,5 +208,23 @@ public class Preference {
 		}
 		return false;
 	}
-
+	
+	/**
+	 * 
+	 * @return the StrictPreference built from the preference if the preference is strict. If the preference is not strict it throws an IllegalArgumentException.
+	 */
+	public StrictPreference toStrictPreference() {
+		LOGGER.debug("toStrictPreference");
+		if(!isStrict()) {
+			throw new IllegalArgumentException("the preference is not strict.");
+		}
+		List<Alternative> list = new ArrayList<>();
+		for(Set<Alternative> set : preference) {
+			for(Alternative a : set) {
+				list.add(a);
+			}
+		}
+		LOGGER.debug("list : {}",list);
+		return new StrictPreference(list);
+	}
 }

@@ -12,8 +12,8 @@ public class ImmutableProfile extends ImmutableProfileI implements Profile{
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(ImmutableProfile.class.getName());
 	
-	public ImmutableProfile(Map<Voter, Preference> votes) {
-		super(votes);
+	public ImmutableProfile(Map<Voter,? extends Preference> votes) {
+		super(checkCompleteMap(votes));
 	}
 
 	@Override

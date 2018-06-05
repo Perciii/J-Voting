@@ -14,8 +14,8 @@ public class ImmutableStrictProfile extends ImmutableStrictProfileI implements S
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(ImmutableStrictProfile.class.getName());
 	
-	public ImmutableStrictProfile(Map<Voter,StrictPreference> map) {
-		super(map);
+	public ImmutableStrictProfile(Map<Voter,? extends Preference> map) {
+		super(checkCompleteMap(map));
 	}
 
 	@Override
@@ -40,14 +40,11 @@ public class ImmutableStrictProfile extends ImmutableStrictProfileI implements S
 	public List<Alternative> getIthAlternatives(int i) {
 		LOGGER.debug("getIthAlternatives :");
 		Preconditions.checkNotNull(i);
-		
 		NavigableSet<Voter> voters = getAllVoters();
 		List<Alternative> listIthAlternatives = new ArrayList<>();
-		
 		for(Voter v : voters) {
 			listIthAlternatives.add(getPreference(v).getAlternative(i));
 		}
-		
 		return listIthAlternatives;
 	}
 

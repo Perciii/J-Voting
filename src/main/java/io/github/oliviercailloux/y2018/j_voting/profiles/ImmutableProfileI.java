@@ -12,9 +12,9 @@ import com.google.common.base.Preconditions;
 public class ImmutableProfileI implements ProfileI{
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(ImmutableProfileI.class.getName());
-	protected Map<Voter,Preference> votes;
+	protected Map<Voter,? extends Preference> votes;
 	
-	public ImmutableProfileI(Map<Voter,Preference> votes) {
+	public ImmutableProfileI(Map<Voter,? extends Preference> votes) {
 		LOGGER.debug("constructor:");
 		Preconditions.checkNotNull(votes);
 		this.votes = votes;
@@ -25,29 +25,28 @@ public class ImmutableProfileI implements ProfileI{
 		LOGGER.debug("getPreference:");
 		Preconditions.checkNotNull(v);
 		LOGGER.debug("parameter voter : {}",v);
-		Set<Map.Entry<Voter,Preference>> mapping = votes.entrySet();
-		for(Map.Entry<Voter,Preference> vote : mapping) {
-			if(vote.getKey().equals(v)) {
-				LOGGER.debug("return {}", vote.getValue());
-				return vote.getValue();
-			}
+		if(contains(v)) {
+			return votes.get(v);
 		}
 		throw new NoSuchElementException("Voter " + v + "is not in the map !");
 	}
 	
 	@Override
 	public int getMaxSizeOfPreference() {
+		LOGGER.debug("getMaxSizeOfPreference");
 		int maxSize = 0;
-		Set<Map.Entry<Voter,Preference>> mapping = votes.entrySet();
-		for(Map.Entry<Voter,Preference> vote : mapping) {
-			if(vote.getValue().size() > maxSize)
-				maxSize = vote.getValue().size();
+		Collection<? extends Preference> pref = votes.values();
+		for(Preference p : pref) {
+			if(maxSize < p.size()) {
+				maxSize = p.size();
+			}
 		}
+		LOGGER.debug("biggest Preference has size : {}",maxSize);
 		return maxSize;
 	}
 
 	@Override
-	public Map<Voter, Preference> getProfile() {
+	public Map<Voter,? extends Preference> getProfile() {
 		LOGGER.debug("getProfile:");
 		return votes;
 	}
@@ -202,6 +201,34 @@ public class ImmutableProfileI implements ProfileI{
 		}
 		LOGGER.debug("non strict incomplete profile");
 		return this;
+	}
+
+	/**
+	 * 
+	 * @param map not <code> null </code>
+	 * @return the map if and only if it represents a complete profile. If it is incomplete, it throws an IllegalArgumentException.
+	 */
+	public static Map<Voter,? extends Preference> checkCompleteMap(Map<Voter,? extends Preference> map) {
+		LOGGER.debug("checkCompleteMap:");
+		Preconditions.checkNotNull(map);
+		if(!new ImmutableProfileI(map).isComplete()) {
+			throw new IllegalArgumentException("map is incomplete");
+		}
+		return map;
+	}
+	
+	/**
+	 * 
+	 * @param map not <code> null </code>
+	 * @return the map if and only if it represents a strict profile. If it is not strict, it throws an IllegalArgumentException.
+	 */
+	public static Map<Voter,? extends Preference> checkStrictMap(Map<Voter,? extends Preference> map) {
+		LOGGER.debug("checkstrictMap:");
+		Preconditions.checkNotNull(map);
+		if(!new ImmutableProfileI(map).isStrict()) {
+			throw new IllegalArgumentException("map is not strict");
+		}
+		return map;
 	}
 
 }
