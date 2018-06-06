@@ -150,7 +150,7 @@ public class PreferenceTest {
 		set.add(a3);
 		set.add(a4);
 		set.add(a5);
-		assertEquals(createPreferenceToTest().toAlternativeSet(),set);
+		assertEquals(Preference.toAlternativeSet(createPreferenceToTest().getPreferencesNonStrict()),set);
 	}
 
 	@Test
@@ -193,7 +193,7 @@ public class PreferenceTest {
 
 	@Test
 	public void testSizeListSetAlternative() {
-		assertEquals(createPreferenceToTest().size(), 5);
+		assertEquals(Preference.size(createPreferenceToTest().getPreferencesNonStrict()), 5);
 	}
 	
 	@Test

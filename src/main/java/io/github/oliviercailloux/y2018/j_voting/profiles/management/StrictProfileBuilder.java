@@ -27,7 +27,6 @@ public class StrictProfileBuilder extends ProfileBuilder{
 	 * 
 	 * initiates a ProfileBuilder from a StrictProfile.
 	 * 	 */
-	@SuppressWarnings("unchecked")
 	public StrictProfileBuilder(StrictProfileI prof) {
 		LOGGER.debug("constructor ProfileI:");
 		Preconditions.checkNotNull(prof);

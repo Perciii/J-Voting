@@ -81,7 +81,7 @@ public interface ProfileI {
 	 * @param p a Preference not <code >null </code>
 	 * @return the number of voters that voted for p.
 	 */
-	public int getNbVoterForPreference(Preference p);
+	public int getNbVoterByPreference(Preference p);
 	
 	/**
 	 * 

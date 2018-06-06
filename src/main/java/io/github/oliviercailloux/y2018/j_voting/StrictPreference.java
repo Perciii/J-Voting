@@ -92,13 +92,4 @@ public class StrictPreference extends Preference {
 		LOGGER.debug("position : {}", position);
 		return preference.get(position).iterator().next();
 	}
-	
-	/**
-	 * @return the size of the Preference, i.e. the number of alternatives in the Preference
-	 */
-	@Override
-	public int size() {
-		LOGGER.debug("size :");
-		return preference.size();
-	}
 }

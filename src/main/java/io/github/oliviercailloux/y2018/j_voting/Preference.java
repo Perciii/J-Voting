@@ -23,7 +23,7 @@ public class Preference {
 		LOGGER.debug("Preference constructor");
 		Preconditions.checkNotNull(preference);
 		LOGGER.debug("parameter : {}", preference);
-		if(this.toAlternativeSet().size() != this.size()) {
+		if(toAlternativeSet(preference).size() != size(preference)) {
 			LOGGER.debug("alternative several times in the preference");
 			throw new IllegalArgumentException("A preference cannot contain several times the same alternative.");
 		}
@@ -55,6 +55,14 @@ public class Preference {
 		s = s.substring(0, s.length()-1);
 		LOGGER.debug("preference string : {}", s);
 		return s;
+	}
+	
+	/**
+	 * @return the size of the Preference, i.e. the number of alternatives in the Preference
+	 */
+	public int size() {
+		LOGGER.debug("size :");
+		return size(preference);
 	}
 	
 	/**
@@ -99,7 +107,7 @@ public class Preference {
 		LOGGER.debug("contains:");
 		Preconditions.checkNotNull(alter);
 		LOGGER.debug("parameter alternative : {}", alter);
-		return(this.toAlternativeSet().contains(alter));
+		return(toAlternativeSet(preference).contains(alter));
 	}
 	
 	/**
@@ -121,7 +129,7 @@ public class Preference {
 		LOGGER.debug("isIncludedIn:");
 		Preconditions.checkNotNull(p);
 		LOGGER.debug("parameter preference : {}", p);
-		for(Alternative alter : this.toAlternativeSet()) {
+		for(Alternative alter : toAlternativeSet(preference)) {
 			if(!p.contains(alter)) {
 				LOGGER.debug("return false");
 				return false;
@@ -158,7 +166,7 @@ public class Preference {
 	 * @param preferences not <code> null </code> a list of sets of alternatives
 	 * @return  a set of alternatives containing all the alternatives of the list of set of alternative given. If an alternative appears several times in the list of sets, it appears only once in the new set.
 	 */
-	public Set<Alternative> toAlternativeSet(){
+	public static Set<Alternative> toAlternativeSet(List<Set<Alternative>> preference){
 		LOGGER.debug("toAlternativeSet:");
 		Preconditions.checkNotNull(preference);
 		Set<Alternative> set = new HashSet<>();
@@ -178,10 +186,11 @@ public class Preference {
 	 * @param list not <code> null </code>
 	 * @return the size of a list of alternative sets
 	 */
-	public int size() {
+	public static int size(List<Set<Alternative>> list) {
 		LOGGER.debug("list set alternative size:");
+		Preconditions.checkNotNull(list);
 		int size = 0;
-		for(Set<Alternative> set : preference) {
+		for(Set<Alternative> set : list) {
 			size += set.size();
 		}
 		LOGGER.debug("size = {}", size);
@@ -194,10 +203,8 @@ public class Preference {
 	 */
 	public boolean isStrict() {
 		LOGGER.debug("isStrict:");
-		for(Set<Alternative> set : preference) {
-			if(set.size() > 1) {
-				return false;
-			}
+		if(preference.size() == size(preference)) {
+			return true;
 		}
 		return false;
 	}
