@@ -12,12 +12,12 @@ import com.google.common.base.Preconditions;
 public class ImmutableProfileI implements ProfileI{
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(ImmutableProfileI.class.getName());
-	protected Map<Voter,? extends Preference> votes;
+	protected Map<Voter,? extends Preference> profile;
 	
 	public ImmutableProfileI(Map<Voter,? extends Preference> votes) {
 		LOGGER.debug("constructor:");
 		Preconditions.checkNotNull(votes);
-		this.votes = votes;
+		this.profile = votes;
 	}
 	
 	@Override
@@ -26,7 +26,7 @@ public class ImmutableProfileI implements ProfileI{
 		Preconditions.checkNotNull(v);
 		LOGGER.debug("parameter voter : {}",v);
 		if(contains(v)) {
-			return votes.get(v);
+			return profile.get(v);
 		}
 		throw new NoSuchElementException("Voter " + v + "is not in the map !");
 	}
@@ -35,7 +35,7 @@ public class ImmutableProfileI implements ProfileI{
 	public int getMaxSizeOfPreference() {
 		LOGGER.debug("getMaxSizeOfPreference");
 		int maxSize = 0;
-		Collection<? extends Preference> pref = votes.values();
+		Collection<? extends Preference> pref = profile.values();
 		for(Preference p : pref) {
 			if(maxSize < p.size()) {
 				maxSize = p.size();
@@ -48,7 +48,7 @@ public class ImmutableProfileI implements ProfileI{
 	@Override
 	public Map<Voter,? extends Preference> getProfile() {
 		LOGGER.debug("getProfile:");
-		return votes;
+		return profile;
 	}
 
 	@Override
@@ -68,7 +68,7 @@ public class ImmutableProfileI implements ProfileI{
 	public NavigableSet<Voter> getAllVoters() {
 		LOGGER.debug("getAllVoters:");
 		NavigableSet<Voter> keys = new TreeSet<>();
-		for(Voter v : votes.keySet()) {
+		for(Voter v : profile.keySet()) {
 			keys.add(v);
 		}
 		LOGGER.debug("all voter : {}",keys);
@@ -91,7 +91,7 @@ public class ImmutableProfileI implements ProfileI{
 	public Set<Preference> getUniquePreferences() {
 		LOGGER.debug("getUniquePreferences");
 		Set<Preference> unique = new HashSet<>();
-		for(Preference pref : votes.values()) {
+		for(Preference pref : profile.values()) {
 			LOGGER.debug("next preference : {}", pref);
 			unique.add(pref);
 		}
@@ -107,9 +107,9 @@ public class ImmutableProfileI implements ProfileI{
 	@Override
 	public boolean isComplete() {
 		LOGGER.debug("isComplete");
-		Preference pref = votes.values().iterator().next();
+		Preference pref = profile.values().iterator().next();
 		LOGGER.debug("first preferences :{}", pref);
-		for(Preference p : votes.values()) {
+		for(Preference p : profile.values()) {
 			if(!p.hasSameAlternatives(pref)) {
 				LOGGER.debug("Profile incomplete.");
 				return false;
@@ -122,7 +122,7 @@ public class ImmutableProfileI implements ProfileI{
 	@Override
 	public boolean isStrict() {
 		LOGGER.debug("isStrict:");
-		for(Preference p : votes.values()) {
+		for(Preference p : profile.values()) {
 			if(!p.isStrict()) {
 				LOGGER.debug("non strict");
 				return false;
@@ -133,12 +133,12 @@ public class ImmutableProfileI implements ProfileI{
 	}
 
 	@Override
-	public int getNbVoterByPreference(Preference p) {
+	public int getNbVoterForPreference(Preference p) {
 		LOGGER.debug("getnbVoterByPreference:");
 		Preconditions.checkNotNull(p);
 		LOGGER.debug("parameter preference: {}",p);
 		int nb = 0;
-		for(Preference p1 : votes.values()) {
+		for(Preference p1 : profile.values()) {
 			if(p.equals(p1)) {
 				nb++;
 			}
@@ -178,7 +178,7 @@ public class ImmutableProfileI implements ProfileI{
 	@Override
 	public int hashCode() {
 		LOGGER.debug("hasCode:");
-		return Objects.hash(votes);
+		return Objects.hash(profile);
 	}
 	
 	@Override

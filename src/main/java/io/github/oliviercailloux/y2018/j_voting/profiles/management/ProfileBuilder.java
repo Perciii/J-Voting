@@ -28,6 +28,7 @@ public class ProfileBuilder {
 	 * 
 	 * initiates a ProfileBuilder from a Profile.
 	 */
+	@SuppressWarnings("unchecked")
 	public ProfileBuilder(ProfileI prof) {
 		LOGGER.debug("constructor ProfileI:");
 		Preconditions.checkNotNull(prof);

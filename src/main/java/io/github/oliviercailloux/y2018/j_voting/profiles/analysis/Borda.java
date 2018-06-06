@@ -67,7 +67,7 @@ public class Borda implements SocialWelfareFunction{
 		Preconditions.checkNotNull(pref);
 		LOGGER.debug("parameter SPref : {}", pref);
 		int size = pref.getPreferencesNonStrict().size();
-		for(Alternative a : Preference.toAlternativeSet(pref.getPreferencesNonStrict())){
+		for(Alternative a : pref.toAlternativeSet()){
 			scores.add(a,size - pref.getAlternativeRank(a) + 1);
 		}
 		LOGGER.debug("return score : {}", scores);

@@ -27,8 +27,8 @@ public class ImmutableStrictProfile extends ImmutableStrictProfileI implements S
 	@Override
 	public Set<Alternative> getAlternatives() {
 		LOGGER.debug("getAlternatives :");
-		Preference p = votes.values().iterator().next();
-		return Preference.toAlternativeSet(p.getPreferencesNonStrict());
+		Preference p = profile.values().iterator().next();
+		return p.toAlternativeSet();
 	}
 	
 	/**
@@ -60,8 +60,8 @@ public class ImmutableStrictProfile extends ImmutableStrictProfileI implements S
 			}
 			soc += getNbVoters() + "," + getSumVoteCount() + "," + getNbUniquePreferences() + "\n";
 			for(Preference pref : this.getUniquePreferences()) {
-				soc += getNbVoterByPreference(pref);
-				for(Alternative a : Preference.toAlternativeSet(pref.getPreferencesNonStrict())) {
+				soc += getNbVoterForPreference(pref);
+				for(Alternative a : pref.toAlternativeSet()) {
 					soc = soc + "," + a;
 				}
 				soc = soc + "\n";

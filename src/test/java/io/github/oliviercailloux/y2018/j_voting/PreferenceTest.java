@@ -150,7 +150,7 @@ public class PreferenceTest {
 		set.add(a3);
 		set.add(a4);
 		set.add(a5);
-		assertEquals(Preference.toAlternativeSet(createPreferenceToTest().getPreferencesNonStrict()),set);
+		assertEquals(createPreferenceToTest().toAlternativeSet(),set);
 	}
 
 	@Test

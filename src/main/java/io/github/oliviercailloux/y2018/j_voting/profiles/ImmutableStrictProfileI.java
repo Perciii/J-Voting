@@ -25,6 +25,6 @@ public class ImmutableStrictProfileI extends ImmutableProfileI implements Strict
 		if(!contains(v)) {
 			throw new NoSuchElementException("Voter " + v + "is not in the map !");
 		}
-		return votes.get(v).toStrictPreference();
+		return profile.get(v).toStrictPreference();
 	}
 }
