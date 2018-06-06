@@ -13,13 +13,13 @@ public class ImmutableProfileI implements ProfileI{
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(ImmutableProfileI.class.getName());
 	protected Map<Voter,? extends Preference> votes;
-	
+
 	public ImmutableProfileI(Map<Voter,? extends Preference> votes) {
 		LOGGER.debug("constructor:");
 		Preconditions.checkNotNull(votes);
 		this.votes = votes;
 	}
-	
+
 	@Override
 	public Preference getPreference(Voter v) {
 		LOGGER.debug("getPreference:");
@@ -30,7 +30,7 @@ public class ImmutableProfileI implements ProfileI{
 		}
 		throw new NoSuchElementException("Voter " + v + "is not in the map !");
 	}
-	
+
 	@Override
 	public int getMaxSizeOfPreference() {
 		LOGGER.debug("getMaxSizeOfPreference");
@@ -146,7 +146,7 @@ public class ImmutableProfileI implements ProfileI{
 		LOGGER.debug("result: {}",nb);
 		return nb;
 	}
-	
+
 	@Override
 	public boolean equals(Object o) {
 		LOGGER.debug("equals:");
@@ -174,13 +174,13 @@ public class ImmutableProfileI implements ProfileI{
 		LOGGER.debug("true");
 		return true;
 	}
-	
+
 	@Override
 	public int hashCode() {
 		LOGGER.debug("hasCode:");
 		return Objects.hash(votes);
 	}
-	
+
 	@Override
 	public ProfileI restrictProfile() {
 		LOGGER.debug("StricterProfile : ");
@@ -216,7 +216,7 @@ public class ImmutableProfileI implements ProfileI{
 		}
 		return map;
 	}
-	
+
 	/**
 	 * 
 	 * @param map not <code> null </code>

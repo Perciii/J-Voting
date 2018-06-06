@@ -49,7 +49,7 @@ public class StrictPreference extends Preference {
 	 * @return a list of set of alternatives. each set is composed of one alternative
 	 */
 	public static List<Set<Alternative>>listAlternativeToListSetAlternative(List<Alternative> list) {
-		LOGGER.debug("listAlternativeToListSetAlternative :");
+	LOGGER.debug("listAlternativeToListSetAlternative :");
 		Preconditions.checkNotNull(list);
 		LOGGER.debug("parameter list : {}", list);
 		List<Set<Alternative>> set = new ArrayList<>();

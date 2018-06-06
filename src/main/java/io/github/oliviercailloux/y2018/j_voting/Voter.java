@@ -10,7 +10,7 @@ import com.google.common.base.Preconditions;
 public class Voter implements Comparable<Voter>{
 	private int id;
 	private static final Logger LOGGER = LoggerFactory.getLogger(Voter.class.getName());
-	
+
 	/**
 	 * Creates a new object Voter with the id given as a parameter
 	 * @param id int <code>not null</code>
@@ -18,14 +18,14 @@ public class Voter implements Comparable<Voter>{
 	public Voter(int id) {
 		this.id = Preconditions.checkNotNull(id);
 	}
-	
+
 	/**
 	 * @return the id of the object Voter
 	 */
 	public int getId() {
 		return id;
 	}
-	
+
 	/**
 	 * @param voter <code> not null</code>
 	 * @return whether two voters are equal, ie have the same id.
@@ -40,12 +40,12 @@ public class Voter implements Comparable<Voter>{
 		Voter v = (Voter) voter;
 		return(v.getId() == id);
 	}
-	
+
 	@Override
 	public int hashCode() {
 		return id;
 	}
-	
+
 	/**
 	 * 
 	 * 

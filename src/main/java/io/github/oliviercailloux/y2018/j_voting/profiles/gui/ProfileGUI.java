@@ -180,7 +180,7 @@ public class ProfileGUI {
 					alternative1 = Integer.parseInt(text1.getText());
 					buttonOK.setEnabled(true);
 				} catch (IllegalArgumentException iae) {
-					LOGGER.debug("Illegal Argument Exception : " + iae);
+					LOGGER.debug("Illegal Argument Exception : {} ", iae);
 					buttonOK.setEnabled(false);
 				}
 			}
@@ -193,7 +193,7 @@ public class ProfileGUI {
 					alternative2 = Integer.parseInt(text2.getText());
 					buttonOK.setEnabled(true);
 				} catch (IllegalArgumentException iae) {
-					LOGGER.debug("Illegal Argument Exception : " + iae);
+					LOGGER.debug("Illegal Argument Exception : {} ", iae);
 					buttonOK.setEnabled(false);
 				}
 			}
@@ -229,9 +229,9 @@ public class ProfileGUI {
 				modalShell.dispose();
 			}
 		});
-		LOGGER.debug("voterToModify : " + voterToModify);
-		LOGGER.debug("alternative1 : " + alternative1);
-		LOGGER.debug("alternative2 : " + alternative2);
+		LOGGER.debug("voterToModify : {} ", voterToModify);
+		LOGGER.debug("alternative1 : {} ", alternative1);
+		LOGGER.debug("alternative2 : {}", alternative2);
 	}
 
 	public static void modif() {
@@ -243,15 +243,15 @@ public class ProfileGUI {
 			
 			Voter voter = new Voter(voterToModify);
 			
-			LOGGER.debug("Voter : " + voter.getId());
+			LOGGER.debug("Voter : {}", voter.getId());
 			for(int rank = 0 ; rank < nbAlternatives ; rank++) { // browse alternatives
 				Alternative alternativeAtThisRank = (strictProfile.getPreference(voter).getAlternative(rank));
 				if (alternativeAtThisRank.equals(new Alternative(alternative1))) { // if tested alternative = alternative to replace
-					LOGGER.debug("alternative1 rank : " + rank);
+					LOGGER.debug("alternative1 rank : {}", rank);
 					list3.add(new Alternative(alternative2)); // replace it with the replacing one
 				}
 				else if (alternativeAtThisRank.equals(new Alternative(alternative2))) { // tested alternative = replacing alternative
-					LOGGER.debug("alternative2 rank : " + rank);
+					LOGGER.debug("alternative2 rank : {}", rank);
 					list3.add(new Alternative(alternative1)); // replace it with the replaced one
 				}
 				else { // if tested alternative != replaced or replacing one
@@ -261,7 +261,7 @@ public class ProfileGUI {
 			// now the two alternatives are switched
 			
 			StrictPreference newPreference = new StrictPreference(list3);
-			LOGGER.debug("New preference for voter v" + voter + " : " + newPreference.toString());
+			LOGGER.debug("New preference for voter v {} : {}", voter ,  newPreference.toString());
 			profileBuilder.addVote(new Voter(voterToModify), newPreference);// change preference for this Voter in global ProfileBuilder
 	}
 

@@ -14,7 +14,7 @@ import com.google.common.base.Preconditions;
 public class Preference {
 	private static final Logger LOGGER = LoggerFactory.getLogger(Preference.class.getName());
 	protected List<Set<Alternative>> preference;
-	
+
 	/**
 	 * @param preferences <code>not null</code> a list of sets of alternatives. In a set, the alternatives are equally ranked. The sets are sorted by preference in the list.
 	 * If an alternative is present several times, an IllegalArgumentException is thrown.
@@ -29,7 +29,7 @@ public class Preference {
 		}
 		this.preference = preference; 
 	}
-	
+
 	/**
 	 * @return the preference of alternatives
 	 */
@@ -37,7 +37,7 @@ public class Preference {
 		LOGGER.debug("getPreferencesNonStrict :");
 		return preference;
 	}
-	
+
 	/**
 	 * @return the string representing a preference.
 	 */
@@ -56,7 +56,7 @@ public class Preference {
 		LOGGER.debug("preference string : {}", s);
 		return s;
 	}
-	
+
 	/**
 	 * @return the size of the Preference, i.e. the number of alternatives in the Preference
 	 */
@@ -64,7 +64,7 @@ public class Preference {
 		LOGGER.debug("size :");
 		return size(preference);
 	}
-	
+
 	/**
 	 * @param p <code>not null</code>
 	 * @return whether the calling preference is equal to the preference as a parameter.
@@ -91,14 +91,14 @@ public class Preference {
 		}
 		LOGGER.debug("return false");
 		return false;
-		
+
 	}
-	
+
 	@Override
 	public int hashCode() {
 		return Objects.hash(preference);
 	}
-	
+
 	/**
 	 * @param alter <code>not null</code>
 	 * @return whether the preference contains the alternative given as parameter
@@ -109,7 +109,7 @@ public class Preference {
 		LOGGER.debug("parameter alternative : {}", alter);
 		return(toAlternativeSet(preference).contains(alter));
 	}
-	
+
 	/**
 	 * @param p <code>not null</code>
 	 * @return whether the preferences are about the same alternatives exactly (not necessarily in the same order).
@@ -120,7 +120,7 @@ public class Preference {
 		LOGGER.debug("parameter preference : {}", p);
 		return(this.isIncludedIn(p) && p.isIncludedIn(this));
 	}
-	
+
 	/**
 	 * @param p <code>not null</code>
 	 * @return whether the parameter preference contains all the alternatives in the calling preference
@@ -138,7 +138,7 @@ public class Preference {
 		LOGGER.debug("return true");
 		return true;
 	}
-	
+
 	/**
 	 * 
 	 * @param alter not <code>null</code>. If the alternative is not in the preference, it throws an IllegalArgumentException.
@@ -160,7 +160,7 @@ public class Preference {
 		}
 		return rank;
 	}
-	
+
 	/**
 	 * 
 	 * @param preferences not <code> null </code> a list of sets of alternatives
@@ -169,7 +169,7 @@ public class Preference {
 	public static Set<Alternative> toAlternativeSet(List<Set<Alternative>> preference){
 		LOGGER.debug("toAlternativeSet:");
 		Preconditions.checkNotNull(preference);
-		Set<Alternative> set = new HashSet<>();
+		Set<Alternative> set = new LinkedHashSet<>();
 		for(Set<Alternative> sets : preference) {
 			for(Alternative alter : sets) {
 				if(!set.contains(alter)) {
@@ -178,9 +178,10 @@ public class Preference {
 			}
 		}
 		LOGGER.debug("set : {}", set);
+
 		return set;
 	}
-	
+
 	/**
 	 * 
 	 * @param list not <code> null </code>
@@ -196,7 +197,7 @@ public class Preference {
 		LOGGER.debug("size = {}", size);
 		return size;
 	}
-	
+
 	/**
 	 * 
 	 * @return true if the Preference is Strict (without several alternatives having the same rank)
@@ -208,7 +209,7 @@ public class Preference {
 		}
 		return false;
 	}
-	
+
 	/**
 	 * 
 	 * @return the StrictPreference built from the preference if the preference is strict. If the preference is not strict it throws an IllegalArgumentException.

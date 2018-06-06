@@ -10,7 +10,7 @@ import com.google.common.base.Preconditions;
 public class Alternative {
 	private static final Logger LOGGER = LoggerFactory.getLogger(Alternative.class.getName());
 	private int id;
-	
+
 	/**
 	 * Creates a new Alternative with the id given as a parameter
 	 * @param id int <code>not null</code>
@@ -18,14 +18,14 @@ public class Alternative {
 	public Alternative(int id) {
 		this.id = Preconditions.checkNotNull(id);
 	}
-	
+
 	/**
 	 * @return the id of the Alternative
 	 */
 	public int getId() {
 		return id;
 	}
-	
+
 	/**
 	 * @param a an alternative
 	 * @return true if both alternatives are equals, i.e. have the same id, false if not
@@ -46,7 +46,7 @@ public class Alternative {
 		}
 		return false;
 	}
-	
+
 	@Override
 	public String toString(){
 		return Integer.toString(id);

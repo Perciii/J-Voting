@@ -1,8 +1,14 @@
 package io.github.oliviercailloux.y2018.j_voting.profiles;
 
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.MessageBox;
 import org.slf4j.*;
 import com.google.common.base.Preconditions;
 import io.github.oliviercailloux.y2018.j_voting.*;
+import io.github.oliviercailloux.y2018.j_voting.profiles.gui.ProfileGUI;
+import io.github.oliviercailloux.y2018.j_voting.profiles.management.ProfileBuilder;
+import io.github.oliviercailloux.y2018.j_voting.profiles.management.ReadProfile;
+
 import java.io.*;
 import java.util.*;
 
@@ -13,7 +19,7 @@ import java.util.*;
 public class ImmutableStrictProfile extends ImmutableStrictProfileI implements StrictProfile{
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(ImmutableStrictProfile.class.getName());
-	
+
 	public ImmutableStrictProfile(Map<Voter,? extends Preference> map) {
 		super(checkCompleteMap(map));
 	}
@@ -30,7 +36,7 @@ public class ImmutableStrictProfile extends ImmutableStrictProfileI implements S
 		Preference p = votes.values().iterator().next();
 		return Preference.toAlternativeSet(p.getPreferencesNonStrict());
 	}
-	
+
 	/**
 	 * Get a List of each ith Alternative of each Voter in the profile
 	 * @param i not <code> null</code> the rank of the Alternatives to get
@@ -61,6 +67,7 @@ public class ImmutableStrictProfile extends ImmutableStrictProfileI implements S
 			soc += getNbVoters() + "," + getSumVoteCount() + "," + getNbUniquePreferences() + "\n";
 			for(Preference pref : this.getUniquePreferences()) {
 				soc += getNbVoterByPreference(pref);
+				
 				for(Alternative a : Preference.toAlternativeSet(pref.getPreferencesNonStrict())) {
 					soc = soc + "," + a;
 				}
@@ -70,4 +77,6 @@ public class ImmutableStrictProfile extends ImmutableStrictProfileI implements S
 			writer.close();
 		}
 	}
+
+
 }
