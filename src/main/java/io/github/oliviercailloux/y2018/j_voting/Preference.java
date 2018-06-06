@@ -23,7 +23,7 @@ public class Preference {
 		LOGGER.debug("Preference constructor");
 		Preconditions.checkNotNull(preference);
 		LOGGER.debug("parameter : {}", preference);
-		if(this.toAlternativeSet().size() != size(preference)) {
+		if(this.toAlternativeSet().size() != this.size()) {
 			LOGGER.debug("alternative several times in the preference");
 			throw new IllegalArgumentException("A preference cannot contain several times the same alternative.");
 		}
@@ -55,14 +55,6 @@ public class Preference {
 		s = s.substring(0, s.length()-1);
 		LOGGER.debug("preference string : {}", s);
 		return s;
-	}
-	
-	/**
-	 * @return the size of the Preference, i.e. the number of alternatives in the Preference
-	 */
-	public int size() {
-		LOGGER.debug("size :");
-		return size(preference);
 	}
 	
 	/**
@@ -186,11 +178,10 @@ public class Preference {
 	 * @param list not <code> null </code>
 	 * @return the size of a list of alternative sets
 	 */
-	public static int size(List<Set<Alternative>> list) {
+	public int size() {
 		LOGGER.debug("list set alternative size:");
-		Preconditions.checkNotNull(list);
 		int size = 0;
-		for(Set<Alternative> set : list) {
+		for(Set<Alternative> set : preference) {
 			size += set.size();
 		}
 		LOGGER.debug("size = {}", size);
@@ -203,8 +194,10 @@ public class Preference {
 	 */
 	public boolean isStrict() {
 		LOGGER.debug("isStrict:");
-		if(preference.size() == size(preference)) {
-			return true;
+		for(Set<Alternative> set : preference) {
+			if(set.size() > 1) {
+				return false;
+			}
 		}
 		return false;
 	}

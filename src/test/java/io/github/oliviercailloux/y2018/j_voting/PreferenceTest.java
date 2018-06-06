@@ -193,7 +193,7 @@ public class PreferenceTest {
 
 	@Test
 	public void testSizeListSetAlternative() {
-		assertEquals(Preference.size(createPreferenceToTest().getPreferencesNonStrict()), 5);
+		assertEquals(createPreferenceToTest().size(), 5);
 	}
 	
 	@Test
