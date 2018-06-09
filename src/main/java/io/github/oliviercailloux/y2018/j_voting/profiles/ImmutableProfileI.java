@@ -90,7 +90,7 @@ public class ImmutableProfileI implements ProfileI{
 	@Override
 	public Set<Preference> getUniquePreferences() {
 		LOGGER.debug("getUniquePreferences");
-		Set<Preference> unique = new HashSet<>();
+		Set<Preference> unique = new LinkedHashSet<>();
 		for(Preference pref : votes.values()) {
 			LOGGER.debug("next preference : {}", pref);
 			unique.add(pref);
