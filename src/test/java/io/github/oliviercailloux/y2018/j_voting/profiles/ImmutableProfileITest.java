@@ -97,7 +97,7 @@ public class ImmutableProfileITest {
 	@Test
 	public void testContains() {
 		Voter v1 = new Voter(1);
-		assertTrue(createIPIToTest().contains(v1));
+		assertTrue(createIPIToTest().votes.containsKey(v1));
 	}
 
 	@Test

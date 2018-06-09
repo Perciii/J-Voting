@@ -1,6 +1,7 @@
 package io.github.oliviercailloux.y2018.j_voting.profiles.management;
 
 import io.github.oliviercailloux.y2018.j_voting.*;
+import io.github.oliviercailloux.y2018.j_voting.profiles.*;
 import io.github.oliviercailloux.y2018.j_voting.profiles.analysis.*;
 import java.util.*;
 import java.io.*;
@@ -58,7 +59,8 @@ public class SWFCommander{
             	}
             }
             voterId++;
-            System.out.println(swf.getSocietyPreference(prof.createProfileI()));
+            ImmutableProfileI profile = (ImmutableProfileI) prof.createProfileI();
+            System.out.println(swf.getSocietyPreference(profile));
         }
     } 
 }

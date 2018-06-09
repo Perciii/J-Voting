@@ -25,7 +25,7 @@ public class ImmutableProfileI implements ProfileI{
 		LOGGER.debug("getPreference:");
 		Preconditions.checkNotNull(v);
 		LOGGER.debug("parameter voter : {}",v);
-		if(contains(v)) {
+		if(votes.containsKey(v)) {
 			return votes.get(v);
 		}
 		throw new NoSuchElementException("Voter " + v + "is not in the map !");
@@ -51,8 +51,8 @@ public class ImmutableProfileI implements ProfileI{
 		return votes;
 	}
 
-	@Override
-	public boolean contains(Voter v) {
+	//@Override
+	/*public boolean contains(Voter v) {
 		LOGGER.debug("contains:");
 		Preconditions.checkNotNull(v);
 		LOGGER.debug("parameter voter : {}",v);
@@ -62,7 +62,7 @@ public class ImmutableProfileI implements ProfileI{
 			}
 		}
 		return false;
-	}
+	}*/
 
 	@Override
 	public NavigableSet<Voter> getAllVoters() {
@@ -162,7 +162,7 @@ public class ImmutableProfileI implements ProfileI{
 			return false;
 		}
 		for(Voter v : set1) {
-			if(!contains(v)) {
+			if(!votes.containsKey(v)) {
 				LOGGER.debug("false : at least a voter not in both profiles.");
 				return false;
 			}

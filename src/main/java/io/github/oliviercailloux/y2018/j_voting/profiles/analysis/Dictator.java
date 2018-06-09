@@ -28,10 +28,10 @@ public class Dictator implements SocialWelfareFunction{
 	 * @return the dictator's preference
 	 */
 	@Override
-	public Preference getSocietyPreference(ProfileI profile) {
+	public Preference getSocietyPreference(ImmutableProfileI profile) {
 		LOGGER.debug("getSocietyStrictPreference");
 		Preconditions.checkNotNull(profile);
-		Preconditions.checkArgument(profile.contains(dictator));
+		Preconditions.checkArgument(profile.getProfile().containsKey(dictator));
 		LOGGER.debug("parameter profile : {}", profile);
 		LOGGER.debug("Dictator : {}", dictator);
 		LOGGER.debug("return preference : {}", profile.getPreference(dictator));

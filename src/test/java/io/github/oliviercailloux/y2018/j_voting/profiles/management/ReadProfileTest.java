@@ -68,7 +68,7 @@ public class ReadProfileTest {
 		StrictPreference pref = new StrictPreference(alternatives);
 		p.addVotes(pref,2);
 		StrictProfileI prof = p.createStrictProfileI();
-		assertTrue(prof.contains(v1) && prof.contains(v2) && prof.getPreference(v1).equals(pref) && prof.getPreference(v2).equals(pref));
+		assertTrue(prof.getProfile().containsKey(v1) && prof.getProfile().containsKey(v2) && prof.getPreference(v1).equals(pref) && prof.getPreference(v2).equals(pref));
 	}
 
 	@Test
@@ -94,7 +94,7 @@ public class ReadProfileTest {
 		alternatives2.add(a1);
 		StrictPreference pref2 = new StrictPreference(alternatives2);
 		ProfileI profile = rp.buildProfile(file, pref, 3);
-		assertTrue(profile.contains(v1) && profile.contains(v2) && profile.contains(v3) && profile.getPreference(v1).equals(pref) && profile.getPreference(v2).equals(pref) && profile.getPreference(v3).equals(pref2));
+		assertTrue(profile.getProfile().containsKey(v1) && profile.getProfile().containsKey(v2) && profile.getProfile().containsKey(v3) && profile.getPreference(v1).equals(pref) && profile.getPreference(v2).equals(pref) && profile.getPreference(v3).equals(pref2));
 	}
 
 	@Test
@@ -117,6 +117,6 @@ public class ReadProfileTest {
 		alternatives2.add(a2);
 		alternatives2.add(a1);
 		StrictPreference pref2 = new StrictPreference(alternatives2);
-		assertTrue(profile.contains(v1) && profile.contains(v2) && profile.contains(v3) && profile.getPreference(v1).equals(pref) && profile.getPreference(v2).equals(pref) && profile.getPreference(v3).equals(pref2));
+		assertTrue(profile.getProfile().containsKey(v1) && profile.getProfile().containsKey(v2) && profile.getProfile().containsKey(v3) && profile.getPreference(v1).equals(pref) && profile.getPreference(v2).equals(pref) && profile.getPreference(v3).equals(pref2));
 	}
 }

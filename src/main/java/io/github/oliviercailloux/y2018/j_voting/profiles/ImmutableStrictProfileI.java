@@ -22,7 +22,7 @@ public class ImmutableStrictProfileI extends ImmutableProfileI implements Strict
 	public StrictPreference getPreference(Voter v) {
 		LOGGER.debug("getPreference:");
 		Preconditions.checkNotNull(v);
-		if(!contains(v)) {
+		if(!votes.containsKey(v)) {
 			throw new NoSuchElementException("Voter " + v + "is not in the map !");
 		}
 		return votes.get(v).toStrictPreference();

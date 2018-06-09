@@ -32,7 +32,7 @@ public interface ProfileI {
 	 * @param v a voter not <code>null</code>
 	 * @return true if the profile contains the voter
 	 */
-	public boolean contains(Voter v);
+	//public boolean contains(Voter v);
 	
 	/**
 	 * 

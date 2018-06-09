@@ -41,7 +41,8 @@ public class DictatorTest {
 		prof.addVote(v2, pref2);
 		prof.addVote(v3, pref3);
 		ProfileI profile = prof.createProfileI();
-		assertEquals(d1.getSocietyPreference(profile),pref1);
+		ImmutableProfileI iprof = (ImmutableProfileI) profile;
+		assertEquals(d1.getSocietyPreference(iprof),pref1);
 	}
 
 	@Test
