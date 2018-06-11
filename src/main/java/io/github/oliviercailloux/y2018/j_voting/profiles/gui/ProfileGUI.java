@@ -48,10 +48,6 @@ public class ProfileGUI {
 			profileBuilder = new ProfileBuilder(profileI);
 
 			if(profileI.isComplete() && profileI.isStrict()) {
-				StrictProfile strictProfile = profileBuilder.createStrictProfile();//if profile get from file is SOC, create a StrictProfile from it
-
-				Iterable<Voter> allVoters = strictProfile.getAllVoters(); //get voters from profile
-				int i = 0, nbAlternatives = strictProfile.getNbAlternatives(); 
 
 				//table layout handling
 				mainShell.setLayout(new GridLayout());
@@ -62,31 +58,13 @@ public class ProfileGUI {
 				data.widthHint = 1000;
 				table.setLayoutData(data);
 
-				//COLUMNS
-				List<String> titles = new ArrayList<>();
-				for(Voter v : allVoters){
-					titles.add("Voter " + v.getId());
-					i++;
-				}
-				for (i = 0 ; i < titles.size() ; i++) {
-					TableColumn column = new TableColumn (table, SWT.NONE);
-					column.setText(titles.get(i));
-				}
-
-				//ROWS
-				List<String> alternatives = new ArrayList<>();
-
-				for(i = 0 ; i < nbAlternatives ; i++){
-					List <Alternative> ithAlternatives = strictProfile.getIthAlternatives(i); // get ith alternative of each voter
-					for(Alternative alt : ithAlternatives) {
-						alternatives.add(alt.toString()); // convert alternatives in the list to strings
-					}
-
-					TableItem item = new TableItem (table, SWT.NONE);
-					item.setText(alternatives.toArray(new String[nbAlternatives]));	// create a row with ith alternatives
-					alternatives.clear(); // empty the list
-				}
-				for (i = 0 ; i < titles.size() ; i++) {
+				createColumns();
+				
+				populateRows();
+				
+				List<String> columnTitles = createColumns();
+				
+				for (int i = 0 ; i < columnTitles.size() ; i++) {
 					table.getColumn(i).pack(); // resize automatically the column
 				}
 
@@ -110,7 +88,46 @@ public class ProfileGUI {
 			return profileBuilder; // return profileBuilder containing the profile get in the read file
 		}
 	}
+	
+	public static List<String> createColumns() {
+		StrictProfile strictProfile = profileBuilder.createStrictProfile();//if profile get from file is SOC, create a StrictProfile from it
 
+		Iterable<Voter> allVoters = strictProfile.getAllVoters(); //get voters from profile
+		
+		int i = 0; 
+		
+		//COLUMNS
+		List<String> titles = new ArrayList<>();
+		for(Voter v : allVoters){
+			titles.add("Voter " + v.getId());
+			i++;
+		}
+		for (i = 0 ; i < titles.size() ; i++) {
+			TableColumn column = new TableColumn (table, SWT.NONE);
+			column.setText(titles.get(i));
+		}
+		
+		return titles;
+	}
+
+	public static void populateRows() {
+		//ROWS
+		StrictProfile strictProfile = profileBuilder.createStrictProfile();
+		List<String> alternatives = new ArrayList<>();
+		
+		int nbAlternatives = strictProfile.getNbAlternatives();
+
+		for(int i = 0 ; i < nbAlternatives ; i++){
+			List <Alternative> ithAlternatives = strictProfile.getIthAlternatives(i); // get ith alternative of each voter
+			for(Alternative alt : ithAlternatives) {
+				alternatives.add(alt.toString()); // convert alternatives in the list to strings
+			}
+
+			TableItem item = new TableItem (table, SWT.NONE);
+			item.setText(alternatives.toArray(new String[nbAlternatives]));	// create a row with ith alternatives
+			alternatives.clear(); // empty the list
+		}
+	}
 
 	public static void edit(String arg) {
 		LOGGER.debug("edit");
@@ -197,6 +214,8 @@ public class ProfileGUI {
 				modif();
 				save(arg);
 				modalShell.dispose();
+				table.removeAll();
+				populateRows();
 				table.setRedraw(true);
 			}
 		});
@@ -255,33 +274,22 @@ public class ProfileGUI {
 	public static void save(String outputFile) {
 		LOGGER.debug("save");
 
-		try {
-			StrictProfile sp = profileBuilder.createStrictProfile();
-			File file = new File(outputFile);
-			try(OutputStream outputStream = new FileOutputStream(file);){
-				sp.writeToSOC(outputStream);
-			} catch (IOException ioe) {
-				MessageBox dialog = new MessageBox(mainShell, SWT.ICON_QUESTION | SWT.OK);
-				dialog.setText("IOException");
-				dialog.setMessage("Error when opening Stream : " + ioe);
-				dialog.open();
-			}
-		}   finally{}
-	}
+		StrictProfile sp = profileBuilder.createStrictProfile();
+		File file = new File(outputFile);
+		try(OutputStream outputStream = new FileOutputStream(file);){
+			sp.writeToSOC(outputStream);
+		} catch (IOException ioe) {
+			MessageBox dialog = new MessageBox(mainShell, SWT.ICON_QUESTION | SWT.OK);
+			dialog.setText("IOException");
+			dialog.setMessage("Error when opening Stream : " + ioe);
+			dialog.open();
+		}
+}
 
 	public static void main (String [] args) throws IOException {
 		LOGGER.debug("Main");
-		//profileBuilder = tableDisplay(args);
 		String[] s = {"profiletest.soc", ""};
 		profileBuilder = tableDisplay(s);
-
-		/*
-		modif();
-		boolean save = false;
-		save = save(args);
-		if(modif&&!save) {
-			profileBuilder = tableDisplay(args);
-		}*/
 	}
 
 }
