@@ -19,8 +19,8 @@ import io.github.oliviercailloux.y2018.j_voting.*;
 import io.github.oliviercailloux.y2018.j_voting.profiles.*;
 import io.github.oliviercailloux.y2018.j_voting.profiles.management.*;
 
-public class ProfileGUI {
-	private static final Logger LOGGER = LoggerFactory.getLogger(ProfileGUI.class.getName());
+public class SOCColumnsGUI {
+	private static final Logger LOGGER = LoggerFactory.getLogger(SOCColumnsGUI.class.getName());
 
 	static List<List<Set<Alternative>>> globalList = new ArrayList<>();//list of every list<set<alternative>> after modification
 	static List<Voter> globalVoter = new ArrayList<>();//list of every modified voter
@@ -42,7 +42,7 @@ public class ProfileGUI {
 
 		String arg = args[0];//arg is the file path
 		ReadProfile rp = new ReadProfile();
-		//try(InputStream is = new ProfileGUI().getClass().getResourceAsStream(arg)){
+		//try(InputStream is = new SOCColumnsGUI().getClass().getResourceAsStream(arg)){
 		try(FileInputStream is = new FileInputStream(arg)){
 			ProfileI profileI = rp.createProfileFromStream(is);
 			profileBuilder = new ProfileBuilder(profileI);
@@ -288,8 +288,8 @@ public class ProfileGUI {
 
 	public static void main (String [] args) throws IOException {
 		LOGGER.debug("Main");
-		String[] s = {"profiletest.soc", ""};
-		profileBuilder = tableDisplay(s);
+		//String[] s = {"profiletest.soc", ""};
+		profileBuilder = tableDisplay(args);
 	}
 
 }
