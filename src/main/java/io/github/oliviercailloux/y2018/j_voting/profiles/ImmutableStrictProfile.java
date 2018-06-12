@@ -53,6 +53,23 @@ public class ImmutableStrictProfile extends ImmutableStrictProfileI implements S
 		}
 		return listIthAlternatives;
 	}
+	
+	/**
+	 * Get a List of each ith Alternative of each unique Preference in the profile
+	 * @param i not <code> null</code> the rank of the Alternatives to get
+	 * @return a List of Alternatives
+	 */
+	@Override
+	public List<Alternative> getIthAlternativesOfUniquePreferences(int i){
+		LOGGER.debug("getIthAlternativesOfUniquePreferences :");
+		Preconditions.checkNotNull(i);
+		List<Alternative> listIthAlternatives = new ArrayList<>();
+
+		for (Preference p : getUniquePreferences()) {
+			listIthAlternatives.add(p.getAlternative(i));
+		}
+		return listIthAlternatives;
+	}
 
 	@Override
 	public void writeToSOC(OutputStream output) throws IOException {
