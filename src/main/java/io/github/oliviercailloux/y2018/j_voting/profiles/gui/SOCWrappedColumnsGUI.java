@@ -93,17 +93,20 @@ public class SOCWrappedColumnsGUI {
 	public static List<String> createColumns() {
 		StrictProfile strictProfile = profileBuilder.createStrictProfile();//if profile get from file is SOC, create a StrictProfile from it
 
-		Iterable<Voter> allVoters = strictProfile.getAllVoters(); //get voters from profile
+		//Iterable<Voter> allVoters = strictProfile.getAllVoters(); //get voters from profile
+		int nbUniquePreferences = strictProfile.getNbUniquePreferences();
 		
-		int i = 0; 
+		Set<Preference> uniquePreferences = strictProfile.getUniquePreferences();
 		
 		//COLUMNS
 		List<String> titles = new ArrayList<>();
-		for(Voter v : allVoters){
-			titles.add("Voter " + v.getId());
-			i++;
+		for(Preference p : uniquePreferences){
+			int nbVoters = strictProfile.getNbVoterForPreference(p);
+			String voterOrVoters = (nbVoters > 1) ? " voters" : " voter";
+			
+			titles.add(nbVoters + voterOrVoters);
 		}
-		for (i = 0 ; i < titles.size() ; i++) {
+		for (int i = 0 ; i < titles.size() ; i++) {
 			TableColumn column = new TableColumn (table, SWT.NONE);
 			column.setText(titles.get(i));
 		}
@@ -116,7 +119,7 @@ public class SOCWrappedColumnsGUI {
 		StrictProfile strictProfile = profileBuilder.createStrictProfile();
 		List<String> alternatives = new ArrayList<>();
 		
-		int nbAlternatives = strictProfile.getNbAlternatives();
+		int nbAlternatives = strictProfile.getNbAlternatives();//nb of rows
 
 		for(int i = 0 ; i < nbAlternatives ; i++){
 			List <Alternative> ithAlternatives = strictProfile.getIthAlternatives(i); // get ith alternative of each voter

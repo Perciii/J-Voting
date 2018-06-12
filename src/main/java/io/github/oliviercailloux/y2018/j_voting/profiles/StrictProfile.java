@@ -16,6 +16,12 @@ public interface StrictProfile extends StrictProfileI,Profile{
 	 */
 	public List<Alternative> getIthAlternatives(int i);
 	
+	/**
+	 * @param i not <code>null</code> the ith alternative to get from Voters with different Preferences in the profile
+	 * @return a List of Alternatives
+	 */
+	public List<Alternative> getIthAlternativesOfUniquePreferences(int i);
+	
 	
 	/**
 	 * writes the strict and complete profile into a new file with the SOC format.

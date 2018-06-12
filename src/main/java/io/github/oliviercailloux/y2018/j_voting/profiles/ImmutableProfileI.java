@@ -133,7 +133,7 @@ public class ImmutableProfileI implements ProfileI{
 	}
 
 	@Override
-	public int getNbVoterByPreference(Preference p) {
+	public int getNbVoterForPreference(Preference p) {
 		LOGGER.debug("getnbVoterByPreference:");
 		Preconditions.checkNotNull(p);
 		LOGGER.debug("parameter preference: {}",p);

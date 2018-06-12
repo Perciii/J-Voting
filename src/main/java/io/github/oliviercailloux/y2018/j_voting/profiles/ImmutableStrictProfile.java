@@ -66,7 +66,7 @@ public class ImmutableStrictProfile extends ImmutableStrictProfileI implements S
 			}
 			soc += getNbVoters() + "," + getSumVoteCount() + "," + getNbUniquePreferences() + "\n";
 			for(Preference pref : this.getUniquePreferences()) {
-				soc += getNbVoterByPreference(pref);
+				soc += getNbVoterForPreference(pref);
 				
 				for(Alternative a : Preference.toAlternativeSet(pref.getPreferencesNonStrict())) {
 					soc = soc + "," + a;

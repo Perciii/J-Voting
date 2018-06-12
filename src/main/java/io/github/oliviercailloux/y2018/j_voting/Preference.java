@@ -29,6 +29,21 @@ public class Preference {
 		}
 		this.preference = preference; 
 	}
+	
+	/**
+	 * 
+	 * @param position not <code>null</code>
+	 * @return the alternative at the position given in the strict preference
+	 */
+	public Alternative getAlternative(Integer position) throws IndexOutOfBoundsException {
+		LOGGER.debug("getAlternative");
+		Preconditions.checkNotNull(position);
+		if(position >= preference.size()) {
+			throw new IndexOutOfBoundsException("This position doesn't exist in the Preference");
+		}
+
+		return preference.get(position).iterator().next();
+	}
 
 	/**
 	 * @return the preference of alternatives

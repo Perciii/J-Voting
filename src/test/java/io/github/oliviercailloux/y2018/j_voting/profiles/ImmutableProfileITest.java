@@ -189,7 +189,7 @@ public class ImmutableProfileITest {
 		list1.add(s1);
 		list1.add(s2);
 		Preference pref1 = new Preference(list1);
-		assertEquals(createIPIToTest().getNbVoterByPreference(pref1),4);
+		assertEquals(createIPIToTest().getNbVoterForPreference(pref1),4);
 	}
 
 	@Test
