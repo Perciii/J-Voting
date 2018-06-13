@@ -96,4 +96,17 @@ public interface ProfileI {
 	 * @return the stricter profile possible
 	 */
 	public ProfileI restrictProfile();
+	
+
+	/**
+	 * 
+	 * @return the number of alternatives in the profile
+	 */
+	public int getNbAlternatives();
+	
+	/**
+	 * 
+	 * @return a set of all the alternatives in the profile
+	 */
+	public Set<Alternative> getAlternatives();
 }

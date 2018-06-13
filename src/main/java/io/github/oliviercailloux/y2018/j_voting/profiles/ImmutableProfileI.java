@@ -230,5 +230,23 @@ public class ImmutableProfileI implements ProfileI{
 		}
 		return map;
 	}
+	
+	@Override
+	public int getNbAlternatives() {
+		LOGGER.debug("getNbAlternatives");
+		return getAlternatives().size();
+	}
+	
+	@Override
+	public Set<Alternative> getAlternatives(){
+		LOGGER.debug("getAlternatives");
+		Set<Alternative> set = new HashSet<>();
+		for(Preference pref : getUniquePreferences()) {
+			for(Alternative a : Preference.toAlternativeSet(pref.getPreferencesNonStrict())) {
+				set.add(a);
+			}
+		}
+		return set;
+	}
 
 }

@@ -1,5 +1,9 @@
 package io.github.oliviercailloux.y2018.j_voting.profiles;
 
+import java.io.IOException;
+import java.io.OutputStream;
+import java.util.*;
+
 import io.github.oliviercailloux.y2018.j_voting.*;
 
 /**
@@ -20,4 +24,18 @@ public interface StrictProfileI extends ProfileI{
 	public default boolean isStrict() {
 		return true;
 	}
+
+	/**
+	 * 
+	 * @param i the index of the alternatives to get
+	 * @return a list of strings containing the ith alternatives in the profile. If the preference doesn't have an ith alternative, it adds an empty string to the list.
+	 */
+	public List<String> getIthAlternativesStrings(int i);
+	
+	/**
+	 * 
+	 * @param output the outputstream to write the soi profile
+	 */
+	public void writeToSOI(OutputStream output) throws IOException;
+	
 }
