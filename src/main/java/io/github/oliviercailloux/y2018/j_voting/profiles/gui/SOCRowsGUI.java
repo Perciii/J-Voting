@@ -19,9 +19,6 @@ import io.github.oliviercailloux.y2018.j_voting.profiles.management.*;
 public class SOCRowsGUI {
 	private static final Logger LOGGER = LoggerFactory.getLogger(SOCRowsGUI.class.getName());
 
-	static List<List<Set<Alternative>>> globalList = new ArrayList<>();//list of every list<set<alternative>> after modification
-	static List<Voter> globalVoter = new ArrayList<>();//list of every modified voter
-
 	final static Display display = Display.getDefault();
 	final static Shell mainShell = new Shell (display, SWT.CLOSE);
 	static Button edit = new Button(mainShell, SWT.PUSH);
