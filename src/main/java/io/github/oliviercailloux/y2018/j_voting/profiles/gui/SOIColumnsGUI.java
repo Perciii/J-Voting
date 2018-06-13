@@ -17,6 +17,7 @@ import io.github.oliviercailloux.y2018.j_voting.profiles.*;
 import io.github.oliviercailloux.y2018.j_voting.profiles.management.*;
 
 public class SOIColumnsGUI {
+
 	private static final Logger LOGGER = LoggerFactory.getLogger(SOIColumnsGUI.class.getName());
 	final static Display display = Display.getDefault();
 	final static Shell mainShell = new Shell (display, SWT.CLOSE);
