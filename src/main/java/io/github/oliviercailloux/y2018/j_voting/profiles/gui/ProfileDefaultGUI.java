@@ -16,20 +16,23 @@ import io.github.oliviercailloux.y2018.j_voting.*;
 import io.github.oliviercailloux.y2018.j_voting.profiles.*;
 import io.github.oliviercailloux.y2018.j_voting.profiles.management.*;
 
-public class SOCRowsGUI {
-	private static final Logger LOGGER = LoggerFactory.getLogger(SOCRowsGUI.class.getName());
+public class ProfileDefaultGUI {
+	private static final Logger LOGGER = LoggerFactory.getLogger(ProfileDefaultGUI.class.getName());
 	final static Display display = Display.getDefault();
 	final static Shell mainShell = new Shell (display, SWT.CLOSE);
 	static Button edit = new Button(mainShell, SWT.PUSH);
 	static Table table = new Table (mainShell, SWT.MULTI | SWT.BORDER | SWT.FULL_SELECTION);
 	static Integer voterToModify = null;
-	static Integer alternative1 = null;
-	static Integer alternative2 = null;
+	static StrictPreference newpref;
 	static ProfileBuilder profileBuilder;
 	static boolean modif = false;
 	
-	//TODO: change everything so that the GUI is the same as SOCColumnsGUI but Voters are rows and Alternatives are columns
-	
+	/**
+	 * Displays the profile with the edit button
+	 * @param args
+	 * @return the profile builder made from the profile
+	 * @throws IOException
+	 */
 	public static ProfileBuilder tableDisplay(String[] args) throws IOException {
 		LOGGER.debug("tableDisplay");
 		Preconditions.checkNotNull(args[0]);
@@ -60,17 +63,17 @@ public class SOCRowsGUI {
 				for (int i = 0 ; i < columnTitles.size() ; i++) {
 					table.getColumn(i).pack(); // resize automatically the column
 				}
-
+				
 				edit.setText("Edit");
 				edit.addSelectionListener(new SelectionAdapter() {
 					@Override
 					public void widgetSelected(SelectionEvent e) {
-						edit(arg); //open edit modal
+						editStrictPreference(arg); //open edit modal
 					}
 				});
 				
 				mainShell.setSize(300, 300);
-				mainShell.setText("EditSOC");
+				mainShell.setText("Edit Profile");
 				mainShell.pack();
 				mainShell.open();
 
@@ -82,13 +85,14 @@ public class SOCRowsGUI {
 		}
 	}
 	
+	/**
+	 * 
+	 * @return a list of strings, each one represents a voter.
+	 */
 	public static List<String> createColumns() {
-		StrictProfile strictProfile = profileBuilder.createStrictProfile();//if profile get from file is SOC, create a StrictProfile from it
-
+		StrictProfileI strictProfile = profileBuilder.createStrictProfileI();//if profile get from file is SOC, create a StrictProfile from it
 		Iterable<Voter> allVoters = strictProfile.getAllVoters(); //get voters from profile
-		
 		int i = 0; 
-		
 		//COLUMNS
 		List<String> titles = new ArrayList<>();
 		for(Voter v : allVoters){
@@ -99,32 +103,33 @@ public class SOCRowsGUI {
 			TableColumn column = new TableColumn (table, SWT.NONE);
 			column.setText(titles.get(i));
 		}
-		
 		return titles;
 	}
 
+	/**
+	 * Fills the table of the profile with the alternatives : each column contains the preference of a voter
+	 */
 	public static void populateRows() {
 		//ROWS
-		StrictProfile strictProfile = profileBuilder.createStrictProfile();
+		StrictProfileI strictProfile = profileBuilder.createStrictProfileI();
 		List<String> alternatives = new ArrayList<>();
 		
-		int nbAlternatives = strictProfile.getNbAlternatives();
+		int nbAlternatives = strictProfile.getMaxSizeOfPreference();
 
 		for(int i = 0 ; i < nbAlternatives ; i++){
-			List <Alternative> ithAlternatives = strictProfile.getIthAlternatives(i); // get ith alternative of each voter
-			for(Alternative alt : ithAlternatives) {
-				alternatives.add(alt.toString()); // convert alternatives in the list to strings
-			}
-
 			TableItem item = new TableItem (table, SWT.NONE);
-			item.setText(alternatives.toArray(new String[nbAlternatives]));	// create a row with ith alternatives
+			item.setText(strictProfile.getIthAlternativesAsStrings(i).toArray(new String[nbAlternatives]));	// create a row with ith alternatives
 			alternatives.clear(); // empty the list
 		}
 	}
 
-	public static void edit(String arg) {
-		LOGGER.debug("edit");
-
+	/**
+	 * Displays the edit window, where you can choose to modify/add a StrictPreference of a voter
+	 * @param arg
+	 */
+	public static void editStrictPreference(String arg) {
+		LOGGER.debug("editPreference");
+		Preconditions.checkNotNull(arg);
 		final Shell modalShell = new Shell(display, SWT.TITLE | SWT.BORDER | SWT.APPLICATION_MODAL | SWT.CLOSE);
 		modalShell.setText("Edit");
 		modalShell.setLayout(new GridLayout(2, true));
@@ -133,22 +138,15 @@ public class SOCRowsGUI {
 		label.setText("Which voter do you want to change ?");
 
 		final Text text = new Text(modalShell, SWT.SINGLE | SWT.BORDER);
+		
+		Label labelPref = new Label(modalShell, SWT.NULL);
+		labelPref.setText("Choose the preference :");
 
-		Label label1 = new Label(modalShell, SWT.NULL);
-		label1.setText("Replace this alternative ");
-
-		final Text text1 = new Text(modalShell, SWT.SINGLE | SWT.BORDER);
-
-		Label label2 = new Label(modalShell, SWT.NULL);
-		label2.setText("with");
-
-		final Text text2 = new Text(modalShell, SWT.SINGLE | SWT.BORDER);
-
+		final Text textPref = new Text(modalShell, SWT.SINGLE | SWT.BORDER);
+		
 		final Button save = new Button(modalShell, SWT.PUSH);
 		save.setText("Save");
 		save.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_END));
-
-
 
 		Button buttonCancel = new Button(modalShell, SWT.PUSH);
 		buttonCancel.setText("Cancel");
@@ -170,24 +168,11 @@ public class SOCRowsGUI {
 			}
 		});
 
-		text1.addListener(SWT.Modify, new Listener() {
+		textPref.addListener(SWT.Modify, new Listener() {
 			@Override
 			public void handleEvent(Event event) {
 				try {
-					alternative1 = Integer.parseInt(text1.getText());
-					save.setEnabled(true);
-				} catch (IllegalArgumentException iae) {
-					LOGGER.debug("Illegal Argument Exception : {} ", iae);
-					save.setEnabled(false);
-				}
-			}
-		});
-
-		text2.addListener(SWT.Modify, new Listener() {
-			@Override
-			public void handleEvent(Event event) {
-				try {
-					alternative2 = Integer.parseInt(text2.getText());
+					newpref = new ReadProfile().getPreferences(textPref.getText());
 					save.setEnabled(true);
 				} catch (IllegalArgumentException iae) {
 					LOGGER.debug("Illegal Argument Exception : {} ", iae);
@@ -199,11 +184,8 @@ public class SOCRowsGUI {
 		save.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-
-
 				LOGGER.debug("voterToModify : {} ", voterToModify);
-				LOGGER.debug("alternative1 : {} ", alternative1);
-				LOGGER.debug("alternative2 : {}", alternative2);
+				LOGGER.debug("pref : {} ", newpref);
 				modif();
 				save(arg);
 				modalShell.dispose();
@@ -228,49 +210,28 @@ public class SOCRowsGUI {
 				event.doit = false;
 			}
 		});
-
 	}
 
+	/**
+	 * Edits the profile with the given information
+	 */
 	public static void modif() {
 		LOGGER.debug("modif");
-		StrictProfile strictProfile = profileBuilder.createStrictProfile();
-		int nbAlternatives = strictProfile.getNbAlternatives();
-
-		List<Alternative> list3 = new ArrayList<>();
-
 		Voter voter = new Voter(voterToModify);
-
-		LOGGER.debug("Voter : {}", voter.getId());
-		for(int rank = 0 ; rank < nbAlternatives ; rank++) { // browse alternatives
-			Alternative alternativeAtThisRank = (strictProfile.getPreference(voter).getAlternative(rank));
-			if (alternativeAtThisRank.equals(new Alternative(alternative1))) { // if tested alternative = alternative to replace
-				LOGGER.debug("alternative1 rank : {}", rank);
-				list3.add(new Alternative(alternative2)); // replace it with the replacing one
-			}
-			else if (alternativeAtThisRank.equals(new Alternative(alternative2))) { // tested alternative = replacing alternative
-				LOGGER.debug("alternative2 rank : {}", rank);
-				list3.add(new Alternative(alternative1)); // replace it with the replaced one
-			}
-			else { // if tested alternative != replaced or replacing one
-				list3.add(alternativeAtThisRank); // add it to its original rank
-			}
-		}
-		// now the two alternatives are switched
-		StrictPreference newPreference = new StrictPreference(list3);
-		LOGGER.debug("New preference for voter v {} : {}", voter ,  newPreference.toString());
-
-		profileBuilder.addVote(new Voter(voterToModify), newPreference);// change preference for this Voter in global ProfileBuilder
-
+		LOGGER.debug("New preference for voter v {} : {}", voter ,  newpref);
+		profileBuilder.addVote(new Voter(voterToModify), newpref);// change preference for this Voter in global ProfileBuilder
 	}
 
-
+	/**
+	 * Saves the changes to the file containing the profile.
+	 * @param outputFile
+	 */
 	public static void save(String outputFile) {
 		LOGGER.debug("save");
-
-		StrictProfile sp = profileBuilder.createStrictProfile();
+		StrictProfileI sp = profileBuilder.createStrictProfileI();
 		File file = new File(outputFile);
-		try(OutputStream outputStream = new FileOutputStream(file);){
-			sp.writeToSOC(outputStream);
+		try(OutputStream outputStream = new FileOutputStream(file)){
+			sp.writeToSOI(outputStream);
 		} catch (IOException ioe) {
 			MessageBox dialog = new MessageBox(mainShell, SWT.ICON_QUESTION | SWT.OK);
 			dialog.setText("IOException");

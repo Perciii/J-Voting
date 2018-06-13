@@ -35,10 +35,10 @@ public class ImmutableStrictProfileI extends ImmutableProfileI implements Strict
 	}
 	
 	@Override
-	public List<String> getIthAlternativesStrings(int i){
+	public List<String> getIthAlternativesAsStrings(int i){
 		LOGGER.debug("getIthAlternativesStrings");
 		if(i > getMaxSizeOfPreference()) {
-			throw new IllegalArgumentException("The given index is out of bound.");
+			throw new IndexOutOfBoundsException("The given index is out of bound.");
 		}
 		List<String> list = new ArrayList<>();
 		for(Voter v : getAllVoters()) {
@@ -57,25 +57,41 @@ public class ImmutableStrictProfileI extends ImmutableProfileI implements Strict
 	}
 	
 	@Override
+	public List<String> getIthAlternativesOfUniquePrefAsString(int i){
+		LOGGER.debug("getIthAlternativesOfUniquePrefAsString");
+		Preconditions.checkNotNull(i);
+		List<String> list = new ArrayList<>();
+		for (Preference p : getUniquePreferences()) {
+			String alter = "";
+			if(i < p.size()) {
+				alter = p.getAlternative(i).toString();
+				LOGGER.debug("the ith alternative is {}",p.getAlternative(i));
+			}
+			list.add(alter);
+		}
+		return list;
+	}
+	
+	@Override
 	public void writeToSOI(OutputStream output) throws IOException {
-		LOGGER.debug("writeToSOC :");
+		LOGGER.debug("writeToSOI :");
 		Preconditions.checkNotNull(output);
 		try(Writer writer = new BufferedWriter(new OutputStreamWriter(output))){
-			String soc = "";
-			soc += getNbAlternatives() + "\n";
+			String soi = "";
+			soi += getNbAlternatives() + "\n";
 			for(Alternative alter : getAlternatives()) {
-				soc += alter.getId() + "\n";
+				soi += alter.getId() + "\n";
 			}
-			soc += getNbVoters() + "," + getSumVoteCount() + "," + getNbUniquePreferences() + "\n";
+			soi += getNbVoters() + "," + getSumVoteCount() + "," + getNbUniquePreferences() + "\n";
 			for(Preference pref : this.getUniquePreferences()) {
-				soc += getNbVoterForPreference(pref);
+				soi += getNbVoterForPreference(pref);
 				
 				for(Alternative a : Preference.toAlternativeSet(pref.getPreferencesNonStrict())) {
-					soc = soc + "," + a;
+					soi = soi + "," + a;
 				}
-				soc = soc + "\n";
+				soi = soi + "\n";
 			}
-			writer.append(soc);
+			writer.append(soi);
 			writer.close();
 		}
 	}

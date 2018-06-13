@@ -30,8 +30,14 @@ public interface StrictProfileI extends ProfileI{
 	 * @param i the index of the alternatives to get
 	 * @return a list of strings containing the ith alternatives in the profile. If the preference doesn't have an ith alternative, it adds an empty string to the list.
 	 */
-	public List<String> getIthAlternativesStrings(int i);
+	public List<String> getIthAlternativesAsStrings(int i);
 	
+	/**
+	 * 
+	 * @param i
+	 * @return a list of strings of the ith alternatives of the unique preferences. If the preference doesn't have an ith alternative, it adds an empty string to the list.
+	 */
+	public List<String> getIthAlternativesOfUniquePrefAsString(int i);
 	/**
 	 * 
 	 * @param output the outputstream to write the soi profile

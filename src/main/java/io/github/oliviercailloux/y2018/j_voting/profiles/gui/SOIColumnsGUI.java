@@ -17,11 +17,7 @@ import io.github.oliviercailloux.y2018.j_voting.profiles.*;
 import io.github.oliviercailloux.y2018.j_voting.profiles.management.*;
 
 public class SOIColumnsGUI {
-	private static final Logger LOGGER = LoggerFactory.getLogger(SOCColumnsGUI.class.getName());
-
-	static List<List<Set<Alternative>>> globalList = new ArrayList<>();//list of every list<set<alternative>> after modification
-	static List<Voter> globalVoter = new ArrayList<>();//list of every modified voter
-
+	private static final Logger LOGGER = LoggerFactory.getLogger(SOIColumnsGUI.class.getName());
 	final static Display display = Display.getDefault();
 	final static Shell mainShell = new Shell (display, SWT.CLOSE);
 	static Button edit = new Button(mainShell, SWT.PUSH);
@@ -116,7 +112,7 @@ public class SOIColumnsGUI {
 
 		for(int i = 0 ; i < nbAlternatives ; i++){
 			TableItem item = new TableItem (table, SWT.NONE);
-			item.setText(strictProfile.getIthAlternativesStrings(i).toArray(new String[nbAlternatives]));	// create a row with ith alternatives
+			item.setText(strictProfile.getIthAlternativesAsStrings(i).toArray(new String[nbAlternatives]));	// create a row with ith alternatives
 			alternatives.clear(); // empty the list
 		}
 	}
