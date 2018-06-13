@@ -3,7 +3,6 @@ package io.github.oliviercailloux.y2018.j_voting.profiles.management;
 import io.github.oliviercailloux.y2018.j_voting.*;
 import io.github.oliviercailloux.y2018.j_voting.profiles.*;
 import java.util.HashMap;
-import java.util.Map;
 
 import org.slf4j.*;
 import com.google.common.base.Preconditions;
@@ -31,7 +30,7 @@ public class StrictProfileBuilder extends ProfileBuilder{
 		LOGGER.debug("constructor ProfileI:");
 		Preconditions.checkNotNull(prof);
 		LOGGER.debug("parameter prof : {}",prof);
-		votes = (Map<Voter, Preference>) prof.getProfile();
+		votes = castMapExtendsToRegularVoterPref(prof.getProfile());
 	}	
 	
 	/**

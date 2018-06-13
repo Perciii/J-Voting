@@ -1,16 +1,12 @@
 package io.github.oliviercailloux.y2018.j_voting.profiles.gui;
 
-import static org.eclipse.swt.events.SelectionListener.*;
-
 import java.io.IOException;
 
 import org.eclipse.swt.*;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.*;
 import org.eclipse.swt.graphics.*;
 import org.eclipse.swt.widgets.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.slf4j.*;
 import org.eclipse.swt.layout.*;
 
 

@@ -1,14 +1,11 @@
 package io.github.oliviercailloux.y2018.j_voting.profiles.gui;
 
 import java.io.*;
-import java.net.*;
 import java.util.*;
 import java.util.List;
 
 import org.eclipse.swt.*;
-import org.eclipse.swt.custom.*;
 import org.eclipse.swt.events.*;
-import org.eclipse.swt.graphics.*;
 import org.eclipse.swt.layout.*;
 import org.eclipse.swt.widgets.*;
 import org.slf4j.*;
@@ -36,7 +33,7 @@ public class SOIColumnsGUI {
 	
 
 	public static ProfileBuilder tableDisplaySOI(String[] args) throws IOException {
-		LOGGER.debug("tableDisplay");
+		LOGGER.debug("tableDisplaySOI");
 		Preconditions.checkNotNull(args[0]);
 
 		String arg = args[0];//arg is the file path
@@ -88,6 +85,7 @@ public class SOIColumnsGUI {
 	}
 	
 	public static List<String> createColumns() {
+		LOGGER.debug("createColumns");
 		StrictProfileI strictProfile = profileBuilder.createStrictProfileI();//if profile get from file is SOI, create a StrictProfile from it
 
 		Iterable<Voter> allVoters = strictProfile.getAllVoters(); //get voters from profile
@@ -109,6 +107,7 @@ public class SOIColumnsGUI {
 	}
 
 	public static void populateRowsSOI() {
+		LOGGER.debug("populateRowsSOI");
 		//ROWS
 		StrictProfileI strictProfile = profileBuilder.createStrictProfileI();
 		List<String> alternatives = new ArrayList<>();
@@ -116,11 +115,6 @@ public class SOIColumnsGUI {
 		int nbAlternatives = strictProfile.getMaxSizeOfPreference();
 
 		for(int i = 0 ; i < nbAlternatives ; i++){
-			/*List <Alternative> ithAlternatives = strictProfile.getIthAlternatives(i); // get ith alternative of each voter
-			for(Alternative alt : ithAlternatives) {
-				alternatives.add(alt.toString()); // convert alternatives in the list to strings
-			}*/
-
 			TableItem item = new TableItem (table, SWT.NONE);
 			item.setText(strictProfile.getIthAlternativesStrings(i).toArray(new String[nbAlternatives]));	// create a row with ith alternatives
 			alternatives.clear(); // empty the list
@@ -128,8 +122,8 @@ public class SOIColumnsGUI {
 	}
 
 	public static void editPreference(String arg) {
-		LOGGER.debug("edit");
-
+		LOGGER.debug("editPreference");
+		Preconditions.checkNotNull(arg);
 		final Shell modalShell = new Shell(display, SWT.TITLE | SWT.BORDER | SWT.APPLICATION_MODAL | SWT.CLOSE);
 		modalShell.setText("Edit");
 		modalShell.setLayout(new GridLayout(2, true));
@@ -215,8 +209,7 @@ public class SOIColumnsGUI {
 	}
 
 	public static void modifSOI() {
-		LOGGER.debug("modif");
-		//StrictProfileI strictProfile = profileBuilder.createStrictProfileI();
+		LOGGER.debug("modifSOI");
 		Voter voter = new Voter(voterToModify);
 		LOGGER.debug("New preference for voter v {} : {}", voter ,  newpref);
 		profileBuilder.addVote(new Voter(voterToModify), newpref);// change preference for this Voter in global ProfileBuilder
@@ -226,7 +219,7 @@ public class SOIColumnsGUI {
 
 	public static void save(String outputFile) {
 		LOGGER.debug("save");
-
+		Preconditions.checkNotNull(outputFile);
 		StrictProfileI sp = profileBuilder.createStrictProfileI();
 		File file = new File(outputFile);
 		try(OutputStream outputStream = new FileOutputStream(file);){

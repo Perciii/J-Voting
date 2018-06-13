@@ -17,12 +17,6 @@ public class ImmutableProfile extends ImmutableProfileI implements Profile{
 	}
 
 	@Override
-	public int getNbAlternatives() {
-		LOGGER.debug("getNbAlternatives:");
-		return getAlternatives().size();
-	}
-
-	@Override
 	public Set<Alternative> getAlternatives() {
 		LOGGER.debug("getAlternatives:");
 		Preference p = votes.values().iterator().next();

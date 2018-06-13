@@ -32,7 +32,7 @@ public class ProfileBuilder {
 		LOGGER.debug("constructor ProfileI:");
 		Preconditions.checkNotNull(prof);
 		LOGGER.debug("parameter prof : {}",prof);
-		votes = (Map<Voter, Preference>) prof.getProfile();
+		votes = castMapExtendsToRegularVoterPref(prof.getProfile());
 	}
 	
 	/**
@@ -114,5 +114,21 @@ public class ProfileBuilder {
 			throw new IllegalArgumentException("The built profile is not strict.");
 		}
 		return new ImmutableStrictProfile(votes);
+	}
+	
+	/**
+	 * 
+	 * @param map a map of Voters and preferences (or an extension of preference)
+	 * @return a map of voters and preferences (cast to the most general class : Preference)
+	 */
+	public static Map<Voter,Preference> castMapExtendsToRegularVoterPref(Map<Voter,? extends Preference> map){
+		LOGGER.debug("castMapToRegularVoterPref");
+		Preconditions.checkNotNull(map);
+		Map<Voter,Preference> result = new HashMap<>();
+		for(Voter v : map.keySet()) {
+			LOGGER.debug("adds the voter {} and his preference {}",v,map.get(v));
+			result.put(v,map.get(v));
+		}
+		return result;
 	}
 }

@@ -1,13 +1,8 @@
 package io.github.oliviercailloux.y2018.j_voting.profiles;
 
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.MessageBox;
 import org.slf4j.*;
 import com.google.common.base.Preconditions;
 import io.github.oliviercailloux.y2018.j_voting.*;
-import io.github.oliviercailloux.y2018.j_voting.profiles.gui.SOCColumnsGUI;
-import io.github.oliviercailloux.y2018.j_voting.profiles.management.ProfileBuilder;
-import io.github.oliviercailloux.y2018.j_voting.profiles.management.ReadProfile;
 
 import java.io.*;
 import java.util.*;

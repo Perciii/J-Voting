@@ -1,14 +1,11 @@
 package io.github.oliviercailloux.y2018.j_voting.profiles.gui;
 
 import java.io.*;
-import java.net.*;
 import java.util.*;
 import java.util.List;
 
 import org.eclipse.swt.*;
-import org.eclipse.swt.custom.*;
 import org.eclipse.swt.events.*;
-import org.eclipse.swt.graphics.*;
 import org.eclipse.swt.layout.*;
 import org.eclipse.swt.widgets.*;
 import org.slf4j.*;
@@ -42,7 +39,6 @@ public class SOCColumnsGUI {
 
 		String arg = args[0];//arg is the file path
 		ReadProfile rp = new ReadProfile();
-		//try(InputStream is = new SOCColumnsGUI().getClass().getResourceAsStream(arg)){
 		try(FileInputStream is = new FileInputStream(arg)){
 			ProfileI profileI = rp.createProfileFromStream(is);
 			profileBuilder = new ProfileBuilder(profileI);
@@ -154,8 +150,6 @@ public class SOCColumnsGUI {
 		final Button save = new Button(modalShell, SWT.PUSH);
 		save.setText("Save");
 		save.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_END));
-
-
 
 		Button buttonCancel = new Button(modalShell, SWT.PUSH);
 		buttonCancel.setText("Cancel");
@@ -288,7 +282,6 @@ public class SOCColumnsGUI {
 
 	public static void main (String [] args) throws IOException {
 		LOGGER.debug("Main");
-		//String[] s = {"profiletest.soc", ""};
 		profileBuilder = tableDisplay(args);
 	}
 
