@@ -93,8 +93,7 @@ public class SOCWrappedColumnsGUI {
 	public static List<String> createColumns() {
 		StrictProfile strictProfile = profileBuilder.createStrictProfile();//if profile get from file is SOC, create a StrictProfile from it
 
-		//Iterable<Voter> allVoters = strictProfile.getAllVoters(); //get voters from profile
-		int nbUniquePreferences = strictProfile.getNbUniquePreferences();
+		//int nbUniquePreferences = strictProfile.getNbUniquePreferences();
 		
 		Set<Preference> uniquePreferences = strictProfile.getUniquePreferences();
 		
@@ -102,8 +101,8 @@ public class SOCWrappedColumnsGUI {
 		List<String> titles = new ArrayList<>();
 		for(Preference p : uniquePreferences){
 			int nbVoters = strictProfile.getNbVoterForPreference(p);
-			String voterOrVoters = (nbVoters > 1) ? " voters" : " voter";
 			
+			String voterOrVoters = (nbVoters > 1) ? " voters" : " voter";
 			titles.add(nbVoters + voterOrVoters);
 		}
 		for (int i = 0 ; i < titles.size() ; i++) {
@@ -122,7 +121,7 @@ public class SOCWrappedColumnsGUI {
 		int nbAlternatives = strictProfile.getNbAlternatives();//nb of rows
 
 		for(int i = 0 ; i < nbAlternatives ; i++){
-			List <Alternative> ithAlternatives = strictProfile.getIthAlternatives(i); // get ith alternative of each voter
+			List <Alternative> ithAlternatives = strictProfile.getIthAlternativesOfUniquePreferences(i); // get ith alternative of each voter
 			for(Alternative alt : ithAlternatives) {
 				alternatives.add(alt.toString()); // convert alternatives in the list to strings
 			}
