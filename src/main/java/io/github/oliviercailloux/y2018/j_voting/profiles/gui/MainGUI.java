@@ -13,17 +13,17 @@ import org.eclipse.swt.layout.*;
 public class MainGUI {
 	private static final Logger LOGGER = LoggerFactory.getLogger(MainGUI.class.getName());
 	
-	final static Display display = Display.getDefault();
-	final static Shell mainShell = new Shell (display, SWT.CLOSE);
-	final static Label label = new Label(mainShell, SWT.CENTER);
-	final static Button selectFileToRead = new Button (mainShell, SWT.PUSH);
-	final static Button columnsGUI = new Button (mainShell, SWT.PUSH);
-	final static Button columnsSOIGUI = new Button (mainShell, SWT.PUSH);
-	final static Button rowsGUI = new Button (mainShell, SWT.PUSH);
-	final static Button wrappedColumnsGUI = new Button (mainShell, SWT.PUSH);
+	private final static Display display = Display.getDefault();
+	private final static Shell mainShell = new Shell (display, SWT.CLOSE);
+	private final static Label label = new Label(mainShell, SWT.CENTER);
+	private final static Button selectFileToRead = new Button (mainShell, SWT.PUSH);
+	private final static Button columnsGUI = new Button (mainShell, SWT.PUSH);
+	private final static Button columnsSOIGUI = new Button (mainShell, SWT.PUSH);
+	private final static Button rowsGUI = new Button (mainShell, SWT.PUSH);
+	private final static Button wrappedColumnsGUI = new Button (mainShell, SWT.PUSH);
 	
-	static String fileToRead = "";
-	static String[] profileToRead = new String[1];
+	protected static String fileToRead = "";
+	protected static String[] profileToRead = new String[1];
 	
 	public void displayGUI() {
 		LOGGER.debug("displayGUI :");

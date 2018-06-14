@@ -18,17 +18,17 @@ import io.github.oliviercailloux.y2018.j_voting.profiles.management.*;
 
 public class ProfileDefaultGUI {
 	private static final Logger LOGGER = LoggerFactory.getLogger(ProfileDefaultGUI.class.getName());
-	final static Display display = Display.getDefault();
-	final static Shell mainShell = new Shell (display, SWT.CLOSE);
-	static Button columnsButton = new Button(mainShell, SWT.RADIO);
-	static Button rowsButton = new Button(mainShell, SWT.RADIO);
-	static Button wrapButton = new Button(mainShell, SWT.RADIO);
-	static Button edit = new Button(mainShell, SWT.PUSH);
-	static Table table = new Table (mainShell, SWT.MULTI | SWT.BORDER | SWT.FULL_SELECTION);
-	static Integer voterToModify = null;
-	static StrictPreference newpref;
-	static ProfileBuilder profileBuilder;
-	static boolean modif = false;
+	protected final Display display = Display.getDefault();
+	protected final Shell mainShell = new Shell (display, SWT.CLOSE);
+	protected Button columnsButton = new Button(mainShell, SWT.RADIO);
+	protected Button rowsButton = new Button(mainShell, SWT.RADIO);
+	protected Button wrapButton = new Button(mainShell, SWT.RADIO);
+	protected Button edit = new Button(mainShell, SWT.PUSH);
+	protected Table table = new Table (mainShell, SWT.MULTI | SWT.BORDER | SWT.FULL_SELECTION);
+	protected Integer voterToModify = null;
+	protected StrictPreference newpref;
+	protected static ProfileBuilder profileBuilder;
+	protected boolean modif = false;
 	
 	/**
 	 * Displays the profile with the edit button
@@ -94,7 +94,8 @@ public class ProfileDefaultGUI {
 	 * Displays the radio buttons to choose the layout of the profile. This method works for both SOC and SOI.
 	 * @param args contains the name of the file with the profile
 	 */
-	public static void displayRadioButtons(String[] args) {
+	public void displayRadioButtons(String[] args) {
+		LOGGER.debug("displayRadioButtons :");
 		columnsButton.setText("Columns");
 		columnsButton.setSelection(true);
 			
@@ -176,7 +177,7 @@ public class ProfileDefaultGUI {
 					try {
 						SOIWrappedColumnsGUI.main(args);
 					} catch (IOException e1) {
-						LOGGER.debug("IOException when opening wrapped collumns GUI : {}", e1);
+						LOGGER.debug("IOException when opening wrapped columns GUI : {}", e1);
 					}
 				}
 			});*/
@@ -231,7 +232,7 @@ public class ProfileDefaultGUI {
 	 * @param arg
 	 */
 	public void editStrictPreference(String arg) {
-		LOGGER.debug("editPreference");
+		LOGGER.debug("editPreference :");
 		Preconditions.checkNotNull(arg);
 		final Shell modalShell = new Shell(display, SWT.TITLE | SWT.BORDER | SWT.APPLICATION_MODAL | SWT.CLOSE);
 		modalShell.setText("Edit");
@@ -318,8 +319,8 @@ public class ProfileDefaultGUI {
 	/**
 	 * Edits the profile with the given information
 	 */
-	public static void modif() {
-		LOGGER.debug("modif");
+	public void modif() {
+		LOGGER.debug("modif :");
 		Voter voter = new Voter(voterToModify);
 		LOGGER.debug("New preference for voter v {} : {}", voter ,  newpref);
 		profileBuilder.addVote(new Voter(voterToModify), newpref);// change preference for this Voter in global ProfileBuilder
@@ -330,7 +331,7 @@ public class ProfileDefaultGUI {
 	 * @param outputFile
 	 */
 	public void save(String outputFile) {
-		LOGGER.debug("save");
+		LOGGER.debug("save :");
 		File file = new File(outputFile);
 		try(OutputStream outputStream = new FileOutputStream(file)){
 			String fileExtension = file.toString().substring(file.toString().length() - 3);
@@ -348,12 +349,5 @@ public class ProfileDefaultGUI {
 			dialog.open();
 		}
 	}
-
-	public static void main (String [] args) throws IOException {
-		LOGGER.debug("Main");
-		ProfileDefaultGUI profileDefault = new ProfileDefaultGUI();
-		profileBuilder = profileDefault.tableDisplay(args);
-	}
-
 }
 
