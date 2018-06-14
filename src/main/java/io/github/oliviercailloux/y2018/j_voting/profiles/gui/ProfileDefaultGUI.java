@@ -8,6 +8,7 @@ import org.eclipse.swt.*;
 import org.eclipse.swt.events.*;
 import org.eclipse.swt.layout.*;
 import org.eclipse.swt.widgets.*;
+import org.eclipse.swt.graphics.*;
 import org.slf4j.*;
 
 import com.google.common.base.Preconditions;
@@ -22,7 +23,7 @@ import io.github.oliviercailloux.y2018.j_voting.profiles.management.*;
 public class ProfileDefaultGUI {
 	private static final Logger LOGGER = LoggerFactory.getLogger(ProfileDefaultGUI.class.getName());
 	protected final Display display = Display.getDefault();
-	protected final Shell mainShell = new Shell (display, SWT.CLOSE);
+	protected final Shell mainShell = new Shell (display, SWT.CLOSE | SWT.RESIZE);
 	protected Button columnsButton = new Button(mainShell, SWT.RADIO);
 	protected Button rowsButton = new Button(mainShell, SWT.RADIO);
 	protected Button wrapButton = new Button(mainShell, SWT.RADIO);
@@ -48,46 +49,42 @@ public class ProfileDefaultGUI {
 			ProfileI profileI = rp.createProfileFromStream(is);
 			profileBuilder = new ProfileBuilder(profileI);
 
-			if(profileI.isComplete() && profileI.isStrict()) {
-
-				//table layout handling
-				mainShell.setLayout(new GridLayout());
-				table.setLinesVisible (true);
-				table.setHeaderVisible (true);
-				GridData data = new GridData(SWT.FILL, SWT.FILL, true, true);
-				data.heightHint = 300;
-				data.widthHint = 1000;
-				table.setLayoutData(data);
-				
-				displayRadioButtons(args);
-	
-				createColumns();
-		
-				populateRows();
+			//table layout handling
+			mainShell.setLayout(new GridLayout());
+			table.setLinesVisible (true);
+			table.setHeaderVisible (true);
+			GridData data = new GridData(SWT.FILL, SWT.FILL, true, true);
+			table.setLayoutData(data);
 			
-				List<String> columnTitles = createColumns();
-				
-				for (int i = 0 ; i < columnTitles.size() ; i++) {
-					table.getColumn(i).pack(); // resize automatically the column
-				}
-				
-				edit.setText("Edit");
-				edit.addSelectionListener(new SelectionAdapter() {
-					@Override
-					public void widgetSelected(SelectionEvent e) {
-						editStrictPreference(arg); //open edit modal
-					}
-				});
-				
-				mainShell.setSize(300, 300);
-				mainShell.setText("Edit Profile");
-				mainShell.pack();
-				mainShell.open();
+			displayRadioButtons(args);
 
-				while (!display.isDisposed()) {
-					if (!display.readAndDispatch()) display.sleep();
-				}
+			createColumns();
+	
+			populateRows();
+		
+			List<String> columnTitles = createColumns();
+			
+			for (int i = 0 ; i < columnTitles.size() ; i++) {
+				table.getColumn(i).pack(); // resize automatically the column
 			}
+			
+			edit.setText("Edit");
+			edit.addSelectionListener(new SelectionAdapter() {
+				@Override
+				public void widgetSelected(SelectionEvent e) {
+					editStrictPreference(arg); //open edit modal
+				}
+			});
+			
+			mainShell.setSize(300, 300);
+			mainShell.setText("Edit Profile");
+			mainShell.pack();
+			mainShell.open();
+
+			while (!display.isDisposed()) {
+				if (!display.readAndDispatch()) display.sleep();
+			}
+			
 			return profileBuilder; // return profileBuilder containing the profile get in the read file
 		}
 	}
