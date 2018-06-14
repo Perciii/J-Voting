@@ -20,6 +20,9 @@ public class ProfileDefaultGUI {
 	private static final Logger LOGGER = LoggerFactory.getLogger(ProfileDefaultGUI.class.getName());
 	final static Display display = Display.getDefault();
 	final static Shell mainShell = new Shell (display, SWT.CLOSE);
+	static Button columnsButton = new Button(mainShell, SWT.RADIO);
+	static Button rowsButton = new Button(mainShell, SWT.RADIO);
+	static Button wrapButton = new Button(mainShell, SWT.RADIO);
 	static Button edit = new Button(mainShell, SWT.PUSH);
 	static Table table = new Table (mainShell, SWT.MULTI | SWT.BORDER | SWT.FULL_SELECTION);
 	static Integer voterToModify = null;
@@ -54,6 +57,8 @@ public class ProfileDefaultGUI {
 				data.widthHint = 1000;
 				table.setLayoutData(data);
 
+				displayRadioButtons(args);
+				
 				createColumns();
 				
 				populateRows();
@@ -82,6 +87,102 @@ public class ProfileDefaultGUI {
 				}
 			}
 			return profileBuilder; // return profileBuilder containing the profile get in the read file
+		}
+	}
+	
+	/**
+	 * Displays the radio buttons to choose the layout of the profile. This method works for both SOC and SOI.
+	 * @param args contains the name of the file with the profile
+	 */
+	public static void displayRadioButtons(String[] args) {
+		columnsButton.setText("Columns");
+		columnsButton.setSelection(true);
+			
+		rowsButton.setText("Rows");
+		rowsButton.setSelection(false);
+		
+		wrapButton.setText("Wrapped");
+		wrapButton.setSelection(false);
+
+		String fileExtension = args[0].substring(args[0].length() - 3);
+		if(fileExtension.equals("soc")) {
+			columnsButton.addSelectionListener(new SelectionAdapter() {
+				@Override
+				public void widgetSelected(SelectionEvent e) {
+					rowsButton.setSelection(false);
+					wrapButton.setSelection(false);
+					try {
+						SOCColumnsGUI.main(args);
+					} catch (IOException e1) {
+						LOGGER.debug("IOException when opening Columns GUI : {}", e1);
+					}
+				}
+			});
+			rowsButton.addSelectionListener(new SelectionAdapter() {
+				@Override
+				public void widgetSelected(SelectionEvent e) {
+					columnsButton.setSelection(false);
+					wrapButton.setSelection(false);
+					try {
+						SOCRowsGUI.main(args);
+					} catch (IOException e1) {
+						LOGGER.debug("IOException when opening Rows GUI : {}", e1);
+					}
+				}
+			});
+			wrapButton.addSelectionListener(new SelectionAdapter() {
+				@Override
+				public void widgetSelected(SelectionEvent e) {
+					rowsButton.setSelection(false);
+					columnsButton.setSelection(false);
+					try {
+						SOCWrappedColumnsGUI.main(args);
+					} catch (IOException e1) {
+						LOGGER.debug("IOException when opening wrapped columns GUI : {}", e1);
+					}
+				}
+			});
+		}
+		else if(fileExtension.equals("soi")) {
+			columnsButton.addSelectionListener(new SelectionAdapter() {
+				@Override
+				public void widgetSelected(SelectionEvent e) {
+					rowsButton.setSelection(false);
+					wrapButton.setSelection(false);
+					try {
+						SOIColumnsGUI.main(args);
+					} catch (IOException e1) {
+						LOGGER.debug("IOException when opening Columns GUI : {}", e1);
+					}
+				}
+			});
+			/*rowsButton.addSelectionListener(new SelectionAdapter() {
+				@Override
+				public void widgetSelected(SelectionEvent e) {
+					columnsButton.setSelection(false);
+					wrapButton.setSelection(false);
+					try {
+						SOIRowsGUI.main(args);
+					} catch (IOException e1) {
+						LOGGER.debug("IOException when opening Rows GUI : {}", e1);
+					}
+				}
+			});
+			wrapButton.addSelectionListener(new SelectionAdapter() {
+				@Override
+				public void widgetSelected(SelectionEvent e) {
+					rowsButton.setSelection(false);
+					columnsButton.setSelection(false);
+					try {
+						SOIWrappedColumnsGUI.main(args);
+					} catch (IOException e1) {
+						LOGGER.debug("IOException when opening wrapped collumns GUI : {}", e1);
+					}
+				}
+			});*/
+		}
+		else {
+			throw new IllegalArgumentException("The file is neither soc nor soi.");
 		}
 	}
 	
