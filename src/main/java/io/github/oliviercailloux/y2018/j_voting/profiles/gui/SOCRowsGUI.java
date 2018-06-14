@@ -21,49 +21,62 @@ public class SOCRowsGUI extends ProfileDefaultGUI {
 	
 	//TODO: change everything so that the GUI is the same as SOCColumnsGUI but Voters are rows and Alternatives are columns
 	
-	public static List<String> createColumns() {
+@Override
+	public List<String> createColumns() {
 		StrictProfile strictProfile = profileBuilder.createStrictProfile();//if profile get from file is SOC, create a StrictProfile from it
-
-		Iterable<Voter> allVoters = strictProfile.getAllVoters(); //get voters from profile
 		
 		int i = 0; 
 		
 		//COLUMNS
+		
 		List<String> titles = new ArrayList<>();
-		for(Voter v : allVoters){
-			titles.add("Voter " + v.getId());
+		titles.add("Voters");
+		for(int a=1;a<=strictProfile.getNbAlternatives();a++ ){
+			titles.add("Alternative " + a);
 			i++;
 		}
 		for (i = 0 ; i < titles.size() ; i++) {
 			TableColumn column = new TableColumn (table, SWT.NONE);
 			column.setText(titles.get(i));
 		}
-		
+
 		return titles;
 	}
 
-	public static void populateRows() {
+
+	
+@Override
+	public void populateRows() {
 		//ROWS
 		StrictProfile strictProfile = profileBuilder.createStrictProfile();
-		List<String> alternatives = new ArrayList<>();
+		
+		Iterable<Voter> allVoters = strictProfile.getAllVoters(); //get voters from profile
 		
 		int nbAlternatives = strictProfile.getNbAlternatives();
 
-		for(int i = 0 ; i < nbAlternatives ; i++){
-			List <Alternative> ithAlternatives = strictProfile.getIthAlternatives(i); // get ith alternative of each voter
-			for(Alternative alt : ithAlternatives) {
-				alternatives.add(alt.toString()); // convert alternatives in the list to strings
+		List<String> line  = new ArrayList<>();
+		for(Voter v : allVoters){
+
+			line.add("Voter " + v.getId());
+			Preference pref = strictProfile.getPreference(v);
+			Iterable<Alternative> allPref = Preference.toAlternativeSet(pref.getPreferencesNonStrict());
+			for(Alternative a : allPref){
+				System.out.println(a);
+				line.add(a.toString());
 			}
 
 			TableItem item = new TableItem (table, SWT.NONE);
-			item.setText(alternatives.toArray(new String[nbAlternatives]));	// create a row with ith alternatives
-			alternatives.clear(); // empty the list
+			item.setText(line.toArray(new String[nbAlternatives+1]));	// create a row with ith alternatives
+			line.clear(); // empty the list
+
 		}
+		
 	}
 
 	public static void main (String [] args) throws IOException {
 		LOGGER.debug("Main");
-		profileBuilder = tableDisplay(args);
+		SOCRowsGUI socRows = new SOCRowsGUI();
+		profileBuilder = socRows.tableDisplay(args);
 	}
 
 }

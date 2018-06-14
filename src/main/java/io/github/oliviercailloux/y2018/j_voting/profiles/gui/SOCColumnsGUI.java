@@ -19,11 +19,7 @@ import io.github.oliviercailloux.y2018.j_voting.profiles.management.*;
 public class SOCColumnsGUI extends ProfileDefaultGUI{
 	private static final Logger LOGGER = LoggerFactory.getLogger(SOCColumnsGUI.class.getName());
 	
-	/**
-	 * @return a list of Strings : the text to put in the columns titles (here the Voters)
-	 */
-	public static List<String> createColumns() {
-		LOGGER.debug("createColumns :");
+	public List<String> createColumns() {
 		StrictProfile strictProfile = profileBuilder.createStrictProfile();//if profile get from file is SOC, create a StrictProfile from it
 
 		Iterable<Voter> allVoters = strictProfile.getAllVoters(); //get voters from profile
@@ -41,14 +37,11 @@ public class SOCColumnsGUI extends ProfileDefaultGUI{
 			column.setText(titles.get(i));
 		}
 		
+		
 		return titles;
 	}
 
-	/**
-	 * Populate rows with the right data (here each row i is each ith alternative)
-	 */
-	public static void populateRows() {
-		LOGGER.debug("populateRows :");
+	public void populateRows() {
 		//ROWS
 		StrictProfile strictProfile = profileBuilder.createStrictProfile();
 		List<String> alternatives = new ArrayList<>();
@@ -69,7 +62,8 @@ public class SOCColumnsGUI extends ProfileDefaultGUI{
 
 	public static void main (String [] args) throws IOException {
 		LOGGER.debug("Main");
-		profileBuilder = tableDisplay(args);
+		SOCColumnsGUI socColumns = new SOCColumnsGUI();
+		profileBuilder = socColumns.tableDisplay(args);
 	}
 
 }

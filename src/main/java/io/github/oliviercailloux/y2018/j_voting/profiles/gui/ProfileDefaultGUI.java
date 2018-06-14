@@ -33,7 +33,7 @@ public class ProfileDefaultGUI {
 	 * @return the profile builder made from the profile
 	 * @throws IOException
 	 */
-	public static ProfileBuilder tableDisplay(String[] args) throws IOException {
+	public ProfileBuilder tableDisplay(String[] args) throws IOException {
 		LOGGER.debug("tableDisplay");
 		Preconditions.checkNotNull(args[0]);
 
@@ -89,7 +89,7 @@ public class ProfileDefaultGUI {
 	 * 
 	 * @return a list of strings, each one represents a voter.
 	 */
-	public static List<String> createColumns() {
+	public List<String> createColumns() {
 		StrictProfileI strictProfile = profileBuilder.createStrictProfileI();//if profile get from file is SOC, create a StrictProfile from it
 		Iterable<Voter> allVoters = strictProfile.getAllVoters(); //get voters from profile
 		int i = 0; 
@@ -109,7 +109,7 @@ public class ProfileDefaultGUI {
 	/**
 	 * Fills the table of the profile with the alternatives : each column contains the preference of a voter
 	 */
-	public static void populateRows() {
+	public void populateRows() {
 		//ROWS
 		StrictProfileI strictProfile = profileBuilder.createStrictProfileI();
 		List<String> alternatives = new ArrayList<>();
@@ -127,7 +127,7 @@ public class ProfileDefaultGUI {
 	 * Displays the edit window, where you can choose to modify/add a StrictPreference of a voter
 	 * @param arg
 	 */
-	public static void editStrictPreference(String arg) {
+	public void editStrictPreference(String arg) {
 		LOGGER.debug("editPreference");
 		Preconditions.checkNotNull(arg);
 		final Shell modalShell = new Shell(display, SWT.TITLE | SWT.BORDER | SWT.APPLICATION_MODAL | SWT.CLOSE);
@@ -226,7 +226,7 @@ public class ProfileDefaultGUI {
 	 * Saves the changes to the file containing the profile.
 	 * @param outputFile
 	 */
-	public static void save(String outputFile) {
+	public void save(String outputFile) {
 		LOGGER.debug("save");
 		File file = new File(outputFile);
 		try(OutputStream outputStream = new FileOutputStream(file)){
@@ -248,7 +248,8 @@ public class ProfileDefaultGUI {
 
 	public static void main (String [] args) throws IOException {
 		LOGGER.debug("Main");
-		profileBuilder = tableDisplay(args);
+		ProfileDefaultGUI profileDefault = new ProfileDefaultGUI();
+		profileBuilder = profileDefault.tableDisplay(args);
 	}
 
 }
