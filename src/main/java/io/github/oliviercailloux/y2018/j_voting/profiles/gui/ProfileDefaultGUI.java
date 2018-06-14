@@ -229,7 +229,7 @@ public class ProfileDefaultGUI {
 
 	/**
 	 * Displays the edit window, where you can choose to modify/add a StrictPreference of a voter
-	 * @param arg
+	 * @param arg not <code>null</code>
 	 */
 	public void editStrictPreference(String arg) {
 		LOGGER.debug("editPreference :");

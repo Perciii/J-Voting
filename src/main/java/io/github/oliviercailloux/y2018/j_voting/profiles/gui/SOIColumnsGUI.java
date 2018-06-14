@@ -60,7 +60,6 @@ public class SOIColumnsGUI extends ProfileDefaultGUI {
 	}
 
 	public static void main (String [] args) throws IOException {
-		LOGGER.debug("Main");
 		SOIColumnsGUI soiColumns = new SOIColumnsGUI();
 		profileBuilder = soiColumns.tableDisplay(args);
 	}
