@@ -76,7 +76,6 @@ public class ProfileDefaultGUI {
 				}
 			});
 			
-			mainShell.setSize(300, 300);
 			mainShell.setText("Edit Profile");
 			mainShell.pack();
 			mainShell.open();
