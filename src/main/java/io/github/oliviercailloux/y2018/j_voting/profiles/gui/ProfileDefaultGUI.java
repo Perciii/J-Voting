@@ -17,7 +17,7 @@ import io.github.oliviercailloux.y2018.j_voting.profiles.*;
 import io.github.oliviercailloux.y2018.j_voting.profiles.management.*;
 
 /**
- * Generalization of profilesdiplaying GUIs
+ * Generalization of profile displaying GUIs
  */
 public class ProfileDefaultGUI {
 	private static final Logger LOGGER = LoggerFactory.getLogger(ProfileDefaultGUI.class.getName());
@@ -31,7 +31,6 @@ public class ProfileDefaultGUI {
 	protected Integer voterToModify = null;
 	protected StrictPreference newpref;
 	protected static ProfileBuilder profileBuilder;
-	protected boolean modif = false;
 	
 	/**
 	 * Displays the profile with the edit button
@@ -267,7 +266,6 @@ public class ProfileDefaultGUI {
 				try {
 					voterToModify = Integer.parseInt(text.getText());
 					save.setEnabled(true);
-					modif = true;
 				} catch (IllegalArgumentException iae) {
 					LOGGER.debug("Illegal Argument Exception : " + iae);
 					save.setEnabled(false);
