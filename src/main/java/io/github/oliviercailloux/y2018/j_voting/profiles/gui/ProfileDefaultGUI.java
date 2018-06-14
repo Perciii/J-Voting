@@ -59,13 +59,13 @@ public class ProfileDefaultGUI {
 				data.heightHint = 300;
 				data.widthHint = 1000;
 				table.setLayoutData(data);
-
+				
 				displayRadioButtons(args);
-				
+	
 				createColumns();
-				
+		
 				populateRows();
-				
+			
 				List<String> columnTitles = createColumns();
 				
 				for (int i = 0 ; i < columnTitles.size() ; i++) {
@@ -160,7 +160,7 @@ public class ProfileDefaultGUI {
 					}
 				}
 			});
-			/*rowsButton.addSelectionListener(new SelectionAdapter() {
+			rowsButton.addSelectionListener(new SelectionAdapter() {
 				@Override
 				public void widgetSelected(SelectionEvent e) {
 					columnsButton.setSelection(false);
@@ -172,7 +172,7 @@ public class ProfileDefaultGUI {
 					}
 				}
 			});
-			wrapButton.addSelectionListener(new SelectionAdapter() {
+			/*wrapButton.addSelectionListener(new SelectionAdapter() {
 				@Override
 				public void widgetSelected(SelectionEvent e) {
 					rowsButton.setSelection(false);

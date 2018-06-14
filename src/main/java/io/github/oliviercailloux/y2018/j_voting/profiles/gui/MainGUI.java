@@ -22,6 +22,7 @@ public class MainGUI {
 	private final static Button columnsGUI = new Button (mainShell, SWT.PUSH);
 	private final static Button columnsSOIGUI = new Button (mainShell, SWT.PUSH);
 	private final static Button rowsGUI = new Button (mainShell, SWT.PUSH);
+	private final static Button rowsSOIGUI = new Button (mainShell, SWT.PUSH);
 	private final static Button wrappedColumnsGUI = new Button (mainShell, SWT.PUSH);
 	
 	protected static String fileToRead = "";
@@ -49,6 +50,7 @@ public class MainGUI {
 		rowsGUI.setText("Rows : Voters");
 		wrappedColumnsGUI.setText("Columns : Voters wrapped");
 		columnsSOIGUI.setText("SOI - Columns : Voters");
+		rowsSOIGUI.setText("SOI - Rows : Voters");
 		
 		GridData gridData = new GridData(GridData.CENTER, GridData.CENTER, true, false);
 		gridData.horizontalSpan = 3;
@@ -74,6 +76,10 @@ public class MainGUI {
 		gridData = new GridData(GridData.CENTER, GridData.CENTER, true, false);
 		gridData.horizontalSpan = 1;
 		columnsSOIGUI.setLayoutData(gridData);
+		
+		gridData = new GridData(GridData.CENTER, GridData.CENTER, true, false);
+		gridData.horizontalSpan = 1;
+		rowsSOIGUI.setLayoutData(gridData);
 		
 		if(fileToRead == "") {
 			mainShell.setText("Profile editing - No profile loaded");
@@ -149,6 +155,17 @@ public class MainGUI {
 					SOCRowsGUI.main(profileToRead);
 				} catch (IOException ioe) {
 					LOGGER.debug("IOException when opening Rows GUI : {}", ioe);
+				}
+			}
+		});
+		
+		rowsSOIGUI.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				try {
+					SOIRowsGUI.main(profileToRead);
+				} catch (IOException ioe) {
+					LOGGER.debug("IOException when opening Columns GUI : {}", ioe);
 				}
 			}
 		});
