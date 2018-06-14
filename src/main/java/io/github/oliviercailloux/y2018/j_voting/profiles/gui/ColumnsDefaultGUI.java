@@ -1,64 +1,72 @@
 package io.github.oliviercailloux.y2018.j_voting.profiles.gui;
 
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.jface.layout.TreeColumnLayout;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.google.common.base.Preconditions;
+
 import io.github.oliviercailloux.y2018.j_voting.Voter;
+import io.github.oliviercailloux.y2018.j_voting.profiles.ProfileI;
 import io.github.oliviercailloux.y2018.j_voting.profiles.StrictProfile;
 import io.github.oliviercailloux.y2018.j_voting.profiles.management.ProfileBuilder;
+import io.github.oliviercailloux.y2018.j_voting.profiles.management.ReadProfile;
 
+/**
+ * This class will be used as a generalization of Columns GUI
+ * It implements a GUI as a Tree to allow dragging and dropping items inside itself
+ */
 public class ColumnsDefaultGUI extends ProfileDefaultGUI{
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(ColumnsDefaultGUI.class.getName());
-	static TreeItem itemBeingDragged;
+	protected static TreeItem itemBeingDragged;
+	protected Tree tree = new Tree(mainShell, SWT.NONE);
+	protected int nbColumns = 0;
 	
 	@Override
-	public List<String> createColumns() {
-		LOGGER.debug("createColumns :");
-		StrictProfile strictProfile = profileBuilder.createStrictProfile();//if profile get from file is SOC, create a StrictProfile from it
-
-		Iterable<Voter> allVoters = strictProfile.getAllVoters(); //get voters from profile
+	public ProfileBuilder tableDisplay(String[] args) throws IOException {
+		LOGGER.debug("tableDisplay :");
+		Preconditions.checkNotNull(args[0]);
 		
-		int i = 0; 
-		
-		//COLUMNS
-		List<String> titles = new ArrayList<>();
-		for(Voter v : allVoters){
-			titles.add("Voter " + v.getId());
-			i++;
+		String arg = args[0];//arg is the file path
+		ReadProfile rp = new ReadProfile();
+		try(FileInputStream is = new FileInputStream(arg)){
+			ProfileI profileI = rp.createProfileFromStream(is);
+			profileBuilder = new ProfileBuilder(profileI);
+			
+			//table (tree) layout handling
+			mainShell.setLayout(new TreeColumnLayout());
+			tree.setLinesVisible(true);
+			tree.setHeaderVisible(true);
+			
+			List<String> columnTitles = createColumns();
+			nbColumns = columnTitles.size();
+			
+			for (int i = 0 ; i < nbColumns ; i++) {
+				tree.getColumn(i).pack(); // resize automatically the column
+			}
+			
+			populateRows();
+			handleDragAndDrop();
+			
+			mainShell.open();
+			while (!display.isDisposed()) {
+				if (!display.readAndDispatch()) display.sleep();
+			}
+			
+			return profileBuilder; // return profileBuilder containing the profile get in the read file
 		}
-		for (i = 0 ; i < titles.size() ; i++) {
-			TableColumn column = new TableColumn (table, SWT.NONE);
-			column.setText(titles.get(i));
-		}
-		
-		
-		return titles;
 	}
 	
-	public ProfileBuilder tableDisplay(String[] args) throws IOException {
-		final Display display = new Display ();
-		
-		Shell shell = new Shell (display);
-		shell.setBounds (10,10,400,400);
-		
-		final Tree tree = new Tree(shell, SWT.NONE);
-		tree.setBounds(10,10,350,350);
-		tree.setHeaderVisible(true);
-		
-		ColumnsDefaultGUI cdg = new ColumnsDefaultGUI();
-		cdg.createColumns();
-		cdg.populateRows();
-		
-		
-		
+	public void handleDragAndDrop() {
 		tree.addListener(SWT.DragDetect, new Listener() {
 			@Override
 			public void handleEvent(Event event) {
@@ -95,7 +103,7 @@ public class ColumnsDefaultGUI extends ProfileDefaultGUI{
 					}
 					if (index != -1) { /* always true in this trivial example */
 						TreeItem newItem = new TreeItem(tree, SWT.NONE, index);
-						for (int i = 0; i < COLUMNCOUNT; i++) {
+						for (int i = 0; i < nbColumns; i++) {
 							newItem.setText(i, itemBeingDragged.getText(i));
 						}
 						itemBeingDragged.dispose();
@@ -106,11 +114,30 @@ public class ColumnsDefaultGUI extends ProfileDefaultGUI{
 				itemBeingDragged = null;
 			}
 		});
-		shell.open();
-		while (!shell.isDisposed()) {
-		if (!display.readAndDispatch()) display.sleep();
+	}
+	
+	@Override
+	public List<String> createColumns() {
+		LOGGER.debug("createColumns :");
+		StrictProfile strictProfile = profileBuilder.createStrictProfile();//if profile get from file is SOC, create a StrictProfile from it
+
+		Iterable<Voter> allVoters = strictProfile.getAllVoters(); //get voters from profile
+		
+		int i = 0; 
+		
+		//COLUMNS
+		List<String> titles = new ArrayList<>();
+		for(Voter v : allVoters){
+			titles.add("Voter " + v.getId());
+			i++;
 		}
-		display.dispose ();
+		for (i = 0 ; i < titles.size() ; i++) {
+			TreeColumn column = new TreeColumn (tree, SWT.NONE);
+			column.setText(titles.get(i));
+		}
+		
+		
+		return titles;
 	}
 
 }
