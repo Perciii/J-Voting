@@ -231,7 +231,7 @@ public class ProfileDefaultGUI {
 		File file = new File(outputFile);
 		try(OutputStream outputStream = new FileOutputStream(file)){
 			String fileExtension = file.toString().substring(file.toString().length() - 3);
-			if(fileExtension == "soc") {
+			if(fileExtension.equals("soc")) {
 				StrictProfile sp = profileBuilder.createStrictProfile();
 				sp.writeToSOC(outputStream);
 			} else { //fileExtension == "soi"
