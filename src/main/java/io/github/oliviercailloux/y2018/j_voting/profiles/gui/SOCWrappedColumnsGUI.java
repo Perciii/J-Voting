@@ -22,6 +22,7 @@ public class SOCWrappedColumnsGUI extends ProfileDefaultGUI {
 	//TODO: change everything so that the GUI allows editing
 	
 	public List<String> createColumns() {
+		LOGGER.debug("createColumns :");
 		StrictProfile strictProfile = profileBuilder.createStrictProfile();//if profile get from file is SOC, create a StrictProfile from it
 		Set<Preference> uniquePreferences = strictProfile.getUniquePreferences();
 		
@@ -42,6 +43,7 @@ public class SOCWrappedColumnsGUI extends ProfileDefaultGUI {
 	}
 
 	public void populateRows() {
+		LOGGER.debug("populateRows :");
 		//ROWS
 		StrictProfile strictProfile = profileBuilder.createStrictProfile();
 		List<String> alternatives = new ArrayList<>();

@@ -26,7 +26,7 @@ public class MainGUI {
 	static String[] profileToRead = new String[1];
 	
 	public void displayGUI() {
-		
+		LOGGER.debug("displayGUI :");
 		GridLayout gridLayout = new GridLayout();
 		gridLayout.marginTop = 10;
 		gridLayout.verticalSpacing = 10;

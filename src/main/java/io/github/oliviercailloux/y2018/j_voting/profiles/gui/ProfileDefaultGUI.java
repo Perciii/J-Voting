@@ -90,6 +90,7 @@ public class ProfileDefaultGUI {
 	 * @return a list of strings, each one represents a voter.
 	 */
 	public List<String> createColumns() {
+		LOGGER.debug("createColumns :");
 		StrictProfileI strictProfile = profileBuilder.createStrictProfileI();//if profile get from file is SOC, create a StrictProfile from it
 		Iterable<Voter> allVoters = strictProfile.getAllVoters(); //get voters from profile
 		int i = 0; 
@@ -110,6 +111,7 @@ public class ProfileDefaultGUI {
 	 * Fills the table of the profile with the alternatives : each column contains the preference of a voter
 	 */
 	public void populateRows() {
+		LOGGER.debug("populateRowsSOI :");
 		//ROWS
 		StrictProfileI strictProfile = profileBuilder.createStrictProfileI();
 		List<String> alternatives = new ArrayList<>();
