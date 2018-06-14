@@ -228,10 +228,16 @@ public class ProfileDefaultGUI {
 	 */
 	public static void save(String outputFile) {
 		LOGGER.debug("save");
-		StrictProfileI sp = profileBuilder.createStrictProfileI();
 		File file = new File(outputFile);
 		try(OutputStream outputStream = new FileOutputStream(file)){
-			sp.writeToSOI(outputStream);
+			String fileExtension = file.toString().substring(file.toString().length() - 3);
+			if(fileExtension == "soc") {
+				StrictProfile sp = profileBuilder.createStrictProfile();
+				sp.writeToSOC(outputStream);
+			} else { //fileExtension == "soi"
+				StrictProfileI spi = profileBuilder.createStrictProfileI();
+				spi.writeToSOI(outputStream);
+			}
 		} catch (IOException ioe) {
 			MessageBox dialog = new MessageBox(mainShell, SWT.ICON_QUESTION | SWT.OK);
 			dialog.setText("IOException");
