@@ -21,6 +21,7 @@ public class SOCColumnsGUI extends ProfileDefaultGUI{
 	
 	@Override
 	public List<String> createColumns() {
+		LOGGER.debug("createColumns :");
 		StrictProfile strictProfile = profileBuilder.createStrictProfile();//if profile get from file is SOC, create a StrictProfile from it
 
 		Iterable<Voter> allVoters = strictProfile.getAllVoters(); //get voters from profile
@@ -44,6 +45,7 @@ public class SOCColumnsGUI extends ProfileDefaultGUI{
 
 	@Override
 	public void populateRows() {
+		LOGGER.debug("populateRows :");
 		//ROWS
 		StrictProfile strictProfile = profileBuilder.createStrictProfile();
 		List<String> alternatives = new ArrayList<>();

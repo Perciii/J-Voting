@@ -23,6 +23,7 @@ public class SOCRowsGUI extends ProfileDefaultGUI {
 	
 	@Override
 	public List<String> createColumns() {
+	LOGGER.debug("createColumns :");
 		StrictProfile strictProfile = profileBuilder.createStrictProfile();//if profile get from file is SOC, create a StrictProfile from it
 		
 		int i = 0; 
@@ -47,6 +48,7 @@ public class SOCRowsGUI extends ProfileDefaultGUI {
 	
 	@Override
 	public void populateRows() {
+	LOGGER.debug("populateRows :");
 		//ROWS
 		StrictProfile strictProfile = profileBuilder.createStrictProfile();
 		
