@@ -9,7 +9,9 @@ import org.eclipse.swt.widgets.*;
 import org.slf4j.*;
 import org.eclipse.swt.layout.*;
 
-
+/**
+ * Home GUI allowing to load a prrofile and then select how to display it
+ */
 public class MainGUI {
 	private static final Logger LOGGER = LoggerFactory.getLogger(MainGUI.class.getName());
 	

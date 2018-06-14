@@ -19,8 +19,6 @@ import io.github.oliviercailloux.y2018.j_voting.profiles.management.*;
 public class SOCRowsGUI extends ProfileDefaultGUI {
 	private static final Logger LOGGER = LoggerFactory.getLogger(SOCRowsGUI.class.getName());
 	
-	//TODO: change everything so that the GUI is the same as SOCColumnsGUI but Voters are rows and Alternatives are columns
-	
 	@Override
 	public List<String> createColumns() {
 	LOGGER.debug("createColumns :");
