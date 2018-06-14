@@ -19,8 +19,9 @@ import io.github.oliviercailloux.y2018.j_voting.profiles.management.*;
 public class SOCWrappedColumnsGUI extends ProfileDefaultGUI {
 	private static final Logger LOGGER = LoggerFactory.getLogger(SOCWrappedColumnsGUI.class.getName());
 	
-	//TODO: change everything so that the GUI allows editing
-	
+	/**
+	 * @return a list of Strings : the text to put in the columns titles (here the nb of Voters by preference)
+	 */
 	public static List<String> createColumns() {
 		LOGGER.debug("createColumns :");
 		StrictProfile strictProfile = profileBuilder.createStrictProfile();//if profile get from file is SOC, create a StrictProfile from it
@@ -42,6 +43,9 @@ public class SOCWrappedColumnsGUI extends ProfileDefaultGUI {
 		return titles;
 	}
 
+	/**
+	 * Populate rows with the right data (here each row i is each ith alternative)
+	 */
 	public static void populateRows() {
 		LOGGER.debug("populateRows :");
 		//ROWS

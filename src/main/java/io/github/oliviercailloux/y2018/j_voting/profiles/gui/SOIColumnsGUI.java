@@ -20,6 +20,9 @@ public class SOIColumnsGUI extends ProfileDefaultGUI {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(SOIColumnsGUI.class.getName());
 	
+	/**
+	 * @return a list of Strings : the text to put in the columns titles (here the Voters)
+	 */
 	public static List<String> createColumns() {
 		LOGGER.debug("createColumns :");
 		StrictProfileI strictProfile = profileBuilder.createStrictProfileI();//if profile get from file is SOI, create a StrictProfile from it
@@ -42,6 +45,9 @@ public class SOIColumnsGUI extends ProfileDefaultGUI {
 		return titles;
 	}
 
+	/**
+	 * Populate rows with the right data (here each row i is each ith alternative with blank cell i,j if ith alternative doesn't exist in preference j)
+	 */
 	public static void populateRowsSOI() {
 		LOGGER.debug("populateRowsSOI :");
 		//ROWS
