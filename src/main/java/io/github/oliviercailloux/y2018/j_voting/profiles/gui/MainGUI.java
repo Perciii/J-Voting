@@ -25,7 +25,11 @@ public class MainGUI {
 	static String fileToRead = "";
 	static String[] profileToRead = new String[1];
 	
+	/**
+	 * This method displays a first GUI allowing to load a profile and to select a button to display it
+	 */
 	public static void displayGUI() {
+		LOGGER.debug("displayGUI :");
 		
 		GridLayout gridLayout = new GridLayout();
 		gridLayout.marginTop = 10;

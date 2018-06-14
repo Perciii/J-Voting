@@ -21,7 +21,7 @@ public class SOIColumnsGUI extends ProfileDefaultGUI {
 	private static final Logger LOGGER = LoggerFactory.getLogger(SOIColumnsGUI.class.getName());
 	
 	public static List<String> createColumns() {
-		LOGGER.debug("createColumns");
+		LOGGER.debug("createColumns :");
 		StrictProfileI strictProfile = profileBuilder.createStrictProfileI();//if profile get from file is SOI, create a StrictProfile from it
 
 		Iterable<Voter> allVoters = strictProfile.getAllVoters(); //get voters from profile
@@ -43,7 +43,7 @@ public class SOIColumnsGUI extends ProfileDefaultGUI {
 	}
 
 	public static void populateRowsSOI() {
-		LOGGER.debug("populateRowsSOI");
+		LOGGER.debug("populateRowsSOI :");
 		//ROWS
 		StrictProfileI strictProfile = profileBuilder.createStrictProfileI();
 		List<String> alternatives = new ArrayList<>();
