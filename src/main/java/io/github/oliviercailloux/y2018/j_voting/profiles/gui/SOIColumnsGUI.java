@@ -20,6 +20,7 @@ public class SOIColumnsGUI extends ProfileDefaultGUI {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(SOIColumnsGUI.class.getName());
 	
+	@Override
 	public List<String> createColumns() {
 		LOGGER.debug("createColumns");
 		StrictProfileI strictProfile = profileBuilder.createStrictProfileI();//if profile get from file is SOI, create a StrictProfile from it
@@ -42,8 +43,9 @@ public class SOIColumnsGUI extends ProfileDefaultGUI {
 		return titles;
 	}
 
-	public void populateRowsSOI() {
-		LOGGER.debug("populateRowsSOI");
+	@Override
+	public void populateRows() {
+		LOGGER.debug("populateRows");
 		//ROWS
 		StrictProfileI strictProfile = profileBuilder.createStrictProfileI();
 		List<String> alternatives = new ArrayList<>();

@@ -19,6 +19,7 @@ import io.github.oliviercailloux.y2018.j_voting.profiles.management.*;
 public class SOCColumnsGUI extends ProfileDefaultGUI{
 	private static final Logger LOGGER = LoggerFactory.getLogger(SOCColumnsGUI.class.getName());
 	
+	@Override
 	public List<String> createColumns() {
 		LOGGER.debug("createColumns :");
 		StrictProfile strictProfile = profileBuilder.createStrictProfile();//if profile get from file is SOC, create a StrictProfile from it
@@ -42,6 +43,7 @@ public class SOCColumnsGUI extends ProfileDefaultGUI{
 		return titles;
 	}
 
+	@Override
 	public void populateRows() {
 		LOGGER.debug("populateRows :");
 		//ROWS
