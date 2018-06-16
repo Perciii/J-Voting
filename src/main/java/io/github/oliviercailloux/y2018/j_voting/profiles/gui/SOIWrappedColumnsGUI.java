@@ -42,6 +42,14 @@ public class SOIWrappedColumnsGUI extends ProfileDefaultGUI{
 	}
 
 	@Override
+	public void checkRadioButton() {
+		LOGGER.debug("checkRadioButtons");
+		columnsButton.setSelection(false);			
+		rowsButton.setSelection(false);		
+		wrapButton.setSelection(true);
+	}
+	
+	@Override
 	public void populateRows() {
 		LOGGER.debug("populateRows :");
 		//ROWS

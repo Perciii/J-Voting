@@ -94,22 +94,17 @@ public class ProfileDefaultGUI {
 	 */
 	public void displayRadioButtons(String[] args) {
 		LOGGER.debug("displayRadioButtons :");
-		columnsButton.setText("Columns");
-		columnsButton.setSelection(true);
-			
-		rowsButton.setText("Rows");
-		rowsButton.setSelection(false);
-		
+		columnsButton.setText("Columns");			
+		rowsButton.setText("Rows");		
 		wrapButton.setText("Wrapped");
-		wrapButton.setSelection(false);
 
+		checkRadioButton();
+		
 		String fileExtension = args[0].substring(args[0].length() - 3);
 		if(fileExtension.equals("soc")) {
 			columnsButton.addSelectionListener(new SelectionAdapter() {
 				@Override
 				public void widgetSelected(SelectionEvent e) {
-					rowsButton.setSelection(false);
-					wrapButton.setSelection(false);
 					try {
 						SOCColumnsGUI.main(args);
 					} catch (IOException e1) {
@@ -120,8 +115,6 @@ public class ProfileDefaultGUI {
 			rowsButton.addSelectionListener(new SelectionAdapter() {
 				@Override
 				public void widgetSelected(SelectionEvent e) {
-					columnsButton.setSelection(false);
-					wrapButton.setSelection(false);
 					try {
 						SOCRowsGUI.main(args);
 					} catch (IOException e1) {
@@ -132,8 +125,6 @@ public class ProfileDefaultGUI {
 			wrapButton.addSelectionListener(new SelectionAdapter() {
 				@Override
 				public void widgetSelected(SelectionEvent e) {
-					rowsButton.setSelection(false);
-					columnsButton.setSelection(false);
 					try {
 						SOCWrappedColumnsGUI.main(args);
 					} catch (IOException e1) {
@@ -146,8 +137,6 @@ public class ProfileDefaultGUI {
 			columnsButton.addSelectionListener(new SelectionAdapter() {
 				@Override
 				public void widgetSelected(SelectionEvent e) {
-					rowsButton.setSelection(false);
-					wrapButton.setSelection(false);
 					try {
 						SOIColumnsGUI.main(args);
 					} catch (IOException e1) {
@@ -158,8 +147,6 @@ public class ProfileDefaultGUI {
 			rowsButton.addSelectionListener(new SelectionAdapter() {
 				@Override
 				public void widgetSelected(SelectionEvent e) {
-					columnsButton.setSelection(false);
-					wrapButton.setSelection(false);
 					try {
 						SOIRowsGUI.main(args);
 					} catch (IOException e1) {
@@ -167,22 +154,30 @@ public class ProfileDefaultGUI {
 					}
 				}
 			});
-			/*wrapButton.addSelectionListener(new SelectionAdapter() {
+			wrapButton.addSelectionListener(new SelectionAdapter() {
 				@Override
 				public void widgetSelected(SelectionEvent e) {
-					rowsButton.setSelection(false);
-					columnsButton.setSelection(false);
 					try {
 						SOIWrappedColumnsGUI.main(args);
 					} catch (IOException e1) {
 						LOGGER.debug("IOException when opening wrapped columns GUI : {}", e1);
 					}
 				}
-			});*/
+			});
 		}
 		else {
 			throw new IllegalArgumentException("The file is neither soc nor soi.");
 		}
+	}
+	
+	/**
+	 * Checks the right radio button.
+	 */
+	public void checkRadioButton() {
+		LOGGER.debug("checkRadioButtons");
+		columnsButton.setSelection(true);			
+		rowsButton.setSelection(false);		
+		wrapButton.setSelection(false);
 	}
 	
 	/**

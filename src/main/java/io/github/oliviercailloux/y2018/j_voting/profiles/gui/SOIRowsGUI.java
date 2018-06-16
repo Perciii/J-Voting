@@ -43,7 +43,13 @@ public class SOIRowsGUI extends ProfileDefaultGUI  {
 		return titles;
 	}
 
-
+	@Override
+	public void checkRadioButton() {
+		LOGGER.debug("checkRadioButtons");
+		columnsButton.setSelection(false);			
+		rowsButton.setSelection(true);		
+		wrapButton.setSelection(false);
+	}
 	
 	@Override
 	public void populateRows() {

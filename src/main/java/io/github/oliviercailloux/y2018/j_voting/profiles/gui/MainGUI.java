@@ -15,15 +15,16 @@ import org.eclipse.swt.layout.*;
 public class MainGUI {
 	private static final Logger LOGGER = LoggerFactory.getLogger(MainGUI.class.getName());
 	
-	private final static Display display = Display.getDefault();
-	private final static Shell mainShell = new Shell (display, SWT.CLOSE);
-	private final static Label label = new Label(mainShell, SWT.CENTER);
-	private final static Button selectFileToRead = new Button (mainShell, SWT.PUSH);
-	private final static Button columnsGUI = new Button (mainShell, SWT.PUSH);
-	private final static Button columnsSOIGUI = new Button (mainShell, SWT.PUSH);
-	private final static Button rowsGUI = new Button (mainShell, SWT.PUSH);
-	private final static Button rowsSOIGUI = new Button (mainShell, SWT.PUSH);
-	private final static Button wrappedColumnsGUI = new Button (mainShell, SWT.PUSH);
+	protected final static Display display = Display.getDefault();
+	protected final static Shell mainShell = new Shell (display, SWT.CLOSE);
+	protected final static Label label = new Label(mainShell, SWT.CENTER);
+	protected final static Button selectFileToRead = new Button (mainShell, SWT.PUSH);
+	protected final static Button columnsGUI = new Button (mainShell, SWT.PUSH);
+	protected final static Button columnsSOIGUI = new Button (mainShell, SWT.PUSH);
+	protected final static Button rowsGUI = new Button (mainShell, SWT.PUSH);
+	protected final static Button rowsSOIGUI = new Button (mainShell, SWT.PUSH);
+	protected final static Button wrappedColumnsGUI = new Button (mainShell, SWT.PUSH);
+	protected final static Button wrappedSOIColumnsGUI = new Button (mainShell, SWT.PUSH);
 	
 	protected static String fileToRead = "";
 	protected static String[] profileToRead = new String[1];
@@ -40,7 +41,6 @@ public class MainGUI {
 		FileDialog fileChooser = new FileDialog(mainShell, SWT.OPEN);
 		fileChooser.setFilterExtensions(new String [] {"*.soc", "*.soi"});
 		
-		
 		Font boldFont = new Font( label.getDisplay(), new FontData( "Arial", 20, SWT.BOLD ));
 		label.setFont(boldFont);
 		
@@ -51,6 +51,7 @@ public class MainGUI {
 		wrappedColumnsGUI.setText("Columns : Voters wrapped");
 		columnsSOIGUI.setText("SOI - Columns : Voters");
 		rowsSOIGUI.setText("SOI - Rows : Voters");
+		wrappedSOIColumnsGUI.setText("SOI - Columns : Voters wrapped");
 		
 		GridData gridData = new GridData(GridData.CENTER, GridData.CENTER, true, false);
 		gridData.horizontalSpan = 3;
@@ -80,6 +81,10 @@ public class MainGUI {
 		gridData = new GridData(GridData.CENTER, GridData.CENTER, true, false);
 		gridData.horizontalSpan = 1;
 		rowsSOIGUI.setLayoutData(gridData);
+
+		gridData = new GridData(GridData.CENTER, GridData.CENTER, true, false);
+		gridData.horizontalSpan = 1;
+		wrappedSOIColumnsGUI.setLayoutData(gridData);	
 		
 		if(fileToRead == "") {
 			mainShell.setText("Profile editing - No profile loaded");
@@ -165,7 +170,7 @@ public class MainGUI {
 				try {
 					SOIRowsGUI.main(profileToRead);
 				} catch (IOException ioe) {
-					LOGGER.debug("IOException when opening Columns GUI : {}", ioe);
+					LOGGER.debug("IOException when opening rows GUI : {}", ioe);
 				}
 			}
 		});
@@ -176,7 +181,18 @@ public class MainGUI {
 				try {
 					SOCWrappedColumnsGUI.main(profileToRead);
 				} catch (IOException ioe) {
-					LOGGER.debug("IOException when opening Rows GUI : {}", ioe);
+					LOGGER.debug("IOException when opening wrapped GUI : {}", ioe);
+				}
+			}
+		});
+		
+		wrappedSOIColumnsGUI.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				try {
+					SOIWrappedColumnsGUI.main(profileToRead);
+				} catch (IOException ioe) {
+					LOGGER.debug("IOException when opening wrapped GUI : {}", ioe);
 				}
 			}
 		});

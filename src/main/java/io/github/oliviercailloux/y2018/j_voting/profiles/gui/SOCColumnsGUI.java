@@ -42,7 +42,7 @@ public class SOCColumnsGUI extends ProfileDefaultGUI{
 		
 		return titles;
 	}
-
+	
 	@Override
 	public void populateRows() {
 		LOGGER.debug("populateRows :");
