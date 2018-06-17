@@ -14,7 +14,7 @@ import org.slf4j.LoggerFactory;
 import io.github.oliviercailloux.y2018.j_voting.*;
 import io.github.oliviercailloux.y2018.j_voting.profiles.*;
 
-public class SOIWrappedColumnsGUI extends ProfileDefaultGUI{
+public class SOIWrappedColumnsGUI extends ColumnsDefaultGUI{
 	private static final Logger LOGGER = LoggerFactory.getLogger(SOIWrappedColumnsGUI.class.getName());
 	
 	//TODO: change everything so that the GUI allows editing

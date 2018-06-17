@@ -16,7 +16,7 @@ import io.github.oliviercailloux.y2018.j_voting.*;
 import io.github.oliviercailloux.y2018.j_voting.profiles.*;
 import io.github.oliviercailloux.y2018.j_voting.profiles.management.*;
 
-public class SOCColumnsGUI extends ProfileDefaultGUI{
+public class SOCColumnsGUI extends ColumnsDefaultGUI{
 	private static final Logger LOGGER = LoggerFactory.getLogger(SOCColumnsGUI.class.getName());
 	
 	@Override

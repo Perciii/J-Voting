@@ -4,6 +4,9 @@ import java.io.*;
 import java.util.*;
 import java.util.List;
 
+import javax.swing.text.TableView;
+
+import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.swt.*;
 import org.eclipse.swt.events.*;
 import org.eclipse.swt.layout.*;
@@ -28,7 +31,8 @@ public class ProfileDefaultGUI {
 	protected Button rowsButton = new Button(mainShell, SWT.RADIO);
 	protected Button wrapButton = new Button(mainShell, SWT.RADIO);
 	protected Button edit = new Button(mainShell, SWT.PUSH);
-	protected Table table = new Table (mainShell, SWT.MULTI | SWT.BORDER | SWT.FULL_SELECTION);
+	protected TableViewer tableViewer = new TableViewer(mainShell, SWT.MULTI | SWT.BORDER | SWT.FULL_SELECTION);
+	protected Table table = tableViewer.getTable();
 	protected Integer voterToModify = null;
 	protected StrictPreference newpref;
 	protected static ProfileBuilder profileBuilder;

@@ -16,7 +16,7 @@ import io.github.oliviercailloux.y2018.j_voting.*;
 import io.github.oliviercailloux.y2018.j_voting.profiles.*;
 import io.github.oliviercailloux.y2018.j_voting.profiles.management.*;
 
-public class SOCWrappedColumnsGUI extends ProfileDefaultGUI {
+public class SOCWrappedColumnsGUI extends ColumnsDefaultGUI {
 	private static final Logger LOGGER = LoggerFactory.getLogger(SOCWrappedColumnsGUI.class.getName());
 	
 	//TODO: change everything so that the GUI allows editing
