@@ -103,9 +103,7 @@ public class ColumnsDefaultGUI extends ProfileDefaultGUI{
 					}
 					if (index != -1) { /* always true in this trivial example */
 						TreeItem newItem = new TreeItem(tree, SWT.NONE, index);
-						for (int i = 0; i < nbColumns; i++) {
-							newItem.setText(i, itemBeingDragged.getText(i));
-						}
+						newItem.setText(itemBeingDragged.getText());
 						itemBeingDragged.dispose();
 						tree.setSelection(new TreeItem[] {newItem});
 					}
