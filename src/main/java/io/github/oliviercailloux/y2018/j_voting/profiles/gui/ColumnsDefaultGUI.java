@@ -16,6 +16,7 @@ import org.eclipse.swt.graphics.*;
 import org.slf4j.*;
 
 import com.google.common.base.Preconditions;
+import com.google.common.collect.Iterables;
 
 import io.github.oliviercailloux.y2018.j_voting.*;
 import io.github.oliviercailloux.y2018.j_voting.profiles.*;
@@ -27,6 +28,8 @@ import io.github.oliviercailloux.y2018.j_voting.profiles.management.*;
 public class ColumnsDefaultGUI extends ProfileDefaultGUI {
 	private static final Logger LOGGER = LoggerFactory.getLogger(ColumnsDefaultGUI.class.getName());
 
+	protected Button save = new Button(mainShell, SWT.PUSH);
+	
 	protected int sourceX = 0;
 	protected int sourceY = 0;
 	protected ViewerCell cellBeingDragged = tableViewer.getCell(new Point(sourceX, sourceY));
@@ -70,11 +73,11 @@ public class ColumnsDefaultGUI extends ProfileDefaultGUI {
 				table.getColumn(i).pack(); // resize automatically the column
 			}
 			
-			edit.setText("Edit");
-			edit.addSelectionListener(new SelectionAdapter() {
+			save.setText("Save");
+			save.addSelectionListener(new SelectionAdapter() {
 				@Override
 				public void widgetSelected(SelectionEvent e) {
-					editStrictPreference(arg); //open edit modal
+					save(arg);
 				}
 			});
 			
@@ -122,9 +125,51 @@ public class ColumnsDefaultGUI extends ProfileDefaultGUI {
 						cellBeingDragged.setText(destinationCellText);
 					}
 				}
-				cellBeingDragged = null;
+				//cellBeingDragged = null;
 			}
 		});
+	}
+	
+	/**
+	 * Saves the changes to the file containing the profile.
+	 * @param outputFile
+	 */
+	@Override
+	public void save(String outputFile) {
+		LOGGER.debug("save :");
+		Preconditions.checkNotNull(outputFile);
+		File file = new File(outputFile);
+		
+		//soc tests etc
+		
+		voterToModify = cellBeingDragged.getColumnIndex()+1;
+		String newPrefString = table.getItem(0).getText(voterToModify);
+		for(TableItem item : Iterables.skip(Arrays.asList(table.getItems()), 1)) {
+			newPrefString += "," + item.getText(voterToModify);
+		}
+		
+		
+		Voter voter = new Voter(voterToModify);
+		StrictPreference newPref = new ReadProfile().createStrictPreferenceFrom(newPrefString);
+		LOGGER.debug("New preference for voter v {} : {}", voter ,  newPref);
+		profileBuilder.addVote(new Voter(voterToModify), newPref);// change preference for this Voter in global ProfileBuilder
+	
+		
+		try(OutputStream outputStream = new FileOutputStream(file)){
+			String fileExtension = file.toString().substring(file.toString().length() - 3);
+			if(fileExtension.equals("soc")) {
+				StrictProfile sp = profileBuilder.createStrictProfile();
+				sp.writeToSOC(outputStream);
+			} else { //fileExtension == "soi"
+				StrictProfileI spi = profileBuilder.createStrictProfileI();
+				spi.writeToSOI(outputStream);
+			}
+		} catch (IOException ioe) {
+			MessageBox dialog = new MessageBox(mainShell, SWT.ICON_QUESTION | SWT.OK);
+			dialog.setText("IOException");
+			dialog.setMessage("Error when opening Stream : " + ioe);
+			dialog.open();
+		}
 	}
 }
 

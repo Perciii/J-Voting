@@ -159,14 +159,14 @@ public class ReadProfile {
 	
 	/**
 	 * 
-	 * @param s1 not <code>null</null>
+	 * @param stringPreference not <code>null</null>
 	 * @return the strictPreference in the string. The string only contains the alternatives.
 	 */
-	public StrictPreference getPreferences(String s1){
+	public StrictPreference createStrictPreferenceFrom(String stringPreference){
 		LOGGER.debug("GetPreferences");
-		Preconditions.checkNotNull(s1);
-		LOGGER.debug("parameters : s1 {}",s1);
-		String[] s2 = s1.split(",");
+		Preconditions.checkNotNull(stringPreference);
+		LOGGER.debug("parameters : s1 {}",stringPreference);
+		String[] s2 = stringPreference.split(",");
 		List<Alternative> pref = new ArrayList<>();
 		for(String strAlt : s2){
 			Alternative alter = new Alternative(Integer.parseInt(strAlt.trim()));

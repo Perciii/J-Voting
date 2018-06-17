@@ -26,17 +26,14 @@ public class SOCColumnsGUI extends ColumnsDefaultGUI{
 
 		Iterable<Voter> allVoters = strictProfile.getAllVoters(); //get voters from profile
 		
-		int i = 0; 
-		
 		//COLUMNS
 		List<String> titles = new ArrayList<>();
 		for(Voter v : allVoters){
 			titles.add("Voter " + v.getId());
-			i++;
 		}
-		for (i = 0 ; i < titles.size() ; i++) {
+		for (String title : titles) {
 			TableColumn column = new TableColumn (table, SWT.NONE);
-			column.setText(titles.get(i));
+			column.setText(title);
 		}
 		
 		

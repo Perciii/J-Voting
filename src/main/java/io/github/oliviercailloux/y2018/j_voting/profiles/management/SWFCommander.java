@@ -29,7 +29,7 @@ public class SWFCommander{
         	if(vote.isEmpty()){
         		throw new IOException("empty Preference entered !");
         	}
-        	return new ReadProfile().getPreferences(vote);
+        	return new ReadProfile().createStrictPreferenceFrom(vote);
         }
     }   
     

@@ -272,7 +272,7 @@ public class ProfileDefaultGUI {
 			@Override
 			public void handleEvent(Event event) {
 				try {
-					newpref = new ReadProfile().getPreferences(textPref.getText());
+					newpref = new ReadProfile().createStrictPreferenceFrom(textPref.getText());
 					save.setEnabled(true);
 				} catch (IllegalArgumentException iae) {
 					LOGGER.debug("Illegal Argument Exception : {} ", iae);
@@ -328,6 +328,7 @@ public class ProfileDefaultGUI {
 	 */
 	public void save(String outputFile) {
 		LOGGER.debug("save :");
+		Preconditions.checkNotNull(outputFile);
 		File file = new File(outputFile);
 		try(OutputStream outputStream = new FileOutputStream(file)){
 			String fileExtension = file.toString().substring(file.toString().length() - 3);
