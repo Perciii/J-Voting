@@ -8,6 +8,7 @@ import javax.swing.text.TableView;
 
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.ViewerCell;
+import org.eclipse.jface.viewers.ViewerRow;
 import org.eclipse.swt.*;
 import org.eclipse.swt.events.*;
 import org.eclipse.swt.layout.*;
@@ -32,7 +33,7 @@ public class ColumnsDefaultGUI extends ProfileDefaultGUI {
 	
 	protected int sourceX = 0;
 	protected int sourceY = 0;
-	protected ViewerCell cellBeingDragged = tableViewer.getCell(new Point(sourceX, sourceY));
+	protected ViewerCell cellBeingDragged = tableViewer.getCell(new Point(0, 0));
 	protected int destinationX = 0;
 	protected int destinationY = 0;
 	
@@ -95,10 +96,10 @@ public class ColumnsDefaultGUI extends ProfileDefaultGUI {
 	
 	
 	public void handleDragAndDrop() {
-		table.addListener(SWT.DragDetect, new Listener() {
+		LOGGER.debug("handleDragAndDrop :");
+		table.addListener(SWT.MouseDown, new Listener() {
 			@Override
 			public void handleEvent(Event event) {
-				//TreeItem item = tree.getItem(new Point(event.x, event.y));
 				ViewerCell viewerCell = tableViewer.getCell(new Point(event.x,event.y));
 				sourceX = event.x;
 				sourceY = event.y;
@@ -119,13 +120,29 @@ public class ColumnsDefaultGUI extends ProfileDefaultGUI {
 				        messageBox.setText("Warning");
 				        messageBox.setMessage("You can't move alternatives between voters !");
 				        messageBox.open();
-					} else {
-						String destinationCellText = destinationCell.getText();
-						destinationCell.setText(cellBeingDragged.getText());
-						cellBeingDragged.setText(destinationCellText);
+				        
+					} else {//if moving cell within the same column
+						ViewerCell currentCell = tableViewer.getCell(new Point(sourceX, sourceY));
+						String cellBeingDraggedText = cellBeingDragged.getText();
+						
+						if(cellBeingDragged.getBounds().y < destinationCell.getBounds().y) {//if source is over destination in the table
+							while(currentCell.getBounds().y != destinationCell.getBounds().y) {
+								LOGGER.debug("Current cell : {} replaced by {}", currentCell.getText(), currentCell.getNeighbor(ViewerCell.BELOW, false).getText());
+								currentCell.setText(currentCell.getNeighbor(ViewerCell.BELOW, false).getText());
+								currentCell = currentCell.getNeighbor(ViewerCell.BELOW, false);
+							}
+							destinationCell.setText(cellBeingDraggedText);
+							
+						} else {//if source is underneath destination in the table
+							while(currentCell.getBounds().y != destinationCell.getBounds().y) {
+								LOGGER.debug("Current cell : {} replaced by {}", currentCell.getText(), currentCell.getNeighbor(ViewerCell.ABOVE, false).getText());
+								currentCell.setText(currentCell.getNeighbor(ViewerCell.ABOVE, false).getText());
+								currentCell = currentCell.getNeighbor(ViewerCell.ABOVE, false);
+							}
+							destinationCell.setText(cellBeingDraggedText);
+						}
 					}
 				}
-				//cellBeingDragged = null;
 			}
 		});
 	}
@@ -143,6 +160,7 @@ public class ColumnsDefaultGUI extends ProfileDefaultGUI {
 		//soc tests etc
 		
 		voterToModify = cellBeingDragged.getColumnIndex()+1;
+		
 		String newPrefString = table.getItem(0).getText(voterToModify);
 		for(TableItem item : Iterables.skip(Arrays.asList(table.getItems()), 1)) {
 			newPrefString += "," + item.getText(voterToModify);
