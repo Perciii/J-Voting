@@ -8,31 +8,6 @@ import java.util.*;
 import org.junit.Test;
 
 public class ReadProfileTest {
-/*
-	@Test
-	public void testGetAlternatives() {
-		ReadProfile rp = new ReadProfile();
-		List<String> file = new ArrayList<>();
-		file.add("1");
-		file.add("2");
-		file.add("3");
-		Alternative a1 = new Alternative(1);
-		Alternative a2 = new Alternative(2);
-		Alternative a3 = new Alternative(3);
-		List<Alternative> alternatives = new ArrayList<>();
-		alternatives.add(a1);
-		alternatives.add(a2);
-		alternatives.add(a3);
-		StrictPreference pref = new StrictPreference(alternatives);
-		assertTrue(pref.equals(rp.getAlternatives(file)));
-	}
-
-	@Test
-	public void testGetStatsVoters() {
-		ReadProfile rp = new ReadProfile();
-		String s = "4,4,3";
-		assertTrue(rp.getStatsVoters(s).get(0) == 4 && rp.getStatsVoters(s).get(1) == 4 && rp.getStatsVoters(s).get(2) == 3);
-	}*/
 
 	@Test
 	public void testGetPreferences() {
