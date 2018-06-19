@@ -63,7 +63,7 @@ public class ReadProfile {
 	 * @return a StrictProfile
 	 * @throws IOException
 	 */
-	public ProfileI createProfilefromURL(URL url) throws IOException{
+	public ProfileI createProfileFromURL(URL url) throws IOException{
 		LOGGER.debug("CreateProfileFromURL : ");
 		Preconditions.checkNotNull(url);
 		LOGGER.debug("parameter : URL = {}", url.toString());

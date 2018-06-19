@@ -118,4 +118,33 @@ public class ReadProfileTest {
 		assertEquals(profile.getPreference(v2), pref);
 		assertEquals(profile.getPreference(v3), pref2);
 	}
+	
+	@Test
+	public void testCreateProfileFromURL() throws IOException {
+		ReadProfile rp = new ReadProfile();
+		ProfileI profile = rp.createProfileFromURL(getClass().getResource("profileToRead.soc"));
+		Alternative a1 = new Alternative(1);
+		Alternative a2 = new Alternative(2);
+		Alternative a3 = new Alternative(3);
+		Voter v1 = new Voter(1);
+		Voter v2 = new Voter(2);
+		Voter v3 = new Voter(3);
+		List<Alternative> alternatives = new ArrayList<>();
+		alternatives.add(a1);
+		alternatives.add(a2);
+		alternatives.add(a3);
+		StrictPreference pref = new StrictPreference(alternatives);
+		List<Alternative> alternatives2 = new ArrayList<>();
+		alternatives2.add(a3);
+		alternatives2.add(a2);
+		alternatives2.add(a1);
+		StrictPreference pref2 = new StrictPreference(alternatives2);
+
+		assertTrue(profile.getProfile().containsKey(v1));
+		assertTrue(profile.getProfile().containsKey(v2));
+		assertTrue(profile.getProfile().containsKey(v3));
+		assertEquals(profile.getPreference(v1), pref);
+		assertEquals(profile.getPreference(v2), pref);
+		assertEquals(profile.getPreference(v3), pref2);
+	}
 }
