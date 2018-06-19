@@ -8,21 +8,21 @@ import io.github.oliviercailloux.y2018.j_voting.profiles.*;
 import java.util.*;
 
 /**
- * This class is immutable.
- * This class provides a result for an election that is necessarily the preference of the dictator (a Voter).
+ * This class is immutable. This class provides a result for an election that is
+ * necessarily the preference of the dictator (a Voter).
  */
-public class Dictator implements SocialWelfareFunction{
+public class Dictator implements SocialWelfareFunction {
 
 	private Voter dictator;
-	private static final Logger LOGGER = LoggerFactory.getLogger(Borda.class.getName());	
+	private static final Logger LOGGER = LoggerFactory.getLogger(Borda.class.getName());
 
-	public Dictator (Voter v){
+	public Dictator(Voter v) {
 		LOGGER.debug("Dictator");
 		Preconditions.checkNotNull(v);
 		dictator = v;
 	}
 
-	/***
+	/**
 	 * 
 	 * @param profile
 	 * @return the dictator's preference
@@ -38,8 +38,7 @@ public class Dictator implements SocialWelfareFunction{
 		return profile.getPreference(dictator);
 	}
 
-	
-	public Voter getDictator(){
+	public Voter getDictator() {
 		LOGGER.debug("getDictator");
 		return dictator;
 	}
@@ -51,14 +50,15 @@ public class Dictator implements SocialWelfareFunction{
 	}
 
 	/**
-	 * @param o1 not <code>null</code>
+	 * @param o1
+	 *            not <code>null</code>
 	 * @return true if both Dictators have the same voter as dictator.
 	 */
 	@Override
-	public boolean equals(Object o1){
+	public boolean equals(Object o1) {
 		LOGGER.debug("equals");
 		Preconditions.checkNotNull(o1);
-		if (!(o1 instanceof Dictator)){
+		if (!(o1 instanceof Dictator)) {
 			LOGGER.debug("returns false");
 			return false;
 		}

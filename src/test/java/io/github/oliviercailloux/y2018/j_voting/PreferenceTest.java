@@ -26,7 +26,7 @@ public class PreferenceTest {
 		list.add(set3);
 		return new Preference(list);
 	}
-	
+
 	@Test
 	public void testGetPreferencesNonStrict() {
 		Alternative a1 = new Alternative(1);
@@ -43,9 +43,9 @@ public class PreferenceTest {
 		set3.add(a4);
 		set3.add(a5);
 		List<Set<Alternative>> pref = createPreferenceToTest().getPreferencesNonStrict();
-		assertEquals(pref.get(0),set1);
-		assertEquals(pref.get(1),set2);
-		assertEquals(pref.get(2),set3);
+		assertEquals(pref.get(0), set1);
+		assertEquals(pref.get(1), set2);
+		assertEquals(pref.get(2), set3);
 	}
 
 	@Test
@@ -60,7 +60,7 @@ public class PreferenceTest {
 
 	@Test
 	public void testSize() {
-		assertEquals(createPreferenceToTest().size(),5);
+		assertEquals(createPreferenceToTest().size(), 5);
 	}
 
 	@Test
@@ -150,7 +150,7 @@ public class PreferenceTest {
 		set.add(a3);
 		set.add(a4);
 		set.add(a5);
-		assertEquals(Preference.toAlternativeSet(createPreferenceToTest().getPreferencesNonStrict()),set);
+		assertEquals(Preference.toAlternativeSet(createPreferenceToTest().getPreferencesNonStrict()), set);
 	}
 
 	@Test
@@ -172,7 +172,7 @@ public class PreferenceTest {
 		set2.add(a1);
 		set2.add(a2);
 		set2.add(a5);
-		assertEquals(set,set2);
+		assertEquals(set, set2);
 	}
 
 	@Test
@@ -195,12 +195,12 @@ public class PreferenceTest {
 	public void testSizeListSetAlternative() {
 		assertEquals(Preference.size(createPreferenceToTest().getPreferencesNonStrict()), 5);
 	}
-	
+
 	@Test
 	public void testIsStrictFalse() {
 		assertTrue(!createPreferenceToTest().isStrict());
 	}
-	
+
 	@Test
 	public void testIsStrictTrue() {
 		Alternative a1 = new Alternative(1);
@@ -219,10 +219,10 @@ public class PreferenceTest {
 		Preference p = new Preference(list);
 		assertTrue(p.isStrict());
 	}
-	
+
 	@Test
 	public void testGetAlternativeRank() {
-		assertEquals(createPreferenceToTest().getAlternativeRank(new Alternative(4)),3);
+		assertEquals(createPreferenceToTest().getAlternativeRank(new Alternative(4)), 3);
 	}
 
 }

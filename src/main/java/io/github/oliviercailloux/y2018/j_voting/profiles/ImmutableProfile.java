@@ -5,14 +5,13 @@ import java.util.*;
 import org.slf4j.*;
 
 /**
- * This class is immutable.
- * Represents a Complete Profile.
+ * This class is immutable. Represents a Complete Profile.
  */
-public class ImmutableProfile extends ImmutableProfileI implements Profile{
+public class ImmutableProfile extends ImmutableProfileI implements Profile {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(ImmutableProfile.class.getName());
-	
-	public ImmutableProfile(Map<Voter,? extends Preference> votes) {
+
+	public ImmutableProfile(Map<Voter, ? extends Preference> votes) {
 		super(checkCompleteMap(votes));
 	}
 

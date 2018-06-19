@@ -18,64 +18,65 @@ import io.github.oliviercailloux.y2018.j_voting.profiles.management.*;
 
 public class SOCWrappedColumnsGUI extends ColumnsDefaultGUI {
 	private static final Logger LOGGER = LoggerFactory.getLogger(SOCWrappedColumnsGUI.class.getName());
-	
-	//TODO: change everything so that the GUI allows editing
-	
+
+	// TODO: change everything so that the GUI allows editing
+
 	@Override
 	public List<String> createColumns() {
 		LOGGER.debug("createColumns :");
-		StrictProfile strictProfile = profileBuilder.createStrictProfile();//if profile get from file is SOC, create a StrictProfile from it
+		// if profile get from file is SOC, create a StrictProfile from it
+		StrictProfile strictProfile = profileBuilder.createStrictProfile();
 		Set<Preference> uniquePreferences = strictProfile.getUniquePreferences();
-		
-		//COLUMNS
+
+		// COLUMNS
 		List<String> titles = new ArrayList<>();
-		for(Preference p : uniquePreferences){
+		for (Preference p : uniquePreferences) {
 			int nbVoters = strictProfile.getNbVoterForPreference(p);
-			
+
 			String voterOrVoters = (nbVoters > 1) ? " voters" : " voter";
 			titles.add(nbVoters + voterOrVoters);
 		}
-		for (int i = 0 ; i < titles.size() ; i++) {
-			TableColumn column = new TableColumn (table, SWT.NONE);
+		for (int i = 0; i < titles.size(); i++) {
+			TableColumn column = new TableColumn(table, SWT.NONE);
 			column.setText(titles.get(i));
 		}
-		
+
 		return titles;
 	}
 
 	@Override
 	public void checkRadioButton() {
 		LOGGER.debug("checkRadioButtons");
-		columnsButton.setSelection(false);			
-		rowsButton.setSelection(false);		
+		columnsButton.setSelection(false);
+		rowsButton.setSelection(false);
 		wrapButton.setSelection(true);
 	}
-	
+
 	@Override
 	public void populateRows() {
 		LOGGER.debug("populateRows :");
-		//ROWS
+		// ROWS
 		StrictProfile strictProfile = profileBuilder.createStrictProfile();
 		List<String> alternatives = new ArrayList<>();
-		
-		int nbAlternatives = strictProfile.getNbAlternatives();//nb of rows
 
-		for(int i = 0 ; i < nbAlternatives ; i++){
-			List <Alternative> ithAlternatives = strictProfile.getIthAlternativesOfUniquePreferences(i); // get ith alternative of each voter
-			for(Alternative alt : ithAlternatives) {
+		int nbAlternatives = strictProfile.getNbAlternatives();// nb of rows
+
+		for (int i = 0; i < nbAlternatives; i++) {
+			// get ith alternative of each voter
+			List<Alternative> ithAlternatives = strictProfile.getIthAlternativesOfUniquePreferences(i);
+			for (Alternative alt : ithAlternatives) {
 				alternatives.add(alt.toString()); // convert alternatives in the list to strings
 			}
 
-			TableItem item = new TableItem (table, SWT.NONE);
-			item.setText(alternatives.toArray(new String[nbAlternatives]));	// create a row with ith alternatives
+			TableItem item = new TableItem(table, SWT.NONE);
+			item.setText(alternatives.toArray(new String[nbAlternatives])); // create a row with ith alternatives
 			alternatives.clear(); // empty the list
 		}
 	}
-	
-	public static void main (String [] args) throws IOException {
+
+	public static void main(String[] args) throws IOException {
 		SOCWrappedColumnsGUI socWrapped = new SOCWrappedColumnsGUI();
 		profileBuilder = socWrapped.tableDisplay(args);
 	}
 
 }
-

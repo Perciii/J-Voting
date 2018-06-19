@@ -12,7 +12,7 @@ public class ImmutableStrictProfileTest {
 	 * @return an ImmutableStrictProfileI to test
 	 */
 	public static ImmutableStrictProfile createISPToTest() {
-		Map<Voter,StrictPreference> profile = new HashMap<>();
+		Map<Voter, StrictPreference> profile = new HashMap<>();
 		Alternative a1 = new Alternative(1);
 		Alternative a2 = new Alternative(2);
 		Alternative a3 = new Alternative(3);
@@ -40,9 +40,10 @@ public class ImmutableStrictProfileTest {
 		profile.put(v6, pref2);
 		return new ImmutableStrictProfile(profile);
 	}
+
 	@Test
 	public void testGetNbAlternatives() {
-		assertEquals(createISPToTest().getNbAlternatives(),3);
+		assertEquals(createISPToTest().getNbAlternatives(), 3);
 	}
 
 	@Test
@@ -54,7 +55,7 @@ public class ImmutableStrictProfileTest {
 		alters.add(a1);
 		alters.add(a2);
 		alters.add(a3);
-		assertEquals(alters,createISPToTest().getAlternatives());
+		assertEquals(alters, createISPToTest().getAlternatives());
 	}
 
 }

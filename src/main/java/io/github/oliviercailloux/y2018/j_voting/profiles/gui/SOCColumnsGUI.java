@@ -16,55 +16,55 @@ import io.github.oliviercailloux.y2018.j_voting.*;
 import io.github.oliviercailloux.y2018.j_voting.profiles.*;
 import io.github.oliviercailloux.y2018.j_voting.profiles.management.*;
 
-public class SOCColumnsGUI extends ColumnsDefaultGUI{
+public class SOCColumnsGUI extends ColumnsDefaultGUI {
 	private static final Logger LOGGER = LoggerFactory.getLogger(SOCColumnsGUI.class.getName());
-	
+
 	@Override
 	public List<String> createColumns() {
 		LOGGER.debug("createColumns :");
-		StrictProfile strictProfile = profileBuilder.createStrictProfile();//if profile get from file is SOC, create a StrictProfile from it
+		// if profile get from file is SOC, create a StrictProfile from it
+		StrictProfile strictProfile = profileBuilder.createStrictProfile();
 
-		Iterable<Voter> allVoters = strictProfile.getAllVoters(); //get voters from profile
-		
-		//COLUMNS
+		Iterable<Voter> allVoters = strictProfile.getAllVoters(); // get voters from profile
+
+		// COLUMNS
 		List<String> titles = new ArrayList<>();
-		for(Voter v : allVoters){
+		for (Voter v : allVoters) {
 			titles.add("Voter " + v.getId());
 		}
 		for (String title : titles) {
-			TableColumn column = new TableColumn (table, SWT.NONE);
+			TableColumn column = new TableColumn(table, SWT.NONE);
 			column.setText(title);
 		}
-		
-		
+
 		return titles;
 	}
-	
+
 	@Override
 	public void populateRows() {
 		LOGGER.debug("populateRows :");
-		//ROWS
+		// ROWS
 		StrictProfile strictProfile = profileBuilder.createStrictProfile();
 		List<String> alternatives = new ArrayList<>();
-		
+
 		int nbAlternatives = strictProfile.getNbAlternatives();
 
-		for(int i = 0 ; i < nbAlternatives ; i++){
-			List <Alternative> ithAlternatives = strictProfile.getIthAlternatives(i); // get ith alternative of each voter
-			for(Alternative alt : ithAlternatives) {
+		for (int i = 0; i < nbAlternatives; i++) {
+			// get ith alternative of each voter
+			List<Alternative> ithAlternatives = strictProfile.getIthAlternatives(i);
+			for (Alternative alt : ithAlternatives) {
 				alternatives.add(alt.toString()); // convert alternatives in the list to strings
 			}
 
-			TableItem item = new TableItem (table, SWT.NONE);
-			item.setText(alternatives.toArray(new String[nbAlternatives]));	// create a row with ith alternatives
+			TableItem item = new TableItem(table, SWT.NONE);
+			item.setText(alternatives.toArray(new String[nbAlternatives])); // create a row with ith alternatives
 			alternatives.clear(); // empty the list
 		}
 	}
 
-	public static void main (String [] args) throws IOException {
+	public static void main(String[] args) throws IOException {
 		SOCColumnsGUI socColumns = new SOCColumnsGUI();
 		profileBuilder = socColumns.tableDisplay(args);
 	}
 
 }
-

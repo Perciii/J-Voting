@@ -21,7 +21,7 @@ public class StrictPreferenceTest {
 		StrictPreference p = new StrictPreference(prefs);
 		assertEquals(p.getAlternatives(), prefs);
 	}
-	
+
 	@Test
 	public void testListAlternativeToListSetAlternative() {
 		Alternative a1 = new Alternative(1);
@@ -38,9 +38,9 @@ public class StrictPreferenceTest {
 		set2.add(a2);
 		set3.add(a3);
 		List<Set<Alternative>> list = StrictPreference.listAlternativeToListSetAlternative(prefs);
-		assertEquals(set1,list.get(0));
-		assertEquals(set2,list.get(1));
-		assertEquals(set3,list.get(2));
+		assertEquals(set1, list.get(0));
+		assertEquals(set2, list.get(1));
+		assertEquals(set3, list.get(2));
 	}
 
 	@Test
@@ -53,9 +53,9 @@ public class StrictPreferenceTest {
 		prefs.add(a2);
 		prefs.add(a3);
 		StrictPreference strict = new StrictPreference(prefs);
-		assertEquals(strict.toString(),"1,2,3");
+		assertEquals(strict.toString(), "1,2,3");
 	}
-	
+
 	@Test
 	public void testGetAlternative() {
 		Alternative a1 = new Alternative(1);
@@ -66,6 +66,6 @@ public class StrictPreferenceTest {
 		prefs.add(a2);
 		prefs.add(a3);
 		StrictPreference strict = new StrictPreference(prefs);
-		assertEquals(strict.getAlternative(1),a2);
+		assertEquals(strict.getAlternative(1), a2);
 	}
 }

@@ -120,7 +120,7 @@ public class ReadProfileTest {
 		assertEquals(profile.getPreference(v2), pref);
 		assertEquals(profile.getPreference(v3), pref2);
 	}
-	
+
 	@Test
 	public void testCreateProfileFromURL() throws IOException {
 		ReadProfile rp = new ReadProfile();
@@ -144,7 +144,7 @@ public class ReadProfileTest {
 		alternatives2.add(a2);
 		alternatives2.add(a1);
 		StrictPreference pref2 = new StrictPreference(alternatives2);
-		
+
 		assertTrue(profile.getProfile().containsKey(v1));
 		assertTrue(profile.getProfile().containsKey(v2));
 		assertTrue(profile.getProfile().containsKey(v3));

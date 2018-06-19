@@ -4,16 +4,17 @@ import org.slf4j.*;
 import com.google.common.base.Preconditions;
 
 /**
- * This class is immutable
- * Contains an integer being the id of the voter
+ * This class is immutable Contains an integer being the id of the voter
  */
-public class Voter implements Comparable<Voter>{
+public class Voter implements Comparable<Voter> {
 	private int id;
 	private static final Logger LOGGER = LoggerFactory.getLogger(Voter.class.getName());
 
 	/**
 	 * Creates a new object Voter with the id given as a parameter
-	 * @param id int <code>not null</code>
+	 * 
+	 * @param id
+	 *            int <code>not null</code>
 	 */
 	public Voter(int id) {
 		this.id = Preconditions.checkNotNull(id);
@@ -27,18 +28,19 @@ public class Voter implements Comparable<Voter>{
 	}
 
 	/**
-	 * @param voter <code> not null</code>
+	 * @param voter
+	 *            <code> not null</code>
 	 * @return whether two voters are equal, ie have the same id.
 	 */
 	@Override
 	public boolean equals(Object voter) {
 		LOGGER.debug("Voter - equals : ");
 		Preconditions.checkNotNull(voter);
-		if(!(voter instanceof Voter)) {
+		if (!(voter instanceof Voter)) {
 			return false;
 		}
 		Voter v = (Voter) voter;
-		return(v.getId() == id);
+		return (v.getId() == id);
 	}
 
 	@Override
@@ -49,8 +51,10 @@ public class Voter implements Comparable<Voter>{
 	/**
 	 * 
 	 * 
-	 * @param v2 not <code> null </code>
-	 * @return an integer : 0 if the voters have the same id, <0 if the calling voter is smaller than the parameter, else >0.
+	 * @param v2
+	 *            not <code> null </code>
+	 * @return an integer : 0 if the voters have the same id, <0 if the calling
+	 *         voter is smaller than the parameter, else >0.
 	 */
 	@Override
 	public int compareTo(Voter v2) {

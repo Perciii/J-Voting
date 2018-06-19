@@ -45,7 +45,7 @@ import io.github.oliviercailloux.y2018.j_voting.profiles.management.ReadProfile;
 public class ProfileDefaultGUI {
 	private static final Logger LOGGER = LoggerFactory.getLogger(ProfileDefaultGUI.class.getName());
 	protected final Display display = Display.getDefault();
-	protected final Shell mainShell = new Shell (display, SWT.CLOSE | SWT.RESIZE);
+	protected final Shell mainShell = new Shell(display, SWT.CLOSE | SWT.RESIZE);
 	protected Button columnsButton = new Button(mainShell, SWT.RADIO);
 	protected Button rowsButton = new Button(mainShell, SWT.RADIO);
 	protected Button wrapButton = new Button(mainShell, SWT.RADIO);
@@ -55,9 +55,10 @@ public class ProfileDefaultGUI {
 	protected Integer voterToModify = null;
 	protected StrictPreference newpref;
 	protected static ProfileBuilder profileBuilder;
-	
+
 	/**
 	 * Displays the profile with the edit button
+	 * 
 	 * @param args
 	 * @return the profile builder made from the profile
 	 * @throws IOException
@@ -66,65 +67,69 @@ public class ProfileDefaultGUI {
 		LOGGER.debug("tableDisplay");
 		Preconditions.checkNotNull(args[0]);
 
-		String arg = args[0];//arg is the file path
+		String arg = args[0];// arg is the file path
 		ReadProfile rp = new ReadProfile();
-		try(FileInputStream is = new FileInputStream(arg)){
+		try (FileInputStream is = new FileInputStream(arg)) {
 			ProfileI profileI = rp.createProfileFromStream(is);
 			profileBuilder = new ProfileBuilder(profileI);
 
-			//table layout handling
+			// table layout handling
 			mainShell.setLayout(new GridLayout());
-			table.setLinesVisible (true);
-			table.setHeaderVisible (true);
+			table.setLinesVisible(true);
+			table.setHeaderVisible(true);
 			GridData data = new GridData(SWT.FILL, SWT.FILL, true, true);
 			table.setLayoutData(data);
-			
+
 			displayRadioButtons(args);
 
 			createColumns();
-	
+
 			populateRows();
-		
+
 			List<String> columnTitles = createColumns();
-			
-			for (int i = 0 ; i < columnTitles.size() ; i++) {
+
+			for (int i = 0; i < columnTitles.size(); i++) {
 				table.getColumn(i).pack(); // resize automatically the column
 			}
-			
+
 			edit.setText("Edit");
 			edit.addSelectionListener(new SelectionAdapter() {
 				@Override
 				public void widgetSelected(SelectionEvent e) {
-					editStrictPreference(arg); //open edit modal
+					editStrictPreference(arg); // open edit modal
 				}
 			});
-			
+
 			mainShell.setText("Edit Profile");
 			mainShell.pack();
 			mainShell.open();
 
 			while (!display.isDisposed()) {
-				if (!display.readAndDispatch()) display.sleep();
+				if (!display.readAndDispatch())
+					display.sleep();
 			}
-			
+
 			return profileBuilder; // return profileBuilder containing the profile get in the read file
 		}
 	}
-	
+
 	/**
-	 * Displays the radio buttons to choose the layout of the profile. This method works for both SOC and SOI.
-	 * @param args contains the name of the file with the profile
+	 * Displays the radio buttons to choose the layout of the profile. This method
+	 * works for both SOC and SOI.
+	 * 
+	 * @param args
+	 *            contains the name of the file with the profile
 	 */
 	public void displayRadioButtons(String[] args) {
 		LOGGER.debug("displayRadioButtons :");
-		columnsButton.setText("Columns");			
-		rowsButton.setText("Rows");		
+		columnsButton.setText("Columns");
+		rowsButton.setText("Rows");
 		wrapButton.setText("Wrapped");
 
 		checkRadioButton();
-		
+
 		String fileExtension = args[0].substring(args[0].length() - 3);
-		if(fileExtension.equals("soc")) {
+		if (fileExtension.equals("soc")) {
 			columnsButton.addSelectionListener(new SelectionAdapter() {
 				@Override
 				public void widgetSelected(SelectionEvent e) {
@@ -155,8 +160,7 @@ public class ProfileDefaultGUI {
 					}
 				}
 			});
-		}
-		else if(fileExtension.equals("soi")) {
+		} else if (fileExtension.equals("soi")) {
 			columnsButton.addSelectionListener(new SelectionAdapter() {
 				@Override
 				public void widgetSelected(SelectionEvent e) {
@@ -187,65 +191,70 @@ public class ProfileDefaultGUI {
 					}
 				}
 			});
-		}
-		else {
+		} else {
 			throw new IllegalArgumentException("The file is neither soc nor soi.");
 		}
 	}
-	
+
 	/**
 	 * Checks the right radio button.
 	 */
 	public void checkRadioButton() {
 		LOGGER.debug("checkRadioButtons");
-		columnsButton.setSelection(true);			
-		rowsButton.setSelection(false);		
+		columnsButton.setSelection(true);
+		rowsButton.setSelection(false);
 		wrapButton.setSelection(false);
 	}
-	
+
 	/**
 	 * 
 	 * @return a list of strings, each one represents a voter.
 	 */
 	public List<String> createColumns() {
 		LOGGER.debug("createColumns :");
-		StrictProfileI strictProfile = profileBuilder.createStrictProfileI();//if profile get from file is SOC, create a StrictProfile from it
-		Iterable<Voter> allVoters = strictProfile.getAllVoters(); //get voters from profile
-		int i = 0; 
-		//COLUMNS
+		// if profile get from file is SOC, create a StrictProfile from it
+		StrictProfileI strictProfile = profileBuilder.createStrictProfileI();
+		Iterable<Voter> allVoters = strictProfile.getAllVoters(); // get voters from profile
+		int i = 0;
+		// COLUMNS
 		List<String> titles = new ArrayList<>();
-		for(Voter v : allVoters){
+		for (Voter v : allVoters) {
 			titles.add("Voter " + v.getId());
 			i++;
 		}
-		for (i = 0 ; i < titles.size() ; i++) {
-			TableColumn column = new TableColumn (table, SWT.NONE);
+		for (i = 0; i < titles.size(); i++) {
+			TableColumn column = new TableColumn(table, SWT.NONE);
 			column.setText(titles.get(i));
 		}
 		return titles;
 	}
 
 	/**
-	 * Fills the table of the profile with the alternatives : each column contains the preference of a voter
+	 * Fills the table of the profile with the alternatives : each column contains
+	 * the preference of a voter
 	 */
 	public void populateRows() {
 		LOGGER.debug("populateRowsSOI :");
-		//ROWS
+		// ROWS
 		StrictProfileI strictProfile = profileBuilder.createStrictProfileI();
 		List<String> alternatives = new ArrayList<>();
-		
+
 		int nbAlternatives = strictProfile.getMaxSizeOfPreference();
 
-		for(int i = 0 ; i < nbAlternatives ; i++){
-			TableItem item = new TableItem (table, SWT.NONE);
-			item.setText(strictProfile.getIthAlternativesAsStrings(i).toArray(new String[nbAlternatives]));	// create a row with ith alternatives
+		for (int i = 0; i < nbAlternatives; i++) {
+			TableItem item = new TableItem(table, SWT.NONE);
+			// create a row with ith alternatives
+			item.setText(strictProfile.getIthAlternativesAsStrings(i).toArray(new String[nbAlternatives]));
 			alternatives.clear(); // empty the list
 		}
 	}
 
 	/**
-	 * Displays the edit window, where you can choose to modify/add a StrictPreference of a voter
-	 * @param arg not <code>null</code>
+	 * Displays the edit window, where you can choose to modify/add a
+	 * StrictPreference of a voter
+	 * 
+	 * @param arg
+	 *            not <code>null</code>
 	 */
 	public void editStrictPreference(String arg) {
 		LOGGER.debug("editPreference :");
@@ -258,12 +267,12 @@ public class ProfileDefaultGUI {
 		label.setText("Which voter do you want to change ?");
 
 		final Text text = new Text(modalShell, SWT.SINGLE | SWT.BORDER);
-		
+
 		Label labelPref = new Label(modalShell, SWT.NULL);
 		labelPref.setText("Choose the preference :");
 
 		final Text textPref = new Text(modalShell, SWT.SINGLE | SWT.BORDER);
-		
+
 		final Button save = new Button(modalShell, SWT.PUSH);
 		save.setText("Save");
 		save.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_END));
@@ -324,7 +333,7 @@ public class ProfileDefaultGUI {
 		modalShell.addListener(SWT.Traverse, new Listener() {
 			@Override
 			public void handleEvent(Event event) {
-				if(event.detail == SWT.TRAVERSE_ESCAPE)
+				if (event.detail == SWT.TRAVERSE_ESCAPE)
 					modalShell.dispose();
 				event.doit = false;
 			}
@@ -337,24 +346,26 @@ public class ProfileDefaultGUI {
 	public void modif() {
 		LOGGER.debug("modif :");
 		Voter voter = new Voter(voterToModify);
-		LOGGER.debug("New preference for voter v {} : {}", voter ,  newpref);
-		profileBuilder.addVote(new Voter(voterToModify), newpref);// change preference for this Voter in global ProfileBuilder
+		LOGGER.debug("New preference for voter v {} : {}", voter, newpref);
+		// change preference for this Voter in global ProfileBuilder
+		profileBuilder.addVote(new Voter(voterToModify), newpref);
 	}
 
 	/**
 	 * Saves the changes to the file containing the profile.
+	 * 
 	 * @param outputFile
 	 */
 	public void save(String outputFile) {
 		LOGGER.debug("save :");
 		Preconditions.checkNotNull(outputFile);
 		File file = new File(outputFile);
-		try(OutputStream outputStream = new FileOutputStream(file)){
+		try (OutputStream outputStream = new FileOutputStream(file)) {
 			String fileExtension = file.toString().substring(file.toString().length() - 3);
-			if(fileExtension.equals("soc")) {
+			if (fileExtension.equals("soc")) {
 				StrictProfile sp = profileBuilder.createStrictProfile();
 				sp.writeToSOC(outputStream);
-			} else { //fileExtension == "soi"
+			} else { // fileExtension == "soi"
 				StrictProfileI spi = profileBuilder.createStrictProfileI();
 				spi.writeToSOI(outputStream);
 			}
@@ -366,4 +377,3 @@ public class ProfileDefaultGUI {
 		}
 	}
 }
-

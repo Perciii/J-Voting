@@ -8,7 +8,7 @@ import org.junit.Test;
 public class ImmutableProfileTest {
 
 	public static ImmutableProfile createIPToTest() {
-		Map<Voter,Preference> profile = new HashMap<>();
+		Map<Voter, Preference> profile = new HashMap<>();
 		Alternative a1 = new Alternative(1);
 		Alternative a2 = new Alternative(2);
 		Alternative a3 = new Alternative(3);
@@ -44,9 +44,10 @@ public class ImmutableProfileTest {
 		profile.put(v6, pref2);
 		return new ImmutableProfile(profile);
 	}
+
 	@Test
 	public void testGetNbAlternatives() {
-		assertEquals(createIPToTest().getNbAlternatives(),3);
+		assertEquals(createIPToTest().getNbAlternatives(), 3);
 	}
 
 	@Test
@@ -58,6 +59,6 @@ public class ImmutableProfileTest {
 		alters.add(a1);
 		alters.add(a2);
 		alters.add(a3);
-		assertEquals(alters,createIPToTest().getAlternatives());
+		assertEquals(alters, createIPToTest().getAlternatives());
 	}
 }

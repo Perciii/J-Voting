@@ -14,61 +14,68 @@ import java.util.*;
 public class ProfileBuilder {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(ProfileBuilder.class.getName());
-	protected Map<Voter,Preference> votes;
+	protected Map<Voter, Preference> votes;
 	protected int nextVoterId = 1;
-	
+
 	public ProfileBuilder() {
 		LOGGER.debug("constructor empty:");
 		votes = new HashMap<>();
 	}
-	
+
 	/**
 	 * 
-	 * @param prof not <code> null </code>
+	 * @param prof
+	 *            not <code> null </code>
 	 * 
-	 * initiates a ProfileBuilder from a Profile.
+	 *            initiates a ProfileBuilder from a Profile.
 	 */
 	public ProfileBuilder(ProfileI prof) {
 		LOGGER.debug("constructor ProfileI:");
 		Preconditions.checkNotNull(prof);
-		LOGGER.debug("parameter prof : {}",prof);
+		LOGGER.debug("parameter prof : {}", prof);
 		votes = castMapExtendsToRegularVoterPref(prof.getProfile());
 	}
-	
+
 	/**
 	 * 
-	 * @param v not <code> null </code>
-	 * @param pref not <code> null </code>
+	 * @param v
+	 *            not <code> null </code>
+	 * @param pref
+	 *            not <code> null </code>
 	 * 
-	 * adds the preference pref for the voter v in the map.
+	 *            adds the preference pref for the voter v in the map.
 	 */
 	public void addVote(Voter v, Preference pref) {
 		LOGGER.debug("addProfile:");
 		Preconditions.checkNotNull(v);
 		Preconditions.checkNotNull(pref);
-		LOGGER.debug("parameters: voter {} pref {}",v,pref);
-		votes.put(v,pref);
+		LOGGER.debug("parameters: voter {} pref {}", v, pref);
+		votes.put(v, pref);
 	}
-	
-	/**Adds several votes (the given number) for the given preference to the profile.
+
+	/**
+	 * Adds several votes (the given number) for the given preference to the
+	 * profile.
 	 * 
-	 * @param pref <code>not null</code> a StrictPreference
-	 * @param nbVoters <code>not null</code> the number of voters that voted for the preference as parameter
+	 * @param pref
+	 *            <code>not null</code> a StrictPreference
+	 * @param nbVoters
+	 *            <code>not null</code> the number of voters that voted for the
+	 *            preference as parameter
 	 */
-	public void addVotes(Preference pref, int nbVoters){
+	public void addVotes(Preference pref, int nbVoters) {
 		LOGGER.debug("AddVotes");
 		Preconditions.checkNotNull(pref);
 		Preconditions.checkNotNull(nbVoters);
-		LOGGER.debug("parameters : nbVoters {} for the preference {}", nbVoters, pref); 
-		for(int m = 0 ; m < nbVoters ; m++){//we create as many profiles as voters 
-			Voter v =new Voter(nextVoterId);
+		LOGGER.debug("parameters : nbVoters {} for the preference {}", nbVoters, pref);
+		for (int m = 0; m < nbVoters; m++) {// we create as many profiles as voters
+			Voter v = new Voter(nextVoterId);
 			LOGGER.debug("adds the voter {} and the pref as parameter to the profile", nextVoterId);
 			nextVoterId++;
 			addVote(v, pref);
 		}
 	}
-	
-	
+
 	/**
 	 * 
 	 * @return a ProfileI created from the builder.
@@ -77,57 +84,62 @@ public class ProfileBuilder {
 		LOGGER.debug("createProfileI:");
 		return new ImmutableProfileI(votes);
 	}
-	
+
 	/**
 	 * 
-	 * @return a Profile created from the builder if it is complete, otherwise throws an exception.
+	 * @return a Profile created from the builder if it is complete, otherwise
+	 *         throws an exception.
 	 */
 	public Profile createProfile() {
 		LOGGER.debug("createProfile:");
-		if(!createProfileI().isComplete()) {
+		if (!createProfileI().isComplete()) {
 			throw new IllegalArgumentException("The built profile is not complete.");
 		}
 		return new ImmutableProfile(votes);
 	}
-	
+
 	/**
 	 * 
-	 * @return a StrictProfileI created from the builder if it is strict, otherwise throws an exception.
+	 * @return a StrictProfileI created from the builder if it is strict, otherwise
+	 *         throws an exception.
 	 */
 	public StrictProfileI createStrictProfileI() {
 		LOGGER.debug("createStrictProfileI:");
-		if(!createProfileI().isStrict()) {
+		if (!createProfileI().isStrict()) {
 			throw new IllegalArgumentException("The built profile is not strict.");
 		}
 		return new ImmutableStrictProfileI(votes);
 	}
-	
+
 	/**
 	 * 
-	 * @return a StrictProfile created from the builder if it is strict and complete, otherwise throws an exception.
+	 * @return a StrictProfile created from the builder if it is strict and
+	 *         complete, otherwise throws an exception.
 	 */
 	public StrictProfile createStrictProfile() {
-		if(!createProfileI().isComplete()) {
+		if (!createProfileI().isComplete()) {
 			throw new IllegalArgumentException("The built profile is not complete.");
 		}
-		if(!createProfileI().isStrict()) {
+		if (!createProfileI().isStrict()) {
 			throw new IllegalArgumentException("The built profile is not strict.");
 		}
 		return new ImmutableStrictProfile(votes);
 	}
-	
+
 	/**
 	 * 
-	 * @param map a map of Voters and preferences (or an extension of preference)
-	 * @return a map of voters and preferences (cast to the most general class : Preference)
+	 * @param map
+	 *            a map of Voters and preferences (or an extension of preference)
+	 * @return a map of voters and preferences (cast to the most general class :
+	 *         Preference)
 	 */
-	public static Map<Voter,Preference> castMapExtendsToRegularVoterPref(Map<Voter,? extends Preference> map){
+	public static Map<Voter, Preference> castMapExtendsToRegularVoterPref(Map<Voter, ? extends Preference> map) {
 		LOGGER.debug("castMapToRegularVoterPref");
 		Preconditions.checkNotNull(map);
-		Map<Voter,Preference> result = new HashMap<>();
-		for(Voter v : map.keySet()) {
-			LOGGER.debug("adds the voter {} and his preference {}",v,map.get(v));
-			result.put(v,map.get(v));
+		Map<Voter, Preference> result = new HashMap<>();
+		for (Voter v : map.keySet()) {
+			LOGGER.debug("adds the voter {} and his preference {}", v, map.get(v));
+			result.put(v, map.get(v));
 		}
 		return result;
 	}
