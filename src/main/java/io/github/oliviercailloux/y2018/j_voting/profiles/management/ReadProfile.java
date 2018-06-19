@@ -48,7 +48,16 @@ public class ReadProfile {
 			List<String> alternatives = new ArrayList<>();
 			List<String> profiles = new ArrayList<>();
 			for (int i = 1; i <= nbAlternatives; i++) {// get the lines with the alternatives
-				alternatives.add(it.next().trim().substring(0, 1));
+				String nextAlternative = it.next().trim();
+				int indexOfFirstComma = nextAlternative.indexOf(",");
+
+				if (indexOfFirstComma != -1) {
+					String nextAlternativeNumber = nextAlternative.substring(0, indexOfFirstComma);
+					System.out.println(nextAlternativeNumber);
+					alternatives.add(nextAlternativeNumber);
+				} else {
+					alternatives.add(nextAlternative);
+				}
 			}
 			LOGGER.debug("alternatives : {}", alternatives);
 			lineNbVoters = it.next().trim();// get the line with the nb of voters

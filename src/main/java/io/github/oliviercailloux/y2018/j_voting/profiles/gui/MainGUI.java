@@ -120,7 +120,7 @@ public class MainGUI {
 					} else {// if extension is soi
 						label.setText("SOI Profile editing");
 					}
-					
+
 					mainShell.setText("Profile editing - " + fileToRead);
 					profileToRead[0] = fileToRead;
 				}
