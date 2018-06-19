@@ -44,16 +44,16 @@ import io.github.oliviercailloux.y2018.j_voting.profiles.management.ReadProfile;
  */
 public class ProfileDefaultGUI {
 	private static final Logger LOGGER = LoggerFactory.getLogger(ProfileDefaultGUI.class.getName());
-	protected final Display display = Display.getDefault();
-	protected final Shell mainShell = new Shell(display, SWT.CLOSE | SWT.RESIZE);
-	protected Button columnsButton = new Button(mainShell, SWT.RADIO);
-	protected Button rowsButton = new Button(mainShell, SWT.RADIO);
-	protected Button wrapButton = new Button(mainShell, SWT.RADIO);
-	protected Button edit = new Button(mainShell, SWT.PUSH);
-	protected TableViewer tableViewer = new TableViewer(mainShell, SWT.MULTI | SWT.BORDER | SWT.FULL_SELECTION);
-	protected Table table = tableViewer.getTable();
-	protected Integer voterToModify = null;
-	protected StrictPreference newpref;
+	protected static final Display display = Display.getDefault();
+	protected static final Shell mainShell = new Shell(display, SWT.CLOSE | SWT.RESIZE);
+	protected static Button columnsButton = new Button(mainShell, SWT.RADIO);
+	protected static Button rowsButton = new Button(mainShell, SWT.RADIO);
+	protected static Button wrapButton = new Button(mainShell, SWT.RADIO);
+	protected static Button edit = new Button(mainShell, SWT.PUSH);
+	protected static TableViewer tableViewer = new TableViewer(mainShell, SWT.MULTI | SWT.BORDER | SWT.FULL_SELECTION);
+	protected static Table table = tableViewer.getTable();
+	protected static Integer voterToModify = null;
+	protected static StrictPreference newpref;
 	protected static ProfileBuilder profileBuilder;
 
 	/**
@@ -134,7 +134,11 @@ public class ProfileDefaultGUI {
 				@Override
 				public void widgetSelected(SelectionEvent e) {
 					try {
-						SOCColumnsGUI.main(args);
+						table.removeAll();
+						while ( table.getColumnCount() > 0 ) {
+						    table.getColumns()[ 0 ].dispose();
+						}
+						new SOCColumnsGUI().tableDisplay(args);
 					} catch (IOException e1) {
 						LOGGER.debug("IOException when opening Columns GUI : {}", e1);
 					}
@@ -144,7 +148,11 @@ public class ProfileDefaultGUI {
 				@Override
 				public void widgetSelected(SelectionEvent e) {
 					try {
-						SOCRowsGUI.main(args);
+						table.removeAll();
+						while ( table.getColumnCount() > 0 ) {
+						    table.getColumns()[ 0 ].dispose();
+						}
+						new SOCRowsGUI().tableDisplay(args);
 					} catch (IOException e1) {
 						LOGGER.debug("IOException when opening Rows GUI : {}", e1);
 					}
@@ -154,7 +162,11 @@ public class ProfileDefaultGUI {
 				@Override
 				public void widgetSelected(SelectionEvent e) {
 					try {
-						SOCWrappedColumnsGUI.main(args);
+						table.removeAll();
+						while ( table.getColumnCount() > 0 ) {
+						    table.getColumns()[ 0 ].dispose();
+						}
+						new SOCWrappedColumnsGUI().tableDisplay(args);
 					} catch (IOException e1) {
 						LOGGER.debug("IOException when opening wrapped columns GUI : {}", e1);
 					}
@@ -165,7 +177,11 @@ public class ProfileDefaultGUI {
 				@Override
 				public void widgetSelected(SelectionEvent e) {
 					try {
-						SOIColumnsGUI.main(args);
+						table.removeAll();
+						while ( table.getColumnCount() > 0 ) {
+						    table.getColumns()[ 0 ].dispose();
+						}
+						new SOIColumnsGUI().tableDisplay(args);
 					} catch (IOException e1) {
 						LOGGER.debug("IOException when opening Columns GUI : {}", e1);
 					}
@@ -175,7 +191,11 @@ public class ProfileDefaultGUI {
 				@Override
 				public void widgetSelected(SelectionEvent e) {
 					try {
-						SOIRowsGUI.main(args);
+						table.removeAll();
+						while ( table.getColumnCount() > 0 ) {
+						    table.getColumns()[ 0 ].dispose();
+						}
+						new SOIRowsGUI().tableDisplay(args);
 					} catch (IOException e1) {
 						LOGGER.debug("IOException when opening Rows GUI : {}", e1);
 					}
@@ -185,7 +205,11 @@ public class ProfileDefaultGUI {
 				@Override
 				public void widgetSelected(SelectionEvent e) {
 					try {
-						SOIWrappedColumnsGUI.main(args);
+						table.removeAll();
+						while ( table.getColumnCount() > 0 ) {
+						    table.getColumns()[ 0 ].dispose();
+						}
+						new SOIWrappedColumnsGUI().tableDisplay(args);
 					} catch (IOException e1) {
 						LOGGER.debug("IOException when opening wrapped columns GUI : {}", e1);
 					}
