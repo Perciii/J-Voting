@@ -43,7 +43,11 @@ public class ReadProfileTest {
 		StrictPreference pref = new StrictPreference(alternatives);
 		p.addVotes(pref,2);
 		StrictProfileI prof = p.createStrictProfileI();
-		assertTrue(prof.getProfile().containsKey(v1) && prof.getProfile().containsKey(v2) && prof.getPreference(v1).equals(pref) && prof.getPreference(v2).equals(pref));
+		
+		assertTrue(prof.getProfile().containsKey(v1));
+		assertTrue(prof.getProfile().containsKey(v2));
+		assertEquals(prof.getPreference(v1), pref);
+		assertEquals(prof.getPreference(v2), pref);
 	}
 
 	@Test
@@ -69,7 +73,13 @@ public class ReadProfileTest {
 		alternatives2.add(a1);
 		StrictPreference pref2 = new StrictPreference(alternatives2);
 		ProfileI profile = rp.buildProfile(file, pref, 3);
-		assertTrue(profile.getProfile().containsKey(v1) && profile.getProfile().containsKey(v2) && profile.getProfile().containsKey(v3) && profile.getPreference(v1).equals(pref) && profile.getPreference(v2).equals(pref) && profile.getPreference(v3).equals(pref2));
+		
+		assertTrue(profile.getProfile().containsKey(v1));
+		assertTrue(profile.getProfile().containsKey(v2));
+		assertTrue(profile.getProfile().containsKey(v3));
+		assertEquals(profile.getPreference(v1), pref);
+		assertEquals(profile.getPreference(v2), pref);
+		assertEquals(profile.getPreference(v3), pref2);
 	}
 
 	@Test
@@ -92,6 +102,12 @@ public class ReadProfileTest {
 		alternatives2.add(a2);
 		alternatives2.add(a1);
 		StrictPreference pref2 = new StrictPreference(alternatives2);
-		assertTrue(profile.getProfile().containsKey(v1) && profile.getProfile().containsKey(v2) && profile.getProfile().containsKey(v3) && profile.getPreference(v1).equals(pref) && profile.getPreference(v2).equals(pref) && profile.getPreference(v3).equals(pref2));
+		
+		assertTrue(profile.getProfile().containsKey(v1));
+		assertTrue(profile.getProfile().containsKey(v2));
+		assertTrue(profile.getProfile().containsKey(v3));
+		assertEquals(profile.getPreference(v1), pref);
+		assertEquals(profile.getPreference(v2), pref);
+		assertEquals(profile.getPreference(v3), pref2);
 	}
 }
