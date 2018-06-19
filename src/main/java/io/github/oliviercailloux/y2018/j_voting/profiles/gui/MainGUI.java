@@ -109,15 +109,8 @@ public class MainGUI {
 				fileToRead = fileChooser.open();
 
 				// shell text
-				if (fileToRead == "") {
+				if (fileToRead == null || fileToRead.isEmpty()) {
 					mainShell.setText("Profile editing - No profile loaded");
-				} else {
-					mainShell.setText("Profile editing - " + fileToRead);
-					profileToRead[0] = fileToRead;
-				}
-
-				// title text
-				if (fileToRead == "") {
 					label.setText("Profile editing");
 				} else {
 					String fileExtension = fileToRead.substring(fileToRead.length() - 3);
@@ -127,7 +120,9 @@ public class MainGUI {
 					} else {// if extension is soi
 						label.setText("SOI Profile editing");
 					}
-
+					
+					mainShell.setText("Profile editing - " + fileToRead);
+					profileToRead[0] = fileToRead;
 				}
 			}
 		});
