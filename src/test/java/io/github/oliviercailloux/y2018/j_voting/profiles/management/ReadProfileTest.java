@@ -1,11 +1,19 @@
 package io.github.oliviercailloux.y2018.j_voting.profiles.management;
 
-import static org.junit.Assert.*;
-import io.github.oliviercailloux.y2018.j_voting.*;
-import io.github.oliviercailloux.y2018.j_voting.profiles.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.Test;
+
+import io.github.oliviercailloux.y2018.j_voting.Alternative;
+import io.github.oliviercailloux.y2018.j_voting.StrictPreference;
+import io.github.oliviercailloux.y2018.j_voting.Voter;
+import io.github.oliviercailloux.y2018.j_voting.profiles.ProfileI;
+import io.github.oliviercailloux.y2018.j_voting.profiles.StrictProfileI;
 
 public class ReadProfileTest {
 
@@ -25,7 +33,7 @@ public class ReadProfileTest {
 		alternatives2.add(a1);
 		alternatives2.add(a3);
 		StrictPreference pref2 = new StrictPreference(alternatives2);
-		assertEquals(pref,rp.getPreferences(pref2, "4,1,2,3"));
+		assertEquals(pref, rp.getPreferences(pref2, "4,1,2,3"));
 	}
 
 	@Test
@@ -41,9 +49,9 @@ public class ReadProfileTest {
 		alternatives.add(a2);
 		alternatives.add(a3);
 		StrictPreference pref = new StrictPreference(alternatives);
-		p.addVotes(pref,2);
+		p.addVotes(pref, 2);
 		StrictProfileI prof = p.createStrictProfileI();
-		
+
 		assertTrue(prof.getProfile().containsKey(v1));
 		assertTrue(prof.getProfile().containsKey(v2));
 		assertEquals(prof.getPreference(v1), pref);
@@ -73,7 +81,7 @@ public class ReadProfileTest {
 		alternatives2.add(a1);
 		StrictPreference pref2 = new StrictPreference(alternatives2);
 		ProfileI profile = rp.buildProfile(file, pref, 3);
-		
+
 		assertTrue(profile.getProfile().containsKey(v1));
 		assertTrue(profile.getProfile().containsKey(v2));
 		assertTrue(profile.getProfile().containsKey(v3));
@@ -102,7 +110,7 @@ public class ReadProfileTest {
 		alternatives2.add(a2);
 		alternatives2.add(a1);
 		StrictPreference pref2 = new StrictPreference(alternatives2);
-		
+
 		assertTrue(profile.getProfile().containsKey(v1));
 		assertTrue(profile.getProfile().containsKey(v2));
 		assertTrue(profile.getProfile().containsKey(v3));
