@@ -4,6 +4,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
+import java.net.URL;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -122,7 +124,10 @@ public class ReadProfileTest {
 	@Test
 	public void testCreateProfileFromURL() throws IOException {
 		ReadProfile rp = new ReadProfile();
-		ProfileI profile = rp.createProfileFromURL(getClass().getResource("profileToRead.soc"));
+		String fileURLAsString = "https://raw.githubusercontent.com/Perciii/J-Voting/master/src/test/resources/io/github/oliviercailloux/y2018/j_voting/profiles/management/profileToRead.soc";
+		System.out.println(fileURLAsString);
+		ProfileI profile = rp.createProfileFromURL(new URL(fileURLAsString));
+		System.out.println(profile.toString());
 		Alternative a1 = new Alternative(1);
 		Alternative a2 = new Alternative(2);
 		Alternative a3 = new Alternative(3);
@@ -139,7 +144,7 @@ public class ReadProfileTest {
 		alternatives2.add(a2);
 		alternatives2.add(a1);
 		StrictPreference pref2 = new StrictPreference(alternatives2);
-
+		
 		assertTrue(profile.getProfile().containsKey(v1));
 		assertTrue(profile.getProfile().containsKey(v2));
 		assertTrue(profile.getProfile().containsKey(v3));

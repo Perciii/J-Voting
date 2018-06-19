@@ -8,6 +8,7 @@ import javax.ws.rs.client.*;
 //import javax.ws.rs.core.MediaType;
 
 import java.io.*;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import org.slf4j.*;
 import com.google.common.base.*;
@@ -42,7 +43,7 @@ public class ReadProfile {
 			List<String> alternatives = new ArrayList<>();
 			List<String> profiles = new ArrayList<>();
 			for(int i = 1 ; i <= nbAlternatives ; i++){//get the lines with the alternatives
-				alternatives.add(it.next().trim());
+				alternatives.add(it.next().trim().substring(0, 1));
 			}
 			LOGGER.debug("alternatives : {}", alternatives);
 			lineNbVoters = it.next().trim();//get the line with the nb of voters
@@ -68,10 +69,11 @@ public class ReadProfile {
 		Preconditions.checkNotNull(url);
 		LOGGER.debug("parameter : URL = {}", url.toString());
 		
-		Client client = ClientBuilder.newClient();
-		WebTarget t1 = client.target(url.toString());
-		try(InputStream is = t1.request().get(InputStream.class)){
+		HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+		try(InputStream is = new BufferedInputStream(urlConnection.getInputStream())){
 			return createProfileFromStream(is).restrictProfile();
+		} finally {
+			urlConnection.disconnect();
 		}
 	}
 	
