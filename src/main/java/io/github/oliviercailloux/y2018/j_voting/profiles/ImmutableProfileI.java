@@ -1,6 +1,8 @@
 package io.github.oliviercailloux.y2018.j_voting.profiles;
 
 import io.github.oliviercailloux.y2018.j_voting.*;
+import io.github.oliviercailloux.y2018.j_voting.profiles.management.ProfileBuilder;
+
 import java.util.*;
 import org.slf4j.*;
 import com.google.common.base.Preconditions;
@@ -184,20 +186,18 @@ public class ImmutableProfileI implements ProfileI{
 	@Override
 	public ProfileI restrictProfile() {
 		LOGGER.debug("StricterProfile : ");
+		ProfileBuilder profileBuilder = new ProfileBuilder(this);
 		if(isComplete()) {
 			if(isStrict()) {
 				LOGGER.debug("strict complete profile");
-				ImmutableStrictProfile isp = (ImmutableStrictProfile) this;
-				return isp;
+				return profileBuilder.createStrictProfile();
 			}
 			LOGGER.debug("non strict complete profile");
-			ImmutableProfile ip = (ImmutableProfile) this;
-			return ip;
+			return profileBuilder.createProfile();
 		}
 		if(isStrict()) {
 			LOGGER.debug("strict incomplete profile");
-			ImmutableStrictProfileI ispi = (ImmutableStrictProfileI) this;
-			return ispi;
+			return profileBuilder.createStrictProfileI();
 		}
 		LOGGER.debug("non strict incomplete profile");
 		return this;
