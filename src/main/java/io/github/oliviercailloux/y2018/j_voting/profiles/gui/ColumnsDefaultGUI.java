@@ -36,9 +36,9 @@ public class ColumnsDefaultGUI extends ProfileDefaultGUI {
 	protected int destinationY = 0;
 
 	@Override
-	public void tableDisplay(String fileName){
+	public void tableDisplay(String fileName) {
 		LOGGER.debug("tableDisplay");
-		
+
 		// table layout handling
 		mainShell.setLayout(new GridLayout());
 		table.setLinesVisible(true);
@@ -46,8 +46,7 @@ public class ColumnsDefaultGUI extends ProfileDefaultGUI {
 		GridData data = new GridData(SWT.FILL, SWT.FILL, true, true);
 		table.setLayoutData(data);
 
-
-		//createColumns();
+		// createColumns();
 
 		List<String> columnTitles = createColumns();
 		populateRows();

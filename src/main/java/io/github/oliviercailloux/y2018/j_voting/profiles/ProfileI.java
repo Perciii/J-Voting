@@ -95,7 +95,8 @@ public interface ProfileI {
 	 * @param o
 	 *            an object not <code>null</code>
 	 * @return true if both objects implement ProfileI, contain all the same voters
-	 *         and each voter has the same preference in each profile.
+	 *         and each voter has the same preference in the calling profile and in
+	 *         the profile given as parameter.
 	 */
 	@Override
 	public boolean equals(Object o);

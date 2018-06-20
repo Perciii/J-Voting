@@ -58,11 +58,13 @@ public class ProfileDefaultGUI {
 	protected static ProfileBuilder profileBuilder;
 
 	/**
-	 * Displays the window : the table containing the profile as well as the buttons.
+	 * Displays the window : the table containing the profile as well as the
+	 * buttons.
+	 * 
 	 * @param args
 	 * @throws IOException
 	 */
-	public void displayProfileWindow(String[] args) throws IOException{
+	public void displayProfileWindow(String[] args) throws IOException {
 		LOGGER.debug("displayProfileWindow");
 		Preconditions.checkNotNull(args[0]);
 
@@ -81,9 +83,9 @@ public class ProfileDefaultGUI {
 			});
 
 			displayRadioButtons(args);
-			
+
 			tableDisplay(args[0]);
-			
+
 			mainShell.setText("Edit Profile");
 			mainShell.pack();
 			mainShell.open();
@@ -94,13 +96,13 @@ public class ProfileDefaultGUI {
 			}
 		}
 	}
-	
+
 	/**
 	 * Displays the table containing the profile
 	 */
 	public void tableDisplay(String fileName) {
 		LOGGER.debug("tableDisplay");
-		
+
 		// table layout handling
 		mainShell.setLayout(new GridLayout());
 		table.setLinesVisible(true);
@@ -108,13 +110,12 @@ public class ProfileDefaultGUI {
 		GridData data = new GridData(SWT.FILL, SWT.FILL, true, true);
 		table.setLayoutData(data);
 
-		//createColumns();
+		// createColumns();
 
 		List<String> columnTitles = createColumns();
 		populateRows();
 
 		checkRadioButton();
-		
 
 		for (int i = 0; i < columnTitles.size(); i++) {
 			table.getColumn(i).pack(); // resize automatically the column
@@ -218,8 +219,8 @@ public class ProfileDefaultGUI {
 	}
 
 	/**
-	 * Fills the table of the profile with the alternatives : by default, each column contains
-	 * the preference of a voter
+	 * Fills the table of the profile with the alternatives : by default, each
+	 * column contains the preference of a voter
 	 */
 	public void populateRows() {
 		LOGGER.debug("populateRowsSOI :");
@@ -364,17 +365,18 @@ public class ProfileDefaultGUI {
 			dialog.open();
 		}
 	}
-	
+
 	/**
-	 * Emptys the table : removes all data and columns. Removes the save button if it isn't disposed yet.
+	 * Emptys the table : removes all data and columns. Removes the save button if
+	 * it isn't disposed yet.
 	 */
 	public void emptyTable() {
 		LOGGER.debug("emptyTable");
 		table.removeAll();
-		while ( table.getColumnCount() > 0 ) {
-		    table.getColumns()[ 0 ].dispose();
+		while (table.getColumnCount() > 0) {
+			table.getColumns()[0].dispose();
 		}
-		if(!save.isDisposed()) {
+		if (!save.isDisposed()) {
 			save.dispose();
 		}
 	}
