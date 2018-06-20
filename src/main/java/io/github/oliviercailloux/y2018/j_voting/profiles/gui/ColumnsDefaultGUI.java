@@ -29,71 +29,43 @@ import io.github.oliviercailloux.y2018.j_voting.profiles.management.*;
 public class ColumnsDefaultGUI extends ProfileDefaultGUI {
 	private static final Logger LOGGER = LoggerFactory.getLogger(ColumnsDefaultGUI.class.getName());
 
-	protected Button save = new Button(mainShell, SWT.PUSH);
-
 	protected int sourceX = 0;
 	protected int sourceY = 0;
 	protected ViewerCell cellBeingDragged = tableViewer.getCell(new Point(0, 0));
 	protected int destinationX = 0;
 	protected int destinationY = 0;
 
-	/**
-	 * Displays the profile with the edit button
-	 * 
-	 * @param args
-	 * @return the profile builder made from the profile
-	 * @throws IOException
-	 */
 	@Override
-	public ProfileBuilder tableDisplay(String[] args) throws IOException {
+	public void tableDisplay(String fileName){
 		LOGGER.debug("tableDisplay");
-		Preconditions.checkNotNull(args[0]);
+		
+		// table layout handling
+		mainShell.setLayout(new GridLayout());
+		table.setLinesVisible(true);
+		table.setHeaderVisible(true);
+		GridData data = new GridData(SWT.FILL, SWT.FILL, true, true);
+		table.setLayoutData(data);
 
-		String arg = args[0];// arg is the file path
-		ReadProfile rp = new ReadProfile();
-		try (FileInputStream is = new FileInputStream(arg)) {
-			ProfileI profileI = rp.createProfileFromStream(is);
-			profileBuilder = new ProfileBuilder(profileI);
 
-			// table layout handling
-			mainShell.setLayout(new GridLayout());
-			table.setLinesVisible(true);
-			table.setHeaderVisible(true);
-			GridData data = new GridData(SWT.FILL, SWT.FILL, true, true);
-			table.setLayoutData(data);
+		//createColumns();
 
-			displayRadioButtons(args);
+		List<String> columnTitles = createColumns();
+		populateRows();
+		handleDragAndDrop();
+		checkRadioButton();
 
-			createColumns();
-
-			populateRows();
-			handleDragAndDrop();
-
-			List<String> columnTitles = createColumns();
-
-			for (int i = 0; i < columnTitles.size(); i++) {
-				table.getColumn(i).pack(); // resize automatically the column
-			}
-
-			save.setText("Save");
-			save.addSelectionListener(new SelectionAdapter() {
-				@Override
-				public void widgetSelected(SelectionEvent e) {
-					save(arg);
-				}
-			});
-
-			mainShell.setText("Edit Profile");
-			mainShell.pack();
-			mainShell.open();
-
-			while (!display.isDisposed()) {
-				if (!display.readAndDispatch())
-					display.sleep();
-			}
-
-			return profileBuilder; // return profileBuilder containing the profile get in the read file
+		for (int i = 0; i < columnTitles.size(); i++) {
+			table.getColumn(i).pack(); // resize automatically the column
 		}
+
+		save = new Button(mainShell, SWT.PUSH);
+		save.setText("Save");
+		save.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				save(fileName);
+			}
+		});
 	}
 
 	public void handleDragAndDrop() {

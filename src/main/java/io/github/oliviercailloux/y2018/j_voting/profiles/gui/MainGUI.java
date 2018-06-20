@@ -131,7 +131,7 @@ public class MainGUI {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				try {
-					SOCColumnsGUI.main(profileToRead);
+					new SOCColumnsGUI().displayProfileWindow(profileToRead);
 				} catch (IOException ioe) {
 					LOGGER.debug("IOException when opening Columns GUI : {}", ioe);
 				}
@@ -142,7 +142,7 @@ public class MainGUI {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				try {
-					SOIColumnsGUI.main(profileToRead);
+					new SOIColumnsGUI().displayProfileWindow(profileToRead);
 				} catch (IOException ioe) {
 					LOGGER.debug("IOException when opening Columns GUI : {}", ioe);
 				}
@@ -153,7 +153,7 @@ public class MainGUI {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				try {
-					SOCRowsGUI.main(profileToRead);
+					new SOCRowsGUI().displayProfileWindow(profileToRead);
 				} catch (IOException ioe) {
 					LOGGER.debug("IOException when opening Rows GUI : {}", ioe);
 				}
@@ -164,7 +164,7 @@ public class MainGUI {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				try {
-					SOIRowsGUI.main(profileToRead);
+					new SOIRowsGUI().displayProfileWindow(profileToRead);
 				} catch (IOException ioe) {
 					LOGGER.debug("IOException when opening rows GUI : {}", ioe);
 				}
@@ -175,7 +175,7 @@ public class MainGUI {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				try {
-					SOCWrappedColumnsGUI.main(profileToRead);
+					new SOCWrappedColumnsGUI().displayProfileWindow(profileToRead);
 				} catch (IOException ioe) {
 					LOGGER.debug("IOException when opening wrapped GUI : {}", ioe);
 				}
@@ -186,7 +186,7 @@ public class MainGUI {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				try {
-					SOIWrappedColumnsGUI.main(profileToRead);
+					new SOIWrappedColumnsGUI().displayProfileWindow(profileToRead);
 				} catch (IOException ioe) {
 					LOGGER.debug("IOException when opening wrapped GUI : {}", ioe);
 				}

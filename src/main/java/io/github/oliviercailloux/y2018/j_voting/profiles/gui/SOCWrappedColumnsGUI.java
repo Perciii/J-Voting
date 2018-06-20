@@ -76,7 +76,7 @@ public class SOCWrappedColumnsGUI extends ColumnsDefaultGUI {
 
 	public static void main(String[] args) throws IOException {
 		SOCWrappedColumnsGUI socWrapped = new SOCWrappedColumnsGUI();
-		profileBuilder = socWrapped.tableDisplay(args);
+		socWrapped.displayProfileWindow(args);
 	}
 
 }

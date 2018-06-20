@@ -81,7 +81,7 @@ public class SOCRowsGUI extends ProfileDefaultGUI {
 
 	public static void main(String[] args) throws IOException {
 		SOCRowsGUI socRows = new SOCRowsGUI();
-		profileBuilder = socRows.tableDisplay(args);
+		socRows.displayProfileWindow(args);
 	}
 
 }

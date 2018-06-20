@@ -64,7 +64,7 @@ public class SOCColumnsGUI extends ColumnsDefaultGUI {
 
 	public static void main(String[] args) throws IOException {
 		SOCColumnsGUI socColumns = new SOCColumnsGUI();
-		profileBuilder = socColumns.tableDisplay(args);
+		socColumns.displayProfileWindow(args);
 	}
 
 }

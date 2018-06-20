@@ -68,9 +68,8 @@ public class SOIWrappedColumnsGUI extends ColumnsDefaultGUI {
 	}
 
 	public static void main(String[] args) throws IOException {
-		LOGGER.debug("Main");
 		SOIWrappedColumnsGUI soiWrapped = new SOIWrappedColumnsGUI();
-		profileBuilder = soiWrapped.tableDisplay(args);
+		soiWrapped.displayProfileWindow(args);
 	}
 
 }

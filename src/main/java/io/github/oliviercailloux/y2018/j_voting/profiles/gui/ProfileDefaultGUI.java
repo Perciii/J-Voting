@@ -50,6 +50,7 @@ public class ProfileDefaultGUI {
 	protected static Button rowsButton = new Button(mainShell, SWT.RADIO);
 	protected static Button wrapButton = new Button(mainShell, SWT.RADIO);
 	protected static Button edit = new Button(mainShell, SWT.PUSH);
+	protected static Button save = new Button(mainShell, SWT.PUSH);
 	protected static TableViewer tableViewer = new TableViewer(mainShell, SWT.MULTI | SWT.BORDER | SWT.FULL_SELECTION);
 	protected static Table table = tableViewer.getTable();
 	protected static Integer voterToModify = null;
@@ -57,14 +58,12 @@ public class ProfileDefaultGUI {
 	protected static ProfileBuilder profileBuilder;
 
 	/**
-	 * Displays the profile with the edit button
-	 * 
+	 * Displays the window : the table containing the profile as well as the buttons.
 	 * @param args
-	 * @return the profile builder made from the profile
 	 * @throws IOException
 	 */
-	public ProfileBuilder tableDisplay(String[] args) throws IOException {
-		LOGGER.debug("tableDisplay");
+	public void displayProfileWindow(String[] args) throws IOException{
+		LOGGER.debug("displayProfileWindow");
 		Preconditions.checkNotNull(args[0]);
 
 		String arg = args[0];// arg is the file path
@@ -72,25 +71,6 @@ public class ProfileDefaultGUI {
 		try (FileInputStream is = new FileInputStream(arg)) {
 			ProfileI profileI = rp.createProfileFromStream(is);
 			profileBuilder = new ProfileBuilder(profileI);
-
-			// table layout handling
-			mainShell.setLayout(new GridLayout());
-			table.setLinesVisible(true);
-			table.setHeaderVisible(true);
-			GridData data = new GridData(SWT.FILL, SWT.FILL, true, true);
-			table.setLayoutData(data);
-
-			displayRadioButtons(args);
-
-			createColumns();
-
-			populateRows();
-
-			List<String> columnTitles = createColumns();
-
-			for (int i = 0; i < columnTitles.size(); i++) {
-				table.getColumn(i).pack(); // resize automatically the column
-			}
 
 			edit.setText("Edit");
 			edit.addSelectionListener(new SelectionAdapter() {
@@ -100,6 +80,10 @@ public class ProfileDefaultGUI {
 				}
 			});
 
+			displayRadioButtons(args);
+			
+			tableDisplay(args[0]);
+			
 			mainShell.setText("Edit Profile");
 			mainShell.pack();
 			mainShell.open();
@@ -108,8 +92,32 @@ public class ProfileDefaultGUI {
 				if (!display.readAndDispatch())
 					display.sleep();
 			}
+		}
+	}
+	
+	/**
+	 * Displays the table containing the profile
+	 */
+	public void tableDisplay(String fileName) {
+		LOGGER.debug("tableDisplay");
+		
+		// table layout handling
+		mainShell.setLayout(new GridLayout());
+		table.setLinesVisible(true);
+		table.setHeaderVisible(true);
+		GridData data = new GridData(SWT.FILL, SWT.FILL, true, true);
+		table.setLayoutData(data);
 
-			return profileBuilder; // return profileBuilder containing the profile get in the read file
+		//createColumns();
+
+		List<String> columnTitles = createColumns();
+		populateRows();
+
+		checkRadioButton();
+		
+
+		for (int i = 0; i < columnTitles.size(); i++) {
+			table.getColumn(i).pack(); // resize automatically the column
 		}
 	}
 
@@ -126,93 +134,49 @@ public class ProfileDefaultGUI {
 		rowsButton.setText("Rows");
 		wrapButton.setText("Wrapped");
 
-		checkRadioButton();
-
 		String fileExtension = args[0].substring(args[0].length() - 3);
 		if (fileExtension.equals("soc")) {
 			columnsButton.addSelectionListener(new SelectionAdapter() {
 				@Override
 				public void widgetSelected(SelectionEvent e) {
-					try {
-						table.removeAll();
-						while ( table.getColumnCount() > 0 ) {
-						    table.getColumns()[ 0 ].dispose();
-						}
-						new SOCColumnsGUI().tableDisplay(args);
-					} catch (IOException e1) {
-						LOGGER.debug("IOException when opening Columns GUI : {}", e1);
-					}
+					emptyTable();
+					new SOCColumnsGUI().tableDisplay(args[0]);
 				}
 			});
 			rowsButton.addSelectionListener(new SelectionAdapter() {
 				@Override
 				public void widgetSelected(SelectionEvent e) {
-					try {
-						table.removeAll();
-						while ( table.getColumnCount() > 0 ) {
-						    table.getColumns()[ 0 ].dispose();
-						}
-						new SOCRowsGUI().tableDisplay(args);
-					} catch (IOException e1) {
-						LOGGER.debug("IOException when opening Rows GUI : {}", e1);
-					}
+					emptyTable();
+					new SOCRowsGUI().tableDisplay(args[0]);
 				}
 			});
 			wrapButton.addSelectionListener(new SelectionAdapter() {
 				@Override
 				public void widgetSelected(SelectionEvent e) {
-					try {
-						table.removeAll();
-						while ( table.getColumnCount() > 0 ) {
-						    table.getColumns()[ 0 ].dispose();
-						}
-						new SOCWrappedColumnsGUI().tableDisplay(args);
-					} catch (IOException e1) {
-						LOGGER.debug("IOException when opening wrapped columns GUI : {}", e1);
-					}
+					emptyTable();
+					new SOCWrappedColumnsGUI().tableDisplay(args[0]);
 				}
 			});
 		} else if (fileExtension.equals("soi")) {
 			columnsButton.addSelectionListener(new SelectionAdapter() {
 				@Override
 				public void widgetSelected(SelectionEvent e) {
-					try {
-						table.removeAll();
-						while ( table.getColumnCount() > 0 ) {
-						    table.getColumns()[ 0 ].dispose();
-						}
-						new SOIColumnsGUI().tableDisplay(args);
-					} catch (IOException e1) {
-						LOGGER.debug("IOException when opening Columns GUI : {}", e1);
-					}
+					emptyTable();
+					new SOIColumnsGUI().tableDisplay(args[0]);
 				}
 			});
 			rowsButton.addSelectionListener(new SelectionAdapter() {
 				@Override
 				public void widgetSelected(SelectionEvent e) {
-					try {
-						table.removeAll();
-						while ( table.getColumnCount() > 0 ) {
-						    table.getColumns()[ 0 ].dispose();
-						}
-						new SOIRowsGUI().tableDisplay(args);
-					} catch (IOException e1) {
-						LOGGER.debug("IOException when opening Rows GUI : {}", e1);
-					}
+					emptyTable();
+					new SOIRowsGUI().tableDisplay(args[0]);
 				}
 			});
 			wrapButton.addSelectionListener(new SelectionAdapter() {
 				@Override
 				public void widgetSelected(SelectionEvent e) {
-					try {
-						table.removeAll();
-						while ( table.getColumnCount() > 0 ) {
-						    table.getColumns()[ 0 ].dispose();
-						}
-						new SOIWrappedColumnsGUI().tableDisplay(args);
-					} catch (IOException e1) {
-						LOGGER.debug("IOException when opening wrapped columns GUI : {}", e1);
-					}
+					emptyTable();
+					new SOIWrappedColumnsGUI().tableDisplay(args[0]);
 				}
 			});
 		} else {
@@ -254,7 +218,7 @@ public class ProfileDefaultGUI {
 	}
 
 	/**
-	 * Fills the table of the profile with the alternatives : each column contains
+	 * Fills the table of the profile with the alternatives : by default, each column contains
 	 * the preference of a voter
 	 */
 	public void populateRows() {
@@ -398,6 +362,20 @@ public class ProfileDefaultGUI {
 			dialog.setText("IOException");
 			dialog.setMessage("Error when opening Stream : " + ioe);
 			dialog.open();
+		}
+	}
+	
+	/**
+	 * Emptys the table : removes all data and columns. Removes the save button if it isn't disposed yet.
+	 */
+	public void emptyTable() {
+		LOGGER.debug("emptyTable");
+		table.removeAll();
+		while ( table.getColumnCount() > 0 ) {
+		    table.getColumns()[ 0 ].dispose();
+		}
+		if(!save.isDisposed()) {
+			save.dispose();
 		}
 	}
 }

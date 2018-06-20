@@ -81,7 +81,7 @@ public class SOIRowsGUI extends ProfileDefaultGUI {
 
 	public static void main(String[] args) throws IOException {
 		SOIRowsGUI soiRows = new SOIRowsGUI();
-		profileBuilder = soiRows.tableDisplay(args);
+		soiRows.displayProfileWindow(args);
 	}
 
 }
