@@ -17,16 +17,18 @@ public class MainGUI {
 
 	protected final static Display display = Display.getDefault();
 	protected final static Shell mainShell = new Shell(display, SWT.CLOSE);
+	protected GridData gridData = new GridData(GridData.CENTER, GridData.CENTER, true, false);
 	protected final static Label label = new Label(mainShell, SWT.CENTER);
 	protected final static Button selectFileToRead = new Button(mainShell, SWT.PUSH);
-	protected final static Button columnsGUI = new Button(mainShell, SWT.PUSH);
-	protected final static Button columnsSOIGUI = new Button(mainShell, SWT.PUSH);
-	protected final static Button rowsGUI = new Button(mainShell, SWT.PUSH);
-	protected final static Button rowsSOIGUI = new Button(mainShell, SWT.PUSH);
-	protected final static Button wrappedColumnsGUI = new Button(mainShell, SWT.PUSH);
-	protected final static Button wrappedSOIColumnsGUI = new Button(mainShell, SWT.PUSH);
+	protected static Button columnsGUIButton = new Button(mainShell, SWT.PUSH);
+	protected static Button columnsSOIGUIButton = new Button(mainShell, SWT.PUSH);
+	protected static Button rowsGUIButton = new Button(mainShell, SWT.PUSH);
+	protected static Button rowsSOIGUIButton = new Button(mainShell, SWT.PUSH);
+	protected static Button wrappedColumnsGUIButton = new Button(mainShell, SWT.PUSH);
+	protected static Button wrappedColumnsSOIGUIButton = new Button(mainShell, SWT.PUSH);
 
 	protected static String fileToRead = "";
+	protected static String fileExtension = "";
 	protected static String[] profileToRead = new String[1];
 
 	public void displayGUI() {
@@ -46,14 +48,7 @@ public class MainGUI {
 
 		label.setText("Profile Editing");
 		selectFileToRead.setText("Select a profile");
-		columnsGUI.setText("Columns : Voters");
-		rowsGUI.setText("Rows : Voters");
-		wrappedColumnsGUI.setText("Columns : Voters wrapped");
-		columnsSOIGUI.setText("SOI - Columns : Voters");
-		rowsSOIGUI.setText("SOI - Rows : Voters");
-		wrappedSOIColumnsGUI.setText("SOI - Columns : Voters wrapped");
 
-		GridData gridData = new GridData(GridData.CENTER, GridData.CENTER, true, false);
 		gridData.horizontalSpan = 3;
 		gridData.horizontalAlignment = SWT.FILL;
 		label.setLayoutData(gridData);
@@ -62,32 +57,33 @@ public class MainGUI {
 		gridData.horizontalSpan = 3;
 		selectFileToRead.setLayoutData(gridData);
 
-		gridData = new GridData(GridData.CENTER, GridData.CENTER, true, false);
-		gridData.horizontalSpan = 1;
-		columnsGUI.setLayoutData(gridData);
-
-		gridData = new GridData(GridData.CENTER, GridData.CENTER, true, false);
-		gridData.horizontalSpan = 1;
-		rowsGUI.setLayoutData(gridData);
-
-		gridData = new GridData(GridData.CENTER, GridData.CENTER, true, false);
-		gridData.horizontalSpan = 1;
-		wrappedColumnsGUI.setLayoutData(gridData);
-
-		gridData = new GridData(GridData.CENTER, GridData.CENTER, true, false);
-		gridData.horizontalSpan = 1;
-		columnsSOIGUI.setLayoutData(gridData);
-
-		gridData = new GridData(GridData.CENTER, GridData.CENTER, true, false);
-		gridData.horizontalSpan = 1;
-		rowsSOIGUI.setLayoutData(gridData);
-
-		gridData = new GridData(GridData.CENTER, GridData.CENTER, true, false);
-		gridData.horizontalSpan = 1;
-		wrappedSOIColumnsGUI.setLayoutData(gridData);
-
+		createSOCButtons();
+		createSOIButtons();
+		
 		if (fileToRead == "") {
 			mainShell.setText("Profile editing - No profile loaded");
+			// remove SOI buttons
+			columnsSOIGUIButton.setVisible(false);
+			rowsSOIGUIButton.setVisible(false);
+			wrappedColumnsSOIGUIButton.setVisible(false);
+			GridData data = (GridData) columnsSOIGUIButton.getLayoutData();
+			System.out.println(data);
+			data.exclude = true;
+			data = (GridData) rowsSOIGUIButton.getLayoutData();
+			data.exclude = true;
+			data = (GridData) wrappedColumnsSOIGUIButton.getLayoutData();
+			data.exclude = true;
+
+			// remove SOC buttons
+			columnsGUIButton.setVisible(false);
+			rowsGUIButton.setVisible(false);
+			wrappedColumnsGUIButton.setVisible(false);
+			data = (GridData) columnsGUIButton.getLayoutData();
+			data.exclude = true;
+			data = (GridData) rowsGUIButton.getLayoutData();
+			data.exclude = true;
+			data = (GridData) wrappedColumnsGUIButton.getLayoutData();
+			data.exclude = true;
 		} else {
 			mainShell.setText("Profile editing - " + fileToRead);
 		}
@@ -113,12 +109,18 @@ public class MainGUI {
 					mainShell.setText("Profile editing - No profile loaded");
 					label.setText("Profile editing");
 				} else {
-					String fileExtension = fileToRead.substring(fileToRead.length() - 3);
+					fileExtension = fileToRead.substring(fileToRead.length() - 3);
 					System.out.println(fileExtension);
 					if (fileExtension.equals("soc")) {
 						label.setText("SOC Profile editing");
+						displaySOCButtons();
+						mainShell.pack();
+						mainShell.layout();
 					} else {// if extension is soi
 						label.setText("SOI Profile editing");
+						displaySOIButtons();
+						mainShell.pack();
+						mainShell.layout();
 					}
 
 					mainShell.setText("Profile editing - " + fileToRead);
@@ -127,7 +129,32 @@ public class MainGUI {
 			}
 		});
 
-		columnsGUI.addSelectionListener(new SelectionAdapter() {
+		while (!mainShell.isDisposed()) {
+			if (!display.readAndDispatch())
+				display.sleep();
+		}
+		display.dispose();
+	}
+
+	public void createSOCButtons() {
+		columnsGUIButton.setText("Columns SOC : Voters");
+		rowsGUIButton.setText("Rows : Voters");
+		wrappedColumnsGUIButton.setText("Columns : Voters wrapped");
+
+		gridData = new GridData(GridData.CENTER, GridData.CENTER, true, false);
+		gridData.horizontalSpan = 1;
+		columnsGUIButton.setLayoutData(gridData);
+
+		gridData = new GridData(GridData.CENTER, GridData.CENTER, true, false);
+		gridData.horizontalSpan = 1;
+		rowsGUIButton.setLayoutData(gridData);
+
+		gridData = new GridData(GridData.CENTER, GridData.CENTER, true, false);
+		gridData.horizontalSpan = 1;
+		wrappedColumnsGUIButton.setLayoutData(gridData);
+
+		// listeners
+		columnsGUIButton.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				if (fileToRead == null || fileToRead.isEmpty()) {
@@ -142,22 +169,7 @@ public class MainGUI {
 			}
 		});
 
-		columnsSOIGUI.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				if (fileToRead == null || fileToRead.isEmpty()) {
-					displayMessageNoFileLoaded();
-				} else {
-					try {
-						new SOIColumnsGUI().displayProfileWindow(profileToRead);
-					} catch (IOException ioe) {
-						LOGGER.debug("IOException when opening Columns GUI : {}", ioe);
-					}
-				}
-			}
-		});
-
-		rowsGUI.addSelectionListener(new SelectionAdapter() {
+		rowsGUIButton.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				if (fileToRead == null || fileToRead.isEmpty()) {
@@ -172,22 +184,7 @@ public class MainGUI {
 			}
 		});
 
-		rowsSOIGUI.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				if (fileToRead == null || fileToRead.isEmpty()) {
-					displayMessageNoFileLoaded();
-				} else {
-					try {
-						new SOIRowsGUI().displayProfileWindow(profileToRead);
-					} catch (IOException ioe) {
-						LOGGER.debug("IOException when opening rows GUI : {}", ioe);
-					}
-				}
-			}
-		});
-
-		wrappedColumnsGUI.addSelectionListener(new SelectionAdapter() {
+		wrappedColumnsGUIButton.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				if (fileToRead == null || fileToRead.isEmpty()) {
@@ -201,8 +198,57 @@ public class MainGUI {
 				}
 			}
 		});
+	}
+	
+	public void createSOIButtons() {
+		columnsSOIGUIButton.setText("Columns SOI : Voters");
+		rowsSOIGUIButton.setText("Rows : Voters");
+		wrappedColumnsSOIGUIButton.setText("Columns : Voters wrapped");
 
-		wrappedSOIColumnsGUI.addSelectionListener(new SelectionAdapter() {
+		gridData = new GridData(GridData.CENTER, GridData.CENTER, true, false);
+		gridData.horizontalSpan = 1;
+		columnsSOIGUIButton.setLayoutData(gridData);
+
+		gridData = new GridData(GridData.CENTER, GridData.CENTER, true, false);
+		gridData.horizontalSpan = 1;
+		rowsSOIGUIButton.setLayoutData(gridData);
+
+		gridData = new GridData(GridData.CENTER, GridData.CENTER, true, false);
+		gridData.horizontalSpan = 1;
+		wrappedColumnsSOIGUIButton.setLayoutData(gridData);
+
+		// listeners
+		columnsSOIGUIButton.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				if (fileToRead == null || fileToRead.isEmpty()) {
+					displayMessageNoFileLoaded();
+				} else {
+					try {
+						new SOIColumnsGUI().displayProfileWindow(profileToRead);
+					} catch (IOException ioe) {
+						LOGGER.debug("IOException when opening Columns SOI GUI : {}", ioe);
+					}
+				}
+			}
+		});
+
+		rowsSOIGUIButton.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				if (fileToRead == null || fileToRead.isEmpty()) {
+					displayMessageNoFileLoaded();
+				} else {
+					try {
+						new SOIRowsGUI().displayProfileWindow(profileToRead);
+					} catch (IOException ioe) {
+						LOGGER.debug("IOException when opening Rows SOI GUI : {}", ioe);
+					}
+				}
+			}
+		});
+
+		wrappedColumnsSOIGUIButton.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				if (fileToRead == null || fileToRead.isEmpty()) {
@@ -211,20 +257,67 @@ public class MainGUI {
 					try {
 						new SOIWrappedColumnsGUI().displayProfileWindow(profileToRead);
 					} catch (IOException ioe) {
-						LOGGER.debug("IOException when opening wrapped GUI : {}", ioe);
+						LOGGER.debug("IOException when opening Wrapped Columns SOI GUI : {}", ioe);
 					}
 				}
 			}
 		});
+	}
 
-		while (!mainShell.isDisposed()) {
-			if (!display.readAndDispatch())
-				display.sleep();
-		}
-		display.dispose();
+	public void displaySOCButtons() {
+		LOGGER.debug("displaySOCButtons : ");
+
+		// remove SOI buttons
+		columnsSOIGUIButton.setVisible(false);
+		rowsSOIGUIButton.setVisible(false);
+		wrappedColumnsSOIGUIButton.setVisible(false);
+		GridData data = (GridData) columnsSOIGUIButton.getLayoutData();
+		data.exclude = true;
+		data = (GridData) rowsSOIGUIButton.getLayoutData();
+		data.exclude = true;
+		data = (GridData) wrappedColumnsSOIGUIButton.getLayoutData();
+		data.exclude = true;
+
+		// add SOC buttons
+		columnsGUIButton.setVisible(true);
+		rowsGUIButton.setVisible(true);
+		wrappedColumnsGUIButton.setVisible(true);
+		data = (GridData) columnsGUIButton.getLayoutData();
+		data.exclude = false;
+		data = (GridData) rowsGUIButton.getLayoutData();
+		data.exclude = false;
+		data = (GridData) wrappedColumnsGUIButton.getLayoutData();
+		data.exclude = false;
+	}
+
+	public void displaySOIButtons() {
+		LOGGER.debug("displaySOIButtons : ");
+
+		// remove SOC buttons
+		columnsGUIButton.setVisible(false);
+		rowsGUIButton.setVisible(false);
+		wrappedColumnsGUIButton.setVisible(false);
+		GridData data = (GridData) columnsGUIButton.getLayoutData();
+		data.exclude = true;
+		data = (GridData) rowsGUIButton.getLayoutData();
+		data.exclude = true;
+		data = (GridData) wrappedColumnsGUIButton.getLayoutData();
+		data.exclude = true;
+
+		// add SOI buttons
+		columnsSOIGUIButton.setVisible(true);
+		rowsSOIGUIButton.setVisible(true);
+		wrappedColumnsSOIGUIButton.setVisible(true);
+		data = (GridData) columnsSOIGUIButton.getLayoutData();
+		data.exclude = false;
+		data = (GridData) rowsSOIGUIButton.getLayoutData();
+		data.exclude = false;
+		data = (GridData) wrappedColumnsSOIGUIButton.getLayoutData();
+		data.exclude = false;
 	}
 
 	public void displayMessageNoFileLoaded() {
+		LOGGER.debug("displayMessageNoFileLoaded : ");
 		MessageBox messageBox = new MessageBox(mainShell, SWT.OK);
 		messageBox.setText("Warning");
 		messageBox.setMessage("No profile loaded !");
