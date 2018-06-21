@@ -337,7 +337,7 @@ public class ProfileDefaultGUI {
 		Voter voter = new Voter(voterToModify);
 		LOGGER.debug("New preference for voter v {} : {}", voter, newpref);
 		// change preference for this Voter in global ProfileBuilder
-		profileBuilder.addVote(new Voter(voterToModify), newpref);
+		profileBuilder.addVote(voter, newpref);
 	}
 
 	/**

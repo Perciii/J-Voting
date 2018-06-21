@@ -67,6 +67,13 @@ public class ColumnsDefaultGUI extends ProfileDefaultGUI {
 		});
 	}
 
+	/**
+	 * Implements dragging and dropping a cell at a time within the same column.<br>
+	 * When moving it up, the cell it is dropped on and those below will go down one
+	 * cell. <br>
+	 * When moving it down, the cell it is dropped on and those above will go
+	 * up one cell.
+	 */
 	public void handleDragAndDrop() {
 		LOGGER.debug("handleDragAndDrop :");
 		table.addListener(SWT.MouseDown, new Listener() {
@@ -138,18 +145,20 @@ public class ColumnsDefaultGUI extends ProfileDefaultGUI {
 
 		// soc tests etc
 
-		voterToModify = cellBeingDragged.getColumnIndex() + 1;
+		int columnModified = cellBeingDragged.getColumnIndex();
 
-		String newPrefString = table.getItem(0).getText(voterToModify);
+		String newPrefString = table.getItem(0).getText(columnModified);
 		for (TableItem item : Iterables.skip(Arrays.asList(table.getItems()), 1)) {
-			newPrefString += "," + item.getText(voterToModify);
+			newPrefString += "," + item.getText(columnModified);
 		}
 
+		voterToModify = columnModified + 1;
+		
 		Voter voter = new Voter(voterToModify);
 		StrictPreference newPref = new ReadProfile().createStrictPreferenceFrom(newPrefString);
 		LOGGER.debug("New preference for voter v {} : {}", voter, newPref);
 		// change preference for this Voter in global ProfileBuilder
-		profileBuilder.addVote(new Voter(voterToModify), newPref);
+		profileBuilder.addVote(voter, newPref);
 
 		try (OutputStream outputStream = new FileOutputStream(file)) {
 			String fileExtension = file.toString().substring(file.toString().length() - 3);
