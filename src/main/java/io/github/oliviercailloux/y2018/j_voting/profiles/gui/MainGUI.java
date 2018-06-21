@@ -16,16 +16,16 @@ public class MainGUI {
 	private static final Logger LOGGER = LoggerFactory.getLogger(MainGUI.class.getName());
 
 	protected final static Display display = Display.getDefault();
-	protected final static Shell mainShell = new Shell(display, SWT.CLOSE);
+	protected final static Shell mainShell = new Shell(display, SWT.CLOSE | SWT.RESIZE);
 	protected GridData gridData = new GridData(GridData.CENTER, GridData.CENTER, true, false);
 	protected final static Label label = new Label(mainShell, SWT.CENTER);
-	protected final static Button selectFileToRead = new Button(mainShell, SWT.PUSH);
-	protected static Button columnsGUIButton = new Button(mainShell, SWT.PUSH);
-	protected static Button columnsSOIGUIButton = new Button(mainShell, SWT.PUSH);
-	protected static Button rowsGUIButton = new Button(mainShell, SWT.PUSH);
-	protected static Button rowsSOIGUIButton = new Button(mainShell, SWT.PUSH);
-	protected static Button wrappedColumnsGUIButton = new Button(mainShell, SWT.PUSH);
-	protected static Button wrappedColumnsSOIGUIButton = new Button(mainShell, SWT.PUSH);
+	protected final static Button selectFileToReadButton = new Button(mainShell, SWT.PUSH);
+	protected static Button socColumnsGUIButton = new Button(mainShell, SWT.PUSH);
+	protected static Button soicolumnsGUIButton = new Button(mainShell, SWT.PUSH);
+	protected static Button socRowsGUIButton = new Button(mainShell, SWT.PUSH);
+	protected static Button soiRowsGUIButton = new Button(mainShell, SWT.PUSH);
+	protected static Button socWrappedColumnsGUIButton = new Button(mainShell, SWT.PUSH);
+	protected static Button soiWrappedColumnsGUIButton = new Button(mainShell, SWT.PUSH);
 
 	protected static String fileToRead = "";
 	protected static String fileExtension = "";
@@ -47,7 +47,7 @@ public class MainGUI {
 		label.setFont(boldFont);
 
 		label.setText("Profile Editing");
-		selectFileToRead.setText("Select a profile");
+		selectFileToReadButton.setText("Select a profile");
 
 		gridData.horizontalSpan = 3;
 		gridData.horizontalAlignment = SWT.FILL;
@@ -55,34 +55,34 @@ public class MainGUI {
 
 		gridData = new GridData(GridData.CENTER, GridData.CENTER, true, false);
 		gridData.horizontalSpan = 3;
-		selectFileToRead.setLayoutData(gridData);
+		selectFileToReadButton.setLayoutData(gridData);
 
 		createSOCButtons();
 		createSOIButtons();
-		
+
 		if (fileToRead == "") {
 			mainShell.setText("Profile editing - No profile loaded");
 			// remove SOI buttons
-			columnsSOIGUIButton.setVisible(false);
-			rowsSOIGUIButton.setVisible(false);
-			wrappedColumnsSOIGUIButton.setVisible(false);
-			GridData data = (GridData) columnsSOIGUIButton.getLayoutData();
+			soicolumnsGUIButton.setVisible(false);
+			soiRowsGUIButton.setVisible(false);
+			soiWrappedColumnsGUIButton.setVisible(false);
+			GridData data = (GridData) soicolumnsGUIButton.getLayoutData();
 			System.out.println(data);
 			data.exclude = true;
-			data = (GridData) rowsSOIGUIButton.getLayoutData();
+			data = (GridData) soiRowsGUIButton.getLayoutData();
 			data.exclude = true;
-			data = (GridData) wrappedColumnsSOIGUIButton.getLayoutData();
+			data = (GridData) soiWrappedColumnsGUIButton.getLayoutData();
 			data.exclude = true;
 
 			// remove SOC buttons
-			columnsGUIButton.setVisible(false);
-			rowsGUIButton.setVisible(false);
-			wrappedColumnsGUIButton.setVisible(false);
-			data = (GridData) columnsGUIButton.getLayoutData();
+			socColumnsGUIButton.setVisible(false);
+			socRowsGUIButton.setVisible(false);
+			socWrappedColumnsGUIButton.setVisible(false);
+			data = (GridData) socColumnsGUIButton.getLayoutData();
 			data.exclude = true;
-			data = (GridData) rowsGUIButton.getLayoutData();
+			data = (GridData) socRowsGUIButton.getLayoutData();
 			data.exclude = true;
-			data = (GridData) wrappedColumnsGUIButton.getLayoutData();
+			data = (GridData) socWrappedColumnsGUIButton.getLayoutData();
 			data.exclude = true;
 		} else {
 			mainShell.setText("Profile editing - " + fileToRead);
@@ -99,7 +99,7 @@ public class MainGUI {
 		// open the shell
 		mainShell.open();
 
-		selectFileToRead.addSelectionListener(new SelectionAdapter() {
+		selectFileToReadButton.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				fileToRead = fileChooser.open();
@@ -136,25 +136,29 @@ public class MainGUI {
 		display.dispose();
 	}
 
+	/**
+	 * Instantiates and set characteristics of SOC buttons with their specific
+	 * behaviors.
+	 */
 	public void createSOCButtons() {
-		columnsGUIButton.setText("Columns SOC : Voters");
-		rowsGUIButton.setText("Rows : Voters");
-		wrappedColumnsGUIButton.setText("Columns : Voters wrapped");
+		socColumnsGUIButton.setText("Columns : Voters");
+		socRowsGUIButton.setText("Rows : Voters");
+		socWrappedColumnsGUIButton.setText("Columns : Voters wrapped");
 
 		gridData = new GridData(GridData.CENTER, GridData.CENTER, true, false);
 		gridData.horizontalSpan = 1;
-		columnsGUIButton.setLayoutData(gridData);
+		socColumnsGUIButton.setLayoutData(gridData);
 
 		gridData = new GridData(GridData.CENTER, GridData.CENTER, true, false);
 		gridData.horizontalSpan = 1;
-		rowsGUIButton.setLayoutData(gridData);
+		socRowsGUIButton.setLayoutData(gridData);
 
 		gridData = new GridData(GridData.CENTER, GridData.CENTER, true, false);
 		gridData.horizontalSpan = 1;
-		wrappedColumnsGUIButton.setLayoutData(gridData);
+		socWrappedColumnsGUIButton.setLayoutData(gridData);
 
 		// listeners
-		columnsGUIButton.addSelectionListener(new SelectionAdapter() {
+		socColumnsGUIButton.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				if (fileToRead == null || fileToRead.isEmpty()) {
@@ -169,7 +173,7 @@ public class MainGUI {
 			}
 		});
 
-		rowsGUIButton.addSelectionListener(new SelectionAdapter() {
+		socRowsGUIButton.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				if (fileToRead == null || fileToRead.isEmpty()) {
@@ -184,7 +188,7 @@ public class MainGUI {
 			}
 		});
 
-		wrappedColumnsGUIButton.addSelectionListener(new SelectionAdapter() {
+		socWrappedColumnsGUIButton.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				if (fileToRead == null || fileToRead.isEmpty()) {
@@ -199,26 +203,30 @@ public class MainGUI {
 			}
 		});
 	}
-	
+
+	/**
+	 * Instantiates and set characteristics of SOI buttons with their specific
+	 * behaviors.
+	 */
 	public void createSOIButtons() {
-		columnsSOIGUIButton.setText("Columns SOI : Voters");
-		rowsSOIGUIButton.setText("Rows : Voters");
-		wrappedColumnsSOIGUIButton.setText("Columns : Voters wrapped");
+		soicolumnsGUIButton.setText("Columns : Voters");
+		soiRowsGUIButton.setText("Rows : Voters");
+		soiWrappedColumnsGUIButton.setText("Columns : Voters wrapped");
 
 		gridData = new GridData(GridData.CENTER, GridData.CENTER, true, false);
 		gridData.horizontalSpan = 1;
-		columnsSOIGUIButton.setLayoutData(gridData);
+		soicolumnsGUIButton.setLayoutData(gridData);
 
 		gridData = new GridData(GridData.CENTER, GridData.CENTER, true, false);
 		gridData.horizontalSpan = 1;
-		rowsSOIGUIButton.setLayoutData(gridData);
+		soiRowsGUIButton.setLayoutData(gridData);
 
 		gridData = new GridData(GridData.CENTER, GridData.CENTER, true, false);
 		gridData.horizontalSpan = 1;
-		wrappedColumnsSOIGUIButton.setLayoutData(gridData);
+		soiWrappedColumnsGUIButton.setLayoutData(gridData);
 
 		// listeners
-		columnsSOIGUIButton.addSelectionListener(new SelectionAdapter() {
+		soicolumnsGUIButton.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				if (fileToRead == null || fileToRead.isEmpty()) {
@@ -233,7 +241,7 @@ public class MainGUI {
 			}
 		});
 
-		rowsSOIGUIButton.addSelectionListener(new SelectionAdapter() {
+		soiRowsGUIButton.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				if (fileToRead == null || fileToRead.isEmpty()) {
@@ -248,7 +256,7 @@ public class MainGUI {
 			}
 		});
 
-		wrappedColumnsSOIGUIButton.addSelectionListener(new SelectionAdapter() {
+		soiWrappedColumnsGUIButton.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				if (fileToRead == null || fileToRead.isEmpty()) {
@@ -264,55 +272,61 @@ public class MainGUI {
 		});
 	}
 
+	/**
+	 * Displays SOC buttons and hides SOI ones
+	 */
 	public void displaySOCButtons() {
 		LOGGER.debug("displaySOCButtons : ");
 
 		// remove SOI buttons
-		columnsSOIGUIButton.setVisible(false);
-		rowsSOIGUIButton.setVisible(false);
-		wrappedColumnsSOIGUIButton.setVisible(false);
-		GridData data = (GridData) columnsSOIGUIButton.getLayoutData();
+		soicolumnsGUIButton.setVisible(false);
+		soiRowsGUIButton.setVisible(false);
+		soiWrappedColumnsGUIButton.setVisible(false);
+		GridData data = (GridData) soicolumnsGUIButton.getLayoutData();
 		data.exclude = true;
-		data = (GridData) rowsSOIGUIButton.getLayoutData();
+		data = (GridData) soiRowsGUIButton.getLayoutData();
 		data.exclude = true;
-		data = (GridData) wrappedColumnsSOIGUIButton.getLayoutData();
+		data = (GridData) soiWrappedColumnsGUIButton.getLayoutData();
 		data.exclude = true;
 
 		// add SOC buttons
-		columnsGUIButton.setVisible(true);
-		rowsGUIButton.setVisible(true);
-		wrappedColumnsGUIButton.setVisible(true);
-		data = (GridData) columnsGUIButton.getLayoutData();
+		socColumnsGUIButton.setVisible(true);
+		socRowsGUIButton.setVisible(true);
+		socWrappedColumnsGUIButton.setVisible(true);
+		data = (GridData) socColumnsGUIButton.getLayoutData();
 		data.exclude = false;
-		data = (GridData) rowsGUIButton.getLayoutData();
+		data = (GridData) socRowsGUIButton.getLayoutData();
 		data.exclude = false;
-		data = (GridData) wrappedColumnsGUIButton.getLayoutData();
+		data = (GridData) socWrappedColumnsGUIButton.getLayoutData();
 		data.exclude = false;
 	}
 
+	/**
+	 * Displays SOI buttons and hides SOC ones
+	 */
 	public void displaySOIButtons() {
 		LOGGER.debug("displaySOIButtons : ");
 
 		// remove SOC buttons
-		columnsGUIButton.setVisible(false);
-		rowsGUIButton.setVisible(false);
-		wrappedColumnsGUIButton.setVisible(false);
-		GridData data = (GridData) columnsGUIButton.getLayoutData();
+		socColumnsGUIButton.setVisible(false);
+		socRowsGUIButton.setVisible(false);
+		socWrappedColumnsGUIButton.setVisible(false);
+		GridData data = (GridData) socColumnsGUIButton.getLayoutData();
 		data.exclude = true;
-		data = (GridData) rowsGUIButton.getLayoutData();
+		data = (GridData) socRowsGUIButton.getLayoutData();
 		data.exclude = true;
-		data = (GridData) wrappedColumnsGUIButton.getLayoutData();
+		data = (GridData) socWrappedColumnsGUIButton.getLayoutData();
 		data.exclude = true;
 
 		// add SOI buttons
-		columnsSOIGUIButton.setVisible(true);
-		rowsSOIGUIButton.setVisible(true);
-		wrappedColumnsSOIGUIButton.setVisible(true);
-		data = (GridData) columnsSOIGUIButton.getLayoutData();
+		soicolumnsGUIButton.setVisible(true);
+		soiRowsGUIButton.setVisible(true);
+		soiWrappedColumnsGUIButton.setVisible(true);
+		data = (GridData) soicolumnsGUIButton.getLayoutData();
 		data.exclude = false;
-		data = (GridData) rowsSOIGUIButton.getLayoutData();
+		data = (GridData) soiRowsGUIButton.getLayoutData();
 		data.exclude = false;
-		data = (GridData) wrappedColumnsSOIGUIButton.getLayoutData();
+		data = (GridData) soiWrappedColumnsGUIButton.getLayoutData();
 		data.exclude = false;
 	}
 
@@ -325,8 +339,7 @@ public class MainGUI {
 	}
 
 	public static void main(String[] args) {
-		MainGUI mainGUI = new MainGUI();
-		mainGUI.displayGUI();
+		new MainGUI().displayGUI();
 	}
 
 }
