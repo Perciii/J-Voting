@@ -1,19 +1,31 @@
 package io.github.oliviercailloux.y2018.j_voting.profiles.management;
 
-import io.github.oliviercailloux.y2018.j_voting.*;
-import io.github.oliviercailloux.y2018.j_voting.profiles.*;
-import java.util.*;
-
-import javax.ws.rs.client.*;
-//import javax.ws.rs.core.MediaType;
-
-import java.io.*;
-import java.net.HttpURLConnection;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.URISyntaxException;
 import java.net.URL;
-import org.slf4j.*;
-import com.google.common.base.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
+
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+//import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.google.common.base.Charsets;
+import com.google.common.base.Preconditions;
 import com.google.common.collect.Iterables;
-import com.google.common.io.*;
+import com.google.common.io.CharStreams;
+
+import io.github.oliviercailloux.y2018.j_voting.Alternative;
+import io.github.oliviercailloux.y2018.j_voting.StrictPreference;
+import io.github.oliviercailloux.y2018.j_voting.profiles.ProfileI;
 
 /**
  * 
@@ -81,17 +93,17 @@ public class ReadProfile {
 	 *            extracted
 	 * @return a StrictProfile
 	 * @throws IOException
+	 * @throws URISyntaxException 
 	 */
 	public ProfileI createProfileFromURL(URL url) throws IOException {
 		LOGGER.debug("CreateProfileFromURL : ");
 		Preconditions.checkNotNull(url);
 		LOGGER.debug("parameter : URL = {}", url.toString());
 
-		HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-		try (InputStream is = new BufferedInputStream(urlConnection.getInputStream())) {
+		Client client = ClientBuilder.newClient();
+		Response response = client.target(url.toString()).request().get();
+		try (InputStream is = (InputStream) response.getEntity()) {
 			return createProfileFromStream(is).restrictProfile();
-		} finally {
-			urlConnection.disconnect();
 		}
 	}
 
