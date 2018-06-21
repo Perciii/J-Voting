@@ -130,10 +130,14 @@ public class MainGUI {
 		columnsGUI.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				try {
-					new SOCColumnsGUI().displayProfileWindow(profileToRead);
-				} catch (IOException ioe) {
-					LOGGER.debug("IOException when opening Columns GUI : {}", ioe);
+				if (fileToRead == null || fileToRead.isEmpty()) {
+					displayMessageNoFileLoaded();
+				} else {
+					try {
+						new SOCColumnsGUI().displayProfileWindow(profileToRead);
+					} catch (IOException ioe) {
+						LOGGER.debug("IOException when opening Columns GUI : {}", ioe);
+					}
 				}
 			}
 		});
@@ -141,10 +145,14 @@ public class MainGUI {
 		columnsSOIGUI.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				try {
-					new SOIColumnsGUI().displayProfileWindow(profileToRead);
-				} catch (IOException ioe) {
-					LOGGER.debug("IOException when opening Columns GUI : {}", ioe);
+				if (fileToRead == null || fileToRead.isEmpty()) {
+					displayMessageNoFileLoaded();
+				} else {
+					try {
+						new SOIColumnsGUI().displayProfileWindow(profileToRead);
+					} catch (IOException ioe) {
+						LOGGER.debug("IOException when opening Columns GUI : {}", ioe);
+					}
 				}
 			}
 		});
@@ -152,10 +160,14 @@ public class MainGUI {
 		rowsGUI.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				try {
-					new SOCRowsGUI().displayProfileWindow(profileToRead);
-				} catch (IOException ioe) {
-					LOGGER.debug("IOException when opening Rows GUI : {}", ioe);
+				if (fileToRead == null || fileToRead.isEmpty()) {
+					displayMessageNoFileLoaded();
+				} else {
+					try {
+						new SOCRowsGUI().displayProfileWindow(profileToRead);
+					} catch (IOException ioe) {
+						LOGGER.debug("IOException when opening Rows GUI : {}", ioe);
+					}
 				}
 			}
 		});
@@ -163,10 +175,14 @@ public class MainGUI {
 		rowsSOIGUI.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				try {
-					new SOIRowsGUI().displayProfileWindow(profileToRead);
-				} catch (IOException ioe) {
-					LOGGER.debug("IOException when opening rows GUI : {}", ioe);
+				if (fileToRead == null || fileToRead.isEmpty()) {
+					displayMessageNoFileLoaded();
+				} else {
+					try {
+						new SOIRowsGUI().displayProfileWindow(profileToRead);
+					} catch (IOException ioe) {
+						LOGGER.debug("IOException when opening rows GUI : {}", ioe);
+					}
 				}
 			}
 		});
@@ -174,10 +190,14 @@ public class MainGUI {
 		wrappedColumnsGUI.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				try {
-					new SOCWrappedColumnsGUI().displayProfileWindow(profileToRead);
-				} catch (IOException ioe) {
-					LOGGER.debug("IOException when opening wrapped GUI : {}", ioe);
+				if (fileToRead == null || fileToRead.isEmpty()) {
+					displayMessageNoFileLoaded();
+				} else {
+					try {
+						new SOCWrappedColumnsGUI().displayProfileWindow(profileToRead);
+					} catch (IOException ioe) {
+						LOGGER.debug("IOException when opening wrapped GUI : {}", ioe);
+					}
 				}
 			}
 		});
@@ -185,10 +205,14 @@ public class MainGUI {
 		wrappedSOIColumnsGUI.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				try {
-					new SOIWrappedColumnsGUI().displayProfileWindow(profileToRead);
-				} catch (IOException ioe) {
-					LOGGER.debug("IOException when opening wrapped GUI : {}", ioe);
+				if (fileToRead == null || fileToRead.isEmpty()) {
+					displayMessageNoFileLoaded();
+				} else {
+					try {
+						new SOIWrappedColumnsGUI().displayProfileWindow(profileToRead);
+					} catch (IOException ioe) {
+						LOGGER.debug("IOException when opening wrapped GUI : {}", ioe);
+					}
 				}
 			}
 		});
@@ -198,6 +222,13 @@ public class MainGUI {
 				display.sleep();
 		}
 		display.dispose();
+	}
+
+	public void displayMessageNoFileLoaded() {
+		MessageBox messageBox = new MessageBox(mainShell, SWT.OK);
+		messageBox.setText("Warning");
+		messageBox.setMessage("No profile loaded !");
+		messageBox.open();
 	}
 
 	public static void main(String[] args) {
