@@ -67,7 +67,6 @@ public class MainGUI {
 			soiRowsGUIButton.setVisible(false);
 			soiWrappedColumnsGUIButton.setVisible(false);
 			GridData data = (GridData) soicolumnsGUIButton.getLayoutData();
-			System.out.println(data);
 			data.exclude = true;
 			data = (GridData) soiRowsGUIButton.getLayoutData();
 			data.exclude = true;
@@ -110,7 +109,6 @@ public class MainGUI {
 					label.setText("Profile editing");
 				} else {
 					fileExtension = fileToRead.substring(fileToRead.length() - 3);
-					System.out.println(fileExtension);
 					if (fileExtension.equals("soc")) {
 						label.setText("SOC Profile editing");
 						displaySOCButtons();
