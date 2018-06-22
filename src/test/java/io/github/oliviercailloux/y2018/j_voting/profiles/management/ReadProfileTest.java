@@ -125,9 +125,7 @@ public class ReadProfileTest {
 	public void testCreateProfileFromURL() throws IOException {
 		ReadProfile rp = new ReadProfile();
 		String fileURLAsString = "https://raw.githubusercontent.com/Perciii/J-Voting/master/src/test/resources/io/github/oliviercailloux/y2018/j_voting/profiles/management/profileToRead.soc";
-		System.out.println(fileURLAsString);
 		ProfileI profile = rp.createProfileFromURL(new URL(fileURLAsString));
-		System.out.println(profile.toString());
 		Alternative a1 = new Alternative(1);
 		Alternative a2 = new Alternative(2);
 		Alternative a3 = new Alternative(3);
