@@ -18,17 +18,17 @@ import io.github.oliviercailloux.y2018.j_voting.Voter;
  * "https://incubator.apache.org/odftoolkit/simple/demo/demo9.html">odftoolkit
  * doc</a>.
  *
- * @author Quentin Sauvage
+ * @author Olivier Cailloux, modified by Quentin Sauvage
  *
  */
 public class TestODS {
-	@SuppressWarnings("unused")
 	private static final Logger LOGGER = LoggerFactory.getLogger(TestODS.class);
 
 	public static void main(String[] args) throws Exception {
 		new TestODS().generateSpreadsheetDocument();
 	}
 
+	@SuppressWarnings("unused")
 	public void generateSpreadsheetDocument() throws Exception {
 		try (InputStream inputStream = TestODS.class.getResourceAsStream("demo9_data.ods");
 				SpreadsheetDocument spreadsheetDoc = SpreadsheetDocument.loadDocument(inputStream)) {
