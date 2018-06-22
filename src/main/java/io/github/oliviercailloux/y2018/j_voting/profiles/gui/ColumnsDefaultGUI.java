@@ -38,7 +38,7 @@ public class ColumnsDefaultGUI extends ProfileDefaultGUI {
 	protected int sourceX = 0;
 	protected int sourceY = 0;
 	protected ViewerCell cellBeingDragged = tableViewer.getCell(new Point(0, 0));
-	protected Button saveButton;
+	protected static Button saveButton;
 	protected int destinationX = 0;
 	protected int destinationY = 0;
 
@@ -191,9 +191,9 @@ public class ColumnsDefaultGUI extends ProfileDefaultGUI {
 		LOGGER.debug("save :");
 		Preconditions.checkNotNull(outputFile);
 		File file = new File(outputFile);
-		
+
 		ProfileBuilder pb = new ProfileBuilder(new ReadProfile().createProfileFromColumnsTable(table));
-		
+
 		try (OutputStream outputStream = new FileOutputStream(file)) {
 			String fileExtension = file.toString().substring(file.toString().length() - 3);
 			if (fileExtension.equals("soc")) {
