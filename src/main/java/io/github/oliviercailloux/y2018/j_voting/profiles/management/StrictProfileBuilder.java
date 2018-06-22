@@ -1,11 +1,20 @@
 package io.github.oliviercailloux.y2018.j_voting.profiles.management;
 
-import io.github.oliviercailloux.y2018.j_voting.*;
-import io.github.oliviercailloux.y2018.j_voting.profiles.*;
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.*;
-import org.slf4j.*;
+import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.google.common.base.Preconditions;
+
+import io.github.oliviercailloux.y2018.j_voting.Alternative;
+import io.github.oliviercailloux.y2018.j_voting.Preference;
+import io.github.oliviercailloux.y2018.j_voting.StrictPreference;
+import io.github.oliviercailloux.y2018.j_voting.Voter;
+import io.github.oliviercailloux.y2018.j_voting.profiles.ImmutableStrictProfileI;
+import io.github.oliviercailloux.y2018.j_voting.profiles.StrictProfileI;
 
 /**
  * 
@@ -55,18 +64,20 @@ public class StrictProfileBuilder extends ProfileBuilder {
 		}
 		votes.put(v, pref);
 	}
-	
+
 	/**
-	 * From a StrictProfileI, creates an ImmutableStrictProfileI where only the first alternative of each preference is taken into account.
+	 * From a StrictProfileI, creates an ImmutableStrictProfileI where only the
+	 * first alternative of each preference is taken into account.
+	 * 
 	 * @return
 	 */
 	public ImmutableStrictProfileI createOneAlternativeProfile() {
 		LOGGER.debug("createOneAlternativeProfile");
-		for(Voter v : votes.keySet()) {
+		for (Voter v : votes.keySet()) {
 			List<Alternative> alters = new ArrayList<>();
 			alters.add(votes.get(v).getAlternative(0));
 			StrictPreference prefOneAlter = new StrictPreference(alters);
-			addVote(v,prefOneAlter);
+			addVote(v, prefOneAlter);
 		}
 		return new ImmutableStrictProfileI(votes);
 	}

@@ -1,11 +1,23 @@
 package io.github.oliviercailloux.y2018.j_voting.profiles.analysis;
 
-import io.github.oliviercailloux.y2018.j_voting.*;
-import io.github.oliviercailloux.y2018.j_voting.profiles.*;
-import java.util.*;
-import org.slf4j.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Objects;
+import java.util.Set;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.google.common.base.Preconditions;
-import com.google.common.collect.*;
+import com.google.common.collect.HashMultiset;
+import com.google.common.collect.Multiset;
+
+import io.github.oliviercailloux.y2018.j_voting.Alternative;
+import io.github.oliviercailloux.y2018.j_voting.Preference;
+import io.github.oliviercailloux.y2018.j_voting.Voter;
+import io.github.oliviercailloux.y2018.j_voting.profiles.ImmutableProfileI;
+import io.github.oliviercailloux.y2018.j_voting.profiles.ProfileI;
 
 public class Borda implements SocialWelfareFunction {
 

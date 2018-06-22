@@ -5,7 +5,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.odftoolkit.simple.SpreadsheetDocument;
-import org.odftoolkit.simple.table.*;
+import org.odftoolkit.simple.table.Cell;
+import org.odftoolkit.simple.table.Column;
+import org.odftoolkit.simple.table.Table;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -33,19 +35,23 @@ public class TestODS {
 		try (InputStream inputStream = TestODS.class.getResourceAsStream("demo9_data.ods");
 				SpreadsheetDocument spreadsheetDoc = SpreadsheetDocument.loadDocument(inputStream)) {
 			List<Table> tables = spreadsheetDoc.getTableList();
-			for(Table table : tables) {
+			for (Table table : tables) {
 				List<Voter> voters = new ArrayList<>();
 				for (Column column : table.getColumnList()) {
 					List<Alternative> alternatives = new ArrayList<>();
 					String firstCellText = column.getCellByIndex(0).getDisplayText();
-					voters.add(new Voter(Integer.parseInt(firstCellText.substring(firstCellText.length()-1, firstCellText.indexOf(" ")))));
-					for (int alt = Integer.parseInt(column.getCellByIndex(1).getDisplayText()) ; alt < column.getCellCount(); alt++) {
+					voters.add(new Voter(Integer.parseInt(
+							firstCellText.substring(firstCellText.length() - 1, firstCellText.indexOf(" ")))));
+					for (int alt = Integer.parseInt(column.getCellByIndex(1).getDisplayText()); alt < column
+							.getCellCount(); alt++) {
 						alternatives.add(new Alternative(alt));
 					}
 					StrictPreference pref = new StrictPreference(alternatives);
 				}
 			}
-			String preference = spreadsheetDoc.getTableByName("B").getCellRangeByPosition("A2", "end").toString(); // what does toString() return ?
+			String preference = spreadsheetDoc.getTableByName("B").getCellRangeByPosition("A2", "end").toString();
+			// what does toString() return ?
+
 			Cell positionCell = spreadsheetDoc.getTableByName("B").getCellByPosition("E1");
 			LOGGER.info("Found: {}.", positionCell.getDisplayText());
 			positionCell.setStringValue("ploum");

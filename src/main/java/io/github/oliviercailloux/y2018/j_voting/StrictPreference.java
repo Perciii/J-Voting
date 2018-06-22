@@ -1,7 +1,13 @@
 package io.github.oliviercailloux.y2018.j_voting;
 
-import java.util.*;
-import org.slf4j.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.google.common.base.Preconditions;
 
 /**

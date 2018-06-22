@@ -1,10 +1,30 @@
 package io.github.oliviercailloux.y2018.j_voting.profiles.management;
 
-import static org.junit.Assert.*;
-import io.github.oliviercailloux.y2018.j_voting.*;
-import io.github.oliviercailloux.y2018.j_voting.profiles.*;
-import java.util.*;
+import static org.junit.Assert.assertEquals;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 import org.junit.Test;
+
+import io.github.oliviercailloux.y2018.j_voting.Alternative;
+import io.github.oliviercailloux.y2018.j_voting.Preference;
+import io.github.oliviercailloux.y2018.j_voting.StrictPreference;
+import io.github.oliviercailloux.y2018.j_voting.Voter;
+import io.github.oliviercailloux.y2018.j_voting.profiles.ImmutableProfile;
+import io.github.oliviercailloux.y2018.j_voting.profiles.ImmutableProfileI;
+import io.github.oliviercailloux.y2018.j_voting.profiles.ImmutableProfileITest;
+import io.github.oliviercailloux.y2018.j_voting.profiles.ImmutableProfileTest;
+import io.github.oliviercailloux.y2018.j_voting.profiles.ImmutableStrictProfile;
+import io.github.oliviercailloux.y2018.j_voting.profiles.ImmutableStrictProfileI;
+import io.github.oliviercailloux.y2018.j_voting.profiles.ImmutableStrictProfileITest;
+import io.github.oliviercailloux.y2018.j_voting.profiles.ImmutableStrictProfileTest;
+import io.github.oliviercailloux.y2018.j_voting.profiles.Profile;
+import io.github.oliviercailloux.y2018.j_voting.profiles.ProfileI;
+import io.github.oliviercailloux.y2018.j_voting.profiles.StrictProfile;
+import io.github.oliviercailloux.y2018.j_voting.profiles.StrictProfileI;
 
 public class ProfileBuilderTest {
 

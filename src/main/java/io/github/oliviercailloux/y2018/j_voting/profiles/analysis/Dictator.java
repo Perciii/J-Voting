@@ -1,11 +1,15 @@
 package io.github.oliviercailloux.y2018.j_voting.profiles.analysis;
 
-import org.slf4j.*;
-import com.google.common.base.Preconditions;
-import io.github.oliviercailloux.y2018.j_voting.*;
-import io.github.oliviercailloux.y2018.j_voting.profiles.*;
+import java.util.Objects;
 
-import java.util.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.google.common.base.Preconditions;
+
+import io.github.oliviercailloux.y2018.j_voting.Preference;
+import io.github.oliviercailloux.y2018.j_voting.Voter;
+import io.github.oliviercailloux.y2018.j_voting.profiles.ImmutableProfileI;
 
 /**
  * This class is immutable. This class provides a result for an election that is

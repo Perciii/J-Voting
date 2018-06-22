@@ -1,7 +1,7 @@
 package io.github.oliviercailloux.y2018.j_voting.profiles.analysis;
 
-import io.github.oliviercailloux.y2018.j_voting.*;
-import io.github.oliviercailloux.y2018.j_voting.profiles.*;
+import io.github.oliviercailloux.y2018.j_voting.Preference;
+import io.github.oliviercailloux.y2018.j_voting.profiles.ImmutableProfileI;
 
 public interface SocialWelfareFunction {
 

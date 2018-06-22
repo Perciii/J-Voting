@@ -47,11 +47,13 @@ public class ColumnsDefaultGUI extends ProfileDefaultGUI {
 	 * buttons.
 	 * 
 	 * @param args
+	 *            not <code>null</code>
 	 * @throws IOException
 	 */
 	@Override
 	public void displayProfileWindow(String[] args) throws IOException {
 		LOGGER.debug("displayProfileWindow");
+		Preconditions.checkNotNull(args);
 		Preconditions.checkNotNull(args[0]);
 
 		String arg = args[0];// arg is the file path
@@ -191,9 +193,9 @@ public class ColumnsDefaultGUI extends ProfileDefaultGUI {
 		LOGGER.debug("save :");
 		Preconditions.checkNotNull(outputFile);
 		File file = new File(outputFile);
-		
+
 		ProfileBuilder pb = new ProfileBuilder(new ReadProfile().createProfileFromColumnsTable(table));
-		
+
 		try (OutputStream outputStream = new FileOutputStream(file)) {
 			String fileExtension = file.toString().substring(file.toString().length() - 3);
 			if (fileExtension.equals("soc")) {

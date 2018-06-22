@@ -1,11 +1,15 @@
 package io.github.oliviercailloux.y2018.j_voting.profiles.management;
 
-import io.github.oliviercailloux.y2018.j_voting.*;
-import io.github.oliviercailloux.y2018.j_voting.profiles.*;
-import io.github.oliviercailloux.y2018.j_voting.profiles.analysis.*;
-import java.util.*;
-import java.io.*;
-import org.slf4j.*;
+import java.io.IOException;
+import java.util.Scanner;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import io.github.oliviercailloux.y2018.j_voting.StrictPreference;
+import io.github.oliviercailloux.y2018.j_voting.Voter;
+import io.github.oliviercailloux.y2018.j_voting.profiles.ImmutableProfileI;
+import io.github.oliviercailloux.y2018.j_voting.profiles.analysis.SocialWelfareFunction;
 
 public class SWFCommander {
 	private SocialWelfareFunction swf;

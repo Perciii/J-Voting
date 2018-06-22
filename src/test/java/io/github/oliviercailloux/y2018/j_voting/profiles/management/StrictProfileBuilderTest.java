@@ -1,13 +1,18 @@
 package io.github.oliviercailloux.y2018.j_voting.profiles.management;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.junit.Test;
 
-import io.github.oliviercailloux.y2018.j_voting.*;
-import io.github.oliviercailloux.y2018.j_voting.profiles.*;
-
-import java.util.*;
+import io.github.oliviercailloux.y2018.j_voting.Alternative;
+import io.github.oliviercailloux.y2018.j_voting.StrictPreference;
+import io.github.oliviercailloux.y2018.j_voting.Voter;
+import io.github.oliviercailloux.y2018.j_voting.profiles.ImmutableStrictProfileI;
 
 public class StrictProfileBuilderTest {
 
@@ -47,8 +52,8 @@ public class StrictProfileBuilderTest {
 		profBuild.addVote(v5, p2);
 		profBuild.addVote(v6, p3);
 		ImmutableStrictProfileI resultProf = profBuild.createOneAlternativeProfile();
-		
-		Map<Voter,StrictPreference> map = new HashMap<>();
+
+		Map<Voter, StrictPreference> map = new HashMap<>();
 		List<Alternative> l1 = new ArrayList<>();
 		List<Alternative> l2 = new ArrayList<>();
 		List<Alternative> l3 = new ArrayList<>();
@@ -65,7 +70,7 @@ public class StrictProfileBuilderTest {
 		map.put(v5, pref2);
 		map.put(v6, pref3);
 		ImmutableStrictProfileI profile = new ImmutableStrictProfileI(map);
-		assertEquals(resultProf,profile);
+		assertEquals(resultProf, profile);
 	}
 
 }

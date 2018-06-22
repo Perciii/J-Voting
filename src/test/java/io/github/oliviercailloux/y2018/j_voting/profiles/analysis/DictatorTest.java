@@ -1,11 +1,21 @@
 package io.github.oliviercailloux.y2018.j_voting.profiles.analysis;
 
-import static org.junit.Assert.*;
-import io.github.oliviercailloux.y2018.j_voting.*;
-import io.github.oliviercailloux.y2018.j_voting.profiles.*;
-import io.github.oliviercailloux.y2018.j_voting.profiles.management.*;
-import java.util.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 import org.junit.Test;
+
+import io.github.oliviercailloux.y2018.j_voting.Alternative;
+import io.github.oliviercailloux.y2018.j_voting.Preference;
+import io.github.oliviercailloux.y2018.j_voting.Voter;
+import io.github.oliviercailloux.y2018.j_voting.profiles.ImmutableProfileI;
+import io.github.oliviercailloux.y2018.j_voting.profiles.ProfileI;
+import io.github.oliviercailloux.y2018.j_voting.profiles.management.ProfileBuilder;
 
 public class DictatorTest {
 

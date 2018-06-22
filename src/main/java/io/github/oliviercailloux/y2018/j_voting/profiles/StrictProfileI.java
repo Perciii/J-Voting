@@ -2,9 +2,10 @@ package io.github.oliviercailloux.y2018.j_voting.profiles;
 
 import java.io.IOException;
 import java.io.OutputStream;
-import java.util.*;
+import java.util.List;
 
-import io.github.oliviercailloux.y2018.j_voting.*;
+import io.github.oliviercailloux.y2018.j_voting.StrictPreference;
+import io.github.oliviercailloux.y2018.j_voting.Voter;
 
 /**
  * A StrictProfileI represents an incomplete StrictProfile. The preferences are

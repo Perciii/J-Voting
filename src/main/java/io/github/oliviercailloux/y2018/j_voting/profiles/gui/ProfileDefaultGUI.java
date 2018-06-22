@@ -48,8 +48,8 @@ public class ProfileDefaultGUI {
 	protected Button columnsButton = new Button(mainShell, SWT.RADIO);
 	protected Button rowsButton = new Button(mainShell, SWT.RADIO);
 	protected Button wrapButton = new Button(mainShell, SWT.RADIO);
-//	protected Button editButton = new Button(mainShell, SWT.PUSH);
-//	protected Button editSaveButton = new Button(mainShell, SWT.PUSH);
+	// protected Button editButton = new Button(mainShell, SWT.PUSH);
+	// protected Button editSaveButton = new Button(mainShell, SWT.PUSH);
 	protected TableViewer tableViewer = new TableViewer(mainShell, SWT.MULTI | SWT.BORDER);
 	protected Table table = tableViewer.getTable();
 	protected static Integer voterToModify = null;
@@ -73,13 +73,13 @@ public class ProfileDefaultGUI {
 			ProfileI profileI = rp.createProfileFromStream(is);
 			profileBuilder = new ProfileBuilder(profileI);
 
-			/*editButton.setText("Edit");
-			editButton.addSelectionListener(new SelectionAdapter() {
-				@Override
-				public void widgetSelected(SelectionEvent e) {
-					editStrictPreference(arg); // open editButton modal
-				}
-			});*/
+			/*
+			 * editButton.setText("Edit"); editButton.addSelectionListener(new
+			 * SelectionAdapter() {
+			 * 
+			 * @Override public void widgetSelected(SelectionEvent e) {
+			 * editStrictPreference(arg); // open editButton modal } });
+			 */
 
 			displayRadioButtons(args);
 
@@ -261,9 +261,10 @@ public class ProfileDefaultGUI {
 		labelPref.setText("Choose the preference :");
 
 		final Text textPref = new Text(modalShell, SWT.SINGLE | SWT.BORDER);
-/*
-		editSaveButton.setText("Save");
-		editSaveButton.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_END));*/
+		/*
+		 * editSaveButton.setText("Save"); editSaveButton.setLayoutData(new
+		 * GridData(GridData.HORIZONTAL_ALIGN_END));
+		 */
 
 		Button cancelButton = new Button(modalShell, SWT.PUSH);
 		cancelButton.setText("Cancel");
@@ -276,10 +277,10 @@ public class ProfileDefaultGUI {
 			public void handleEvent(Event event) {
 				try {
 					voterToModify = Integer.parseInt(text.getText());
-					//saveButton.setEnabled(true);
+					// saveButton.setEnabled(true);
 				} catch (IllegalArgumentException iae) {
 					LOGGER.debug("Illegal Argument Exception : " + iae);
-					//saveButton.setEnabled(false);
+					// saveButton.setEnabled(false);
 				}
 			}
 		});
@@ -289,27 +290,22 @@ public class ProfileDefaultGUI {
 			public void handleEvent(Event event) {
 				try {
 					newpref = new ReadProfile().createStrictPreferenceFrom(textPref.getText());
-					//saveButton.setEnabled(true);
+					// saveButton.setEnabled(true);
 				} catch (IllegalArgumentException iae) {
 					LOGGER.debug("Illegal Argument Exception : {} ", iae);
-					//saveButton.setEnabled(false);
+					// saveButton.setEnabled(false);
 				}
 			}
 		});
-/*
-		editSaveButton.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				LOGGER.debug("voterToModify : {} ", voterToModify);
-				LOGGER.debug("pref : {} ", newpref);
-				modif();
-				save(arg);
-				modalShell.dispose();
-				table.removeAll();
-				populateRows();
-				table.setRedraw(true);
-			}
-		});*/
+		/*
+		 * editSaveButton.addSelectionListener(new SelectionAdapter() {
+		 * 
+		 * @Override public void widgetSelected(SelectionEvent e) {
+		 * LOGGER.debug("voterToModify : {} ", voterToModify);
+		 * LOGGER.debug("pref : {} ", newpref); modif(); save(arg);
+		 * modalShell.dispose(); table.removeAll(); populateRows();
+		 * table.setRedraw(true); } });
+		 */
 
 		cancelButton.addListener(SWT.Selection, new Listener() {
 			@Override

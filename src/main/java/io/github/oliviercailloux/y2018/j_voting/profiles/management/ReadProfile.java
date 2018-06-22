@@ -88,8 +88,8 @@ public class ReadProfile {
 
 	/**
 	 * 
-	 * @param table not <code>null</code>
-	 *            a Table displayed as Voters in columns
+	 * @param table
+	 *            not <code>null</code> a Table displayed as Voters in columns
 	 * @return a restricted ProfileI
 	 */
 	public ProfileI createProfileFromColumnsTable(Table table) {
@@ -116,8 +116,8 @@ public class ReadProfile {
 
 	/**
 	 * 
-	 * @param table <code>null</code>
-	 *            a Table displayed as Voters in rows
+	 * @param table
+	 *            <code>null</code> a Table displayed as Voters in rows
 	 * @return a restricted ProfileI
 	 */
 	public ProfileI createProfileFromRowsTable(Table table) {

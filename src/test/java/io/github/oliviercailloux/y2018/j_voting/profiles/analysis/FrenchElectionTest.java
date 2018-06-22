@@ -1,13 +1,19 @@
 package io.github.oliviercailloux.y2018.j_voting.profiles.analysis;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import org.junit.Test;
 
-import io.github.oliviercailloux.y2018.j_voting.*;
-import io.github.oliviercailloux.y2018.j_voting.profiles.*;
+import io.github.oliviercailloux.y2018.j_voting.Alternative;
+import io.github.oliviercailloux.y2018.j_voting.Preference;
+import io.github.oliviercailloux.y2018.j_voting.StrictPreference;
+import io.github.oliviercailloux.y2018.j_voting.Voter;
+import io.github.oliviercailloux.y2018.j_voting.profiles.ImmutableStrictProfileI;
 import io.github.oliviercailloux.y2018.j_voting.profiles.management.StrictProfileBuilder;
 
 public class FrenchElectionTest {
@@ -29,7 +35,7 @@ public class FrenchElectionTest {
 		l1.add(s2);
 		l1.add(s3);
 		Preference pref1 = new Preference(l1);
-		
+
 		List<Alternative> list1 = new ArrayList<>();
 		List<Alternative> list2 = new ArrayList<>();
 		List<Alternative> list3 = new ArrayList<>();
@@ -59,9 +65,9 @@ public class FrenchElectionTest {
 		profBuild.addVote(v4, p2);
 		profBuild.addVote(v5, p2);
 		profBuild.addVote(v6, p3);
-		ImmutableStrictProfileI resultProf = (ImmutableStrictProfileI)profBuild.createStrictProfileI();
-		
-		assertEquals(pref1,new FrenchElection().getSocietyPreference(resultProf));
+		ImmutableStrictProfileI resultProf = (ImmutableStrictProfileI) profBuild.createStrictProfileI();
+
+		assertEquals(pref1, new FrenchElection().getSocietyPreference(resultProf));
 	}
 
 }

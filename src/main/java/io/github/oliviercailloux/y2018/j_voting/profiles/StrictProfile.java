@@ -1,8 +1,10 @@
 package io.github.oliviercailloux.y2018.j_voting.profiles;
 
-import io.github.oliviercailloux.y2018.j_voting.*;
-import java.io.*;
-import java.util.*;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.util.List;
+
+import io.github.oliviercailloux.y2018.j_voting.Alternative;
 
 /**
  * A StrictProfile represents a complete StrictProfile. The preferences are

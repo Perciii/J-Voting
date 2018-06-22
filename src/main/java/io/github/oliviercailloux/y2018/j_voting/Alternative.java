@@ -1,6 +1,8 @@
 package io.github.oliviercailloux.y2018.j_voting;
 
-import org.slf4j.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.google.common.base.Preconditions;
 
 /**
