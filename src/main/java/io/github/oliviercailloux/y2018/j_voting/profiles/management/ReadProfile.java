@@ -15,6 +15,8 @@ import javax.ws.rs.client.ClientBuilder;
 //import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.eclipse.swt.widgets.Table;
+import org.eclipse.swt.widgets.TableItem;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,6 +27,7 @@ import com.google.common.io.CharStreams;
 
 import io.github.oliviercailloux.y2018.j_voting.Alternative;
 import io.github.oliviercailloux.y2018.j_voting.StrictPreference;
+import io.github.oliviercailloux.y2018.j_voting.Voter;
 import io.github.oliviercailloux.y2018.j_voting.profiles.ProfileI;
 
 /**
@@ -84,6 +87,63 @@ public class ReadProfile {
 	}
 
 	/**
+	 * 
+	 * @param table
+	 *            a Table displayed as Voters in columns
+	 * @return a restricted ProfileI
+	 */
+	public ProfileI createProfileFromColumnsTable(Table table) {
+		LOGGER.debug("createProfileFromColumnsTable : ");
+		Preconditions.checkNotNull(table);
+
+		ProfileBuilder profileBuilder = new ProfileBuilder();
+		int nbColumns = table.getColumnCount();
+		for (int column = 0; column < nbColumns; column++) {// browse columns
+			String newPrefString = table.getItem(0).getText(column);
+			for (TableItem item : Iterables.skip(Arrays.asList(table.getItems()), 1)) {
+				String altText = item.getText(column);
+				if (altText != null && altText != "") {
+					newPrefString += "," + altText;
+				}
+			}
+			Voter voter = new Voter(column + 1);
+			StrictPreference newPref = new ReadProfile().createStrictPreferenceFrom(newPrefString);
+			profileBuilder.addVote(voter, newPref);
+		}
+
+		return profileBuilder.createProfileI().restrictProfile();
+	}
+
+	/**
+	 * 
+	 * @param table
+	 *            a Table displayed as Voters in rows
+	 * @return a restricted ProfileI
+	 */
+	public ProfileI createProfileFromRowsTable(Table table) {
+		LOGGER.debug("createProfileFromRowsTable : ");
+		Preconditions.checkNotNull(table);
+
+		ProfileBuilder profileBuilder = new ProfileBuilder();
+		int nbItems = table.getItemCount();
+		int nbColumns = table.getColumnCount();
+		for (int item = 0; item < nbItems; item++) {// browse columns
+			String newPrefString = table.getItem(item).getText(0);
+			for (int column = 1; column < nbColumns; column++) {
+				String altText = table.getItem(item).getText(column);
+				if (altText != null && altText != "") {
+					newPrefString += "," + altText;
+				}
+			}
+			Voter voter = new Voter(item + 1);
+			StrictPreference newPref = new ReadProfile().createStrictPreferenceFrom(newPrefString);
+			profileBuilder.addVote(voter, newPref);
+		}
+
+		return profileBuilder.createProfileI().restrictProfile();
+	}
+
+	/**
 	 * Creates a StrictProfile with the information extracted from the URL given as
 	 * parameter
 	 * 
@@ -92,7 +152,7 @@ public class ReadProfile {
 	 *            extracted
 	 * @return a StrictProfile
 	 * @throws IOException
-	 * @throws URISyntaxException 
+	 * @throws URISyntaxException
 	 */
 	public ProfileI createProfileFromURL(URL url) throws IOException {
 		LOGGER.debug("CreateProfileFromURL : ");
