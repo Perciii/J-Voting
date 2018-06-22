@@ -44,16 +44,6 @@ import io.github.oliviercailloux.y2018.j_voting.profiles.management.ReadProfile;
 public class ProfileDefaultGUI {
 	private static final Logger LOGGER = LoggerFactory.getLogger(ProfileDefaultGUI.class.getName());
 	protected static final Display display = Display.getDefault();
-<<<<<<< HEAD
-	protected final Shell mainShell = new Shell(display, SWT.CLOSE | SWT.RESIZE);
-	protected Button columnsButton = new Button(mainShell, SWT.RADIO);
-	protected Button rowsButton = new Button(mainShell, SWT.RADIO);
-	protected Button wrapButton = new Button(mainShell, SWT.RADIO);
-	// protected Button editButton = new Button(mainShell, SWT.PUSH);
-	// protected Button editSaveButton = new Button(mainShell, SWT.PUSH);
-	protected TableViewer tableViewer = new TableViewer(mainShell, SWT.MULTI | SWT.BORDER);
-	protected Table table = tableViewer.getTable();
-=======
 	protected static final Shell mainShell = new Shell(display, SWT.CLOSE | SWT.RESIZE);
 	protected static Button columnsButton = new Button(mainShell, SWT.RADIO);
 	protected static Button rowsButton = new Button(mainShell, SWT.RADIO);
@@ -62,7 +52,6 @@ public class ProfileDefaultGUI {
 	// protected Button editSaveButton = new Button(mainShell, SWT.PUSH);
 	protected static TableViewer tableViewer = new TableViewer(mainShell, SWT.MULTI | SWT.BORDER);
 	protected static Table table = tableViewer.getTable();
->>>>>>> afadcb556f38bc9a1e29f0016fef7f8ac1cade4f
 	protected static Integer voterToModify = null;
 	protected static StrictPreference newpref;
 	protected static ProfileBuilder profileBuilder;
