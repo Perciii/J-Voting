@@ -65,7 +65,6 @@ public class ReadProfile {
 
 				if (indexOfFirstComma != -1) {
 					String nextAlternativeNumber = nextAlternative.substring(0, indexOfFirstComma);
-					System.out.println(nextAlternativeNumber);
 					alternatives.add(nextAlternativeNumber);
 				} else {
 					alternatives.add(nextAlternative);
