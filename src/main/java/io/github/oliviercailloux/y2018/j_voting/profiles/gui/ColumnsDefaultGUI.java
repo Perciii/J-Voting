@@ -1,6 +1,7 @@
 package io.github.oliviercailloux.y2018.j_voting.profiles.gui;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -26,8 +27,10 @@ import com.google.common.collect.Iterables;
 
 import io.github.oliviercailloux.y2018.j_voting.StrictPreference;
 import io.github.oliviercailloux.y2018.j_voting.Voter;
+import io.github.oliviercailloux.y2018.j_voting.profiles.ProfileI;
 import io.github.oliviercailloux.y2018.j_voting.profiles.StrictProfile;
 import io.github.oliviercailloux.y2018.j_voting.profiles.StrictProfileI;
+import io.github.oliviercailloux.y2018.j_voting.profiles.management.ProfileBuilder;
 import io.github.oliviercailloux.y2018.j_voting.profiles.management.ReadProfile;
 
 /**
@@ -41,6 +44,56 @@ public class ColumnsDefaultGUI extends ProfileDefaultGUI {
 	protected ViewerCell cellBeingDragged = tableViewer.getCell(new Point(0, 0));
 	protected int destinationX = 0;
 	protected int destinationY = 0;
+	
+	/**
+	 * Displays the window : the table containing the profile as well as the
+	 * buttons.
+	 * 
+	 * @param args
+	 * @throws IOException
+	 */
+	@Override
+	public void displayProfileWindow(String[] args) throws IOException {
+		LOGGER.debug("displayProfileWindow");
+		Preconditions.checkNotNull(args[0]);
+
+		String arg = args[0];// arg is the file path
+		ReadProfile rp = new ReadProfile();
+		try (FileInputStream is = new FileInputStream(arg)) {
+			ProfileI profileI = rp.createProfileFromStream(is);
+			profileBuilder = new ProfileBuilder(profileI);
+
+			GridData gridData = new GridData(GridData.BEGINNING, GridData.CENTER, true, false);
+			gridData.horizontalSpan = 1;
+			saveButton.setLayoutData(gridData);
+			
+
+			saveButton.setVisible(true);
+			GridData saveDataExclude = (GridData) saveButton.getLayoutData();
+			saveDataExclude.exclude = false;
+
+			saveButton.setText("Save");
+			saveButton.addSelectionListener(new SelectionAdapter() {
+				@Override
+				public void widgetSelected(SelectionEvent e) {
+					save(arg);
+				}
+			});
+
+			displayRadioButtons(args);
+
+			tableDisplay(args[0]);
+
+			mainShell.setText("Edit Profile");
+			mainShell.pack();
+			mainShell.open();
+
+			while (!display.isDisposed()) {
+				if (!display.readAndDispatch())
+					display.sleep();
+			}
+		}
+	}
 
 	@Override
 	public void tableDisplay(String fileName) {
@@ -62,18 +115,6 @@ public class ColumnsDefaultGUI extends ProfileDefaultGUI {
 		for (TableColumn tableColumn : tableColumns) {
 			tableColumn.pack();
 		}
-
-		saveButton.setVisible(true);
-		GridData saveDataExclude = (GridData) saveButton.getLayoutData();
-		saveDataExclude.exclude = false;
-
-		saveButton.setText("Save");
-		saveButton.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				save(fileName);
-			}
-		});
 	}
 
 	/**
