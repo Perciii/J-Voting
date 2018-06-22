@@ -1,27 +1,34 @@
 package io.github.oliviercailloux.y2018.j_voting.profiles.gui;
 
-import java.io.*;
-import java.util.*;
-import java.util.List;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.util.Arrays;
 
-import javax.swing.text.TableView;
-
-import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.ViewerCell;
-import org.eclipse.jface.viewers.ViewerRow;
-import org.eclipse.swt.*;
-import org.eclipse.swt.events.*;
-import org.eclipse.swt.layout.*;
-import org.eclipse.swt.widgets.*;
-import org.eclipse.swt.graphics.*;
-import org.slf4j.*;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Listener;
+import org.eclipse.swt.widgets.MessageBox;
+import org.eclipse.swt.widgets.TableColumn;
+import org.eclipse.swt.widgets.TableItem;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Iterables;
 
-import io.github.oliviercailloux.y2018.j_voting.*;
-import io.github.oliviercailloux.y2018.j_voting.profiles.*;
-import io.github.oliviercailloux.y2018.j_voting.profiles.management.*;
+import io.github.oliviercailloux.y2018.j_voting.StrictPreference;
+import io.github.oliviercailloux.y2018.j_voting.Voter;
+import io.github.oliviercailloux.y2018.j_voting.profiles.StrictProfile;
+import io.github.oliviercailloux.y2018.j_voting.profiles.StrictProfileI;
+import io.github.oliviercailloux.y2018.j_voting.profiles.management.ReadProfile;
 
 /**
  * Generalization of profile displaying GUIs
@@ -46,20 +53,22 @@ public class ColumnsDefaultGUI extends ProfileDefaultGUI {
 		GridData data = new GridData(SWT.FILL, SWT.FILL, true, true);
 		table.setLayoutData(data);
 
-		// createColumns();
-
-		List<String> columnTitles = createColumns();
+		createColumns();
 		populateRows();
 		handleDragAndDrop();
 		checkRadioButton();
 
-		for (int i = 0; i < columnTitles.size(); i++) {
-			table.getColumn(i).pack(); // resize automatically the column
+		TableColumn[] tableColumns = table.getColumns();
+		for (TableColumn tableColumn : tableColumns) {
+			tableColumn.pack();
 		}
 
-		save = new Button(mainShell, SWT.PUSH);
-		save.setText("Save");
-		save.addSelectionListener(new SelectionAdapter() {
+		saveButton.setVisible(true);
+		GridData saveDataExclude = (GridData) saveButton.getLayoutData();
+		saveDataExclude.exclude = false;
+
+		saveButton.setText("Save");
+		saveButton.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				save(fileName);
@@ -71,8 +80,8 @@ public class ColumnsDefaultGUI extends ProfileDefaultGUI {
 	 * Implements dragging and dropping a cell at a time within the same column.<br>
 	 * When moving it up, the cell it is dropped on and those below will go down one
 	 * cell. <br>
-	 * When moving it down, the cell it is dropped on and those above will go
-	 * up one cell.
+	 * When moving it down, the cell it is dropped on and those above will go up one
+	 * cell.
 	 */
 	public void handleDragAndDrop() {
 		LOGGER.debug("handleDragAndDrop :");
@@ -136,6 +145,7 @@ public class ColumnsDefaultGUI extends ProfileDefaultGUI {
 	 * Saves the changes to the file containing the profile.
 	 * 
 	 * @param outputFile
+	 *            not <code>null</code>
 	 */
 	@Override
 	public void save(String outputFile) {
@@ -153,7 +163,7 @@ public class ColumnsDefaultGUI extends ProfileDefaultGUI {
 		}
 
 		voterToModify = columnModified + 1;
-		
+
 		Voter voter = new Voter(voterToModify);
 		StrictPreference newPref = new ReadProfile().createStrictPreferenceFrom(newPrefString);
 		LOGGER.debug("New preference for voter v {} : {}", voter, newPref);

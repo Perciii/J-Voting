@@ -11,8 +11,8 @@ import org.eclipse.swt.widgets.TableItem;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import io.github.oliviercailloux.y2018.j_voting.*;
-import io.github.oliviercailloux.y2018.j_voting.profiles.*;
+import io.github.oliviercailloux.y2018.j_voting.Preference;
+import io.github.oliviercailloux.y2018.j_voting.profiles.StrictProfileI;
 
 public class SOIWrappedColumnsGUI extends ColumnsDefaultGUI {
 	private static final Logger LOGGER = LoggerFactory.getLogger(SOIWrappedColumnsGUI.class.getName());
@@ -20,10 +20,10 @@ public class SOIWrappedColumnsGUI extends ColumnsDefaultGUI {
 	// TODO: change everything so that the GUI allows editing
 
 	@Override
-	public List<String> createColumns() {
+	public void createColumns() {
 		LOGGER.debug("createColumns :");
-		// if profile get from file is SOC, create a StrictProfile from it
 		StrictProfileI strictProfile = profileBuilder.createStrictProfileI();
+		// if profile get from file is SOC, create a StrictProfile from it
 		Set<Preference> uniquePreferences = strictProfile.getUniquePreferences();
 
 		// COLUMNS
@@ -34,12 +34,10 @@ public class SOIWrappedColumnsGUI extends ColumnsDefaultGUI {
 			String voterOrVoters = (nbVoters > 1) ? " voters" : " voter";
 			titles.add(nbVoters + voterOrVoters);
 		}
-		for (int i = 0; i < titles.size(); i++) {
+		for (String title : titles) {
 			TableColumn column = new TableColumn(table, SWT.NONE);
-			column.setText(titles.get(i));
+			column.setText(title);
 		}
-
-		return titles;
 	}
 
 	@Override
@@ -53,8 +51,8 @@ public class SOIWrappedColumnsGUI extends ColumnsDefaultGUI {
 	@Override
 	public void populateRows() {
 		LOGGER.debug("populateRows :");
-		// ROWS
 		StrictProfileI strictProfile = profileBuilder.createStrictProfileI();
+		// ROWS
 		List<String> alternatives = new ArrayList<>();
 
 		int nbAlternatives = strictProfile.getNbAlternatives();// nb of rows

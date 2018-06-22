@@ -1,47 +1,41 @@
 package io.github.oliviercailloux.y2018.j_voting.profiles.gui;
 
-import java.io.*;
-import java.util.*;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
-import org.eclipse.swt.*;
-import org.eclipse.swt.events.*;
-import org.eclipse.swt.layout.*;
-import org.eclipse.swt.widgets.*;
-import org.slf4j.*;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.TableColumn;
+import org.eclipse.swt.widgets.TableItem;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import com.google.common.base.Preconditions;
-
-import io.github.oliviercailloux.y2018.j_voting.*;
-import io.github.oliviercailloux.y2018.j_voting.profiles.*;
-import io.github.oliviercailloux.y2018.j_voting.profiles.management.*;
+import io.github.oliviercailloux.y2018.j_voting.Alternative;
+import io.github.oliviercailloux.y2018.j_voting.Preference;
+import io.github.oliviercailloux.y2018.j_voting.profiles.StrictProfile;
 
 public class SOCWrappedColumnsGUI extends ColumnsDefaultGUI {
 	private static final Logger LOGGER = LoggerFactory.getLogger(SOCWrappedColumnsGUI.class.getName());
 
-	// TODO: change everything so that the GUI allows editing
-
 	@Override
-	public List<String> createColumns() {
+	public void createColumns() {
 		LOGGER.debug("createColumns :");
-		// if profile get from file is SOC, create a StrictProfile from it
 		StrictProfile strictProfile = profileBuilder.createStrictProfile();
+		// if profile get from file is SOC, create a StrictProfile from it
 		Set<Preference> uniquePreferences = strictProfile.getUniquePreferences();
 
 		// COLUMNS
 		List<String> titles = new ArrayList<>();
 		for (Preference p : uniquePreferences) {
 			int nbVoters = strictProfile.getNbVoterForPreference(p);
-
 			String voterOrVoters = (nbVoters > 1) ? " voters" : " voter";
 			titles.add(nbVoters + voterOrVoters);
 		}
-		for (int i = 0; i < titles.size(); i++) {
+		for (String title : titles) {
 			TableColumn column = new TableColumn(table, SWT.NONE);
-			column.setText(titles.get(i));
+			column.setText(title);
 		}
-
-		return titles;
 	}
 
 	@Override
@@ -55,8 +49,8 @@ public class SOCWrappedColumnsGUI extends ColumnsDefaultGUI {
 	@Override
 	public void populateRows() {
 		LOGGER.debug("populateRows :");
-		// ROWS
 		StrictProfile strictProfile = profileBuilder.createStrictProfile();
+		// ROWS
 		List<String> alternatives = new ArrayList<>();
 
 		int nbAlternatives = strictProfile.getNbAlternatives();// nb of rows

@@ -13,7 +13,6 @@ import org.slf4j.LoggerFactory;
 import io.github.oliviercailloux.y2018.j_voting.Alternative;
 import io.github.oliviercailloux.y2018.j_voting.Preference;
 import io.github.oliviercailloux.y2018.j_voting.Voter;
-import io.github.oliviercailloux.y2018.j_voting.profiles.StrictProfile;
 import io.github.oliviercailloux.y2018.j_voting.profiles.StrictProfileI;
 
 public class SOIRowsGUI extends ProfileDefaultGUI {
@@ -21,25 +20,21 @@ public class SOIRowsGUI extends ProfileDefaultGUI {
 	private static final Logger LOGGER = LoggerFactory.getLogger(SOCRowsGUI.class.getName());
 
 	@Override
-	public List<String> createColumns() {
+	public void createColumns() {
 		LOGGER.debug("createColumns :");
-		// if profile get from file is SOC, create a StrictProfile from it
 		StrictProfileI strictProfile = profileBuilder.createStrictProfileI();
-		int i = 0;
+		// if profile get from file is SOC, create a StrictProfile from it
 
 		// COLUMNS
 		List<String> titles = new ArrayList<>();
 		titles.add("Voters");
 		for (int a = 1; a <= strictProfile.getMaxSizeOfPreference(); a++) {
 			titles.add("Alternative " + a);
-			i++;
 		}
-		for (i = 0; i < titles.size(); i++) {
+		for (String title : titles) {
 			TableColumn column = new TableColumn(table, SWT.NONE);
-			column.setText(titles.get(i));
+			column.setText(title);
 		}
-
-		return titles;
 	}
 
 	@Override
@@ -53,9 +48,9 @@ public class SOIRowsGUI extends ProfileDefaultGUI {
 	@Override
 	public void populateRows() {
 		LOGGER.debug("populateRows :");
-		// ROWS
 		StrictProfileI strictProfile = profileBuilder.createStrictProfileI();
 
+		// ROWS
 		Iterable<Voter> allVoters = strictProfile.getAllVoters(); // get voters from profile
 
 		int nbAlternatives = strictProfile.getNbAlternatives();
@@ -67,14 +62,12 @@ public class SOIRowsGUI extends ProfileDefaultGUI {
 			Preference pref = strictProfile.getPreference(v);
 			Iterable<Alternative> allPref = Preference.toAlternativeSet(pref.getPreferencesNonStrict());
 			for (Alternative a : allPref) {
-				System.out.println(a);
 				line.add(a.toString());
 			}
 
 			TableItem item = new TableItem(table, SWT.NONE);
 			item.setText(line.toArray(new String[nbAlternatives + 1]));
 			line.clear(); // empty the list
-
 		}
 
 	}

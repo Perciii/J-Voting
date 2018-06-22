@@ -1,54 +1,45 @@
 package io.github.oliviercailloux.y2018.j_voting.profiles.gui;
 
-import java.io.*;
-import java.util.*;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.swt.*;
-import org.eclipse.swt.events.*;
-import org.eclipse.swt.layout.*;
-import org.eclipse.swt.widgets.*;
-import org.slf4j.*;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.TableColumn;
+import org.eclipse.swt.widgets.TableItem;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import com.google.common.base.Preconditions;
-
-import io.github.oliviercailloux.y2018.j_voting.*;
-import io.github.oliviercailloux.y2018.j_voting.profiles.*;
-import io.github.oliviercailloux.y2018.j_voting.profiles.management.*;
+import io.github.oliviercailloux.y2018.j_voting.Voter;
+import io.github.oliviercailloux.y2018.j_voting.profiles.StrictProfileI;
 
 public class SOIColumnsGUI extends ColumnsDefaultGUI {
-
 	private static final Logger LOGGER = LoggerFactory.getLogger(SOIColumnsGUI.class.getName());
 
 	@Override
-	public List<String> createColumns() {
-		LOGGER.debug("createColumns");
-		// if profile get from file is SOI, create a StrictProfile from it
+	public void createColumns() {
+		LOGGER.debug("createColumns :");
 		StrictProfileI strictProfile = profileBuilder.createStrictProfileI();
+		// if profile get from file is SOI, create a StrictProfile from it
 
 		Iterable<Voter> allVoters = strictProfile.getAllVoters(); // get voters from profile
-
-		int i = 0;
 
 		// COLUMNS
 		List<String> titles = new ArrayList<>();
 		for (Voter v : allVoters) {
 			titles.add("Voter " + v.getId());
-			i++;
 		}
-		for (i = 0; i < titles.size(); i++) {
+		for (String title : titles) {
 			TableColumn column = new TableColumn(table, SWT.NONE);
-			column.setText(titles.get(i));
+			column.setText(title);
 		}
-
-		return titles;
 	}
 
 	@Override
 	public void populateRows() {
 		LOGGER.debug("populateRows");
-		// ROWS
 		StrictProfileI strictProfile = profileBuilder.createStrictProfileI();
+		// ROWS
 		List<String> alternatives = new ArrayList<>();
 
 		int nbAlternatives = strictProfile.getMaxSizeOfPreference();
