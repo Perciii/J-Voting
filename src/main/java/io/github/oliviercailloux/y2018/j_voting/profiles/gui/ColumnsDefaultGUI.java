@@ -191,31 +191,16 @@ public class ColumnsDefaultGUI extends ProfileDefaultGUI {
 		LOGGER.debug("save :");
 		Preconditions.checkNotNull(outputFile);
 		File file = new File(outputFile);
-
-		// soc tests etc
-		/*
-		 * int columnModified = cellBeingDragged.getColumnIndex();
-		 * 
-		 * String newPrefString = table.getItem(0).getText(columnModified); for
-		 * (TableItem item : Iterables.skip(Arrays.asList(table.getItems()), 1)) {
-		 * newPrefString += "," + item.getText(columnModified); }
-		 * 
-		 * voterToModify = columnModified + 1;
-		 * 
-		 * Voter voter = new Voter(voterToModify); StrictPreference newPref = new
-		 * ReadProfile().createStrictPreferenceFrom(newPrefString);
-		 * LOGGER.debug("New preference for voter v {} : {}", voter, newPref); // change
-		 * preference for this Voter in global ProfileBuilder
-		 * profileBuilder.addVote(voter, newPref);
-		 */
-
+		
+		ProfileBuilder pb = new ProfileBuilder(new ReadProfile().createProfileFromColumnsTable(table));
+		
 		try (OutputStream outputStream = new FileOutputStream(file)) {
 			String fileExtension = file.toString().substring(file.toString().length() - 3);
 			if (fileExtension.equals("soc")) {
-				StrictProfile sp = profileBuilder.createStrictProfile();
+				StrictProfile sp = pb.createStrictProfile();
 				sp.writeToSOC(outputStream);
 			} else { // fileExtension == "soi"
-				StrictProfileI spi = profileBuilder.createStrictProfileI();
+				StrictProfileI spi = pb.createStrictProfileI();
 				spi.writeToSOI(outputStream);
 			}
 		} catch (IOException ioe) {
