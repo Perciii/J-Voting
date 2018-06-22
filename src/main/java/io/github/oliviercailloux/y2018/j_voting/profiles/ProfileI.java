@@ -1,7 +1,12 @@
 package io.github.oliviercailloux.y2018.j_voting.profiles;
 
-import io.github.oliviercailloux.y2018.j_voting.*;
-import java.util.*;
+import java.util.Map;
+import java.util.NavigableSet;
+import java.util.Set;
+
+import io.github.oliviercailloux.y2018.j_voting.Alternative;
+import io.github.oliviercailloux.y2018.j_voting.Preference;
+import io.github.oliviercailloux.y2018.j_voting.Voter;
 
 /**
  * A ProfileI represents an incomplete profile. The preferences can be strict or
@@ -118,7 +123,7 @@ public interface ProfileI {
 	 * @return a set of all the alternatives in the profile
 	 */
 	public Set<Alternative> getAlternatives();
-	
+
 	/**
 	 * 
 	 * @return the format of the Profile when restricted
