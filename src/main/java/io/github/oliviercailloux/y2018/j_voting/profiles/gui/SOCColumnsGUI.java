@@ -14,13 +14,14 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
+import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.google.common.base.Preconditions;
+import com.google.common.base.Strings;
 
 import io.github.oliviercailloux.y2018.j_voting.Alternative;
 import io.github.oliviercailloux.y2018.j_voting.Voter;
@@ -28,7 +29,10 @@ import io.github.oliviercailloux.y2018.j_voting.profiles.StrictProfile;
 
 public class SOCColumnsGUI extends ColumnsDefaultGUI {
 	private static final Logger LOGGER = LoggerFactory.getLogger(SOCColumnsGUI.class.getName());
-	private int alternativeToAdd;
+	private String alternativeToAdd;
+	private final Label label = new Label(mainShell, SWT.NULL);
+	private final Text newAlternativeText = new Text(mainShell, SWT.SINGLE | SWT.BORDER);
+	private final Button addAlternativeButton = new Button(mainShell, SWT.PUSH);
 
 	@Override
 	public void tableDisplay() {
@@ -41,17 +45,14 @@ public class SOCColumnsGUI extends ColumnsDefaultGUI {
 		GridData data = new GridData(SWT.FILL, SWT.FILL, true, true);
 		table.setLayoutData(data);
 
-		Label label = new Label(mainShell, SWT.NULL);
 		label.setText("New alternative : ");
-
-		final Text newAlternativeText = new Text(mainShell, SWT.SINGLE | SWT.BORDER);
-		final Button addAlternativeButton = new Button(mainShell, SWT.PUSH);
+		addAlternativeButton.setText("Add");
 
 		newAlternativeText.addListener(SWT.Modify, new Listener() {
 			@Override
 			public void handleEvent(Event event) {
 				try {
-					alternativeToAdd = Integer.parseInt(newAlternativeText.getText());
+					alternativeToAdd = newAlternativeText.getText();
 					addAlternativeButton.setEnabled(true);
 				} catch (IllegalArgumentException iae) {
 					LOGGER.debug("Illegal Argument Exception : " + iae);
@@ -86,14 +87,35 @@ public class SOCColumnsGUI extends ColumnsDefaultGUI {
 		});
 	}
 
-	public void addAlternative(int alternative) {
+	public void addAlternative(String alternative) {
 		LOGGER.debug("addAlternative :");
-		Preconditions.checkNotNull(alternative);
+
+		if (Strings.isNullOrEmpty(alternative))
+			return;
+
+		try {
+			Integer.parseInt(alternative);
+		} catch (NumberFormatException nfe) {
+			LOGGER.debug("NumberFormatException : {}", nfe);
+			MessageBox messageBox = new MessageBox(mainShell, SWT.OK);
+			messageBox.setText("Warning");
+			messageBox.setMessage("Alternative should be an integer !");
+			messageBox.open();
+			return;
+		}
 
 		StrictProfile strictProfile = profileBuilder.createStrictProfile();
-		TableItem item = new TableItem(table, SWT.NONE);
-		List<Integer> altForEveryone = Collections.nCopies(strictProfile.getNbAlternatives(), alternative);
-		item.setText(altForEveryone.toArray(new Integer[strictProfile.getNbAlternatives()]).toString());
+		if (strictProfile.getAlternatives().contains(new Alternative(Integer.parseInt(alternative)))) {
+			MessageBox messageBox = new MessageBox(mainShell, SWT.OK);
+			messageBox.setText("Warning");
+			messageBox.setMessage("This alternative already exists !");
+			messageBox.open();
+		} else {
+			TableItem item = new TableItem(table, SWT.NONE);
+			List<String> altForEveryone = Collections.nCopies(strictProfile.getNbVoters(), alternative);
+			item.setText(altForEveryone.toArray(new String[strictProfile.getNbVoters()]));
+			newAlternativeText.setText("");
+		}
 	}
 
 	@Override

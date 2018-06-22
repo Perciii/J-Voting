@@ -48,9 +48,9 @@ public class ProfileDefaultGUI {
 	protected Button columnsButton = new Button(mainShell, SWT.RADIO);
 	protected Button rowsButton = new Button(mainShell, SWT.RADIO);
 	protected Button wrapButton = new Button(mainShell, SWT.RADIO);
-	protected Button editButton = new Button(mainShell, SWT.PUSH);
-	protected Button saveButton = new Button(mainShell, SWT.PUSH);
-	protected TableViewer tableViewer = new TableViewer(mainShell, SWT.MULTI | SWT.BORDER | SWT.FULL_SELECTION);
+//	protected Button editButton = new Button(mainShell, SWT.PUSH);
+//	protected Button editSaveButton = new Button(mainShell, SWT.PUSH);
+	protected TableViewer tableViewer = new TableViewer(mainShell, SWT.MULTI | SWT.BORDER);
 	protected Table table = tableViewer.getTable();
 	protected static Integer voterToModify = null;
 	protected static StrictPreference newpref;
@@ -73,17 +73,13 @@ public class ProfileDefaultGUI {
 			ProfileI profileI = rp.createProfileFromStream(is);
 			profileBuilder = new ProfileBuilder(profileI);
 
-			editButton.setText("Edit");
+			/*editButton.setText("Edit");
 			editButton.addSelectionListener(new SelectionAdapter() {
 				@Override
 				public void widgetSelected(SelectionEvent e) {
 					editStrictPreference(arg); // open editButton modal
 				}
-			});
-
-			GridData gridData = new GridData(GridData.BEGINNING, GridData.CENTER, true, false);
-			gridData.horizontalSpan = 1;
-			saveButton.setLayoutData(gridData);
+			});*/
 
 			displayRadioButtons(args);
 
@@ -137,18 +133,11 @@ public class ProfileDefaultGUI {
 		rowsButton.setText("Rows");
 		wrapButton.setText("Wrapped");
 
-		saveButton.setVisible(false);
-		GridData saveDataExclude = (GridData) saveButton.getLayoutData();
-		saveDataExclude.exclude = true;
-
 		String fileExtension = args[0].substring(args[0].length() - 3);
 		if (fileExtension.equals("soc")) {
 			columnsButton.addSelectionListener(new SelectionAdapter() {
 				@Override
 				public void widgetSelected(SelectionEvent e) {
-					saveButton.setVisible(true);
-					GridData saveDataInclude = (GridData) saveButton.getLayoutData();
-					saveDataInclude.exclude = false;
 
 					emptyTable();
 					new SOCColumnsGUI().tableDisplay();
@@ -272,9 +261,9 @@ public class ProfileDefaultGUI {
 		labelPref.setText("Choose the preference :");
 
 		final Text textPref = new Text(modalShell, SWT.SINGLE | SWT.BORDER);
-
-		saveButton.setText("Save");
-		saveButton.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_END));
+/*
+		editSaveButton.setText("Save");
+		editSaveButton.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_END));*/
 
 		Button cancelButton = new Button(modalShell, SWT.PUSH);
 		cancelButton.setText("Cancel");
@@ -287,10 +276,10 @@ public class ProfileDefaultGUI {
 			public void handleEvent(Event event) {
 				try {
 					voterToModify = Integer.parseInt(text.getText());
-					saveButton.setEnabled(true);
+					//saveButton.setEnabled(true);
 				} catch (IllegalArgumentException iae) {
 					LOGGER.debug("Illegal Argument Exception : " + iae);
-					saveButton.setEnabled(false);
+					//saveButton.setEnabled(false);
 				}
 			}
 		});
@@ -300,15 +289,15 @@ public class ProfileDefaultGUI {
 			public void handleEvent(Event event) {
 				try {
 					newpref = new ReadProfile().createStrictPreferenceFrom(textPref.getText());
-					saveButton.setEnabled(true);
+					//saveButton.setEnabled(true);
 				} catch (IllegalArgumentException iae) {
 					LOGGER.debug("Illegal Argument Exception : {} ", iae);
-					saveButton.setEnabled(false);
+					//saveButton.setEnabled(false);
 				}
 			}
 		});
-
-		saveButton.addSelectionListener(new SelectionAdapter() {
+/*
+		editSaveButton.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				LOGGER.debug("voterToModify : {} ", voterToModify);
@@ -320,7 +309,7 @@ public class ProfileDefaultGUI {
 				populateRows();
 				table.setRedraw(true);
 			}
-		});
+		});*/
 
 		cancelButton.addListener(SWT.Selection, new Listener() {
 			@Override
@@ -377,7 +366,7 @@ public class ProfileDefaultGUI {
 	}
 
 	/**
-	 * Emptys the table : removes all data and columns. Removes the saveButton
+	 * Empties the table : removes all data and columns. Removes the saveButton
 	 * button if it isn't disposed yet.
 	 */
 	public void emptyTable() {
@@ -387,8 +376,5 @@ public class ProfileDefaultGUI {
 		while (table.getColumnCount() > 0) {
 			table.getColumns()[0].dispose();
 		}
-		saveButton.setVisible(false);
-		GridData saveDataExclude = (GridData) saveButton.getLayoutData();
-		saveDataExclude.exclude = true;
 	}
 }

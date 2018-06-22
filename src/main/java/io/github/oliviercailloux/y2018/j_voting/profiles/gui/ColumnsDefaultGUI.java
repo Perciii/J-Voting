@@ -5,7 +5,6 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.util.Arrays;
 
 import org.eclipse.jface.viewers.ViewerCell;
 import org.eclipse.swt.SWT;
@@ -14,19 +13,16 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.TableColumn;
-import org.eclipse.swt.widgets.TableItem;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Preconditions;
-import com.google.common.collect.Iterables;
 
-import io.github.oliviercailloux.y2018.j_voting.StrictPreference;
-import io.github.oliviercailloux.y2018.j_voting.Voter;
 import io.github.oliviercailloux.y2018.j_voting.profiles.ProfileI;
 import io.github.oliviercailloux.y2018.j_voting.profiles.StrictProfile;
 import io.github.oliviercailloux.y2018.j_voting.profiles.StrictProfileI;
@@ -42,9 +38,10 @@ public class ColumnsDefaultGUI extends ProfileDefaultGUI {
 	protected int sourceX = 0;
 	protected int sourceY = 0;
 	protected ViewerCell cellBeingDragged = tableViewer.getCell(new Point(0, 0));
+	protected Button saveButton;
 	protected int destinationX = 0;
 	protected int destinationY = 0;
-	
+
 	/**
 	 * Displays the window : the table containing the profile as well as the
 	 * buttons.
@@ -63,16 +60,15 @@ public class ColumnsDefaultGUI extends ProfileDefaultGUI {
 			ProfileI profileI = rp.createProfileFromStream(is);
 			profileBuilder = new ProfileBuilder(profileI);
 
+			displayRadioButtons(args);
+
+			saveButton = new Button(mainShell, SWT.PUSH);
+			saveButton.setText("Save");
+
 			GridData gridData = new GridData(GridData.BEGINNING, GridData.CENTER, true, false);
 			gridData.horizontalSpan = 1;
 			saveButton.setLayoutData(gridData);
-			
 
-			saveButton.setVisible(true);
-			GridData saveDataExclude = (GridData) saveButton.getLayoutData();
-			saveDataExclude.exclude = false;
-
-			saveButton.setText("Save");
 			saveButton.addSelectionListener(new SelectionAdapter() {
 				@Override
 				public void widgetSelected(SelectionEvent e) {
@@ -80,7 +76,9 @@ public class ColumnsDefaultGUI extends ProfileDefaultGUI {
 				}
 			});
 
-			displayRadioButtons(args);
+			saveButton.setVisible(true);
+			GridData data = (GridData) saveButton.getLayoutData();
+			data.exclude = false;
 
 			tableDisplay();
 
@@ -195,21 +193,21 @@ public class ColumnsDefaultGUI extends ProfileDefaultGUI {
 		File file = new File(outputFile);
 
 		// soc tests etc
-
-		int columnModified = cellBeingDragged.getColumnIndex();
-
-		String newPrefString = table.getItem(0).getText(columnModified);
-		for (TableItem item : Iterables.skip(Arrays.asList(table.getItems()), 1)) {
-			newPrefString += "," + item.getText(columnModified);
-		}
-
-		voterToModify = columnModified + 1;
-
-		Voter voter = new Voter(voterToModify);
-		StrictPreference newPref = new ReadProfile().createStrictPreferenceFrom(newPrefString);
-		LOGGER.debug("New preference for voter v {} : {}", voter, newPref);
-		// change preference for this Voter in global ProfileBuilder
-		profileBuilder.addVote(voter, newPref);
+		/*
+		 * int columnModified = cellBeingDragged.getColumnIndex();
+		 * 
+		 * String newPrefString = table.getItem(0).getText(columnModified); for
+		 * (TableItem item : Iterables.skip(Arrays.asList(table.getItems()), 1)) {
+		 * newPrefString += "," + item.getText(columnModified); }
+		 * 
+		 * voterToModify = columnModified + 1;
+		 * 
+		 * Voter voter = new Voter(voterToModify); StrictPreference newPref = new
+		 * ReadProfile().createStrictPreferenceFrom(newPrefString);
+		 * LOGGER.debug("New preference for voter v {} : {}", voter, newPref); // change
+		 * preference for this Voter in global ProfileBuilder
+		 * profileBuilder.addVote(voter, newPref);
+		 */
 
 		try (OutputStream outputStream = new FileOutputStream(file)) {
 			String fileExtension = file.toString().substring(file.toString().length() - 3);
