@@ -118,4 +118,10 @@ public interface ProfileI {
 	 * @return a set of all the alternatives in the profile
 	 */
 	public Set<Alternative> getAlternatives();
+	
+	/**
+	 * 
+	 * @return the format of the Profile when restricted
+	 */
+	public String getFormat();
 }

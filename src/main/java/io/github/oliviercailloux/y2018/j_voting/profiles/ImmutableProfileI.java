@@ -247,4 +247,22 @@ public class ImmutableProfileI implements ProfileI {
 		return set;
 	}
 
+	@Override
+	public String getFormat() {
+		LOGGER.debug("getFormat : ");
+		if (isComplete()) {
+			if (isStrict()) {
+				LOGGER.debug("strict complete profile");
+				return "soc";
+			}
+			LOGGER.debug("non strict complete profile");
+			return "toc";
+		}
+		if (isStrict()) {
+			LOGGER.debug("strict incomplete profile");
+			return "soi";
+		}
+		LOGGER.debug("non strict incomplete profile");
+		return "toi";
+	}
 }
