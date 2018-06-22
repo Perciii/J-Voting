@@ -3,7 +3,7 @@ package io.github.oliviercailloux.y2018.j_voting.profiles.management;
 import io.github.oliviercailloux.y2018.j_voting.*;
 import io.github.oliviercailloux.y2018.j_voting.profiles.*;
 import java.util.HashMap;
-
+import java.util.*;
 import org.slf4j.*;
 import com.google.common.base.Preconditions;
 
@@ -54,5 +54,20 @@ public class StrictProfileBuilder extends ProfileBuilder {
 			throw new IllegalArgumentException("The preference must be strict.");
 		}
 		votes.put(v, pref);
+	}
+	
+	/**
+	 * From a StrictProfileI, creates an ImmutableStrictProfileI where only the first alternative of each preference is taken into account.
+	 * @return
+	 */
+	public ImmutableStrictProfileI createOneAlternativeProfile() {
+		LOGGER.debug("createOneAlternativeProfile");
+		for(Voter v : votes.keySet()) {
+			List<Alternative> alters = new ArrayList<>();
+			alters.add(votes.get(v).getAlternative(0));
+			StrictPreference prefOneAlter = new StrictPreference(alters);
+			addVote(v,prefOneAlter);
+		}
+		return new ImmutableStrictProfileI(votes);
 	}
 }
