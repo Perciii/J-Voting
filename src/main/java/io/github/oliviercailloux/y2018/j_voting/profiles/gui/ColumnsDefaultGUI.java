@@ -38,7 +38,7 @@ public class ColumnsDefaultGUI extends ProfileDefaultGUI {
 	protected int sourceX = 0;
 	protected int sourceY = 0;
 	protected ViewerCell cellBeingDragged = tableViewer.getCell(new Point(0, 0));
-	protected Button saveButton;
+	protected static Button saveButton;
 	protected int destinationX = 0;
 	protected int destinationY = 0;
 
