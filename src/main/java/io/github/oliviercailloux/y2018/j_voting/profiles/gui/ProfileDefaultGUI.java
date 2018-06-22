@@ -87,7 +87,7 @@ public class ProfileDefaultGUI {
 
 			displayRadioButtons(args);
 
-			tableDisplay(args[0]);
+			tableDisplay();
 
 			mainShell.setText("Edit Profile");
 			mainShell.pack();
@@ -103,7 +103,7 @@ public class ProfileDefaultGUI {
 	/**
 	 * Displays the table containing the profile
 	 */
-	public void tableDisplay(String fileName) {
+	public void tableDisplay() {
 		LOGGER.debug("tableDisplay");
 
 		// table layout handling
@@ -151,7 +151,7 @@ public class ProfileDefaultGUI {
 					saveDataInclude.exclude = false;
 
 					emptyTable();
-					new SOCColumnsGUI().tableDisplay(args[0]);
+					new SOCColumnsGUI().tableDisplay();
 					table.setRedraw(true);
 				}
 			});
@@ -159,7 +159,7 @@ public class ProfileDefaultGUI {
 				@Override
 				public void widgetSelected(SelectionEvent e) {
 					emptyTable();
-					new SOCRowsGUI().tableDisplay(args[0]);
+					new SOCRowsGUI().tableDisplay();
 					table.setRedraw(true);
 				}
 			});
@@ -167,7 +167,7 @@ public class ProfileDefaultGUI {
 				@Override
 				public void widgetSelected(SelectionEvent e) {
 					emptyTable();
-					new SOCWrappedColumnsGUI().tableDisplay(args[0]);
+					new SOCWrappedColumnsGUI().tableDisplay();
 					table.setRedraw(true);
 				}
 			});
@@ -176,7 +176,7 @@ public class ProfileDefaultGUI {
 				@Override
 				public void widgetSelected(SelectionEvent e) {
 					emptyTable();
-					new SOIColumnsGUI().tableDisplay(args[0]);
+					new SOIColumnsGUI().tableDisplay();
 					table.setRedraw(true);
 				}
 			});
@@ -184,7 +184,7 @@ public class ProfileDefaultGUI {
 				@Override
 				public void widgetSelected(SelectionEvent e) {
 					emptyTable();
-					new SOIRowsGUI().tableDisplay(args[0]);
+					new SOIRowsGUI().tableDisplay();
 					table.setRedraw(true);
 				}
 			});
@@ -192,7 +192,7 @@ public class ProfileDefaultGUI {
 				@Override
 				public void widgetSelected(SelectionEvent e) {
 					emptyTable();
-					new SOIWrappedColumnsGUI().tableDisplay(args[0]);
+					new SOIWrappedColumnsGUI().tableDisplay();
 					table.setRedraw(true);
 				}
 			});

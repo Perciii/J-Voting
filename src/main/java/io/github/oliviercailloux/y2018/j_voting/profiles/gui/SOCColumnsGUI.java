@@ -31,7 +31,7 @@ public class SOCColumnsGUI extends ColumnsDefaultGUI {
 	private int alternativeToAdd;
 
 	@Override
-	public void tableDisplay(String fileName) {
+	public void tableDisplay() {
 		LOGGER.debug("tableDisplay");
 
 		// table layout handling
@@ -81,7 +81,7 @@ public class SOCColumnsGUI extends ColumnsDefaultGUI {
 		saveButton.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				save(fileName);
+				save(MainGUI.fileToRead);
 			}
 		});
 	}

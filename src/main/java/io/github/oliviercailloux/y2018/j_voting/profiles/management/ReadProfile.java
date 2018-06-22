@@ -88,7 +88,7 @@ public class ReadProfile {
 
 	/**
 	 * 
-	 * @param table
+	 * @param table not <code>null</code>
 	 *            a Table displayed as Voters in columns
 	 * @return a restricted ProfileI
 	 */
@@ -116,7 +116,7 @@ public class ReadProfile {
 
 	/**
 	 * 
-	 * @param table
+	 * @param table <code>null</code>
 	 *            a Table displayed as Voters in rows
 	 * @return a restricted ProfileI
 	 */

@@ -82,7 +82,7 @@ public class ColumnsDefaultGUI extends ProfileDefaultGUI {
 
 			displayRadioButtons(args);
 
-			tableDisplay(args[0]);
+			tableDisplay();
 
 			mainShell.setText("Edit Profile");
 			mainShell.pack();
@@ -96,7 +96,7 @@ public class ColumnsDefaultGUI extends ProfileDefaultGUI {
 	}
 
 	@Override
-	public void tableDisplay(String fileName) {
+	public void tableDisplay() {
 		LOGGER.debug("tableDisplay");
 
 		// table layout handling
