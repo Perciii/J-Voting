@@ -6,11 +6,14 @@
 *.stackdump
 /out.log
 **/presentation.aux
+**/presentation.bbl
+**/presentation.blg
 **/presentation.fdb_latexmk
 **/presentation.fls
 **/presentation.log
 **/presentation.nav
 **/presentation.snm
 **/presentation.synctex.gz
+
 **/presentation.toc
 **/presentation.vrb

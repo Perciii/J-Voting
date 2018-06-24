@@ -1,0 +1,159 @@
+% !TEX encoding = UTF-8 Unicode
+\RequirePackage[l2tabu, orthodox]{nag}
+\RequirePackage{silence}
+\documentclass[english, french]{beamer}
+\input{preamble/packages}
+\input{preamble/math_basics}
+\input{preamble/math_mine}
+\input{preamble/redac}
+\input{preamble/draw}
+\input{preamble/acronyms}
+\input{preamble/uml}
+\input{preamble/refAPIcmds}
+
+\setbeamertemplate{headline}[singleline]
+\setbeamertemplate{footline}[onlypage]
+
+\title{Présentation J-Voting}
+\subtitle{}
+\subject{Java}
+\keywords{}
+\author{Adèle Thorner, Laetitia Courgey, \\Vincent Navales, Quentin Sauvage}
+\institute{L3 MIAGE Apprentissage, Université Paris-Dauphine}
+\date{Version du \today}
+
+\begin{document}
+\bibliographystyle{apalike}
+
+\begin{frame}[plain]
+	\tikz[remember picture,overlay]{
+		\path (current page.south) ++ (0, 1mm) node[anchor=south, inner sep=0] {
+			\includegraphics[height=9mm]{Dauphine.jpg}
+		};
+	}
+   \titlepage
+\end{frame}
+\addtocounter{framenumber}{-1}
+
+\section{Introduction}
+\begin{frame}
+	\frametitle{Plan de la présentation}
+	\tableofcontents
+\end{frame}
+
+\begin{frame}
+    \frametitle{Introduction}
+    \begin{columns}
+        \begin{column}{0.5\textwidth}
+            {\Large Théorie du choix social}
+            \begin{itemize}
+                \item Problèmes de décisions collectives
+                \item Agrégation de préférences\\ $\rightarrow$ déduction d'une préférence sociale
+            \end{itemize}
+        \end{column}
+        
+        \pause
+        \begin{column}{0.5\textwidth}
+            {\Large L'application J-Voting}
+            \begin{itemize}
+                \item Visualisation de profil d'élection
+                \item Modification de profil
+            \end{itemize}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+\section{Fonctionnement de l'application}
+	\subsection{Représentation d'une élection avec un profil}
+	    \begin{frame}
+        	\frametitle{Représentation d'une élection avec un profil}
+        	\begin{itemize}
+        	    \item Structure d'un profil
+        	    \begin{itemize}
+        	        \item[o] Voteurs
+        	        \item[o] Préférences constituées d’alternatives ordonnées
+        	    \end{itemize}
+        	    \item Différents types de profils
+        	    \begin{itemize}
+        	        \item[o] Complet / Incomplet
+        	        \item[o] Strict / non Strict
+        	    \end{itemize}
+        	\end{itemize}
+        \end{frame}
+    \subsection{Construction et modification de profils}
+	    \begin{frame}
+        	\frametitle{Construction et modification de profils}
+        	    \begin{itemize}
+        	        \item 2 classes pour construire les profils :
+        	        \begin{itemize}
+        	            \item[o] ProfileBuilder
+        	            \item[o] StrictProfileBuilder
+        	        \end{itemize}
+        	        \item Lecture de fichiers .soc, .soi (.toc, .toi non implémenté) depuis plusieurs sources :
+        	       \begin{itemize}
+        	           \item[o] En local
+        	           \item[o] Depuis une URL
+        	           \item[o] Depuis une table affichée avec une GUI
+        	       \end{itemize}
+        	    \end{itemize}
+        \end{frame}
+    \subsection{Analyse de profils}
+	    \begin{frame}
+        	\frametitle{Analyse de profils}
+            	\begin{itemize}
+            	    \item Une interface SocialWelfareFunction
+            	    \begin{itemize}
+            	        \item[o] Borda
+            	        \item[o] Dictator
+            	        \item[o] FrenchElection
+            	    \end{itemize}
+            	\end{itemize}
+        \end{frame}
+	\subsection{Interactions entre les classes}
+        \begin{frame}
+        	\frametitle{Interactions entre les classes}
+        	\begin{center}
+        	    Diagramme de classes
+        	    \includegraphics[width = 0.6\textwidth]{"graphics/19 - Diagramme classes".PNG}
+        	\end{center}
+        \end{frame}
+
+\section{Démonstration}
+	\subsection{Lire un profil}
+	    \begin{frame}
+        	\frametitle{Lire un profil}
+        	\begin{center}
+        	    Affichage en colonnes d'un profil au format SOC
+        	    \includegraphics[width = \textwidth]{"graphics/04 - SOC Columns Display".PNG}
+        	\end{center}
+        \end{frame}
+        
+	\subsection{Ecrire un profil}
+	    \begin{frame}
+        	\frametitle{Ecrire un profil}
+        	\begin{center}
+        	    Modification d'un profil au format SOC\\
+        	    \includegraphics[width = 0.5\textwidth]{"graphics/18 - Add Alternative - Save buttons".PNG}
+        	\end{center}
+        \end{frame}
+
+\section{Travail de groupe}
+    \begin{frame}
+        \frametitle{Travail de groupe}     
+        \begin{itemize}
+            \item {\Huge Binômes tournants}\vspace{1cm}
+            \item {\Huge Difficultés}
+        \end{itemize}
+    \end{frame}
+
+\section{Conclusion}
+    \begin{frame}
+        \frametitle{Conclusion}        
+        \begin{itemize}
+            \item Le travail effectué \pause
+            \item Le travail qu'on aurait souhaité effectuer \pause
+            \item Les compétences acquises
+        \end{itemize}
+    \end{frame}
+
+\end{document}
